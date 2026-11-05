@@ -1,0 +1,232 @@
+<title>NuMI Baseline Schematic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: three survey-sheet figures stacked (plan, elevation, transverse), each with a caption, then the numbers they draw. */
+:root {
+  --bg: #f7f6f2; --fg: #1d2126; --muted: #5d6670; --rule: #d6d2c8; --panel: #ffffff;
+  --beam: #0b6e8f; --far: #8a3b2f; --soil: #c9b79c; --soil-fill: rgba(201, 183, 156, 0.22);
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15181c; --fg: #e6e4de; --muted: #a2a8b0; --rule: #333a42; --panel: #1d2127;
+  --beam: #5bb6d6; --far: #e08a7a; --soil: #8a7a5e; --soil-fill: rgba(138, 122, 94, 0.22); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15181c; --fg: #e6e4de; --muted: #a2a8b0; --rule: #333a42; --panel: #1d2127;
+  --beam: #5bb6d6; --far: #e08a7a; --soil: #8a7a5e; --soil-fill: rgba(138, 122, 94, 0.22); color-scheme: dark; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); line-height: 1.5; font-size: 15px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 64px; }
+main { max-width: 980px; margin: 0 auto; }
+h1, h2 { font-family: var(--serif); font-weight: 600; text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.3rem; margin-top: 2.2rem; padding-top: .9rem; border-top: 1px solid var(--rule); }
+p { max-width: 70ch; margin: .6rem 0; }
+.eyebrow { font-family: var(--mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lede { color: var(--muted); font-size: 1.02rem; }
+figure { margin: 1.2rem 0 0; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; }
+figure svg { display: block; max-width: 100%; height: auto; font-family: var(--sans); }
+figcaption { font-size: .9rem; color: var(--muted); margin-top: 10px; max-width: none; }
+figcaption b { color: var(--fg); font-weight: 600; }
+svg text { font-size: 12px; fill: currentColor; }
+svg .small { font-size: 11px; fill: var(--muted); }
+svg .mono { font-family: var(--mono); font-size: 11.5px; }
+svg .beam { stroke: var(--beam); }
+svg .beamtext { fill: var(--beam); font-weight: 600; }
+svg .fartext { fill: var(--far); }
+svg .far { stroke: var(--far); }
+.tbl { overflow-x: auto; margin: .8rem 0 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { padding: 6px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .8rem; letter-spacing: .03em; text-transform: uppercase; }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb, var(--fg) 7%, transparent); padding: 1px 5px; border-radius: 3px; }
+.foot { color: var(--muted); font-size: .85rem; margin-top: 2.2rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+</style>
+<main>
+<div class="eyebrow">Schematic · not to scale · values from reports/nova.md (gps-tof 0.3.0)</div>
+<h1>NuMI Baseline Schematic</h1>
+<p class="lede">The NuMI target, the NOvA Near Detector, the NOvA Far Detector at Ash River and the MINOS Far Detector at Soudan, with the chords and angles the timing calculation uses. The beam axis is the line from the target through the MINOS Far Detector. Lengths and angles are exaggerated so the geometry can be read; every number printed is the computed value.</p>
+
+<h2>Plan view (looking down, downstream to the right)</h2>
+<figure>
+<svg viewBox="0 0 900 330" role="img" aria-label="Plan view: the beam axis from the NuMI target through the MINOS far detector, with the NOvA near detector 13.34 mrad and the Ash River far detector 14.58 mrad to the left of the axis; the near-to-far chord makes 14.58 mrad with the axis.">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="arrbeam" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--beam)"/>
+    </marker>
+  </defs>
+  <!-- beam axis -->
+  <line class="beam" x1="90" y1="220" x2="860" y2="220" stroke-width="2.5" marker-end="url(#arrbeam)"/>
+  <text class="beamtext" x="470" y="240" text-anchor="middle">beam axis: target → MINOS FD, azimuth 336.094°</text>
+  <!-- chords -->
+  <line x1="90" y1="220" x2="200" y2="196" stroke="currentColor" stroke-width="1.6"/>
+  <line x1="90" y1="220" x2="640" y2="86" stroke="currentColor" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <line class="far" x1="200" y1="196" x2="640" y2="86" stroke-width="1.6" stroke-dasharray="3 4"/>
+  <!-- angle arcs at the target -->
+  <path d="M 150 220 A 60 60 0 0 0 148.6 207.2" fill="none" stroke="currentColor" stroke-width="1"/>
+  <path d="M 230 220 A 140 140 0 0 0 226.1 186.9" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3"/>
+  <text class="mono" x="158" y="206">13.34 mrad</text>
+  <text class="small" x="158" y="219">target → ND</text>
+  <text class="mono" x="240" y="187">14.58 mrad</text>
+  <text class="small" x="240" y="200">target → FD</text>
+  <!-- opening angle ND vs FD (plan component) -->
+  <text class="small" x="212" y="150" text-anchor="start">opening angle target: ND vs FD = 10.65 mrad</text>
+  <text class="small" x="212" y="164" text-anchor="start">horizontal part only −1.44 mrad (the rest is vertical)</text>
+  <!-- sites -->
+  <circle cx="90" cy="220" r="6" fill="var(--beam)"/>
+  <text x="90" y="266" text-anchor="middle">NuMI target</text>
+  <text class="small" x="90" y="281" text-anchor="middle">TDR 1998 design position</text>
+  <circle cx="165" cy="220" r="3" fill="currentColor"/>
+  <text class="small" x="165" y="252" text-anchor="middle">decay-pipe end</text>
+  <text class="small" x="165" y="266" text-anchor="middle">724 m, on axis (0.02 mrad)</text>
+  <rect x="193" y="189" width="14" height="14" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text x="222" y="212" text-anchor="start">NOvA ND</text>
+  <text class="small" x="222" y="226" text-anchor="start">948 m along, 11.6 m left</text>
+  <rect x="628" y="76" width="24" height="20" fill="var(--panel)" stroke="var(--far)" stroke-width="2"/>
+  <text class="fartext" x="664" y="84" text-anchor="start">NOvA FD, Ash River</text>
+  <text class="small" x="664" y="98" text-anchor="start">810,479 m along, 11,051 m left</text>
+  <text class="small" x="664" y="112" text-anchor="start">("12 km west of the beam")</text>
+  <rect x="820" y="207" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
+  <text x="833" y="258" text-anchor="middle">MINOS FD</text>
+  <text class="small" x="833" y="272" text-anchor="middle">Soudan, 735,345 m</text>
+  <text class="small" x="833" y="286" text-anchor="middle">on axis by definition</text>
+  <!-- chord labels -->
+  <text class="fartext" x="430" y="128" text-anchor="middle">ND → FD chord 809,616 m · 2700.589 µs · 172,837.7 ticks</text>
+  <text class="small" x="430" y="142" text-anchor="middle">14.58 mrad to the beam axis</text>
+  <text class="small" x="470" y="170" text-anchor="middle">target → FD chord 810,565 m · 2703.753 µs · 173,040.2 ticks</text>
+  <!-- compass -->
+  <line x1="40" y1="60" x2="52" y2="24" stroke="currentColor" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text class="small" x="58" y="30">N (axis runs N 23.9° W)</text>
+  <text class="small" x="30" y="78">left of axis = up the page</text>
+</svg>
+<figcaption><b>Plan.</b> Both NOvA detectors lie to the left (west) of the Soudan line: the Near Detector 13.34 mrad off axis at 948 m, the Far Detector 14.58 mrad off axis at 810 km. In plan the two chords from the target are almost collinear (Δazimuth −1.44 mrad); the 10.65 mrad opening angle between them is almost entirely in the vertical plane. The design axis of the TDR (target → decay-pipe end) agrees with target → MINOS FD to 0.02 mrad.</figcaption>
+</figure>
+
+<h2>Elevation view (side, downstream to the right)</h2>
+<figure>
+<svg viewBox="0 0 900 360" role="img" aria-label="Elevation view: the beam axis dips 3.341 degrees below the local horizontal at the target; the chord to the near detector dips 3.031 degrees and the chord to the Ash River far detector 3.635 degrees; the curved ground surface puts the target 41 m, the near detector 105 m and the MINOS far detector 705 m underground while the Ash River far detector sits on the surface.">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="arrbeam2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--beam)"/>
+    </marker>
+  </defs>
+  <!-- ground: curved surface (Earth curvature exaggerated); rock below -->
+  <path d="M 30 92 C 250 96, 520 140, 700 222 C 760 250, 805 275, 850 292 L 850 340 L 30 340 Z" fill="var(--soil-fill)" stroke="none"/>
+  <path d="M 30 92 C 250 96, 520 140, 700 222 C 760 250, 805 275, 850 292" fill="none" stroke="var(--soil)" stroke-width="2"/>
+  <text class="small" x="300" y="110">ground surface (Earth curvature; central angle target → FD 7.29°, arc − chord 543 m)</text>
+  <!-- local horizontal at the target -->
+  <line x1="90" y1="120" x2="420" y2="120" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/>
+  <text class="small" x="424" y="124">local horizontal at the target</text>
+  <!-- beam axis: T (90,120) -> M (700,235) -> beyond -->
+  <line class="beam" x1="90" y1="120" x2="860" y2="265" stroke-width="2.5" marker-end="url(#arrbeam2)"/>
+  <!-- chords -->
+  <line x1="90" y1="120" x2="200" y2="131" stroke="currentColor" stroke-width="1.6"/>
+  <line x1="90" y1="120" x2="830" y2="292" stroke="currentColor" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <line class="far" x1="200" y1="131" x2="830" y2="292" stroke-width="1.6" stroke-dasharray="3 4"/>
+  <!-- angle arcs at the target: horizontal vs ND chord, axis, FD chord -->
+  <path d="M 170 120 A 80 80 0 0 1 169.6 128" fill="none" stroke="currentColor" stroke-width="1"/>
+  <path d="M 250 120 A 160 160 0 0 1 247.3 150" fill="none" stroke="var(--beam)" stroke-width="1"/>
+  <path d="M 330 120 A 240 240 0 0 1 320.4 175.6" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3"/>
+  <text class="mono" x="176" y="138">3.031° to ND</text>
+  <text class="mono beamtext" x="256" y="160">3.341° beam axis</text>
+  <text class="mono" x="336" y="190">3.635° to FD</text>
+  <text class="small" x="336" y="204">vertical opening angle ND vs FD: 10.55 mrad (0.605°)</text>
+  <!-- sites -->
+  <circle cx="90" cy="120" r="6" fill="var(--beam)"/>
+  <text x="90" y="80" text-anchor="middle">NuMI target</text>
+  <text class="small" x="90" y="64" text-anchor="middle">41 m below the surface</text>
+  <rect x="193" y="124" width="14" height="14" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text x="200" y="160" text-anchor="middle">NOvA ND</text>
+  <text class="small" x="200" y="174" text-anchor="middle">105 m underground</text>
+  <text class="small" x="200" y="188" text-anchor="middle">5.1 m above the axis</text>
+  <rect x="687" y="222" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
+  <text x="700" y="275" text-anchor="middle">MINOS FD</text>
+  <text class="small" x="700" y="289" text-anchor="middle">705 m underground, on axis</text>
+  <rect x="818" y="282" width="24" height="20" fill="var(--panel)" stroke="var(--far)" stroke-width="2"/>
+  <text class="fartext" x="830" y="322" text-anchor="middle">NOvA FD, Ash River</text>
+  <text class="small" x="830" y="336" text-anchor="middle">on the surface, 4,175 m below the axis line</text>
+  <!-- surface-exit note -->
+  <text class="small" x="760" y="212" text-anchor="middle">axis leaves the ground past Soudan</text>
+  <!-- chord notes -->
+  <text class="fartext" x="520" y="236" text-anchor="middle" transform="rotate(14 520 236)">ND → FD chord: dips 3.628° at the ND, arrives rising 3.67° at the FD</text>
+</svg>
+<figcaption><b>Elevation.</b> All three chords dip below the target's local horizontal: 3.031° to the Near Detector, 3.341° along the beam axis to Soudan, 3.635° to Ash River. The Near Detector endpoint (MINOS-mast antenna − 120 m) is 5.1 m above the axis; the Ash River front face, on the surface 810 km away, is 4,175 m below the extended axis because the ground curves away by 7.29° of central angle. The ND → FD chord passes 12.9 km below the surface at its deepest.</figcaption>
+</figure>
+
+<h2>Transverse view (looking downstream along the beam axis)</h2>
+<figure>
+<svg viewBox="0 0 900 300" role="img" aria-label="Transverse view looking downstream along the beam axis: the near detector sits 11.6 m to the left and 5.1 m above the axis, the MINOS-mast antenna 11.6 m left and 125 m above, and the Ash River far detector 11,051 m left and 4,175 m below.">
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <!-- crosshair at the axis -->
+  <line x1="300" y1="160" x2="560" y2="160" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arr3)"/>
+  <line x1="450" y1="280" x2="450" y2="40" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arr3)"/>
+  <text class="small" x="566" y="164">right (east of the line)</text>
+  <text class="small" x="456" y="36">up</text>
+  <circle cx="450" cy="160" r="7" fill="none" stroke="var(--beam)" stroke-width="2.5"/>
+  <circle cx="450" cy="160" r="2" fill="var(--beam)"/>
+  <text class="beamtext" x="462" y="178">beam axis (target → MINOS FD)</text>
+  <!-- clock arcs -->
+  <path d="M 450 110 A 50 50 0 0 0 404.3 139.4" fill="none" stroke="currentColor" stroke-width="1"/>
+  <text class="small" x="396" y="118" text-anchor="end">clock −66° (ND)</text>
+  <path d="M 450 80 A 80 80 0 0 0 375.2 188.4" fill="none" stroke="var(--far)" stroke-width="1" stroke-dasharray="4 3"/>
+  <text class="small fartext" x="366" y="206" text-anchor="end">clock −111° (FD)</text>
+  <!-- ND -->
+  <line x1="450" y1="160" x2="372" y2="126" stroke="currentColor" stroke-width="1.4"/>
+  <rect x="365" y="119" width="14" height="14" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text x="356" y="112" text-anchor="end">NOvA ND</text>
+  <text class="small mono" x="356" y="126" text-anchor="end">left 11.57 m, up 5.12 m</text>
+  <text class="small" x="356" y="140" text-anchor="end">12.65 m off the axis at 948 m: 13.34 mrad</text>
+  <!-- mast antenna -->
+  <line x1="372" y1="126" x2="372" y2="58" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="372" cy="58" r="4" fill="currentColor"/>
+  <text class="small" x="384" y="54">MINOS mast antenna: left 11.57 m, up 124.9 m</text>
+  <text class="small" x="384" y="68">(the ND endpoint is 120 m straight below it)</text>
+  <!-- FD -->
+  <line class="far" x1="450" y1="160" x2="150" y2="262" stroke-width="1.6" stroke-dasharray="3 4"/>
+  <rect x="138" y="252" width="24" height="20" fill="var(--panel)" stroke="var(--far)" stroke-width="2"/>
+  <text class="fartext" x="170" y="246" text-anchor="start">NOvA FD, Ash River</text>
+  <text class="small mono" x="170" y="260" text-anchor="start">left 11,051 m, down 4,175 m</text>
+  <text class="small" x="170" y="274" text-anchor="start">11,814 m off the axis at 810 km: 14.58 mrad</text>
+  <!-- note -->
+  <text class="small" x="620" y="250" text-anchor="middle">ND and FD both lie on the left of the axis;</text>
+  <text class="small" x="620" y="264" text-anchor="middle">they are 45° apart around it (ND above, FD below)</text>
+</svg>
+<figcaption><b>Transverse.</b> Seen along the axis, the Near Detector endpoint and the Ash River front face are on the same (west) side but at different clock positions: the ND above the axis, the FD below it. The ND sits directly under the MINOS-mast antenna only because the horizontal antenna → detector vector is not yet surveyed; the target → ND chord is 948 m, against the ~1015 m usually quoted, so the real ND lies about 65 m further along the beam.</figcaption>
+</figure>
+
+<h2>The numbers behind the drawings</h2>
+<div class="tbl"><table>
+<tr><th>chord</th><th class="n">L (m)</th><th class="n">ToF (µs)</th><th class="n">64 MHz ticks</th><th class="n">angle to beam axis (mrad)</th><th class="n">dip at source</th></tr>
+<tr><td>NuMI target → NOvA ND cavern</td><td class="n">948.400</td><td class="n">3.163524</td><td class="n">202.466</td><td class="n">13.343</td><td class="n">3.031°</td></tr>
+<tr><td>NuMI target → NOvA FD front face (Ant-2)</td><td class="n">810 564.610</td><td class="n">2703.752507</td><td class="n">173 040.160</td><td class="n">14.575</td><td class="n">3.635°</td></tr>
+<tr><td>NOvA ND cavern → NOvA FD front face (Ant-2)</td><td class="n">809 616.263</td><td class="n">2700.589164</td><td class="n">172 837.706</td><td class="n">14.581</td><td class="n">3.628°</td></tr>
+<tr><td>NuMI target → MINOS FD (beam axis)</td><td class="n">735 344.614</td><td class="n">2452.845607</td><td class="n">156 982.119</td><td class="n">0.000</td><td class="n">3.341°</td></tr>
+<tr><td>NuMI target → decay-pipe end (TDR design axis)</td><td class="n">724.184</td><td class="n">2.415619</td><td class="n">154.600</td><td class="n">0.020</td><td class="n">3.339°</td></tr>
+</table></div>
+<div class="tbl"><table>
+<tr><th>opening angle at the target</th><th class="n">total (mrad)</th><th class="n">horizontal (mrad)</th><th class="n">vertical (mrad)</th><th class="n">ND transverse to the far chord</th></tr>
+<tr><td>ND cavern vs NOvA FD front face</td><td class="n">10.650</td><td class="n">−1.443</td><td class="n">−10.552</td><td class="n">10.10 m</td></tr>
+<tr><td>ND cavern vs MINOS FD (beam axis)</td><td class="n">13.343</td><td class="n">+12.198</td><td class="n">−5.407</td><td class="n">12.65 m</td></tr>
+</table></div>
+<div class="tbl"><table>
+<tr><th>site vs beam axis</th><th class="n">off-axis (mrad)</th><th class="n">along (m)</th><th class="n">transverse (m)</th><th class="n">right (m)</th><th class="n">up (m)</th><th class="n">clock</th></tr>
+<tr><td>NuMI decay-pipe end</td><td class="n">0.020</td><td class="n">724.184</td><td class="n">0.014</td><td class="n">0.000</td><td class="n">+0.014</td><td class="n">—</td></tr>
+<tr><td>MINOS mast antenna</td><td class="n">132.492</td><td class="n">941.341</td><td class="n">125.455</td><td class="n">−11.570</td><td class="n">+124.921</td><td class="n">−5.3°</td></tr>
+<tr><td>NOvA ND cavern</td><td class="n">13.343</td><td class="n">948.316</td><td class="n">12.654</td><td class="n">−11.570</td><td class="n">+5.123</td><td class="n">−66.1°</td></tr>
+<tr><td>NOvA FD front face (Ant-2)</td><td class="n">14.575</td><td class="n">810 478.514</td><td class="n">11 813.783</td><td class="n">−11 051.360</td><td class="n">−4 175.273</td><td class="n">−110.7°</td></tr>
+<tr><td>MINOS FD midpoint</td><td class="n">0.000</td><td class="n">735 344.614</td><td class="n">0.000</td><td class="n">0</td><td class="n">0</td><td class="n">—</td></tr>
+</table></div>
+<p class="foot">Source: <code>reports/nova.md</code> generated by <code>gps-tof -c config/nova.yaml</code> (version 0.3.0). The target is the 1998 TDR design position; detector endpoints are the 2014-note antenna fixes with their vertical offsets. Drawing kept in the repository as <code>docs/nova-schematic.html</code>.</p>
+</main>

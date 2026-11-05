@@ -124,6 +124,9 @@ coordinates ↔ geodetic).  Configuration precedence is command line > environme
 Project status page (phases, results, test and compatibility matrices, design decisions):
 https://claude.ai/artifact/S4eqJocVhnzvuuP8ziAMf4
 
+Not-to-scale schematic of the target, ND, FD and MINOS FD layout with the computed angles
+(`docs/nova-schematic.html`): https://claude.ai/artifact/MHZuX5iAPTuxbCbFRRoqBY
+
 
 Version 0.3.0.  Python ≥ 3.9, PyYAML only.  53 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").
