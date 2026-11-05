@@ -1,0 +1,39 @@
+.TH GPS-TOF-FSCS 1 "2026-11-04" "gps-tof 0.1.0" "User Commands"
+.SH NAME
+gps-tof-fscs \- convert Fermilab site coordinates (FSCS/DUSAF) to and from geodetic coordinates
+.SH SYNOPSIS
+.B gps-tof-fscs to-geodetic
+\fIx\fR \fIy\fR \fIz\fR [\fB\-\-geoid\fR \fIN\fR]
+.br
+.B gps-tof-fscs from-geodetic
+\fIlat\fR \fIlon\fR \fIh\fR [\fB\-\-geoid\fR \fIN\fR]
+.br
+.B gps-tof-fscs bearing
+\fIdeg\fR
+.SH DESCRIPTION
+Implements the Fermilab Site Coordinate System of Beams-doc-1148 (B. Oshinowo, "Fermilab
+Coordinate Systems", v4.0): a double stereographic projection of NAD83/GRS80 geodetic
+coordinates with origin at monument A0 (N 41 50 14.312704, W 88 15 41.143123, h = 186.49880 m),
+Y axis along geodetic azimuth 38 16 48.01429, false easting and northing 100000 ft, scale
+F0 = 1.000029251309483 at 720 ft above the DUSAF datum.  Heights:
+h = H_DUSAF + dH_NAVD88 + N with dH_NAVD88 = -0.17308 m and N = -32.78456 m (GEOID93 at A0).
+The geoid separation is taken as constant across the site (an approximation of order 1 cm
+over the Main Injector and NuMI areas).
+.TP
+.B to-geodetic
+\fIx y z\fR in US survey feet (x east, y north, z elevation above the DUSAF datum) to latitude,
+longitude (degrees and DMS) and ellipsoidal height.
+.TP
+.B from-geodetic
+Latitude and longitude (any gps-tof angle format) and ellipsoidal height to feet.
+.TP
+.B bearing
+A TDR beam-sheet bearing (degrees counter-clockwise from site East) to a geodetic azimuth at A0.
+.SH EXAMPLES
+.nf
+    gps-tof-fscs to-geodetic 100327.838 97780.188 626.743    # NuMI target, TDR 1998 design
+    gps-tof-fscs bearing 152.18332                           # NuMI beam line: 336.097 deg
+.fi
+.SH SEE ALSO
+.BR gps-tof (1),
+.BR gps-tof (5)

@@ -1,0 +1,132 @@
+# gps-tof configuration: NOvA beam timing offsets, NuMI target / Near Detector -> Ash River.
+#
+# Override order: command line > environment (GPS_TOF_*) > .env > this file > built-in defaults.
+# Angles accept decimal degrees, "D M S H", "D:M:S H", "D M.MMMM H" or NMEA via gps-tof-nmea.
+# offset_enu_m is the vector from the surveyed point to the physics endpoint in the local
+# East/North/Up frame (metres): a detector 120 m below its antenna is [0, 0, -120].
+
+project: "NOvA NuMI -> Ash River timing offsets"
+clock_hz: 64.0e+6            # NOvA timing-system clock (15.625 ns/tick)
+legacy_unit_s: 500.0e-9     # legacy Global Trigger unit
+earth:
+  model: wgs84              # wgs84 | grs80 | sphere   (sphere is kept as the reference row of the ledger)
+  sphere_radius_m: 6378137.0
+offset_normal: geodetic     # geodetic | radial  ("up" used for antenna->endpoint offsets)
+apply_sagnac: false         # the Sagnac term is always reported; set true to add it to the total
+rounding: round             # round | floor | ceil  for the integer tick count
+precision_digits: 4
+physics:
+  neutrino_mass_ev: 0.1
+  neutrino_energy_gev: 2.0
+trigger_window:             # NOvA beam trigger: [t0 + t0delay - 20 us, t0 + t0delay + 30 us)
+  before_us: 20.0
+  after_us: 30.0
+  microslice_us: 50.0
+sensitivity:
+  enabled: true
+  arcsec_step: 1.0
+  height_step_m: 1.0
+  offset_step_m: 1.0
+
+sites:
+  # ---- Fermilab ------------------------------------------------------------------------
+  - name: "NuMI target (TDR 1998 design, upstream face)"
+    id: target
+    # NuMI Facility Technical Design Report rev 1.0 (Oct 1998), Appendix A beam sheet "horn2 ces",
+    # row 0087 HALTA TAR-2: DUSAF/FSCS x, y, z in US survey feet (entrance of the device).
+    # Converted with the FSCS double-stereographic projection of Beams-doc-1148.
+    fscs_xyz_ft: [100327.838, 97780.188, 626.743]
+    offset_enu_m: [0, 0, 0]
+    source: "NuMI TDR 1998 App. A beam sheet (design); Beams-doc-1148 projection"
+    notes: "Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m."
+    uncertainty: {offset_m: 5.0}
+
+  - name: "NuMI decay pipe end (TDR 1998 design)"
+    id: decay-end
+    fscs_xyz_ft: [98230.009, 98887.039, 488.477]
+    source: "NuMI TDR 1998 App. A beam sheet row 0092 DENCU"
+    notes: "Used only as the reference axis for off-axis angles (target -> decay-pipe end is the beam axis)."
+
+  - name: "FNAL MINOS Surface Building mast antenna"
+    id: fnal-mast
+    lat: "41 50 23 N"           # quoted to 1 arcsecond (about 31 m N-S, 23 m E-W)
+    lon: "88 16 13 W"
+    height_m: 228.0
+    datum: ellipsoid            # datum of the 228 m altitude is not recorded; see uncertainty.height_m
+    offset_enu_m: [0, 0, 0]
+    source: "2014 note Table 2 (MINOS-based TDU receivers)"
+    uncertainty: {quantization_arcsec: 1.0, height_m: 33.0}
+
+  - name: "NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)"
+    id: nd
+    lat: "41 50 23 N"
+    lon: "88 16 13 W"
+    height_m: 228.0
+    datum: ellipsoid
+    offset_enu_m: [0, 0, -120]
+    offset_note: "105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)"
+    cable_length_m: 30.48
+    cable_velocity_factor: 0.85
+    source: "2014 note sec. 3.1 and Tables 2-3"
+    uncertainty: {quantization_arcsec: 1.0, height_m: 33.0, offset_m: 10.0}
+
+  # ---- Ash River ----------------------------------------------------------------------
+  - name: "Ash River Ant-1 (FD front-face centre)"
+    id: fd1
+    lat: "48 22.715780 N"       # degrees + decimal minutes, 1e-6' = 2 mm
+    lon: "92 49.876930 W"
+    height_m: 348.0
+    datum: ellipsoid            # Table 2 heights shown to be WGS84 ellipsoidal (POLYP cross-check)
+    offset_enu_m: [0, 0, -19.8]
+    offset_note: "12 m antenna -> detector top + 7.8 m to mid-height"
+    source: "2014 note Table 2"
+    uncertainty: {offset_m: 2.0}
+
+  - name: "Ash River Ant-2 (FD front-face centre)"
+    id: fd2
+    lat: "48 22.715780 N"
+    lon: "92 49.876930 W"
+    height_m: 348.638
+    datum: ellipsoid
+    offset_enu_m: [0, 0, -19.8]
+    offset_note: "12 m antenna -> detector top + 7.8 m to mid-height"
+    cable_length_m: 30.48
+    cable_velocity_factor: 0.85
+    source: "2014 note Table 2 (antenna used by the 2013 notebook)"
+    uncertainty: {offset_m: 2.0}
+
+  - name: "Ash River Ant-3 (FD front-face centre)"
+    id: fd3
+    lat: "48 22.716416 N"
+    lon: "92 49.877639 W"
+    height_m: 350.346
+    datum: ellipsoid
+    offset_enu_m: [0, 0, -19.8]
+    offset_note: "12 m antenna -> detector top + 7.8 m to mid-height"
+    source: "2014 note Table 2 / $GPGGA 2013-03-07 21:03:41 UTC"
+    uncertainty: {offset_m: 2.0}
+
+  - name: "MINOS Far Detector (supermodule midpoint, Soudan)"
+    id: minos-fd
+    lat: 47.820267
+    lon: -92.241412
+    height_m: -248.4
+    datum: ellipsoid            # NAD83 ellipsoid height
+    source: "MINOS detectors NIM A 596 (2008) 190, sec. 6.5"
+    notes: "Cross-check only: paper quotes 735,338.0 m from the upstream end of horn 1."
+
+baselines:
+  - {from: nd, to: fd2, label: "ND cavern -> FD front face (Ant-2), 2014-note offsets"}
+  - {from: target, to: fd2, label: "NuMI target -> FD front face (Ant-2)", axis_to: decay-end}
+  - {from: target, to: nd, label: "NuMI target -> ND cavern", axis_to: decay-end}
+  - {from: nd, to: fd1, label: "ND cavern -> FD (Ant-1)"}
+  - {from: nd, to: fd3, label: "ND cavern -> FD (Ant-3)"}
+  - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)", axis_to: decay-end}
+
+timing_shifts:
+  - name: "Main Injector 141-turn shift (2012 shutdown)"
+    turns: 141
+    buckets_per_turn: 588
+    rf_hz: 53.1034e+6
+    rf_uncertainty_hz: 1000.0
+    notes: "beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF"

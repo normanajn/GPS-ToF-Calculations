@@ -1,0 +1,74 @@
+.TH GPS_TOF 3 "2026-11-04" "gps-tof 0.1.0" "Library Functions"
+.SH NAME
+gps_tof \- Python API for geodetic time-of-flight calculations
+.SH SYNOPSIS
+.nf
+from gps_tof.model import Problem, Site, Baseline, TimingShift, Settings
+from gps_tof.calc import compute_all, compute_baseline, chord, final_stage, site_point
+from gps_tof.report import render
+from gps_tof.geodesy import geodetic_to_ecef, ecef_to_geodetic, enu_basis, enu_to_ecef_offset
+from gps_tof.fermilab_site import fscs_to_geodetic, geodetic_to_fscs
+from gps_tof.angles import parse_angle, dms
+from gps_tof import nmea
+.fi
+.SH DESCRIPTION
+.SS Model (gps_tof.model)
+.TP
+.B Site(name, lat, lon, height_m, datum="ellipsoid", geoid_separation_m=None, offset_enu_m=(0,0,0), id="", fscs_xyz_ft=None, ...)
+A surveyed point and the displacement to its physics endpoint.  \fBSite.from_dict\fR accepts
+the configuration-file keys (angles as strings).  \fBh_ellipsoidal\fR, \fBlat_rad\fR,
+\fBlon_rad\fR, \fBcable_delay_s\fR are derived properties; \fBreplace(**changes)\fR returns a
+modified copy (used for sensitivities).
+.TP
+.B Baseline(source, target, label="", axis_to="")
+Two site ids and an optional reference-axis site.
+.TP
+.B TimingShift(name, seconds=None, turns=None, buckets_per_turn=None, rf_hz=None, rf_uncertainty_hz=None)
+A fixed offset; \fBvalue_s\fR, \fBt_rev_s\fR, \fBrf_sensitivity_s_per_hz\fR.
+.TP
+.B Settings
+Dataclass of run settings (clock_hz, earth_model, offset_normal, rounding, window, ...).
+\fBSettings.from_dict\fR accepts the nested file layout (earth:, physics:, trigger_window:, sensitivity:).
+.TP
+.B Problem(settings, sites, baselines, timing_shifts)
+\fBProblem.from_dict(d)\fR builds everything from a configuration mapping; \fBsite(id)\fR looks a site up.
+.SS Engine (gps_tof.calc)
+.TP
+.B compute_all(problem) -> dict
+JSON-serialisable result: settings, sites and one entry per baseline.
+.TP
+.B compute_baseline(problem, baseline) -> dict
+Keys: \fBsource\fR, \fBtarget\fR (site summaries with ECEF positions), \fBledger\fR (list of
+correction steps with L_m, dL_m, dt_ns, dticks, cum_dticks), \fBresult\fR (L_m, t_s, t_us,
+ticks, ticks_int, legacy_units), \fBgeometry\fR, \fBeffects\fR (sagnac_ns, neutrino delay,
+cables), \fBtiming_shifts\fR, \fBtotal\fR, \fBwindow\fR, \fBsensitivities\fR, \fBerror_budget\fR.
+.TP
+.B chord(a, b, settings, stage) -> float
+Chord length between two sites for a given \fBStage\fR (which corrections are applied);
+\fBfinal_stage(settings)\fR is the fully corrected stage, \fBsite_point(site, settings, stage)\fR the ECEF endpoint.
+.SS Geodesy (gps_tof.geodesy)
+\fBgeodetic_to_ecef(lat, lon, h, ell=WGS84)\fR, \fBecef_to_geodetic(p, ell)\fR,
+\fBspherical_to_ecef(lat, lon, h, R)\fR, \fBenu_basis(lat, lon)\fR,
+\fBenu_to_ecef_offset(d_enu, lat, lon, up="geodetic"|"radial", p=None)\fR,
+\fBazimuth_elevation(v, lat, lon)\fR, vector helpers \fBnorm\fR, \fBdot\fR, \fBcross\fR,
+\fBangle_between\fR.  Angles in radians.
+.SS Fermilab site frame (gps_tof.fermilab_site, gps_tof.projection)
+\fBfscs_to_geodetic(x_ft, y_ft, z_ft, geoid_n_m=-32.78456) -> (lat_deg, lon_deg, h_m)\fR,
+\fBgeodetic_to_fscs(lat_deg, lon_deg, h_m)\fR, \fBfscs_bearing_to_azimuth(bearing_deg)\fR.
+\fBObliqueStereographic(ell, lat0, lon0, k0, false_e, false_n)\fR with \fBforward\fR/\fBinverse\fR
+implements EPSG method 9809.
+.SS Report (gps_tof.report)
+\fBrender(result, fmt)\fR with fmt in "text", "md", "json".
+.SH EXAMPLE
+.nf
+from gps_tof.model import Problem
+from gps_tof.calc import compute_baseline
+p = Problem.from_dict({"sites": [
+      {"name": "ND", "lat": "41 50 23 N", "lon": "88 16 13 W", "height_m": 228, "offset_enu_m": [0, 0, -120]},
+      {"name": "FD", "lat": "48 22.715780 N", "lon": "92 49.876930 W", "height_m": 348.638, "offset_enu_m": [0, 0, -19.8]}]})
+r = compute_baseline(p, p.baselines[0])
+print(r["result"]["L_m"], r["result"]["ticks"], [(s["step"], s["dticks"]) for s in r["ledger"]])
+.fi
+.SH SEE ALSO
+.BR gps-tof (1),
+.BR gps-tof (5)

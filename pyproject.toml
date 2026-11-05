@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gps-tof"
+version = "0.1.0"
+description = "Geodetic straight-line time-of-flight calculator with correction ledger, sensitivities and error budget"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Andrew Norman", email = "anorman@fnal.gov"}]
+dependencies = ["PyYAML>=5.4"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+gps-tof = "gps_tof.cli:main"
+gps-tof-nmea = "gps_tof.cli:main_nmea"
+gps-tof-fscs = "gps_tof.cli:main_fscs"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

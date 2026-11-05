@@ -1,0 +1,113 @@
+.TH GPS-TOF 1 "2026-11-04" "gps-tof 0.1.0" "User Commands"
+.SH NAME
+gps-tof \- straight-line time of flight between surveyed sites with a correction ledger
+.SH SYNOPSIS
+.B gps-tof
+[\fB\-c\fR \fICONFIG\fR] [\fB\-s\fR \fISPEC\fR]... [\fB\-p\fR \fIFROM:TO[:LABEL[:AXIS]]\fR]... [\fB\-\-nmea\fR \fIFILE\fR]...
+[\fB\-f\fR text|md|json|all] [\fB\-o\fR \fIOUTPUT\fR] [\fIsetting overrides\fR]
+.SH DESCRIPTION
+.B gps-tof
+converts an arbitrary set of site coordinates into Earth-centred positions, computes the
+Euclidean chord between every requested pair of sites, and reports the time of flight at
+\fIc\fR in seconds, in clock ticks and in a legacy unit.  For every baseline the report
+contains:
+.IP \(bu 2
+a \fBcorrection ledger\fR: the reference (spherical) model, the chosen ellipsoid, the
+height-datum conversion of each site (MSL to ellipsoidal), and the vertical and horizontal
+antenna-to-endpoint offsets of each site, each with its change in length, time and ticks;
+.IP \(bu 2
+fixed \fBtiming shifts\fR (for example an accelerator timing-reference change expressed in
+machine turns) and the combined offset, exact and rounded;
+.IP \(bu 2
+an optional \fBtrigger window\fR in ticks;
+.IP \(bu 2
+\fBchord geometry\fR: central angle, arc minus chord, sagitta, dip and rise angles, azimuths,
+and the off-axis angle with respect to a reference axis;
+.IP \(bu 2
+\fBnon-geometric effects\fR: Sagnac term, neutrino-mass delay, antenna cable delays;
+.IP \(bu 2
+\fBsensitivities\fR of the chord to each input and an \fBerror budget\fR built from the
+uncertainties declared for each site.
+.PP
+Sites may be given geodetically (latitude, longitude, height with an explicit datum), as
+Fermilab site coordinates (FSCS/DUSAF feet, converted with the Beams-doc-1148 projection),
+or decoded from NMEA $GPGGA sentences.
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-config " " \fIFILE\fR
+YAML configuration.  Default: \fIconfig/gps-tof.yaml\fR, then \fIconfig/nova.yaml\fR, if present.
+See \fBgps-tof\fR(5) for the format.
+.TP
+.BR \-s ", " \-\-site " " \fISPEC\fR
+Add a site from the command line.  \fISPEC\fR is a list of \fIkey=value\fR tokens with shell
+quoting: \fBname\fR, \fBid\fR, \fBlat\fR, \fBlon\fR, \fBh\fR, \fBdatum\fR (ellipsoid|msl),
+\fBgeoid\fR, \fBoffset\fR=E,N,U, \fBfscs\fR=x,y,z (feet), \fBnote\fR, \fBcable_m\fR, \fBvf\fR,
+\fBcable_delay_ns\fR, and \fBu_\fIkey\fR for uncertainties (u_lat_arcsec, u_lon_arcsec,
+u_height_m, u_offset_m, u_quantization_arcsec).  Repeatable.
+.TP
+.BR \-p ", " \-\-pair " " \fIFROM:TO[:LABEL[:AXIS]]\fR
+Baseline between two site ids.  \fIAXIS\fR names a third site; the angle between
+FROM\(->TO and FROM\(->AXIS is reported as the off-axis angle.  Repeatable.  Without
+\fB\-p\fR and without \fBbaselines:\fR in the file, every pair of sites is computed.
+.TP
+.BR \-\-nmea " " \fIFILE\fR
+Add one site per $GPGGA sentence in \fIFILE\fR (MSL altitude plus geoid separation).
+.TP
+.BR \-\-no\-timing\-shifts
+Ignore the \fBtiming_shifts\fR of the configuration.
+.TP
+.BR \-f ", " \-\-format " " text|md|json|all
+Output format (default text).  \fBall\fR writes \fIOUTPUT\fR.md, .txt and .json.
+.TP
+.BR \-o ", " \-\-output " " \fIPATH\fR
+Write the report to \fIPATH\fR instead of standard output.
+.TP
+.BR \-\-dump\-config
+Print the merged configuration (file, .env, environment and command line applied) as YAML and exit.
+.TP
+.BR \-\-list\-sites
+Print the resolved sites and exit.
+.TP
+.BR \-V ", " \-\-version
+.SS Setting overrides
+\fB\-\-project\fR, \fB\-\-clock\-hz\fR, \fB\-\-legacy\-unit\-s\fR, \fB\-\-earth\-model\fR wgs84|grs80|sphere,
+\fB\-\-sphere\-radius\-m\fR, \fB\-\-offset\-normal\fR geodetic|radial, \fB\-\-apply\-sagnac\fR,
+\fB\-\-rounding\fR round|floor|ceil, \fB\-\-precision\-digits\fR, \fB\-\-neutrino\-mass\-ev\fR,
+\fB\-\-neutrino\-energy\-gev\fR, \fB\-\-window\-before\-us\fR, \fB\-\-window\-after\-us\fR,
+\fB\-\-microslice\-us\fR, \fB\-\-no\-sensitivities\fR, \fB\-\-arcsec\-step\fR, \fB\-\-height\-step\-m\fR,
+\fB\-\-offset\-step\-m\fR.
+.SH CONFIGURATION PRECEDENCE
+command line > environment (\fBGPS_TOF_\fIKEY\fR) > \fI.env\fR (current directory, then \fIconfig/.env\fR)
+> configuration file > built-in defaults.  Environment keys: GPS_TOF_CONFIG, GPS_TOF_FORMAT,
+GPS_TOF_OUTPUT and the upper-cased setting names (GPS_TOF_CLOCK_HZ, GPS_TOF_EARTH_MODEL, ...).
+.SH EXAMPLES
+Full NOvA report in Markdown:
+.PP
+.nf
+    gps-tof -c config/nova.yaml -f md -o reports/nova.md
+.fi
+.PP
+Two ad-hoc sites, no configuration file, 100 MHz clock:
+.PP
+.nf
+    gps-tof -c /dev/null --clock-hz 100e6 \\
+        -s 'name=A id=a lat=41:50:23N lon=88:16:13W h=228 offset=0,0,-120' \\
+        -s 'name=B id=b lat="48 22.715780 N" lon="92 49.876930 W" h=348.638 offset=0,0,-19.8' \\
+        -p a:b
+.fi
+.PP
+NuMI target from Fermilab site coordinates, off-axis angle against the decay-pipe end:
+.PP
+.nf
+    gps-tof -c config/nova.yaml -p target:fd2:"target to FD":decay-end
+.fi
+.SH EXIT STATUS
+0 on success, 2 on a usage or configuration error.
+.SH FILES
+.I config/nova.yaml
+NOvA NuMI\(->Ash River example configuration.
+.SH SEE ALSO
+.BR gps-tof (5),
+.BR gps-tof-nmea (1),
+.BR gps-tof-fscs (1),
+.BR gps_tof (3)

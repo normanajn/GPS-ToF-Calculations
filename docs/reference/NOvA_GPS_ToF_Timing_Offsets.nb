@@ -1,0 +1,4624 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    170756,       4616]
+NotebookOptionsPosition[    153093,       4329]
+NotebookOutlinePosition[    153455,       4345]
+CellTagsIndexPosition[    153412,       4342]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Determination of the Neutrino Time of Flight:\[LineSeparator]Fermilab to Ash \
+River\
+\>", "Title",
+ CellChangeTimes->{{3.999347617647799*^9, 
+  3.999347618966331*^9}},ExpressionUUID->"5af8e11a-62bf-4184-a8d8-\
+4c6d0b07646f"],
+
+Cell["\<\
+NOvA beam trigger delay (i.e. t0 delay) based on GPS antenna positions, \
+detector offsets, and Earth models (converted to in 64 MHz NOvA clock ticks\
+\>", "Subtitle",
+ CellChangeTimes->{{3.9993476283040533`*^9, 
+  3.999347664199382*^9}},ExpressionUUID->"838a7e12-6353-437e-9725-\
+cde802b46cdc"],
+
+Cell[TextData[{
+ StyleBox["Sources.",
+  FontWeight->"Bold"],
+ " (1) A. Norman, \[OpenCurlyDoubleQuote]Determination of the Neutrino Time \
+of Flight, Fermilab to Ash River\[CloseCurlyDoubleQuote], NOvA-DocDB- draft, \
+19 Aug 2014 (",
+ StyleBox["nova-fnal-ashriver-timing-calc.pdf", "InlineCode"],
+ "), cited below as ",
+ StyleBox["the 2014 note",
+  FontWeight->"Bold"],
+ ". (2) ",
+ StyleBox["FNAL_to_AshRiver_Distance.nb", "InlineCode"],
+ " (Mathematica, Mar 2013 \[Dash] Mar 2017), cited as ",
+ StyleBox["the 2013 notebook",
+  FontWeight->"Bold"],
+ ". The 2014 note is the primary reference. It supplies the antenna fixes, \
+the antenna \[RightArrow] detector offsets and the trigger-window definition. \
+The Main Injector timing shift comes from the 2013 notebook, since the note \
+does not cover it."
+}], "Text",
+ CellChangeTimes->{{3.999362207238472*^9, 
+  3.9993622077828207`*^9}},ExpressionUUID->"1be739d3-a79d-4541-b0b5-\
+356a1e8e8fba"],
+
+Cell[TextData[{
+ "Every equation in the 2014 note is written out here, with its equation \
+number, and implemented. The note's quoted results and the 2013 notebook \
+outputs are then reproduced, and the result is recomputed with the offsets \
+the note actually specifies. That changes the answer, see \[Section]9. \
+\[Section]11 lists the note's typographical and numerical errata. Evaluate \
+the whole notebook with ",
+ StyleBox["Evaluation \[RightArrow] Evaluate Notebook",
+  FontWeight->"Bold"],
+ ". All inputs and switches are in \[Section]2 and \[Section]4."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["1. Purpose: the beam trigger window", "Section"],
+
+Cell[TextData[{
+ "The NOvA DAQ issues a \[OpenCurlyDoubleQuote]beam\[CloseCurlyDoubleQuote] \
+trigger from the NuMI spill time t",
+ Cell[BoxData[
+  SubscriptBox["", "0"]]],
+ ", delayed by the neutrino flight time t",
+ Cell[BoxData[
+  SubscriptBox["", 
+   RowBox[{"0", "delay"}]]]],
+ " from the Near Detector (ND) cavern to the front face of the Far Detector \
+(FD). The NuMI spill is nominally 10 \[Micro]s long. The DAQ discretizes data \
+into 50 \[Micro]s microslices, and the event builder can only extract whole \
+microslices. The optimal trigger therefore places the 10 \[Micro]s spill \
+inside a 50 \[Micro]s window with at least 20 \[Micro]s of sideband on each \
+side. That window is the half-open interval (2014 note, eq. 1):"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["\[CapitalDelta]T", "trig"], "\[Colon]", 
+    RowBox[{
+     RowBox[{
+      SubscriptBox["t", "0"], "+", 
+      SubscriptBox["t", 
+       RowBox[{"0", "delay"}]], "-", 
+      RowBox[{"20", " ", "\[Micro]s"}]}], "\[LessEqual]", "t", "<", 
+     RowBox[{
+      SubscriptBox["t", "0"], "+", 
+      SubscriptBox["t", 
+       RowBox[{"0", "delay"}]], "+", 
+      RowBox[{"30", " ", "\[Micro]s"}]}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell["\<\
+The upper edge is open. Microslices are closed intervals (eq. 2):\
+\>", "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{"\[Mu]Slice", "\[Colon]", 
+    RowBox[{
+     SubscriptBox["t", "n"], "\[LessEqual]", "t", "\[LessEqual]", 
+     RowBox[{
+      SubscriptBox["t", "n"], "+", 
+      RowBox[{"50", " ", "\[Micro]s"}]}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[TextData[{
+ "A 50 \[Micro]s trigger window therefore always overlaps exactly two \
+microslices, so every recorded beam event is 100 \[Micro]s wide wherever t",
+ Cell[BoxData[
+  SubscriptBox["", "0"]]],
+ " falls relative to the microslice boundaries. t",
+ Cell[BoxData[
+  SubscriptBox["", 
+   RowBox[{"0", "delay"}]]]],
+ " must be set a priori from the flight-time calculation below, and the \
+window is evaluated in \[Section]8."
+}], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Constants and time bases", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"c", " ", "=", " ", "299792458"}], ";"}], "            ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"speed", " ", "of", " ", "light"}], ",", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"m", "/", "s"}], " ", 
+      RowBox[{"(", 
+       RowBox[{"exact", ",", " ", "SI"}], ")"}]}], ";", " ", 
+     RowBox[{
+     "neutrinos", " ", "assumed", " ", "to", " ", "travel", " ", "at", " ", 
+      "c"}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fNOvA", " ", "=", " ", "64*^6"}], ";"}], "            ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"NOvA", " ", "timing"}], "-", 
+     RowBox[{"system", " ", "clock"}]}], ",", " ", "Hz"}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"tick", " ", "=", " ", 
+    RowBox[{"1", "/", "fNOvA"}]}], ";"}], "           ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"15.625", " ", "ns", " ", "per", " ", "NOvA", " ", "tick"}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"gtUnit", " ", "=", " ", "500*^-9"}], ";"}], "         ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "legacy", " ", "Global", " ", "Trigger", " ", "time", " ", "unit"}], ",", 
+    " ", "s"}], " ", "*)"}]}], "\n", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"N", "[", 
+    RowBox[{"tick", " ", 
+     RowBox[{"10", "^", "9"}]}], "]"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"ns", "/", "tick"}], " ", "*)"}], ",", " ", 
+   RowBox[{"N", "[", 
+    RowBox[{"c", " ", "tick"}], "]"}]}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "m", " ", "of", " ", "light", " ", "path", " ", "per", " ", "tick"}], " ", 
+   "*)"}], "}"}]}], "Input",
+ CellLabel->
+  "In[102]:=",ExpressionUUID->"b2772730-82c6-4d0b-b742-1b326f39f14d"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"15.625`", ",", "4.68425715625`"}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738432292*^9},
+ CellLabel->
+  "Out[106]=",ExpressionUUID->"655d9985-6516-40fd-82cf-c9b98afc9d23"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"LC", "[", 
+   RowBox[{"deg_", ",", " ", "min_", ",", " ", "sec_"}], "]"}], " ", ":=", 
+  " ", 
+  RowBox[{"N", "[", 
+   RowBox[{
+    RowBox[{"Pi", "/", "180"}], " ", 
+    RowBox[{"(", 
+     RowBox[{"deg", " ", "+", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"min", " ", "+", " ", 
+         RowBox[{"sec", "/", "60"}]}], ")"}], "/", "60"}]}], ")"}]}], "]"}], 
+  "     ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"sexagesimal", " ", "->", " ", "radians"}], " ", "*)"}]}]], "Input",\
+
+ CellLabel->
+  "In[107]:=",ExpressionUUID->"82af95ea-aa85-425d-bd43-91992b73a463"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    RowBox[{"LC", "(", 
+     RowBox[{"d", ",", "m", ",", "s"}], ")"}], "\[LongEqual]", 
+    RowBox[{
+     FractionBox["1", "180"], " ", "\[Pi]", " ", 
+     RowBox[{"(", 
+      RowBox[{"d", "+", 
+       RowBox[{
+        FractionBox["1", "60"], " ", 
+        RowBox[{"(", 
+         RowBox[{"m", "+", 
+          FractionBox["s", "60"]}], ")"}]}]}], ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. GPS antenna positions from the TDU NMEA stream", "Section"],
+
+Cell[TextData[{
+ "Detector positions come from the GPS receivers in the TDU (timing \
+distribution unit) masters. At Ash River, three receivers in the FD computing \
+center (relay rack 3) are connected to three antennas on a single four-mount \
+mast on the building roof, through a common ~100 ft cable run. At Fermilab, \
+the MINOS Surface Building has two antennas on a single two-mount mast. The \
+NOvA surface building (NDOS) has one antenna and one cable. The receiver NMEA \
+output was read over the TDU USB-serial port with GNU ",
+ StyleBox["screen", "InlineCode"],
+ " at 38400 baud. The NMEA block repeats every 5 s."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["3.1 NMEA block recorded at Ash River (2014 note, \[Section]2.2)", \
+"Subsection"],
+
+Cell[TextData[{
+ "The ",
+ StyleBox["$POLYT", "InlineCode"],
+ ", ",
+ StyleBox["$POLYP", "InlineCode"],
+ " and ",
+ StyleBox["$POLYS", "InlineCode"],
+ " lines run past the right margin of the note and are truncated, so their \
+checksums cannot be tested. The complete sentences are checked below with the \
+NMEA 0183 checksum: the XOR of all characters between ",
+ StyleBox["$", "InlineCode"],
+ " and ",
+ StyleBox["*", "InlineCode"],
+ ", in hexadecimal."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nmea", " ", "=", " ", 
+   RowBox[{"{", "\n", "   ", 
+    RowBox[{
+    "\"\<$GPGLL,4822.716417,N,09249.877638,W,210341.002,A,A*41\>\"", ",", 
+     "\n", "   ", 
+     "\"\<$GPRMC,210341.002,A,4822.716417,N,09249.877638,W,0.000,0.00,070313,,\
+,A*40\>\"", ",", "\n", "   ", 
+     "\"\<$GPGGA,210341.002,4822.716417,N,09249.877638,W,1,12,0.71,382.823,M,-\
+32.462,M,,*5D\>\"", ",", "\n", "   ", 
+     "\"\<$GPGSA,A,3,31,11,14,25,01,20,23,30,22,16,12,32,1.20,0.71,0.96*0C\>\"\
+", ",", "\n", "   ", 
+     "\"\<$GPGSV,3,1,12,31,88,142,48,11,02,241,38,14,35,092,45,25,31,053,44*\
+75\>\"", ",", "\n", "   ", 
+     "\"\<$GPGSV,3,2,12,01,20,256,44,20,40,300,45,23,11,285,42,30,27,171,44*\
+74\>\"", ",", "\n", "   ", 
+     "\"\<$GPGSV,3,3,12,22,07,152,42,16,02,182,37,12,07,029,40,32,64,275,47*\
+7C\>\"", ",", "\n", "   ", 
+     "\"\<$POLYI,JN,18,EXT,HPOS,VPOS,INT,TSYNC,*19\>\""}], "}"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"nmeaChecksum", "[", "s_String", "]"}], " ", ":=", " ", 
+   RowBox[{"ToUpperCase", "[", 
+    RowBox[{"IntegerString", "[", 
+     RowBox[{
+      RowBox[{"BitXor", " ", "@@", " ", 
+       RowBox[{"ToCharacterCode", "[", 
+        RowBox[{"StringTake", "[", 
+         RowBox[{"s", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"2", ",", " ", 
+            RowBox[{
+             RowBox[{"First", "[", 
+              RowBox[{"First", "[", 
+               RowBox[{"StringPosition", "[", 
+                RowBox[{"s", ",", " ", "\"\<*\>\""}], "]"}], "]"}], "]"}], 
+             " ", "-", " ", "1"}]}], "}"}]}], "]"}], "]"}]}], ",", " ", "16", 
+      ",", " ", "2"}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"Prepend", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"StringTake", "[", 
+          RowBox[{"#", ",", " ", "6"}], "]"}], ",", " ", 
+         RowBox[{"StringTake", "[", 
+          RowBox[{"#", ",", " ", 
+           RowBox[{"-", "2"}]}], "]"}], ",", " ", 
+         RowBox[{"nmeaChecksum", "[", "#", "]"}], ",", " ", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"nmeaChecksum", "[", "#", "]"}], " ", "==", " ", 
+            RowBox[{"StringTake", "[", 
+             RowBox[{"#", ",", " ", 
+              RowBox[{"-", "2"}]}], "]"}]}], ",", " ", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<valid\>\"", ",", " ", 
+             RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", " ", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<INVALID\>\"", ",", " ", "Red"}], "]"}]}], "]"}]}], 
+        "}"}], " ", "&"}], " ", "/@", " ", "nmea"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<sentence\>\"", ",", " ", "\"\<stated\>\"", ",", " ", 
+       "\"\<computed\>\"", ",", " ", "\"\<\>\""}], "}"}]}], "]"}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[108]:=",ExpressionUUID->"42696373-1280-4dea-8d66-7b43610b71ed"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"sentence\"\>", "\<\"stated\"\>", "\<\"computed\"\>", "\<\"\"\>"},
+    {"\<\"$GPGLL\"\>", "\<\"41\"\>", "\<\"41\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPRMC\"\>", "\<\"40\"\>", "\<\"40\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPGGA\"\>", "\<\"5D\"\>", "\<\"5D\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPGSA\"\>", "\<\"0C\"\>", "\<\"0C\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPGSV\"\>", "\<\"75\"\>", "\<\"75\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPGSV\"\>", "\<\"74\"\>", "\<\"74\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$GPGSV\"\>", "\<\"7C\"\>", "\<\"7C\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"$POLYI\"\>", "\<\"19\"\>", "\<\"19\"\>", 
+     StyleBox["\<\"valid\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.9993417385190983`*^9},
+ CellLabel->
+  "Out[110]=",ExpressionUUID->"91007158-6801-46de-b335-6f415b73d589"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.2 Decoding $GPGGA (2014 note, Table 1)", "Subsection"],
+
+Cell[TextData[{
+ "Latitude and longitude are ddmm.mmmmmm and dddmm.mmmmmm, with the \
+hemisphere in the following field. The ",
+ StyleBox["$GPGGA", "InlineCode"],
+ " altitude is ",
+ StyleBox["above mean sea level",
+  FontWeight->"Bold"],
+ " (orthometric, H). The next numeric field is the geoid separation N",
+ Cell[BoxData[
+  SubscriptBox["", "g"]]],
+ " (height of the geoid above the WGS84 ellipsoid). The ellipsoidal height \
+needed by the WGS84 transform is:"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{"h", "\[LongEqual]", 
+    RowBox[{"H", "+", 
+     SubscriptBox["N", "g"]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"gga", " ", "=", " ", 
+   RowBox[{"StringSplit", "[", 
+    RowBox[{
+     RowBox[{"nmea", "[", 
+      RowBox[{"[", "3", "]"}], "]"}], ",", " ", "\"\<,\>\"", ",", " ", 
+     "All"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ddmmToDeg", "[", 
+    RowBox[{"str_String", ",", " ", "hemi_String"}], "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"v", " ", "=", " ", 
+        RowBox[{"ToExpression", "[", "str", "]"}]}], ",", " ", "d"}], "}"}], 
+     ",", "\n", "   ", 
+     RowBox[{
+      RowBox[{"d", " ", "=", " ", 
+       RowBox[{"Floor", "[", 
+        RowBox[{"v", "/", "100"}], "]"}]}], ";", " ", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"MemberQ", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"\"\<S\>\"", ",", " ", "\"\<W\>\""}], "}"}], ",", " ", 
+           "hemi"}], "]"}], ",", " ", 
+         RowBox[{"-", "1"}], ",", " ", "1"}], "]"}], " ", 
+       RowBox[{"(", 
+        RowBox[{"d", " ", "+", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"v", " ", "-", " ", 
+            RowBox[{"100", " ", "d"}]}], ")"}], "/", "60"}]}], ")"}]}]}]}], 
+    "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ggaFix", " ", "=", " ", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"\"\<UTC\>\"", " ", "->", " ", 
+      RowBox[{"gga", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<lat (deg)\>\"", " ", "->", " ", 
+      RowBox[{"ddmmToDeg", "[", 
+       RowBox[{
+        RowBox[{"gga", "[", 
+         RowBox[{"[", "3", "]"}], "]"}], ",", " ", 
+        RowBox[{"gga", "[", 
+         RowBox[{"[", "4", "]"}], "]"}]}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<lon (deg)\>\"", " ", "->", " ", 
+      RowBox[{"ddmmToDeg", "[", 
+       RowBox[{
+        RowBox[{"gga", "[", 
+         RowBox[{"[", "5", "]"}], "]"}], ",", " ", 
+        RowBox[{"gga", "[", 
+         RowBox[{"[", "6", "]"}], "]"}]}], "]"}]}], ",", "\n", "   ", 
+     RowBox[{"\"\<fix quality\>\"", " ", "->", " ", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"gga", "[", 
+        RowBox[{"[", "7", "]"}], "]"}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<satellites\>\"", " ", "->", " ", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"gga", "[", 
+        RowBox[{"[", "8", "]"}], "]"}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<HDOP\>\"", " ", "->", " ", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"gga", "[", 
+        RowBox[{"[", "9", "]"}], "]"}], "]"}]}], ",", "\n", "   ", 
+     RowBox[{"\"\<H, MSL altitude (m)\>\"", " ", "->", " ", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"gga", "[", 
+        RowBox[{"[", "10", "]"}], "]"}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<Ng, geoid separation (m)\>\"", " ", "->", " ", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"gga", "[", 
+        RowBox[{"[", "12", "]"}], "]"}], "]"}]}]}], "|>"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ggaFix", "[", "\"\<h = H + Ng, ellipsoidal (m)\>\"", "]"}], " ", 
+   "=", " ", 
+   RowBox[{
+    RowBox[{"ggaFix", "[", "\"\<H, MSL altitude (m)\>\"", "]"}], " ", "+", 
+    " ", 
+    RowBox[{"ggaFix", "[", "\"\<Ng, geoid separation (m)\>\"", "]"}]}]}], 
+  ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"List", " ", "@@@", " ", 
+    RowBox[{"Normal", "[", "ggaFix", "]"}]}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", "Left"}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[111]:=",ExpressionUUID->"fd2b1859-158e-424b-81f8-d4c172623250"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"UTC\"\>", "\<\"210341.002\"\>"},
+    {"\<\"lat (deg)\"\>", "48.37860694999999`"},
+    {"\<\"lon (deg)\"\>", 
+     RowBox[{"-", "92.83129396666666`"}]},
+    {"\<\"fix quality\"\>", "1"},
+    {"\<\"satellites\"\>", "12"},
+    {"\<\"HDOP\"\>", "0.71`"},
+    {"\<\"H, MSL altitude (m)\"\>", "382.823`"},
+    {"\<\"Ng, geoid separation (m)\"\>", 
+     RowBox[{"-", "32.462`"}]},
+    {"\<\"h = H + Ng, ellipsoidal (m)\"\>", "350.361`"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738542485*^9},
+ CellLabel->
+  "Out[115]=",ExpressionUUID->"8b661566-acc9-49ab-bf1d-f9d092c3624f"]
+}, Open  ]],
+
+Cell[TextData[{
+ "The ",
+ StyleBox["$GPRMC", "InlineCode"],
+ " date field ",
+ StyleBox["070313", "InlineCode"],
+ " dates the fix to 2013-03-07 21:03:41 UTC, the same day the 2013 notebook \
+was started. The ellipsoidal height H + N",
+ Cell[BoxData[
+  SubscriptBox["", "g"]]],
+ " = 350.361 m equals the altitude in the (truncated) ",
+ StyleBox["$POLYP", "InlineCode"],
+ " sentence, 350.361 m, which is the receiver's ellipsoid-referenced fix. The \
+same fix appears in Table 2 as Ant-3: 22.716416\[Prime] and 49.877639\[Prime] \
+(GGA 22.716417\[Prime], 49.877638\[Prime], i.e. 2 mm apart), with 350.346 m, \
+15 mm below the POLYP value. So the ",
+ StyleBox["Table 2 altitudes are WGS84 ellipsoidal heights",
+  FontWeight->"Bold"],
+ ", which is what the WGS84 transform needs."
+}], "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Site inputs and antenna \[RightArrow] detector offsets", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["4.1 Antenna coordinates (2014 note, Table 2)", "Subsection"],
+
+Cell["\<\
+Longitudes are entered with their physical sign (west negative), so the ECEF \
+vectors below are real positions. The 2013 notebook entered them as positive. \
+Distances are unchanged by that reflection, and \[Section]10 checks this. \
+Table 2 marks the minutes of the Ash River coordinates with \[DoublePrime]. \
+They are arc-minutes (degrees + decimal minutes).\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ashAnt", " ", "=", " ", 
+   RowBox[{"{", "\n", "   ", 
+    RowBox[{
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<name\>\"", " ", "->", " ", "\"\<Ash River Ant-1\>\""}], 
+       ",", " ", 
+       RowBox[{"\"\<lat\>\"", " ", "->", " ", 
+        RowBox[{"LC", "[", 
+         RowBox[{"48", ",", " ", "22.715780", ",", " ", "0"}], "]"}]}], ",", 
+       " ", 
+       RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+        RowBox[{"-", 
+         RowBox[{"LC", "[", 
+          RowBox[{"92", ",", " ", "49.876930", ",", " ", "0"}], "]"}]}]}], 
+       ",", " ", 
+       RowBox[{"\"\<h\>\"", " ", "->", " ", "348."}]}], "|>"}], ",", "\n", 
+     "   ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<name\>\"", " ", "->", " ", "\"\<Ash River Ant-2\>\""}], 
+       ",", " ", 
+       RowBox[{"\"\<lat\>\"", " ", "->", " ", 
+        RowBox[{"LC", "[", 
+         RowBox[{"48", ",", " ", "22.715780", ",", " ", "0"}], "]"}]}], ",", 
+       " ", 
+       RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+        RowBox[{"-", 
+         RowBox[{"LC", "[", 
+          RowBox[{"92", ",", " ", "49.876930", ",", " ", "0"}], "]"}]}]}], 
+       ",", " ", 
+       RowBox[{"\"\<h\>\"", " ", "->", " ", "348.638"}]}], "|>"}], ",", "\n", 
+     "   ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<name\>\"", " ", "->", " ", "\"\<Ash River Ant-3\>\""}], 
+       ",", " ", 
+       RowBox[{"\"\<lat\>\"", " ", "->", " ", 
+        RowBox[{"LC", "[", 
+         RowBox[{"48", ",", " ", "22.716416", ",", " ", "0"}], "]"}]}], ",", 
+       " ", 
+       RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+        RowBox[{"-", 
+         RowBox[{"LC", "[", 
+          RowBox[{"92", ",", " ", "49.877639", ",", " ", "0"}], "]"}]}]}], 
+       ",", " ", 
+       RowBox[{"\"\<h\>\"", " ", "->", " ", "350.346"}]}], "|>"}]}], "}"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"fnalAnt", " ", "=", " ", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{
+     "\"\<name\>\"", " ", "->", " ", "\"\<FNAL MINOS Surface Bldg mast\>\""}],
+      ",", " ", 
+     RowBox[{"\"\<lat\>\"", " ", "->", " ", 
+      RowBox[{"LC", "[", 
+       RowBox[{"41", ",", " ", "50", ",", " ", "23"}], "]"}]}], ",", " ", 
+     RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+      RowBox[{"-", 
+       RowBox[{"LC", "[", 
+        RowBox[{"88", ",", " ", "16", ",", " ", "13"}], "]"}]}]}], ",", " ", 
+     RowBox[{"\"\<h\>\"", " ", "->", " ", "228."}]}], "|>"}]}], ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"Prepend", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"#name", ",", " ", 
+         RowBox[{"#lat", "/", "Degree"}], ",", " ", 
+         RowBox[{"#lon", "/", "Degree"}], ",", " ", "#h"}], "}"}], " ", "&"}],
+       " ", "/@", " ", 
+      RowBox[{"Append", "[", 
+       RowBox[{"ashAnt", ",", " ", "fnalAnt"}], "]"}]}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<antenna\>\"", ",", " ", "\"\<latitude (deg)\>\"", ",", " ", 
+       "\"\<longitude (deg, E+)\>\"", ",", " ", "\"\<altitude (m)\>\""}], 
+      "}"}]}], "]"}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[116]:=",ExpressionUUID->"e91cac33-03e8-4866-9b70-434bdbd6b9cd"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"antenna\"\>", "\<\"latitude (deg)\"\>", "\<\"longitude (deg, \
+E+)\"\>", "\<\"altitude (m)\"\>"},
+    {"\<\"Ash River Ant-1\"\>", "48.378596333333334`", 
+     RowBox[{"-", "92.83128216666667`"}], "348.`"},
+    {"\<\"Ash River Ant-2\"\>", "48.378596333333334`", 
+     RowBox[{"-", "92.83128216666667`"}], "348.638`"},
+    {"\<\"Ash River Ant-3\"\>", "48.37860693333333`", 
+     RowBox[{"-", "92.83129398333334`"}], "350.346`"},
+    {"\<\"FNAL MINOS Surface Bldg mast\"\>", "41.83972222222222`", 
+     RowBox[{"-", "88.27027777777778`"}], "228.`"}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738557043*^9},
+ CellLabel->
+  "Out[118]=",ExpressionUUID->"7e7337e0-f8ad-42a7-9136-70329f1900f1"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+4.2 Antenna \[RightArrow] detector offsets (2014 note, \[Section]3.1 and \
+Tables 2\[Dash]3)\
+\>", "Subsection"],
+
+Cell[TextData[{
+ "The GPS fixes are antenna positions. Each is shifted to the ",
+ StyleBox["centre of the detector front face",
+  FontWeight->"Bold"],
+ " (the face nearest the beam), so the delay is front-face to front-face, \
+i.e. the earliest particle arrival."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["Far Detector:",
+  FontWeight->"Bold"],
+ " 12 m from the antenna down to the top edge of the detector, plus 7.8 m \
+down to mid-height (the FD is 15.6 m tall), for a total of 19.8 m."
+}], "Item"],
+
+Cell[TextData[{
+ StyleBox["Near Detector:",
+  FontWeight->"Bold"],
+ " the NuMI/MINOS cavern is taken to be 105 m deep, and the antenna mount on \
+the MINOS service building is 15 m above the surface, for a total of 120 m."
+}], "Item"],
+
+Cell[TextData[{
+ StyleBox["Horizontal offsets:",
+  FontWeight->"Bold"],
+ " all Ash River entries in Table 3 are TBD. The only numeric row is \
+\[OpenCurlyDoubleQuote]Fnal NDOS\[CloseCurlyDoubleQuote]: \[CapitalDelta]x, \
+\[CapitalDelta]y, \[CapitalDelta]z = 2, 3, \[Minus]3 m, with the note \
+\[OpenCurlyDoubleQuote]105 + 15\[CloseCurlyDoubleQuote]. Its frame and \
+meaning are ambiguous, so it is not applied in the baseline. \[Section]10 \
+evaluates it as a sensitivity."
+}], "Item"]
+}, Open  ]],
+
+Cell["\<\
+This replaces the 2013 notebook's single antenna \[RightArrow] ND offset of \
+300 m. The 2013 notebook applied no FD offset.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"dFD", " ", "=", " ", 
+    RowBox[{"12", " ", "+", " ", "7.8"}]}], ";"}], "           ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"m", ",", " ", 
+    RowBox[{
+     RowBox[{"Ash", " ", "River", " ", "antenna"}], " ", "->", " ", 
+     RowBox[{
+      RowBox[{"FD", " ", "front"}], "-", 
+      RowBox[{"face", " ", "centre", " ", 
+       RowBox[{"(", "vertical", ")"}]}]}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dND", " ", "=", " ", 
+    RowBox[{"105", " ", "+", " ", "15"}]}], ";"}], "           ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"m", ",", " ", 
+    RowBox[{
+     RowBox[{"MINOS", " ", "mast", " ", "antenna"}], " ", "->", " ", 
+     RowBox[{"ND", " ", "cavern", " ", 
+      RowBox[{"(", "vertical", ")"}]}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sel", " ", "=", " ", "2"}], ";"}], "                  ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Ash", " ", "River", " ", "antenna", " ", "used", " ", "for", " ", "the", 
+    " ", "baseline", " ", "result", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Ant", "-", "2"}], ",", " ", 
+      RowBox[{"as", " ", "in", " ", "the", " ", "2013", " ", "notebook"}]}], 
+     ")"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"upModel", " ", "=", " ", "\"\<geodetic\>\""}], ";"}], "     ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"\"\<geodetic\>\"", " ", 
+    RowBox[{"(", 
+     RowBox[{"ellipsoid", " ", "normal"}], ")"}], " ", "or", " ", 
+    "\"\<radial\>\"", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"sphere", " ", "tangent", " ", "plane"}], ",", " ", 
+      RowBox[{
+      "as", " ", "described", " ", "in", " ", "the", " ", "2014", " ", 
+       "note"}]}], ")"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dNDOS", " ", "=", " ", 
+    RowBox[{"{", 
+     RowBox[{"2", ",", " ", "3", ",", " ", 
+      RowBox[{"-", "3"}]}], "}"}]}], ";"}], "       ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"m", ",", " ", 
+    RowBox[{"Table", " ", 
+     RowBox[{"3", " ", "'"}], "Fnal", " ", 
+     RowBox[{"NDOS", "'"}], " ", 
+     RowBox[{"row", ":", " ", 
+      RowBox[{"sensitivity", " ", "only"}]}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{"{", 
+  RowBox[{"dFD", ",", " ", "dND"}], "}"}]}], "Input",
+ CellLabel->
+  "In[119]:=",ExpressionUUID->"56e17a29-7c67-43d9-85a3-52534f133a36"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"19.8`", ",", "120"}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738575521*^9},
+ CellLabel->
+  "Out[124]=",ExpressionUUID->"1ce5aa44-f7b7-4e91-a2ac-b3593972b363"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4.3 Applying the offsets: tangent-plane vector \[RightArrow] ECF", \
+"Subsection"],
+
+Cell[TextData[{
+ "The note takes the plane tangent to the Earth at the antenna, forms the \
+antenna \[RightArrow] detector vector in that plane's local frame (east, \
+north, up), and projects it onto the ECF axes. For a local offset d = (d",
+ Cell[BoxData[
+  SubscriptBox["", "E"]]],
+ ", d",
+ Cell[BoxData[
+  SubscriptBox["", "N"]]],
+ ", d",
+ Cell[BoxData[
+  SubscriptBox["", "U"]]],
+ "):"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    RowBox[{"\[Delta]", " ", 
+     OverscriptBox["p", "\[RightVector]"]}], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{
+      SubscriptBox["d", "E"], " ", 
+      OverscriptBox["E", "^"]}], "+", 
+     RowBox[{
+      SubscriptBox["d", "N"], " ", 
+      OverscriptBox["N", "^"]}], "+", 
+     RowBox[{
+      SubscriptBox["d", "U"], " ", 
+      OverscriptBox["U", "^"]}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    OverscriptBox["E", "^"], "\[LongEqual]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"sin", "(", "\[Lambda]", ")"}]}], ",", 
+      RowBox[{"cos", "(", "\[Lambda]", ")"}], ",", "0"}], "}"}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    OverscriptBox["N", "^"], "\[LongEqual]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"sin", "(", "\[Phi]", ")"}]}], " ", 
+       RowBox[{"cos", "(", "\[Lambda]", ")"}]}], ",", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"sin", "(", "\[Phi]", ")"}]}], " ", 
+       RowBox[{"sin", "(", "\[Lambda]", ")"}]}], ",", 
+      RowBox[{"cos", "(", "\[Phi]", ")"}]}], "}"}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    OverscriptBox["U", "^"], "\[LongEqual]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+       RowBox[{"cos", "(", "\[Lambda]", ")"}]}], ",", 
+      RowBox[{
+       RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+       RowBox[{"sin", "(", "\[Lambda]", ")"}]}], ",", 
+      RowBox[{"sin", "(", "\[Phi]", ")"}]}], "}"}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[TextData[{
+ "Here \[Phi] is the geodetic latitude and \[Lambda] the longitude (standard \
+ECEF axes). With the geodetic normal, a pure vertical offset is the same as \
+replacing h with h \[Minus] d",
+ Cell[BoxData[
+  SubscriptBox["", "U"]]],
+ ". The note specifies a plane tangent to a ",
+ StyleBox["sphere",
+  FontWeight->"Bold"],
+ ", i.e. U\:0302 = p/|p|. That differs from the geodetic normal by the \
+geodetic \[Minus] geocentric latitude difference (\[TildeTilde]0.19\[Degree] \
+at these sites). Both are implemented, and the difference is evaluated in \
+\[Section]10. The flight path is then (eqs. 6 and 18):"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{"\[CapitalDelta]L", "\[LongEqual]", 
+    TemplateBox[{RowBox[{
+        RowBox[{"(", 
+          RowBox[{
+            SubscriptBox[
+             OverscriptBox["p", "\[RightVector]"], "ND"], "-", 
+            SubscriptBox[
+             RowBox[{"\[Delta]", " ", 
+               OverscriptBox["p", "\[RightVector]"]}], "ND"]}], ")"}], "-", 
+        RowBox[{"(", 
+          RowBox[{
+            SubscriptBox[
+             OverscriptBox["p", "\[RightVector]"], "FD"], "-", 
+            SubscriptBox[
+             RowBox[{"\[Delta]", " ", 
+               OverscriptBox["p", "\[RightVector]"]}], "FD"]}], ")"}]}]},
+     "Norm"]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{"\[CapitalDelta]t", "\[LongEqual]", 
+    FractionBox["\[CapitalDelta]L", "c"]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["5. Model 1: spherical Earth (2014 note \[Section]3.1)", "Section"],
+
+Cell[TextData[{
+ "The Earth is a sphere of radius R",
+ Cell[BoxData[
+  SubscriptBox["", "E"]]],
+ " = 6 378 137 m. The note calls this the \[OpenCurlyDoubleQuote]mean \
+equatorial radius\[CloseCurlyDoubleQuote]; it is the WGS84 equatorial radius, \
+while the mean Earth radius is 6 371.0 km. The note uses \[Theta] for \
+longitude and \[Phi] for latitude in this section (eqs. 3\[Dash]5):"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "x"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       SubscriptBox["R", "E"], "+", "A"}], ")"}], " ", 
+     RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+     RowBox[{"cos", "(", "\[Phi]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "y"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       SubscriptBox["R", "E"], "+", "A"}], ")"}], " ", 
+     RowBox[{"cos", "(", "\[Theta]", ")"}], " ", 
+     RowBox[{"cos", "(", "\[Phi]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "z"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       SubscriptBox["R", "E"], "+", "A"}], ")"}], " ", 
+     RowBox[{"sin", "(", "\[Phi]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell["\<\
+This frame swaps the standard x and y axes (a reflection), which leaves \
+distances unchanged. On the sphere, the tangent-plane normal is radial, so a \
+vertical offset d is the same as using A \[Minus] d. \[Section]3.1 of the \
+note says the MSL altitude is used here, but Table 2 lists ellipsoidal \
+heights (see \[Section]3.2). The table values are used, as the note's numbers \
+do.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"RE", " ", "=", " ", "6378137"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"pSph", "[", 
+   RowBox[{"s_Association", ",", " ", 
+    RowBox[{"d_:", " ", "0"}]}], "]"}], " ", ":=", " ", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"RE", " ", "+", " ", 
+     RowBox[{"s", "[", "\"\<h\>\"", "]"}], " ", "-", " ", "d"}], ")"}], " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Sin", "[", 
+       RowBox[{"s", "[", "\"\<lon\>\"", "]"}], "]"}], " ", 
+      RowBox[{"Cos", "[", 
+       RowBox[{"s", "[", "\"\<lat\>\"", "]"}], "]"}]}], ",", " ", 
+     RowBox[{
+      RowBox[{"Cos", "[", 
+       RowBox[{"s", "[", "\"\<lon\>\"", "]"}], "]"}], " ", 
+      RowBox[{"Cos", "[", 
+       RowBox[{"s", "[", "\"\<lat\>\"", "]"}], "]"}]}], ",", " ", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"s", "[", "\"\<lat\>\"", "]"}], "]"}]}], "}"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"LSph", "[", 
+   RowBox[{"fnal_", ",", " ", "ash_", ",", " ", "dF_", ",", " ", "dA_"}], 
+   "]"}], " ", ":=", " ", 
+  RowBox[{"Norm", "[", 
+   RowBox[{
+    RowBox[{"pSph", "[", 
+     RowBox[{"fnal", ",", " ", "dF"}], "]"}], " ", "-", " ", 
+    RowBox[{"pSph", "[", 
+     RowBox[{"ash", ",", " ", "dA"}], "]"}]}], "]"}]}]}], "Input",
+ CellLabel->
+  "In[125]:=",ExpressionUUID->"cc9b35da-0f8f-4ce9-9bd5-5fd5fe71e0a7"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDelayed","write",
+   "\"Tag \\!\\(\\*RowBox[{\\\"Real\\\"}]\\) in \
+\\!\\(\\*RowBox[{\\\"810429.1726392908`\\\", \\\"[\\\", \
+RowBox[{\\\"fnal_\\\", \\\",\\\", \\\"ash_\\\", \\\",\\\", \\\"dF_\\\", \\\",\
+\\\", \\\"dA_\\\"}], \\\"]\\\"}]\\) is Protected.\"",2,127,1,
+   21998582534612368343,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.999341738599372*^9},
+ CellLabel->
+  "During evaluation of \
+In[125]:=",ExpressionUUID->"71824b4f-fe3a-4400-91d0-7b537c9930bf"],
+
+Cell[BoxData["$Failed"], "Output",
+ CellChangeTimes->{3.999341738621292*^9},
+ CellLabel->
+  "Out[127]=",ExpressionUUID->"743fea4f-1b68-4c97-8bb3-cec60b3c5def"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"2013", "-", 
+     RowBox[{"notebook", " ", 
+      RowBox[{"inputs", ":", " ", 
+       RowBox[{"FNAL", " ", "offset", " ", "300", " ", "m"}]}]}]}], ",", " ", 
+    
+    RowBox[{"no", " ", "FD", " ", "offset"}], ",", " ", 
+    RowBox[{"h", " ", "=", " ", 
+     RowBox[{"348", " ", "m", " ", 
+      RowBox[{"(", 
+       RowBox[{"Ant", "-", "1"}], ")"}]}]}]}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"LSph2013", " ", "=", " ", 
+     RowBox[{"LSph", "[", 
+      RowBox[{"fnalAnt", ",", " ", 
+       RowBox[{"ashAnt", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", " ", "300", ",", " ", "0"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{"{", 
+    RowBox[{"LSph2013", " ", 
+     RowBox[{"(*", " ", "m", " ", "*)"}], ",", " ", 
+     RowBox[{
+      RowBox[{"LSph2013", "/", "c"}], " ", 
+      RowBox[{"10", "^", "6"}]}]}], " ", 
+    RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], "}"}]}]}]], "Input",
+ CellLabel->
+  "In[128]:=",ExpressionUUID->"10dc1fa1-bc9c-4e50-bbf7-4f3e9595ac17"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"810429.1726392908`", "[", 
+    RowBox[{
+     RowBox[{"\[LeftAssociation]", 
+      RowBox[{
+       RowBox[{"\<\"name\"\>", 
+        "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+       RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+       RowBox[{"\<\"lon\"\>", "\[Rule]", 
+        RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+       RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}], 
+     ",", 
+     RowBox[{"\[LeftAssociation]", 
+      RowBox[{
+       RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+       RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+       RowBox[{"\<\"lon\"\>", "\[Rule]", 
+        RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+       RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], "\[RightAssociation]"}], 
+     ",", "300", ",", "0"}], "]"}], ",", 
+   RowBox[{
+    FractionBox["1", "149896229"], 
+    RowBox[{"500000", " ", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], "\[RightAssociation]"}],
+        ",", "300", ",", "0"}], "]"}]}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738637339*^9},
+ CellLabel->
+  "Out[129]=",ExpressionUUID->"03f91017-6a1b-4d3e-b6e8-560f19597546"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"2014", "-", 
+     RowBox[{"note", " ", 
+      RowBox[{"offsets", ":", " ", 
+       RowBox[{
+        RowBox[{"ND", " ", "105"}], "+", 
+        RowBox[{"15", " ", "m"}]}]}]}]}], ",", " ", 
+    RowBox[{
+     RowBox[{"FD", " ", "12"}], "+", 
+     RowBox[{"7.8", " ", "m"}]}], ",", " ", 
+    RowBox[{"each", " ", "antenna"}]}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"With", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"L", " ", "=", " ", 
+          RowBox[{"LSph", "[", 
+           RowBox[{
+           "fnalAnt", ",", " ", "a", ",", " ", "dND", ",", " ", "dFD"}], 
+           "]"}]}], "}"}], ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"a", "[", "\"\<name\>\"", "]"}], ",", " ", "L", ",", " ", 
+          RowBox[{
+           RowBox[{"L", "/", "c"}], " ", 
+           RowBox[{"10", "^", "6"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"L", "/", "c"}], " ", "fNOvA"}]}], "}"}]}], "]"}], ",", 
+      " ", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", " ", "ashAnt"}], "}"}]}], "]"}], " ", "//", " ", 
+    RowBox[{"Prepend", "[", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<antenna\>\"", ",", " ", "\"\<\[CapitalDelta]L (m)\>\"", ",", " ", 
+       "\"\<\[CapitalDelta]t (\[Micro]s)\>\"", ",", " ", "\"\<ticks\>\""}], 
+      "}"}], "]"}]}], " ", "//", " ", 
+   RowBox[{
+    RowBox[{"Grid", "[", 
+     RowBox[{"#", ",", " ", 
+      RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+      RowBox[{"Background", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{"None", ",", " ", 
+         RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}], " ", 
+    "&"}]}]}]], "Input",
+ CellLabel->
+  "In[130]:=",ExpressionUUID->"04cb0e37-86ce-4d7a-b314-30136af823fe"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"antenna\"\>", "\<\"\[CapitalDelta]L (m)\"\>", "\<\"\[CapitalDelta]t \
+(\[Micro]s)\"\>", "\<\"ticks\"\>"},
+    {"\<\"Ash River Ant-1\"\>", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], "\[RightAssociation]"}],
+        ",", "120", ",", "19.8`"}], "]"}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"500000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"32000000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}]},
+    {"\<\"Ash River Ant-2\"\>", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-2\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "348.638`"}]}], 
+        "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"500000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-2\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "348.638`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"32000000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-2\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "348.638`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}]},
+    {"\<\"Ash River Ant-3\"\>", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-3\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443659785148234`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202117288959688`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "350.346`"}]}], 
+        "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"500000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-3\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443659785148234`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202117288959688`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "350.346`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}], 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"32000000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-3\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443659785148234`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202117288959688`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "350.346`"}]}], 
+          "\[RightAssociation]"}], ",", "120", ",", "19.8`"}], "]"}]}]}]}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738652382*^9},
+ CellLabel->
+  "Out[130]=",ExpressionUUID->"09053754-4376-45ef-9098-69f9b9ff10ad"]
+}, Open  ]],
+
+Cell["\<\
+The note quotes \[CapitalDelta]L = 810 319 m (eq. 7) and \[CapitalDelta]t = \
+2703.3 \[Micro]s (eq. 9). These are inconsistent: 810 319 m/c = 2702.93 \
+\[Micro]s, and 2703.3 \[Micro]s corresponds to 810 429 m, the 2013 notebook \
+value reproduced above. No combination of Table 2 antennas, offsets or \
+MSL/ellipsoidal heights gives 810 319 m, so eq. 7 is most likely a \
+transcription error. The spherical model is in any case only a consistency \
+check. It overestimates the geocentric radii by ~10 km and is ~823 m too long.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["6. Model 2: WGS84 ellipsoid (2014 note \[Section]3.2)", "Section"],
+
+Cell[TextData[{
+ "Parameters, as used by both NOvA and MINOS (eqs. 10\[Dash]13). The note \
+prints the radicand of eqs. 12\[Dash]13 divided by R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ ", and uses R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ " as the denominator of \[Epsilon]",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ ". The first and second eccentricities are:"
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["\[Epsilon]", "a"], "\[LongEqual]", 
+    FractionBox[
+     SqrtBox[
+      RowBox[{
+       SubsuperscriptBox["R", "a", "2"], "-", 
+       SubsuperscriptBox["R", "b", "2"]}]], 
+     SubscriptBox["R", "a"]]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["\[Epsilon]", "b"], "\[LongEqual]", 
+    FractionBox[
+     SqrtBox[
+      RowBox[{
+       SubsuperscriptBox["R", "a", "2"], "-", 
+       SubsuperscriptBox["R", "b", "2"]}]], 
+     SubscriptBox["R", "b"]]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Ra", " ", "=", " ", "6378137"}], ";"}], "                ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"semi", "-", 
+     RowBox[{"major", " ", "axis"}]}], ",", " ", 
+    RowBox[{"m", " ", 
+     RowBox[{"(", 
+      RowBox[{"eq", ".", " ", "10"}], ")"}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Rb", " ", "=", " ", "6356752.31424518"}], ";"}], "       ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"semi", "-", 
+     RowBox[{"minor", " ", "axis"}]}], ",", " ", 
+    RowBox[{"m", " ", 
+     RowBox[{"(", 
+      RowBox[{"eq", ".", " ", "11"}], ")"}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"epsA", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"Sqrt", "[", 
+      RowBox[{
+       RowBox[{"Ra", "^", "2"}], " ", "-", " ", 
+       RowBox[{"Rb", "^", "2"}]}], "]"}], "/", "Ra"}]}], ";"}], "  ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"first", " ", "eccentricity", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"eq", ".", " ", "12"}], ",", " ", "corrected"}], ")"}]}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"epsB", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"Sqrt", "[", 
+      RowBox[{
+       RowBox[{"Ra", "^", "2"}], " ", "-", " ", 
+       RowBox[{"Rb", "^", "2"}]}], "]"}], "/", "Rb"}]}], ";"}], "  ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"second", " ", "eccentricity", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"eq", ".", " ", "13"}], ",", " ", 
+      RowBox[{"corrected", ";", " ", 
+       RowBox[{"not", " ", "needed", " ", "below"}]}]}], ")"}]}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"epsA", "^", "2"}], ",", " ", 
+   RowBox[{"epsB", "^", "2"}], ",", " ", 
+   RowBox[{
+    RowBox[{"Ra", " ", 
+     RowBox[{"(", 
+      RowBox[{"1", " ", "-", " ", 
+       RowBox[{"1", "/", "298.257223563"}]}], ")"}]}], " ", "-", " ", 
+    "Rb"}]}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"m", ":", " ", 
+    RowBox[{
+    "Rb", " ", "consistent", " ", "with", " ", "WGS84", " ", "flattening"}]}],
+    " ", "*)"}], "}"}]}], "Input",
+ CellLabel->
+  "In[131]:=",ExpressionUUID->"9db45559-ecbd-460c-9343-333dd0361c5d"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.006694379990141123`", ",", "0.00673949674227624`", ",", 
+   RowBox[{"-", "9.313225746154785`*^-10"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738676052*^9},
+ CellLabel->
+  "Out[135]=",ExpressionUUID->"479d7ec2-ea07-4017-af51-d67ba94421be"]
+}, Open  ]],
+
+Cell[TextData[{
+ "The transform from geodetic coordinates (\[Phi] = latitude, \[Lambda] = \
+longitude, h = ellipsoidal height) to ECF (eqs. 14\[Dash]17) is below. In \
+this section the note uses \[Theta] for latitude. Eq. 14's numerator \
+\[OpenCurlyDoubleQuote]a\[CloseCurlyDoubleQuote] is R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ ", and sin \[Theta]",
+ Cell[BoxData[
+  SuperscriptBox["", "2"]]],
+ " means sin",
+ Cell[BoxData[
+  SuperscriptBox["", "2"]]],
+ "\[Theta]."
+}], "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["R", "curv"], "(", "\[Phi]", ")"}], "\[LongEqual]", 
+    FractionBox[
+     SubscriptBox["R", "a"], 
+     SqrtBox[
+      RowBox[{"1", "-", 
+       RowBox[{
+        SubsuperscriptBox["\[Epsilon]", "a", "2"], " ", 
+        RowBox[{
+         SuperscriptBox["sin", "2"], "(", "\[Phi]", ")"}]}]}]]]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "x"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        SubscriptBox["R", "curv"], "(", "\[Phi]", ")"}], "+", "h"}], ")"}], 
+     " ", 
+     RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+     RowBox[{"cos", "(", "\[Lambda]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "y"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        SubscriptBox["R", "curv"], "(", "\[Phi]", ")"}], "+", "h"}], ")"}], 
+     " ", 
+     RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+     RowBox[{"sin", "(", "\[Lambda]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["p", "z"], "\[LongEqual]", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       FractionBox[
+        RowBox[{
+         SubsuperscriptBox["R", "b", "2"], " ", 
+         RowBox[{
+          SubscriptBox["R", "curv"], "(", "\[Phi]", ")"}]}], 
+        SubsuperscriptBox["R", "a", "2"]], "+", "h"}], ")"}], " ", 
+     RowBox[{"sin", "(", "\[Phi]", ")"}]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[TextData[{
+ "Eq. 17 in the note is printed as p",
+ Cell[BoxData[
+  SubscriptBox["", "z"]]],
+ " = R",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ Cell[BoxData[
+  SuperscriptBox["", "2"]]],
+ "/R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ Cell[BoxData[
+  SuperscriptBox["", "2"]]],
+ " (R",
+ Cell[BoxData[
+  SubscriptBox["", "curv"]]],
+ " + h) sin \[Theta], which scales h by (1 \[Minus] \[Epsilon]",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ Cell[BoxData[
+  SuperscriptBox["", "2"]]],
+ ") as well. The standard form above is what the 2013 notebook implemented \
+and what produces the note's 809 606 m. The printed form is kept as ",
+ StyleBox["pWGSasPrinted", "InlineCode"],
+ " so its effect can be computed (\[Section]10)."
+}], "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Rcurv", "[", "lat_", "]"}], " ", ":=", " ", 
+  RowBox[{"Ra", "/", 
+   RowBox[{"Sqrt", "[", 
+    RowBox[{"1", " ", "-", " ", 
+     RowBox[{
+      RowBox[{"epsA", "^", "2"}], " ", 
+      RowBox[{
+       RowBox[{"Sin", "[", "lat", "]"}], "^", "2"}]}]}], "]"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"pWGS", "[", "s_Association", "]"}], " ", ":=", " ", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"lat", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<lat\>\"", "]"}]}], ",", " ", 
+      RowBox[{"lon", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<lon\>\"", "]"}]}], ",", " ", 
+      RowBox[{"h", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<h\>\"", "]"}]}]}], "}"}], ",", "\n", "   ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Rcurv", "[", "lat", "]"}], " ", "+", " ", "h"}], ")"}], " ", 
+       RowBox[{"Cos", "[", "lat", "]"}], " ", 
+       RowBox[{"Cos", "[", "lon", "]"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Rcurv", "[", "lat", "]"}], " ", "+", " ", "h"}], ")"}], " ", 
+       RowBox[{"Cos", "[", "lat", "]"}], " ", 
+       RowBox[{"Sin", "[", "lon", "]"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Rb", "^", "2"}], "/", 
+           RowBox[{"Ra", "^", "2"}]}], " ", 
+          RowBox[{"Rcurv", "[", "lat", "]"}]}], " ", "+", " ", "h"}], ")"}], 
+       " ", 
+       RowBox[{"Sin", "[", "lat", "]"}]}]}], "}"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"pWGSasPrinted", "[", "s_Association", "]"}], " ", ":=", " ", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"lat", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<lat\>\"", "]"}]}], ",", " ", 
+      RowBox[{"lon", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<lon\>\"", "]"}]}], ",", " ", 
+      RowBox[{"h", " ", "=", " ", 
+       RowBox[{"s", "[", "\"\<h\>\"", "]"}]}]}], "}"}], ",", "\n", "   ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Rcurv", "[", "lat", "]"}], " ", "+", " ", "h"}], ")"}], " ", 
+       RowBox[{"Cos", "[", "lat", "]"}], " ", 
+       RowBox[{"Cos", "[", "lon", "]"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Rcurv", "[", "lat", "]"}], " ", "+", " ", "h"}], ")"}], " ", 
+       RowBox[{"Cos", "[", "lat", "]"}], " ", 
+       RowBox[{"Sin", "[", "lon", "]"}]}], ",", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Rb", "^", "2"}], "/", 
+        RowBox[{"Ra", "^", "2"}]}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Rcurv", "[", "lat", "]"}], " ", "+", " ", "h"}], ")"}], " ", 
+       RowBox[{"Sin", "[", "lat", "]"}]}]}], "}"}]}], "]"}]}]}], "Input",
+ CellLabel->
+  "In[136]:=",ExpressionUUID->"54beb52e-d5df-4ad8-9009-56d88827793a"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"enu", "[", "s_Association", "]"}], " ", ":=", " ", 
+   RowBox[{"With", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"lat", " ", "=", " ", 
+        RowBox[{"s", "[", "\"\<lat\>\"", "]"}]}], ",", " ", 
+       RowBox[{"lon", " ", "=", " ", 
+        RowBox[{"s", "[", "\"\<lon\>\"", "]"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", 
+          RowBox[{"Sin", "[", "lon", "]"}]}], ",", " ", 
+         RowBox[{"Cos", "[", "lon", "]"}], ",", " ", "0"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"Sin", "[", "lat", "]"}]}], " ", 
+          RowBox[{"Cos", "[", "lon", "]"}]}], ",", " ", 
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{"Sin", "[", "lat", "]"}]}], " ", 
+          RowBox[{"Sin", "[", "lon", "]"}]}], ",", " ", 
+         RowBox[{"Cos", "[", "lat", "]"}]}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Cos", "[", "lat", "]"}], " ", 
+          RowBox[{"Cos", "[", "lon", "]"}]}], ",", " ", 
+         RowBox[{
+          RowBox[{"Cos", "[", "lat", "]"}], " ", 
+          RowBox[{"Sin", "[", "lon", "]"}]}], ",", " ", 
+         RowBox[{"Sin", "[", "lat", "]"}]}], "}"}]}], "}"}]}], "]"}]}], "   ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"rows", ":", " ", "E"}], ",", " ", "N", ",", " ", "U"}], " ", 
+   "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"detector", " ", "position"}], " ", "=", " ", 
+     RowBox[{
+     "antenna", " ", "ECF", " ", "position", " ", "minus", " ", "the", " ", 
+      "offset", " ", "vector"}]}], ";", " ", 
+    RowBox[{"dLocal", " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"dE", ",", " ", "dN", ",", " ", "dU"}], "}"}], " ", "with", 
+       " ", "dU"}], " ", ">", " ", 
+      RowBox[{"0", " ", 
+       RowBox[{"meaning", " ", "'"}], "below", " ", "the", " ", 
+       RowBox[{"antenna", "'"}]}]}]}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"detWGS", "[", 
+   RowBox[{"s_Association", ",", " ", "dLocal_List", ",", " ", 
+    RowBox[{"up_:", " ", "\"\<geodetic\>\""}], ",", " ", 
+    RowBox[{"pos_:", " ", "pWGS"}]}], "]"}], " ", ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"p", " ", "=", " ", 
+       RowBox[{"pos", "[", "s", "]"}]}], ",", " ", 
+      RowBox[{"basis", " ", "=", " ", 
+       RowBox[{"enu", "[", "s", "]"}]}]}], "}"}], ",", "\n", "   ", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"up", " ", "===", " ", "\"\<radial\>\""}], ",", " ", 
+       RowBox[{
+        RowBox[{"basis", "[", 
+         RowBox[{"[", "3", "]"}], "]"}], " ", "=", " ", 
+        RowBox[{"p", "/", 
+         RowBox[{"Norm", "[", "p", "]"}]}]}]}], "]"}], ";", "\n", "   ", 
+     RowBox[{"p", " ", "-", " ", 
+      RowBox[{"dLocal", " ", ".", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", 
+          RowBox[{"basis", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], ",", " ", 
+         RowBox[{"-", 
+          RowBox[{"basis", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], ",", " ", 
+         RowBox[{"basis", "[", 
+          RowBox[{"[", "3", "]"}], "]"}]}], "}"}]}]}]}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"LWGS", "[", 
+   RowBox[{
+   "fnal_", ",", " ", "ash_", ",", " ", "dF_", ",", " ", "dA_", ",", " ", 
+    RowBox[{"up_:", " ", "\"\<geodetic\>\""}], ",", " ", 
+    RowBox[{"pos_:", " ", "pWGS"}]}], "]"}], " ", ":=", " ", 
+  RowBox[{"Norm", "[", 
+   RowBox[{
+    RowBox[{"detWGS", "[", 
+     RowBox[{"fnal", ",", " ", "dF", ",", " ", "up", ",", " ", "pos"}], "]"}],
+     " ", "-", " ", 
+    RowBox[{"detWGS", "[", 
+     RowBox[{"ash", ",", " ", "dA", ",", " ", "up", ",", " ", "pos"}], 
+     "]"}]}], "]"}]}]}], "Input",
+ CellLabel->
+  "In[139]:=",ExpressionUUID->"4064b2ed-2be9-4c81-bb73-ce1426a22150"],
+
+Cell[TextData[{
+ "In ",
+ StyleBox["detWGS", "InlineCode"],
+ ", a positive d",
+ Cell[BoxData[
+  SubscriptBox["", "U"]]],
+ " moves the point ",
+ StyleBox["down",
+  FontWeight->"Bold"],
+ " and positive d",
+ Cell[BoxData[
+  SubscriptBox["", "E"]]],
+ ", d",
+ Cell[BoxData[
+  SubscriptBox["", "N"]]],
+ " move it east and north. Check that the geodetic-normal vertical offset \
+equals the change in h exactly:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"detWGS", "[", 
+   RowBox[{"fnalAnt", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}]}], "]"}], " ", "-", 
+  " ", 
+  RowBox[{"pWGS", "[", 
+   RowBox[{"<|", 
+    RowBox[{"fnalAnt", ",", " ", 
+     RowBox[{"\"\<h\>\"", " ", "->", " ", 
+      RowBox[{
+       RowBox[{"fnalAnt", "[", "\"\<h\>\"", "]"}], " ", "-", " ", "dND"}]}]}],
+     "|>"}], "]"}]}]], "Input",
+ CellLabel->
+  "In[142]:=",ExpressionUUID->"faf64e0f-9ef4-49ec-b555-47b2e8bf4c9a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.`", ",", "9.313225746154785`*^-10", ",", "0.`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.999341738717237*^9},
+ CellLabel->
+  "Out[142]=",ExpressionUUID->"cb708671-3cca-4c30-a673-7e701b59815f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["7. Flight path and time of flight", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+7.1 Reproducing the numbers quoted in the 2014 note (eqs. 19, 21)\
+\>", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"2013", "-", 
+     RowBox[{"notebook", " ", 
+      RowBox[{"inputs", ":", " ", 
+       RowBox[{
+        RowBox[{"FNAL", " ", "antenna"}], " ", "-", " ", 
+        RowBox[{"300", " ", "m"}]}]}]}]}], ",", " ", 
+    RowBox[{"no", " ", "FD", " ", "offset"}], ",", " ", 
+    RowBox[{"Ant", "-", "2"}]}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"L2013", " ", "=", " ", 
+     RowBox[{"LWGS", "[", 
+      RowBox[{"fnalAnt", ",", " ", 
+       RowBox[{"ashAnt", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "300"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}]}], "]"}]}], ";"}], 
+   "\n", 
+   RowBox[{"{", 
+    RowBox[{"L2013", " ", 
+     RowBox[{"(*", " ", "m", " ", "*)"}], ",", " ", 
+     RowBox[{
+      RowBox[{"L2013", "/", "c"}], " ", 
+      RowBox[{"10", "^", "6"}]}], " ", 
+     RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], ",", " ", 
+     RowBox[{
+      RowBox[{"L2013", "/", "c"}], " ", "fNOvA"}]}], " ", 
+    RowBox[{"(*", " ", "ticks", " ", "*)"}], "}"}]}]}]], "Input",
+ CellLabel->
+  "In[143]:=",ExpressionUUID->"8df0061d-d5fe-4078-a21d-d96b85fad515"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "809606.1622206252`", ",", "2700.5554696797117`", ",", 
+   "172835.55005950155`"}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738733555*^9},
+ CellLabel->
+  "Out[144]=",ExpressionUUID->"64359ff2-3099-4bed-9300-8391bb53bd02"]
+}, Open  ]],
+
+Cell[TextData[{
+ "This reproduces the note's 809 606 m and 2700.56 \[Micro]s. However, those \
+numbers come from the 2013 inputs (300 m at FNAL, no FD offset), ",
+ StyleBox["not",
+  FontWeight->"Bold"],
+ " from the offsets that \[Section]3.1 of the note specifies (120 m and 19.8 \
+m)."
+}], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["7.2 Result with the 2014-note offsets", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"With", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"L", " ", "=", " ", 
+         RowBox[{"LWGS", "[", 
+          RowBox[{"fnalAnt", ",", " ", "a", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}], ",", " ", 
+           "upModel"}], "]"}]}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"a", "[", "\"\<name\>\"", "]"}], ",", " ", "L", ",", " ", 
+         RowBox[{
+          RowBox[{"L", "/", "c"}], " ", 
+          RowBox[{"10", "^", "6"}]}], ",", " ", 
+         RowBox[{
+          RowBox[{"L", "/", "c"}], " ", "fNOvA"}]}], "}"}]}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", " ", "ashAnt"}], "}"}]}], "]"}], " ", "//", " ", 
+   RowBox[{"Prepend", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<antenna\>\"", ",", " ", "\"\<\[CapitalDelta]L (m)\>\"", ",", " ", 
+      "\"\<\[CapitalDelta]t (\[Micro]s)\>\"", ",", " ", "\"\<ticks\>\""}], 
+     "}"}], "]"}]}], " ", "//", " ", 
+  RowBox[{
+   RowBox[{"Grid", "[", 
+    RowBox[{"#", ",", " ", 
+     RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+     RowBox[{"Background", " ", "->", " ", 
+      RowBox[{"{", 
+       RowBox[{"None", ",", " ", 
+        RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}], " ", 
+   "&"}]}]], "Input",
+ CellLabel->
+  "In[145]:=",ExpressionUUID->"b61febbc-b3ab-4756-bed3-d6230a1930a5"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"antenna\"\>", "\<\"\[CapitalDelta]L (m)\"\>", "\<\"\[CapitalDelta]t \
+(\[Micro]s)\"\>", "\<\"ticks\"\>"},
+    {"\<\"Ash River Ant-1\"\>", "809616.2226808674`", "2700.589027762891`", 
+     "172837.69777682502`"},
+    {"\<\"Ash River Ant-2\"\>", "809616.2633785658`", "2700.5891635158005`", 
+     "172837.70646501123`"},
+    {"\<\"Ash River Ant-3\"\>", "809617.8208590025`", "2700.5943587113275`", 
+     "172838.03895752496`"}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738743452*^9},
+ CellLabel->
+  "Out[145]=",ExpressionUUID->"6d093cda-b5d6-429c-938d-945b72902308"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"L", " ", "=", " ", 
+    RowBox[{"LWGS", "[", 
+     RowBox[{"fnalAnt", ",", " ", 
+      RowBox[{"ashAnt", "[", 
+       RowBox[{"[", "sel", "]"}], "]"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}], ",", " ", 
+      "upModel"}], "]"}]}], ";"}], "      ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"baseline", ":", " ", "WGS84"}], ",", " ", 
+    RowBox[{"Ant", "-", "2"}], ",", " ", 
+    RowBox[{"note", " ", "offsets"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"t", " ", "=", " ", 
+   RowBox[{"L", "/", "c"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"nToF", " ", "=", " ", 
+   RowBox[{"t", " ", "fNOvA"}]}], ";"}], "\n", 
+ RowBox[{"{", 
+  RowBox[{"L", " ", 
+   RowBox[{"(*", " ", "m", " ", "*)"}], ",", " ", 
+   RowBox[{"t", " ", 
+    RowBox[{"10", "^", "6"}]}], " ", 
+   RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], ",", " ", "nToF"}], " ", 
+  RowBox[{"(*", " ", "ticks", " ", "*)"}], "}"}]}], "Input",
+ CellLabel->
+  "In[146]:=",ExpressionUUID->"258330fa-c981-4cdc-8b4e-3032be245b69"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "809616.2633785658`", ",", "2700.5891635158005`", ",", 
+   "172837.70646501123`"}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738761486*^9},
+ CellLabel->
+  "Out[149]=",ExpressionUUID->"d4203ed8-75a0-4f5f-ad1b-5db758a4bc8b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"integer", " ", 
+    RowBox[{"conventions", ":", " ", 
+     RowBox[{"{", 
+      RowBox[{"ticks", ",", " ", 
+       RowBox[{"offset", " ", "from", " ", "exact", " ", "in", " ", "ns"}]}], 
+      "}"}]}]}], " ", "*)"}], "\n", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Round", "[", "nToF", "]"}], ",", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Round", "[", "nToF", "]"}], " ", "-", " ", "nToF"}], ")"}], 
+       " ", "tick", " ", 
+       RowBox[{"10", "^", "9"}]}]}], "}"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Floor", "[", "nToF", "]"}], ",", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Floor", "[", "nToF", "]"}], " ", "-", " ", "nToF"}], ")"}], 
+       " ", "tick", " ", 
+       RowBox[{"10", "^", "9"}]}]}], "}"}]}], "}"}]}]], "Input",
+ CellLabel->
+  "In[150]:=",ExpressionUUID->"d9180721-c0ad-4a4b-93f9-8871284ea83c"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"172838", ",", "4.586484199535334`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"172837", ",", 
+     RowBox[{"-", "11.038515800464666`"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.9993417387716*^9},
+ CellLabel->
+  "Out[150]=",ExpressionUUID->"aa91e85e-8449-4fb4-aeb3-d68a32c22b48"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"n500", " ", "=", " ", 
+  RowBox[{"t", "/", "gtUnit", "    ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "legacy", " ", "500", " ", "ns", " ", "Global", " ", "Trigger", " ", 
+     "units"}], " ", "*)"}]}]}]], "Input",
+ CellLabel->
+  "In[151]:=",ExpressionUUID->"7ffedeb1-5c18-4a76-94a4-9773af32ec70"],
+
+Cell[BoxData["5401.178327031601`"], "Output",
+ CellChangeTimes->{3.999341738787937*^9},
+ CellLabel->
+  "Out[151]=",ExpressionUUID->"bded7161-973d-4a6a-a62c-f41c1bab8596"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["7.3 Change relative to the 2013 inputs", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"dLnd", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"LWGS", "[", 
+      RowBox[{"fnalAnt", ",", " ", 
+       RowBox[{"ashAnt", "[", 
+        RowBox[{"[", "sel", "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}]}], "]"}], " ", "-",
+      " ", "L2013"}]}], ";"}], "     ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"ND", " ", "offset", " ", "300"}], " ", "->", " ", 
+    RowBox[{"120", " ", "m", " ", "only"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dLfd", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"LWGS", "[", 
+      RowBox[{"fnalAnt", ",", " ", 
+       RowBox[{"ashAnt", "[", 
+        RowBox[{"[", "sel", "]"}], "]"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "300"}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}], " ", 
+     "-", " ", "L2013"}]}], ";"}], "    ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"FD", " ", "offset", " ", "0"}], " ", "->", " ", 
+    RowBox[{"19.8", " ", "m", " ", "only"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<change\>\"", ",", " ", "\"\<\[CapitalDelta]L (m)\>\"", ",", " ", 
+       "\"\<\[CapitalDelta]t (ns)\>\"", ",", " ", "\"\<ticks\>\""}], "}"}], 
+     ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<ND offset 300 m \[RightArrow] 105+15 m\>\"", ",", " ", "dLnd", ",",
+        " ", 
+       RowBox[{
+        RowBox[{"dLnd", "/", "c"}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{"dLnd", "/", "c"}], " ", "fNOvA"}]}], "}"}], ",", "\n", "  ", 
+     
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<FD offset 0 \[RightArrow] 12+7.8 m\>\"", ",", " ", "dLfd", ",", 
+       " ", 
+       RowBox[{
+        RowBox[{"dLfd", "/", "c"}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{"dLfd", "/", "c"}], " ", "fNOvA"}]}], "}"}], ",", "\n", "  ", 
+     
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Style", "[", 
+        RowBox[{
+        "\"\<total (2014 offsets \[Minus] 2013 inputs)\>\"", ",", " ", 
+         "Bold"}], "]"}], ",", " ", 
+       RowBox[{"L", " ", "-", " ", "L2013"}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"L", " ", "-", " ", "L2013"}], ")"}], "/", "c"}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"L", " ", "-", " ", "L2013"}], ")"}], "/", "c"}], " ", 
+        "fNOvA"}]}], "}"}]}], "}"}], ",", "\n", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[152]:=",ExpressionUUID->"7df48200-d7f7-4219-afab-1dffff22c787"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"change\"\>", "\<\"\[CapitalDelta]L (m)\"\>", "\<\"\[CapitalDelta]t \
+(ns)\"\>", "\<\"ticks\"\>"},
+    {"\<\"ND offset 300 m \[RightArrow] 105+15 m\"\>", "11.36443885997869`", 
+     "37.9076876576351`", "2.4260920100886465`"},
+    {"\<\"FD offset 0 \[RightArrow] 12+7.8 m\"\>", 
+     RowBox[{"-", "1.2676652639638633`"}], 
+     RowBox[{"-", "4.228476167882326`"}], 
+     RowBox[{"-", "0.2706224747444689`"}]},
+    {
+     StyleBox["\<\"total (2014 offsets \[Minus] 2013 inputs)\"\>",
+      StripOnInput->False,
+      FontWeight->Bold], "10.101157940574922`", "33.69383608901503`", 
+     "2.156405509696962`"}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738802252*^9},
+ CellLabel->
+  "Out[154]=",ExpressionUUID->"83a41aa7-b7b1-46d1-8e47-5bbecdbcbf21"]
+}, Open  ]],
+
+Cell["\<\
+Raising the FNAL end lengthens the chord and lowering the FD end shortens it, \
+because the chord dips below the local horizontal at both ends (\[Section]9). \
+The net change is about +10.1 m, +34 ns, +2.2 ticks.\
+\>", "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["8. Trigger delay and window in NOvA ticks", "Section"],
+
+Cell[TextData[{
+ "t",
+ Cell[BoxData[
+  SubscriptBox["", 
+   RowBox[{"0", "delay"}]]]],
+ " is the delay from the beam crossing the ND cavern to the beam crossing the \
+FD front face. In ticks, the trigger window of eq. 1 relative to t",
+ Cell[BoxData[
+  SubscriptBox["", "0"]]],
+ " and one microslice are:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"t0delay", " ", "=", " ", "t"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"windowTicks", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"t0delay", " ", "-", " ", "20*^-6"}], ",", " ", 
+      RowBox[{"t0delay", " ", "+", " ", "30*^-6"}]}], "}"}], " ", "fNOvA"}]}],
+   ";"}], "\n", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"t0delay", " ", 
+    RowBox[{"10", "^", "6"}]}], " ", 
+   RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], ",", " ", 
+   RowBox[{"Round", "[", 
+    RowBox[{"t0delay", " ", "fNOvA"}], "]"}], " ", 
+   RowBox[{"(*", " ", "ticks", " ", "*)"}], ",", " ", "windowTicks", " ", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{" ", 
+      RowBox[{"[", 
+       RowBox[{"lo", ",", " ", "hi"}]}], ")"}], " ", "ticks", " ", "after", 
+     " ", "t0"}], " ", "*)"}], ",", " ", 
+   RowBox[{"50*^-6", " ", "fNOvA"}]}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"ticks", " ", "per", " ", "microslice"}], " ", "*)"}], 
+  "}"}]}], "Input",
+ CellLabel->
+  "In[155]:=",ExpressionUUID->"2b0515f8-5a51-4ad4-a004-1e8c0c2f76c9"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"2700.5891635158005`", ",", "172838", ",", 
+   RowBox[{"{", 
+    RowBox[{"171557.70646501123`", ",", "174757.70646501123`"}], "}"}], ",", 
+   "3200"}], "}"}]], "Output",
+ CellChangeTimes->{3.999341738822131*^9},
+ CellLabel->
+  "Out[157]=",ExpressionUUID->"d2e7f9f9-f2ce-4a0f-9ead-4898df65a1b0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+9. Main Injector timing shift and combined beam offset (2013 notebook, Part 4)\
+\>", "Section"],
+
+Cell["\<\
+Not in the 2014 note. After the 2012 shutdown, beam relative to the Main \
+Injector Beam Sync event MIBS $74 moved by 141 MI revolutions of h = 588 RF \
+buckets at 53.1034 MHz (flat-top RF). This is a timing-reference correction \
+and is added to the flight time when the trigger is referenced to MIBS $74.\
+\>", "Text"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["T", "rev"], "\[LongEqual]", 
+    FractionBox[
+     SubscriptBox["h", "MI"], 
+     SubscriptBox["f", "RF"]]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["\[CapitalDelta]t", "MI"], "\[LongEqual]", 
+    RowBox[{
+     SubscriptBox["N", "turns"], " ", 
+     SubscriptBox["T", "rev"]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"MachineTurns", " ", "=", " ", "141"}], ";", " ", 
+  RowBox[{"MIBuckets", " ", "=", " ", "588"}], ";", " ", 
+  RowBox[{"MIFreq", " ", "=", " ", "53.1034*^6"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Trev", " ", "=", " ", 
+   RowBox[{"MIBuckets", "/", "MIFreq"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"TimingShift", " ", "=", " ", 
+   RowBox[{"MachineTurns", " ", "Trev"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"nMI", " ", "=", " ", 
+   RowBox[{"TimingShift", " ", "fNOvA"}]}], ";"}], "\n", 
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"Trev", " ", 
+    RowBox[{"10", "^", "6"}]}], " ", 
+   RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], ",", " ", 
+   RowBox[{"TimingShift", " ", 
+    RowBox[{"10", "^", "6"}]}], " ", 
+   RowBox[{"(*", " ", "\[Micro]s", " ", "*)"}], ",", " ", 
+   RowBox[{"Trev", " ", "fNOvA"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"ticks", "/", "turn"}], " ", "*)"}], ",", " ", "nMI", " ", 
+   RowBox[{"(*", " ", "ticks", " ", "*)"}], ",", " ", 
+   RowBox[{"TimingShift", " ", 
+    RowBox[{"1000", "/", "MIFreq"}], " ", "fNOvA"}]}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"ticks", " ", "per", " ", "kHz", " ", "RF", " ", "error"}], " ", 
+   "*)"}], "}"}]}], "Input",
+ CellLabel->
+  "In[158]:=",ExpressionUUID->"b827ea3e-fdad-48a9-bbf6-9c0f76b08b01"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "11.072737338852125`", ",", "1561.2559647781495`", ",", "708.655189686536`",
+    ",", "99920.38174580157`", ",", "1.8816192888930194`"}], "}"}]], "Output",\
+
+ CellChangeTimes->{3.999341738831663*^9},
+ CellLabel->
+  "Out[162]=",ExpressionUUID->"3347df0b-2658-4f18-87b3-bb25cb6bf748"]
+}, Open  ]],
+
+Cell[BoxData[
+ FormBox[
+  TagBox[
+   RowBox[{
+    SubscriptBox["n", "total"], "\[LongEqual]", 
+    RowBox[{
+     SubscriptBox["n", "ToF"], "+", 
+     SubscriptBox["n", "MI"]}]}],
+   HoldForm], TraditionalForm]], "DisplayFormula"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nTotal", " ", "=", " ", 
+   RowBox[{"nToF", " ", "+", " ", "nMI"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"nTotal2013", " ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"L2013", "/", "c"}], " ", "fNOvA"}], " ", "+", " ", "nMI"}]}], 
+  ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<\>\"", ",", " ", "\"\<2013 inputs\>\"", ",", " ", 
+       "\"\<2014-note offsets\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<ToF (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"L2013", "/", "c"}], " ", 
+        RowBox[{"10", "^", "6"}]}], ",", " ", 
+       RowBox[{"t", " ", 
+        RowBox[{"10", "^", "6"}]}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<ToF (ticks)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"L2013", "/", "c"}], " ", "fNOvA"}], ",", " ", "nToF"}], 
+      "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<MI shift (ticks)\>\"", ",", " ", "nMI", ",", " ", "nMI"}], 
+      "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<total (ticks)\>\"", ",", " ", "Bold"}], "]"}], ",", " ", 
+       "nTotal2013", ",", " ", 
+       RowBox[{"Style", "[", 
+        RowBox[{"nTotal", ",", " ", "Bold"}], "]"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<total, integer\>\"", ",", " ", 
+       RowBox[{"Round", "[", "nTotal2013", "]"}], ",", " ", 
+       RowBox[{"Round", "[", "nTotal", "]"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<total (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"nTotal2013", " ", "tick"}], ")"}], " ", 
+        RowBox[{"10", "^", "6"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"nTotal", " ", "tick"}], ")"}], " ", 
+        RowBox[{"10", "^", "6"}]}]}], "}"}]}], "}"}], ",", "\n", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[163]:=",ExpressionUUID->"604b983a-7a9e-457a-96f2-83bfc1f849a4"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"\"\>", "\<\"2013 inputs\"\>", "\<\"2014-note offsets\"\>"},
+    {"\<\"ToF (\[Micro]s)\"\>", "2700.5554696797117`", 
+     "2700.5891635158005`"},
+    {"\<\"ToF (ticks)\"\>", "172835.55005950155`", "172837.70646501123`"},
+    {"\<\"MI shift (ticks)\"\>", "99920.38174580157`", "99920.38174580157`"},
+    {
+     StyleBox["\<\"total (ticks)\"\>",
+      StripOnInput->False,
+      FontWeight->Bold], "272755.9318053031`", 
+     StyleBox["272758.08821081277`",
+      StripOnInput->False,
+      FontWeight->Bold]},
+    {"\<\"total, integer\"\>", "272756", "272758"},
+    {"\<\"total (\[Micro]s)\"\>", "4261.81143445786`", "4261.8451282939495`"}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738850054*^9},
+ CellLabel->
+  "Out[165]=",ExpressionUUID->"7f7234c2-91ad-4226-bfee-d3bf857f48c7"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["10. Geometry, sensitivities and neglected effects", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["10.1 Chord geometry", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"pND", " ", "=", " ", 
+   RowBox[{"detWGS", "[", 
+    RowBox[{"fnalAnt", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}]}], "]"}]}], ";", 
+  " ", 
+  RowBox[{"pFD", " ", "=", " ", 
+   RowBox[{"detWGS", "[", 
+    RowBox[{
+     RowBox[{"ashAnt", "[", 
+      RowBox[{"[", "sel", "]"}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"u", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"pFD", " ", "-", " ", "pND"}], ")"}], "/", "L"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"gamma", " ", "=", " ", 
+   RowBox[{"VectorAngle", "[", 
+    RowBox[{"pND", ",", " ", "pFD"}], "]"}]}], ";", " ", 
+  RowBox[{"Rm", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Norm", "[", "pND", "]"}], " ", "+", " ", 
+      RowBox[{"Norm", "[", "pFD", "]"}]}], ")"}], "/", "2"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dip", " ", "=", " ", 
+   RowBox[{"ArcSin", "[", 
+    RowBox[{"-", 
+     RowBox[{"u", " ", ".", " ", 
+      RowBox[{
+       RowBox[{"enu", "[", "fnalAnt", "]"}], "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}]}], "]"}]}], ";", " ", 
+  RowBox[{"rise", " ", "=", " ", 
+   RowBox[{"ArcSin", "[", 
+    RowBox[{"u", " ", ".", " ", 
+     RowBox[{
+      RowBox[{"enu", "[", 
+       RowBox[{"ashAnt", "[", 
+        RowBox[{"[", "sel", "]"}], "]"}], "]"}], "[", 
+      RowBox[{"[", "3", "]"}], "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"azim", " ", "=", " ", 
+   RowBox[{"Mod", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ArcTan", "[", 
+       RowBox[{
+        RowBox[{"u", " ", ".", " ", 
+         RowBox[{
+          RowBox[{"enu", "[", "fnalAnt", "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], ",", " ", 
+        RowBox[{"u", " ", ".", " ", 
+         RowBox[{
+          RowBox[{"enu", "[", "fnalAnt", "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}], "/", "Degree"}], ",", 
+     " ", "360"}], "]"}]}], ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\"\<central angle (deg)\>\"", ",", " ", 
+       RowBox[{"gamma", "/", "Degree"}]}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<surface arc at mean radius (m)\>\"", ",", " ", 
+       RowBox[{"Rm", " ", "gamma"}]}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<arc - chord (m)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Rm", " ", "gamma"}], " ", "-", " ", "L"}]}], "}"}], ",", 
+     "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<sagitta (m)\>\"", ",", " ", 
+       RowBox[{"Rm", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", " ", "-", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{"gamma", "/", "2"}], "]"}]}], ")"}]}]}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<dip below horizontal at ND (deg)\>\"", ",", " ", 
+       RowBox[{"dip", "/", "Degree"}]}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<rise above horizontal at FD (deg)\>\"", ",", " ", 
+       RowBox[{"rise", "/", "Degree"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<azimuth at FNAL (deg from N)\>\"", ",", " ", "azim"}], 
+      "}"}]}], "}"}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", "Left"}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[166]:=",ExpressionUUID->"4675dcf2-b928-4488-bbba-fab1aeb27be1"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"central angle (deg)\"\>", "7.289753844006705`"},
+    {"\<\"surface arc at mean radius (m)\"\>", "810159.5733112288`"},
+    {"\<\"arc - chord (m)\"\>", "543.309932662989`"},
+    {"\<\"sagitta (m)\"\>", "12880.251583184276`"},
+    {"\<\"dip below horizontal at ND (deg)\"\>", "3.627575696948617`"},
+    {"\<\"rise above horizontal at FD (deg)\"\>", "3.6573746480690073`"},
+    {"\<\"azimuth at FNAL (deg from N)\"\>", "335.30817315246435`"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.9993417388615007`*^9},
+ CellLabel->
+  "Out[171]=",ExpressionUUID->"7d2909d2-ef17-4687-92d5-6519999a0ebc"]
+}, Open  ]],
+
+Cell["\<\
+Because the chord dips 3.6\[Degree] below the horizontal at both ends, \
+\[PartialD]L/\[PartialD]h \[TildeTilde] +0.063 at each end. Raising either \
+end lengthens the flight path.\
+\>", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"toNs", "[", "dL_", "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"dL", "/", "c"}], " ", 
+    RowBox[{"10", "^", "9"}]}]}], ";", " ", 
+  RowBox[{
+   RowBox[{"toTicks", "[", "dL_", "]"}], " ", ":=", " ", 
+   RowBox[{
+    RowBox[{"dL", "/", "c"}], " ", "fNOvA"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Lvar", "[", 
+   RowBox[{"f_", ",", " ", "a_"}], "]"}], " ", ":=", " ", 
+  RowBox[{"LWGS", "[", 
+   RowBox[{"f", ",", " ", "a", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}], ",", " ", 
+    "upModel"}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sensRow", "[", 
+    RowBox[{"label_", ",", " ", "dL_"}], "]"}], " ", ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{"label", ",", " ", "dL", ",", " ", 
+     RowBox[{"toNs", "[", "dL", "]"}], ",", " ", 
+     RowBox[{"toTicks", "[", "dL", "]"}]}], "}"}]}], ";"}]}], "Input",
+ CellLabel->
+  "In[172]:=",ExpressionUUID->"117e34a0-8672-43a4-8d41-a9f396970dad"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["10.2 Sensitivity table", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ash", " ", "=", " ", 
+   RowBox[{"ashAnt", "[", 
+    RowBox[{"[", "sel", "]"}], "]"}]}], ";", " ", 
+  RowBox[{"arcsec", " ", "=", " ", 
+   RowBox[{"Pi", "/", 
+    RowBox[{"(", 
+     RowBox[{"180", "*", "3600"}], ")"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sens", " ", "=", " ", 
+   RowBox[{"{", "\n", "   ", 
+    RowBox[{
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FNAL height +1 m\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{
+          RowBox[{"<|", 
+           RowBox[{"fnalAnt", ",", " ", 
+            RowBox[{"\"\<h\>\"", " ", "->", " ", 
+             RowBox[{
+              RowBox[{"fnalAnt", "[", "\"\<h\>\"", "]"}], " ", "+", " ", 
+              "1"}]}]}], "|>"}], ",", " ", "ash"}], "]"}], " ", "-", " ", 
+        "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FD height +1 m\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{"fnalAnt", ",", " ", 
+          RowBox[{"<|", 
+           RowBox[{"ash", ",", " ", 
+            RowBox[{"\"\<h\>\"", " ", "->", " ", 
+             RowBox[{
+              RowBox[{"ash", "[", "\"\<h\>\"", "]"}], " ", "+", " ", 
+              "1"}]}]}], "|>"}]}], "]"}], " ", "-", " ", "L"}]}], "]"}], ",", 
+     "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FNAL latitude +1\[DoublePrime]\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{
+          RowBox[{"<|", 
+           RowBox[{"fnalAnt", ",", " ", 
+            RowBox[{"\"\<lat\>\"", " ", "->", " ", 
+             RowBox[{
+              RowBox[{"fnalAnt", "[", "\"\<lat\>\"", "]"}], " ", "+", " ", 
+              "arcsec"}]}]}], "|>"}], ",", " ", "ash"}], "]"}], " ", "-", " ",
+         "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FNAL longitude +1\[DoublePrime]\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{
+          RowBox[{"<|", 
+           RowBox[{"fnalAnt", ",", " ", 
+            RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+             RowBox[{
+              RowBox[{"fnalAnt", "[", "\"\<lon\>\"", "]"}], " ", "+", " ", 
+              "arcsec"}]}]}], "|>"}], ",", " ", "ash"}], "]"}], " ", "-", " ",
+         "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FD moved 1 m east\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}], " ",
+         "-", " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FD moved 1 m north\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "1", ",", " ", "dFD"}], "}"}]}], "]"}], " ",
+         "-", " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<ND moved 1 m east\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"1", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}], " ",
+         "-", " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<ND moved 1 m north\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "1", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}], " ",
+         "-", " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<Ant-1 instead of Ant-2\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{"fnalAnt", ",", " ", 
+          RowBox[{"ashAnt", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "]"}], " ", "-", " ", "L"}]}], 
+      "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<Ant-3 instead of Ant-2\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{"fnalAnt", ",", " ", 
+          RowBox[{"ashAnt", "[", 
+           RowBox[{"[", "3", "]"}], "]"}]}], "]"}], " ", "-", " ", "L"}]}], 
+      "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<FNAL 228 m is MSL: h = 228 - 33 m\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Lvar", "[", 
+         RowBox[{
+          RowBox[{"<|", 
+           RowBox[{"fnalAnt", ",", " ", 
+            RowBox[{"\"\<h\>\"", " ", "->", " ", 
+             RowBox[{
+              RowBox[{"fnalAnt", "[", "\"\<h\>\"", "]"}], " ", "-", " ", 
+              "33"}]}]}], "|>"}], ",", " ", "ash"}], "]"}], " ", "-", " ", 
+        "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<radial (sphere) tangent plane for offsets\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}], ",", " ", 
+          "\"\<radial\>\""}], "]"}], " ", "-", " ", "L"}]}], "]"}], ",", "\n",
+      "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{"\"\<eq. 17 as printed in the note\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}], ",", " ", 
+          "\"\<geodetic\>\"", ",", " ", "pWGSasPrinted"}], "]"}], " ", "-", 
+        " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{
+      "\"\<Table 3 NDOS row applied as ENU (E,N,U) = (2,3,-3) m\>\"", ",", 
+       " ", 
+       RowBox[{
+        RowBox[{"LWGS", "[", 
+         RowBox[{"fnalAnt", ",", " ", "ash", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"2", ",", " ", "3", ",", " ", 
+            RowBox[{"dND", " ", "+", " ", "3"}]}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}], " ",
+         "-", " ", "L"}]}], "]"}], ",", "\n", "   ", 
+     RowBox[{"sensRow", "[", 
+      RowBox[{
+      "\"\<Table 3 NDOS row applied as ECF (x,y,z) = (2,3,-3) m\>\"", ",", 
+       " ", 
+       RowBox[{
+        RowBox[{"Norm", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"detWGS", "[", 
+             RowBox[{"fnalAnt", ",", " ", 
+              RowBox[{"{", 
+               RowBox[{"0", ",", " ", "0", ",", " ", "dND"}], "}"}]}], "]"}], 
+            " ", "+", " ", "dNDOS"}], ")"}], " ", "-", " ", 
+          RowBox[{"detWGS", "[", 
+           RowBox[{"ash", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "0", ",", " ", "dFD"}], "}"}]}], "]"}]}], 
+         "]"}], " ", "-", " ", "L"}]}], "]"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"Prepend", "[", 
+    RowBox[{"sens", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<variation\>\"", ",", " ", "\"\<\[CapitalDelta]L (m)\>\"", ",", 
+       " ", "\"\<\[CapitalDelta]t (ns)\>\"", ",", " ", 
+       "\"\<\[CapitalDelta] ticks\>\""}], "}"}]}], "]"}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "Left", ",", " ", "Right", ",", " ", "Right", ",", " ", "Right"}], 
+      "}"}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[175]:=",ExpressionUUID->"0f229c9a-9249-478f-a90c-0305314f2244"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"variation\"\>", "\<\"\[CapitalDelta]L (m)\"\>", \
+"\<\"\[CapitalDelta]t (ns)\"\>", "\<\"\[CapitalDelta] ticks\"\>"},
+    {"\<\"FNAL height +1 m\"\>", "0.06327146501280367`", 
+     "0.2110508897885739`", "0.013507256946468729`"},
+    {"\<\"FD height +1 m\"\>", "0.06379050330724567`", "0.21278221517916127`",
+      "0.013618061771466322`"},
+    {"\<\"FNAL latitude +1\[DoublePrime]\"\>", 
+     RowBox[{"-", "27.976093945559114`"}], 
+     RowBox[{"-", "93.31820464128926`"}], 
+     RowBox[{"-", "5.972365097042513`"}]},
+    {"\<\"FNAL longitude +1\[DoublePrime]\"\>", "9.619026692467742`", 
+     "32.08561935359876`", "2.0534796386303205`"},
+    {"\<\"FD moved 1 m east\"\>", 
+     RowBox[{"-", "0.4674257681472227`"}], 
+     RowBox[{"-", "1.5591645342432954`"}], 
+     RowBox[{"-", "0.09978653019157091`"}]},
+    {"\<\"FD moved 1 m north\"\>", "0.8817277315538377`", "2.94112712986875`",
+      "0.18823213631159996`"},
+    {"\<\"ND moved 1 m east\"\>", "0.4169010006589815`", 
+     "1.3906320507201735`", "0.0890004512460911`"},
+    {"\<\"ND moved 1 m north\"\>", 
+     RowBox[{"-", "0.9067472540773451`"}], 
+     RowBox[{"-", "3.024583273797185`"}], 
+     RowBox[{"-", "0.19357332952301987`"}]},
+    {"\<\"Ant-1 instead of Ant-2\"\>", 
+     RowBox[{"-", "0.04069769836496562`"}], 
+     RowBox[{"-", "0.13575290931757067`"}], 
+     RowBox[{"-", "0.008688186196324523`"}]},
+    {"\<\"Ant-3 instead of Ant-2\"\>", "1.5574804367497563`", 
+     "5.195195526732552`", "0.3324925137108833`"},
+    {"\<\"FNAL 228 m is MSL: h = 228 - 33 m\"\>", 
+     RowBox[{"-", "2.087268174276687`"}], 
+     RowBox[{"-", "6.962377199885019`"}], 
+     RowBox[{"-", "0.4455921407926412`"}]},
+    {"\<\"radial (sphere) tangent plane for offsets\"\>", 
+     RowBox[{"-", "0.3047656131675467`"}], 
+     RowBox[{"-", "1.0165886600374272`"}], 
+     RowBox[{"-", "0.06506167424239534`"}]},
+    {"\<\"eq. 17 as printed in the note\"\>", 
+     RowBox[{"-", "0.4601735721807927`"}], 
+     RowBox[{"-", "1.5349738123858763`"}], 
+     RowBox[{"-", "0.09823832399269608`"}]},
+    {"\<\"Table 3 NDOS row applied as ENU (E,N,U) = (2,3,-3) m\"\>", 
+     RowBox[{"-", "2.0762427321169525`"}], 
+     RowBox[{"-", "6.925600283503305`"}], 
+     RowBox[{"-", "0.4432384181442115`"}]},
+    {"\<\"Table 3 NDOS row applied as ECF (x,y,z) = (2,3,-3) m\"\>", 
+     "0.855492754955776`", "2.8536166675539785`", "0.18263146672345462`"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {Left, Right, Right, Right}},
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.9993417388924026`*^9},
+ CellLabel->
+  "Out[177]=",ExpressionUUID->"c64d930b-c514-4f87-b679-49faec47939d"]
+}, Open  ]],
+
+Cell[TextData[{
+ StyleBox["FNAL coordinate precision:",
+  FontWeight->"Bold"],
+ " the FNAL position is given to 1\[DoublePrime] (about 31 m N\[Dash]S and 23 \
+m E\[Dash]W), while Ash River is given to 10",
+ Cell[BoxData[
+  SuperscriptBox["", 
+   RowBox[{"\[Minus]", "6"}]]]],
+ "\[Prime] (2 mm). \[PlusMinus]0.5\[DoublePrime] rounding gives the \
+worst-case and RMS errors computed below. This is the dominant precision \
+limit."
+}], "Item"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"maxErr", " ", "=", " ", 
+   RowBox[{"0.5", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Abs", "[", 
+       RowBox[{"sens", "[", 
+        RowBox[{"[", 
+         RowBox[{"3", ",", " ", "2"}], "]"}], "]"}], "]"}], " ", "+", " ", 
+      RowBox[{"Abs", "[", 
+       RowBox[{"sens", "[", 
+        RowBox[{"[", 
+         RowBox[{"4", ",", " ", "2"}], "]"}], "]"}], "]"}]}], ")"}]}]}], ";", 
+  " ", 
+  RowBox[{"rmsErr", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Norm", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"sens", "[", 
+        RowBox[{"[", 
+         RowBox[{"3", ",", " ", "2"}], "]"}], "]"}], ",", " ", 
+       RowBox[{"sens", "[", 
+        RowBox[{"[", 
+         RowBox[{"4", ",", " ", "2"}], "]"}], "]"}]}], "}"}], "]"}], "/", 
+    RowBox[{"Sqrt", "[", "12.", "]"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\"\<worst case\>\"", ",", " ", "maxErr", ",", " ", 
+      RowBox[{"toNs", "[", "maxErr", "]"}], ",", " ", 
+      RowBox[{"toTicks", "[", "maxErr", "]"}]}], "}"}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"\"\<RMS\>\"", ",", " ", "rmsErr", ",", " ", 
+      RowBox[{"toNs", "[", "rmsErr", "]"}], ",", " ", 
+      RowBox[{"toTicks", "[", "rmsErr", "]"}]}], "}"}]}], "}"}], " ", "//", 
+  " ", 
+  RowBox[{
+   RowBox[{"Grid", "[", 
+    RowBox[{"#", ",", " ", 
+     RowBox[{"Frame", " ", "->", " ", "All"}]}], "]"}], " ", 
+   "&"}]}]}], "Input",
+ CellLabel->
+  "In[178]:=",ExpressionUUID->"fc06a1e1-51a3-4f2f-ae7a-e0158720b94d"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"worst case\"\>", "18.797560319013428`", "62.701911997444`", 
+     "4.012922367836416`"},
+    {"\<\"RMS\"\>", "8.540040529573792`", "28.486508922028293`", 
+     "1.8231365710098106`"}
+   },
+   AutoDelete->False,
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.9993417389117403`*^9},
+ CellLabel->
+  "Out[179]=",ExpressionUUID->"6d8881c8-8f52-43a0-83ba-65bea509d2ac"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["FNAL height datum:",
+  FontWeight->"Bold"],
+ " the Ash River heights are demonstrably ellipsoidal (\[Section]3.2). No \
+NMEA record is given for FNAL. If 228 m is an MSL altitude, the ellipsoidal \
+height is ~33 m lower (the geoid separation is not measured in the note; \
+\[Minus]32.5 m at Ash River). See the sensitivity row above."
+}], "Item"],
+
+Cell[TextData[{
+ StyleBox["FD horizontal offset:",
+  FontWeight->"Bold"],
+ " the Ash River entries in Table 3 are TBD. The sensitivities above give the \
+effect of the antenna-mast \[RightArrow] FD front-face horizontal vector once \
+it is surveyed. Along the beam direction the effect is ~1 m of \
+\[CapitalDelta]L per metre."
+}], "Item"],
+
+Cell[TextData[{
+ StyleBox["Endpoint:",
+  FontWeight->"Bold"],
+ " the delay is ND cavern \[RightArrow] FD front face. Referencing the \
+trigger to the spill at the NuMI target would add the target \[RightArrow] ND \
+distance (~1 km, ~3.3 \[Micro]s) and the \[Pi]/K decay-point distribution \
+along the 675 m decay pipe. That is presumably absorbed into the MIBS $74 \
+reference and the 20 \[Micro]s sidebands."
+}], "Item"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["10.3 Effects outside the geometric flight time", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"pNDphys", " ", "=", " ", "pND"}], ";", " ", 
+   RowBox[{"pFDphys", " ", "=", " ", "pFD"}], ";"}], "      ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "longitudes", " ", "already", " ", "carry", " ", "physical", " ", "sign"}],
+    " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"omegaE", " ", "=", " ", "7.2921150*^-5"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sagnac", " ", "=", " ", 
+   RowBox[{"omegaE", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"pNDphys", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], " ", 
+        RowBox[{"pFDphys", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], " ", "-", " ", 
+       RowBox[{
+        RowBox[{"pNDphys", "[", 
+         RowBox[{"[", "2", "]"}], "]"}], " ", 
+        RowBox[{"pFDphys", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}], ")"}], "/", 
+     RowBox[{"c", "^", "2"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cable", " ", "=", " ", 
+    RowBox[{"100", "*", "0.3048"}]}], ";"}], "                 ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"m", ",", " ", 
+    RowBox[{
+     RowBox[{"~", "100"}], " ", "ft", " ", "common", " ", "antenna", " ", 
+     "cable", " ", "run"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<effect\>\"", ",", " ", "\"\<ns\>\"", ",", " ", "\"\<ticks\>\""}], 
+      "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<Sagnac (Earth rotation, ND -> FD westward)\>\"", ",", " ", 
+       RowBox[{"sagnac", " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{"sagnac", " ", "fNOvA"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<antenna cable delay, velocity factor 0.85\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"cable", "/", 
+         RowBox[{"(", 
+          RowBox[{"0.85", " ", "c"}], ")"}]}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{"cable", "/", 
+         RowBox[{"(", 
+          RowBox[{"0.85", " ", "c"}], ")"}]}], " ", "fNOvA"}]}], "}"}], ",", 
+     "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<antenna cable delay, velocity factor 0.66\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"cable", "/", 
+         RowBox[{"(", 
+          RowBox[{"0.66", " ", "c"}], ")"}]}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{"cable", "/", 
+         RowBox[{"(", 
+          RowBox[{"0.66", " ", "c"}], ")"}]}], " ", "fNOvA"}]}], "}"}], ",", 
+     "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<neutrino velocity, m = 0.1 eV, E = 2 GeV\>\"", ",", " ", 
+       RowBox[{"t", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"0.1", "/", "2*^9"}], ")"}], "^", "2"}], "/", "2"}], " ", 
+        RowBox[{"10", "^", "9"}]}], ",", " ", 
+       RowBox[{"t", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"0.1", "/", "2*^9"}], ")"}], "^", "2"}], "/", "2"}], " ", 
+        "fNOvA"}]}], "}"}]}], "}"}], ",", "\n", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"Left", ",", " ", "Right", ",", " ", "Right"}], "}"}], 
+     "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[180]:=",ExpressionUUID->"13ab5435-10ae-4129-9674-21b2d8d2ced7"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"effect\"\>", "\<\"ns\"\>", "\<\"ticks\"\>"},
+    {"\<\"Sagnac (Earth rotation, ND -> FD westward)\"\>", 
+     RowBox[{"-", "1.3032777264491286`"}], 
+     RowBox[{"-", "0.08340977449274423`"}]},
+    {"\<\"antenna cable delay, velocity factor 0.85\"\>", 
+     "119.61216025458444`", "7.655178256293404`"},
+    {"\<\"antenna cable delay, velocity factor 0.66\"\>", 
+     "154.04596396423747`", "9.858941693711198`"},
+    {"\<\"neutrino velocity, m = 0.1 eV, E = 2 GeV\"\>", 
+     "3.3757364543947517`*^-15", "2.160471330812641`*^-16"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {Left, Right, Right}},
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738923566*^9},
+ CellLabel->
+  "Out[184]=",ExpressionUUID->"68a83235-2543-4994-bcfb-f7e332722819"]
+}, Open  ]],
+
+Cell[TextData[{
+ "The Sagnac term is ",
+ StyleBox["negative",
+  FontWeight->"Bold"],
+ ": the FD rotates toward the westward-moving beam. The cable delay is not \
+part of the flight time. It is a receiver calibration (the 1PPS is referenced \
+to the antenna), common to all receivers on a mast, and must be compensated \
+in the TDU configuration. It is the same order as the ND/FD offsets, so it \
+should be checked."
+}], "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["11. Errata in the 2014 note", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Eq. 7: \[CapitalDelta]L = 810 319 m is inconsistent with eq. 9 (2703.3 \
+\[Micro]s \[DoubleLongRightArrow] 810 429 m). The value from the stated \
+inputs is 810 429 m (\[Section]5).\
+\>", "Item"],
+
+Cell["Eq. 9: unit printed \[OpenCurlyDoubleQuote]\[Micro]t\
+\[CloseCurlyDoubleQuote]; it should be \[Micro]s.", "Item"],
+
+Cell[TextData[{
+ "Eqs. 12\[Dash]13: the radicand is divided by R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ ", and \[Epsilon]",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ " uses R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ ". They should be \[Epsilon]",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ " = \[Sqrt](R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ "\.b2 \[Minus] R",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ "\.b2)/R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ " and \[Epsilon]",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ " = \[Sqrt](R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ "\.b2 \[Minus] R",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ "\.b2)/R",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ "."
+}], "Item"],
+
+Cell[TextData[{
+ "Eq. 14: the numerator \[OpenCurlyDoubleQuote]a\[CloseCurlyDoubleQuote] \
+means R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ ", and \[OpenCurlyDoubleQuote]sin \[Theta]\.b2\[CloseCurlyDoubleQuote] means \
+sin\.b2\[Theta]."
+}], "Item"],
+
+Cell[TextData[{
+ "Eq. 17: p",
+ Cell[BoxData[
+  SubscriptBox["", "z"]]],
+ " should be (R",
+ Cell[BoxData[
+  SubscriptBox["", "b"]]],
+ "\.b2/R",
+ Cell[BoxData[
+  SubscriptBox["", "a"]]],
+ "\.b2 R",
+ Cell[BoxData[
+  SubscriptBox["", "curv"]]],
+ " + A) sin \[Theta]. The printed form also scales A. The effect is in \
+\[Section]10.2."
+}], "Item"],
+
+Cell["\<\
+Notation: \[Theta] is longitude in \[Section]3.1 but latitude in \
+\[Section]3.2. The prime on \[CapitalDelta]p in eqs. 6 and 18 is typeset as a \
+superscript \[OpenCurlyDoubleQuote]prime\[CloseCurlyDoubleQuote].\
+\>", "Item"],
+
+Cell["\<\
+Eq. 19: 809 606 m is the result of the 2013 inputs (300 m FNAL offset, no FD \
+offset). The offsets specified in \[Section]3.1 and Table 2 (105 + 15 m, 12 + \
+7.8 m) give the value in \[Section]7.2 (+10.1 m, +2.2 ticks).\
+\>", "Item"],
+
+Cell["\<\
+\[Section]3.1 says the spherical model uses MSL altitude, but Table 2 heights \
+are WGS84 ellipsoidal (\[Section]3.2 of this notebook).\
+\>", "Item"],
+
+Cell[TextData[{
+ "R",
+ Cell[BoxData[
+  SubscriptBox["", "E"]]],
+ " is described as the \[OpenCurlyDoubleQuote]mean equatorial radius\
+\[CloseCurlyDoubleQuote]. 6 378 137 m is the WGS84 equatorial radius."
+}], "Item"],
+
+Cell["\<\
+Table 2: arc-minutes are marked with \[DoublePrime]. Ant-1 and Ant-2 have \
+identical latitude/longitude and differ only in height (0.638 m).\
+\>", "Item"],
+
+Cell["\<\
+Table 3: all Ash River offsets are TBD. The \[OpenCurlyDoubleQuote]Fnal NDOS\
+\[CloseCurlyDoubleQuote] row is labelled NDOS (a surface building) but \
+annotated \[OpenCurlyDoubleQuote]105 + 15\[CloseCurlyDoubleQuote] (the ND \
+cavern), and its frame is unstated.\
+\>", "Item"],
+
+Cell["\<\
+Placeholders: the DocDB number, and the antenna mount distance \
+\[OpenCurlyDoubleQuote]XXX\[CloseCurlyDoubleQuote] in \[Section]2.1. The \
+References section is empty.\
+\>", "Item"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["12. Verification", "Section"],
+
+Cell[TextData[{
+ "Reproduction of the values quoted in the 2014 note and of the 2013 notebook \
+outputs. The 2013 values are compared at 10",
+ Cell[BoxData[
+  SuperscriptBox["", 
+   RowBox[{"\[Minus]", "9"}]]]],
+ " relative precision, and the note's rounded values at the precision printed."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"LSph2013", " ", "=", " ", 
+   RowBox[{"LSph", "[", 
+    RowBox[{"fnalAnt", ",", " ", 
+     RowBox[{"ashAnt", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], ",", " ", "300", ",", " ", "0"}], 
+    "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"checks", " ", "=", " ", 
+   RowBox[{"{", "\n", "   ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2013 nb: L spherical (m)\>\"", ",", " ", "LSph2013", ",", " ", 
+       "810429.1726392909", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2013 nb: L WGS84 (m)\>\"", ",", " ", "L2013", ",", " ", 
+       "809606.1622206265", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<2013 nb: ToF WGS84 (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"L2013", "/", "c"}], " ", 
+        RowBox[{"10", "^", "6"}]}], ",", " ", "2700.555469679716", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<2013 nb: ToF ticks\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"L2013", "/", "c"}], " ", "fNOvA"}], ",", " ", 
+       "172835.5500595018", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2013 nb: MI shift ticks\>\"", ",", " ", "nMI", ",", " ", 
+       "99920.38174580157", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2013 nb: total ticks\>\"", ",", " ", "nTotal2013", ",", " ", 
+       "272755.9318053034", ",", " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "9"}]}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2014 note eq. 9: ToF spherical (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"LSph2013", "/", "c"}], " ", 
+        RowBox[{"10", "^", "6"}]}], ",", " ", "2703.3", ",", " ", 
+       RowBox[{"0.05", "/", "2703.3"}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2014 note eq. 19: L WGS84 (m)\>\"", ",", " ", "L2013", ",", " ", 
+       "809606.", ",", " ", 
+       RowBox[{"0.5", "/", "809606"}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<2014 note eq. 21: ToF WGS84 (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"L2013", "/", "c"}], " ", 
+        RowBox[{"10", "^", "6"}]}], ",", " ", "2700.56", ",", " ", 
+       RowBox[{"0.005", "/", "2700.56"}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2014 note eq. 7: L spherical (m)\>\"", ",", " ", "LSph2013", ",", 
+       " ", "810319.", ",", " ", 
+       RowBox[{"0.5", "/", "810319"}]}], "}"}], ",", "\n", "   ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<sign convention: L with E+ longitudes (m)\>\"", ",", " ", 
+       RowBox[{"Norm", "[", 
+        RowBox[{
+         RowBox[{"pWGS", "[", 
+          RowBox[{"<|", 
+           RowBox[{"fnalAnt", ",", " ", 
+            RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+             RowBox[{"-", 
+              RowBox[{"fnalAnt", "[", "\"\<lon\>\"", "]"}]}]}], ",", " ", 
+            RowBox[{"\"\<h\>\"", " ", "->", " ", 
+             RowBox[{"228", " ", "-", " ", "300"}]}]}], "|>"}], "]"}], " ", 
+         "-", " ", 
+         RowBox[{"pWGS", "[", 
+          RowBox[{"<|", 
+           RowBox[{
+            RowBox[{"ashAnt", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+            RowBox[{"\"\<lon\>\"", " ", "->", " ", 
+             RowBox[{"-", 
+              RowBox[{
+               RowBox[{"ashAnt", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], "[", "\"\<lon\>\"", 
+               "]"}]}]}]}], "|>"}], "]"}]}], "]"}], ",", " ", "L2013", ",", 
+       " ", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "12"}]}]}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"Prepend", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"#1", ",", " ", "#2", ",", " ", "#3", ",", " ", 
+         RowBox[{
+          RowBox[{"Abs", "[", 
+           RowBox[{"#2", " ", "-", " ", "#3"}], "]"}], "/", 
+          RowBox[{"Abs", "[", "#3", "]"}]}], ",", " ", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"Abs", "[", 
+              RowBox[{"#2", " ", "-", " ", "#3"}], "]"}], "/", 
+             RowBox[{"Abs", "[", "#3", "]"}]}], " ", "<=", " ", "#4"}], ",", 
+           " ", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<reproduced\>\"", ",", " ", 
+             RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", " ", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<NOT reproduced\>\"", ",", " ", "Red"}], "]"}]}], 
+          "]"}]}], "}"}], " ", "&"}], " ", "@@@", " ", "checks"}], ",", "\n", 
+     "   ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<quantity\>\"", ",", " ", "\"\<computed\>\"", ",", " ", 
+       "\"\<reference\>\"", ",", " ", "\"\<rel. diff\>\"", ",", " ", 
+       "\"\<\>\""}], "}"}]}], "]"}], ",", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellLabel->
+  "In[185]:=",ExpressionUUID->"5577dd78-6612-4f49-acdd-3af9dbc6f186"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"quantity\"\>", "\<\"computed\"\>", "\<\"reference\"\>", "\<\"rel. \
+diff\"\>", "\<\"\"\>"},
+    {"\<\"2013 nb: L spherical (m)\"\>", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], "\[RightAssociation]"}],
+        ",", "300", ",", "0"}], "]"}], "810429.1726392909`", 
+     RowBox[{"1.233914120765596`*^-6", " ", 
+      RowBox[{"Abs", "[", 
+       RowBox[{
+        RowBox[{"-", "810429.1726392909`"}], "+", 
+        RowBox[{"810429.1726392908`", "[", 
+         RowBox[{
+          RowBox[{"\[LeftAssociation]", 
+           RowBox[{
+            
+            RowBox[{"\<\"name\"\>", 
+             "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+            RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+            RowBox[{"\<\"lon\"\>", "\[Rule]", 
+             RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+            RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+           "\[RightAssociation]"}], ",", 
+          RowBox[{"\[LeftAssociation]", 
+           RowBox[{
+            RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+            ",", 
+            RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+            RowBox[{"\<\"lon\"\>", "\[Rule]", 
+             RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+            RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+           "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}], "]"}]}], 
+     
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"1.233914120765596`*^-6", " ", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"-", "810429.1726392909`"}], "+", 
+           RowBox[{"810429.1726392908`", "[", 
+            RowBox[{
+             RowBox[{"\[LeftAssociation]", 
+              RowBox[{
+               
+               RowBox[{"\<\"name\"\>", 
+                "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+               RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+               RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+               RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+              "\[RightAssociation]"}], ",", 
+             RowBox[{"\[LeftAssociation]", 
+              RowBox[{
+               RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}],
+                ",", 
+               RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+               RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+               RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+              "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}], 
+          "]"}]}], "\[LessEqual]", 
+        FractionBox["1", "1000000000"]}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"reproduced\"\>", ",", 
+         RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"NOT reproduced\"\>", ",", "Red"}], "]"}]}], "]"}]},
+    {"\<\"2013 nb: L WGS84 (m)\"\>", "809606.1622206252`", 
+     "809606.1622206265`", "1.5817178769784539`*^-15", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2013 nb: ToF WGS84 (\[Micro]s)\"\>", "2700.5554696797117`", 
+     "2700.555469679716`", "1.683903019182927`*^-15", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2013 nb: ToF ticks\"\>", "172835.55005950155`", 
+     "172835.5500595018`", "1.5155127172646344`*^-15", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2013 nb: MI shift ticks\"\>", "99920.38174580157`", 
+     "99920.38174580157`", "0.`", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2013 nb: total ticks\"\>", "272755.9318053031`", 
+     "272755.9318053034`", "1.067028323237655`*^-15", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2014 note eq. 9: ToF spherical (\[Micro]s)\"\>", 
+     RowBox[{
+      FractionBox["1", "149896229"], 
+      RowBox[{"500000", " ", 
+       RowBox[{"810429.1726392908`", "[", 
+        RowBox[{
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           
+           RowBox[{"\<\"name\"\>", 
+            "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+          "\[RightAssociation]"}], ",", 
+         RowBox[{"\[LeftAssociation]", 
+          RowBox[{
+           RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+           ",", 
+           RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+           RowBox[{"\<\"lon\"\>", "\[Rule]", 
+            RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+           RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+          "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}]}], 
+     "2703.3`", 
+     RowBox[{"0.00036991824806717716`", " ", 
+      RowBox[{"Abs", "[", 
+       RowBox[{
+        RowBox[{"-", "2703.3`"}], "+", 
+        RowBox[{
+         FractionBox["1", "149896229"], 
+         RowBox[{"500000", " ", 
+          RowBox[{"810429.1726392908`", "[", 
+           RowBox[{
+            RowBox[{"\[LeftAssociation]", 
+             RowBox[{
+              
+              RowBox[{"\<\"name\"\>", 
+               "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+              RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+              
+              RowBox[{"\<\"lon\"\>", "\[Rule]", 
+               RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+              RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+             "\[RightAssociation]"}], ",", 
+            RowBox[{"\[LeftAssociation]", 
+             RowBox[{
+              RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+              ",", 
+              RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+              
+              RowBox[{"\<\"lon\"\>", "\[Rule]", 
+               RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+              RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+             "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}]}]}], 
+       "]"}]}], 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"0.00036991824806717716`", " ", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"-", "2703.3`"}], "+", 
+           RowBox[{
+            FractionBox["1", "149896229"], 
+            RowBox[{"500000", " ", 
+             RowBox[{"810429.1726392908`", "[", 
+              RowBox[{
+               RowBox[{"\[LeftAssociation]", 
+                RowBox[{
+                 
+                 RowBox[{"\<\"name\"\>", 
+                  "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+                 RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], 
+                 ",", 
+                 RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                  RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+                 RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+                "\[RightAssociation]"}], ",", 
+               RowBox[{"\[LeftAssociation]", 
+                RowBox[{
+                 
+                 RowBox[{"\<\"name\"\>", 
+                  "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+                 RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], 
+                 ",", 
+                 RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                  RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+                 RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+                "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}]}]}], 
+          "]"}]}], "\[LessEqual]", "0.000018495912403358858`"}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"reproduced\"\>", ",", 
+         RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"NOT reproduced\"\>", ",", "Red"}], "]"}]}], "]"}]},
+    {"\<\"2014 note eq. 19: L WGS84 (m)\"\>", "809606.1622206252`", 
+     "809606.`", "2.0036984064696672`*^-7", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2014 note eq. 21: ToF WGS84 (\[Micro]s)\"\>", "2700.5554696797117`",
+      "2700.56`", "1.6775484670838014`*^-6", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]},
+    {"\<\"2014 note eq. 7: L spherical (m)\"\>", 
+     RowBox[{"810429.1726392908`", "[", 
+      RowBox[{
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", 
+          "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], "\[RightAssociation]"}],
+        ",", 
+       RowBox[{"\[LeftAssociation]", 
+        RowBox[{
+         RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], ",", 
+         
+         RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+         RowBox[{"\<\"lon\"\>", "\[Rule]", 
+          RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+         RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], "\[RightAssociation]"}],
+        ",", "300", ",", "0"}], "]"}], "810319.`", 
+     RowBox[{"1.2340818862694815`*^-6", " ", 
+      RowBox[{"Abs", "[", 
+       RowBox[{
+        RowBox[{"-", "810319.`"}], "+", 
+        RowBox[{"810429.1726392908`", "[", 
+         RowBox[{
+          RowBox[{"\[LeftAssociation]", 
+           RowBox[{
+            
+            RowBox[{"\<\"name\"\>", 
+             "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+            RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+            RowBox[{"\<\"lon\"\>", "\[Rule]", 
+             RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+            RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+           "\[RightAssociation]"}], ",", 
+          RowBox[{"\[LeftAssociation]", 
+           RowBox[{
+            RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}], 
+            ",", 
+            RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+            RowBox[{"\<\"lon\"\>", "\[Rule]", 
+             RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+            RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+           "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}], "]"}]}], 
+     
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"1.2340818862694815`*^-6", " ", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"-", "810319.`"}], "+", 
+           RowBox[{"810429.1726392908`", "[", 
+            RowBox[{
+             RowBox[{"\[LeftAssociation]", 
+              RowBox[{
+               
+               RowBox[{"\<\"name\"\>", 
+                "\[Rule]", "\<\"FNAL MINOS Surface Bldg mast\"\>"}], ",", 
+               RowBox[{"\<\"lat\"\>", "\[Rule]", "0.7302409108976163`"}], ",", 
+               RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                RowBox[{"-", "1.5406069788722057`"}]}], ",", 
+               RowBox[{"\<\"h\"\>", "\[Rule]", "228.`"}]}], 
+              "\[RightAssociation]"}], ",", 
+             RowBox[{"\[LeftAssociation]", 
+              RowBox[{
+               RowBox[{"\<\"name\"\>", "\[Rule]", "\<\"Ash River Ant-1\"\>"}],
+                ",", 
+               RowBox[{"\<\"lat\"\>", "\[Rule]", "0.8443657935099228`"}], ",", 
+               RowBox[{"\<\"lon\"\>", "\[Rule]", 
+                RowBox[{"-", "1.6202115226562288`"}]}], ",", 
+               RowBox[{"\<\"h\"\>", "\[Rule]", "348.`"}]}], 
+              "\[RightAssociation]"}], ",", "300", ",", "0"}], "]"}]}], 
+          "]"}]}], "\[LessEqual]", "6.170409431347408`*^-7"}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"reproduced\"\>", ",", 
+         RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\<\"NOT reproduced\"\>", ",", "Red"}], "]"}]}], "]"}]},
+    {"\<\"sign convention: L with E+ longitudes (m)\"\>", 
+     "809606.1622206258`", "809606.1622206252`", "7.189626713538437`*^-16", 
+     StyleBox["\<\"reproduced\"\>",
+      StripOnInput->False,
+      LineColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FrontFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      BackFaceColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      GraphicsColor->RGBColor[0, 
+        Rational[2, 3], 0],
+      FontColor->RGBColor[0, 
+        Rational[2, 3], 0]]}
+   },
+   AutoDelete->False,
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738949913*^9},
+ CellLabel->
+  "Out[187]=",ExpressionUUID->"5eca5b32-6221-4619-add9-402a819a19f9"]
+}, Open  ]],
+
+Cell["\<\
+The eq. 7 row is expected to fail (erratum). The last row recomputes the 2013 \
+chord with east-positive longitudes, as the 2013 notebook entered them, and \
+compares it with the west-negative result.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["13. Error budget (64 MHz ticks)", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<source\>\"", ",", " ", "\"\<ticks\>\"", ",", " ", "\"\<type\>\""}],
+       "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<2013 vs 2014-note offsets (resolved by using the note)\>\"", ",", 
+       " ", 
+       RowBox[{"toTicks", "[", 
+        RowBox[{"L", " ", "-", " ", "L2013"}], "]"}], ",", " ", 
+       "\"\<superseded\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<FNAL lat/lon quantization (1\[DoublePrime]): RMS / worst case\>\"",
+        ",", " ", 
+       RowBox[{"Row", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"NumberForm", "[", 
+           RowBox[{
+            RowBox[{"toTicks", "[", "rmsErr", "]"}], ",", " ", "2"}], "]"}], 
+          ",", " ", "\"\< / \>\"", ",", " ", 
+          RowBox[{"NumberForm", "[", 
+           RowBox[{
+            RowBox[{"toTicks", "[", "maxErr", "]"}], ",", " ", "2"}], "]"}]}],
+          "}"}], "]"}], ",", " ", "\"\<precision\>\""}], "}"}], ",", "\n", 
+     "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<FNAL height datum (if 228 m is MSL)\>\"", ",", " ", 
+       RowBox[{"Abs", "[", 
+        RowBox[{"sens", "[", 
+         RowBox[{"[", 
+          RowBox[{"11", ",", " ", "4"}], "]"}], "]"}], "]"}], ",", " ", 
+       "\"\<systematic, unconfirmed\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<MI RF frequency, per kHz\>\"", ",", " ", 
+       RowBox[{"TimingShift", " ", 
+        RowBox[{"1000", "/", "MIFreq"}], " ", "fNOvA"}], ",", " ", 
+       "\"\<systematic\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<FD horizontal offset (Table 3 TBD), per m along beam azimuth\>\"", 
+       ",", " ", 
+       RowBox[{"Norm", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"sens", "[", 
+           RowBox[{"[", 
+            RowBox[{"5", ",", " ", "4"}], "]"}], "]"}], ",", " ", 
+          RowBox[{"sens", "[", 
+           RowBox[{"[", 
+            RowBox[{"6", ",", " ", "4"}], "]"}], "]"}]}], "}"}], "]"}], ",", 
+       " ", "\"\<unmeasured\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<antenna choice (Ant-1..3 spread)\>\"", ",", " ", 
+       RowBox[{"Max", "[", 
+        RowBox[{"Abs", " ", "/@", " ", 
+         RowBox[{"sens", "[", 
+          RowBox[{"[", 
+           RowBox[{
+            RowBox[{"9", " ", ";;", " ", "10"}], ",", " ", "4"}], "]"}], 
+          "]"}]}], "]"}], ",", " ", "\"\<choice\>\""}], "}"}], ",", "\n", 
+     "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<antenna cable delay (not ToF; calibration)\>\"", ",", " ", 
+       RowBox[{"Row", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"NumberForm", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"cable", "/", 
+              RowBox[{"(", 
+               RowBox[{"0.85", " ", "c"}], ")"}]}], " ", "fNOvA"}], ",", " ", 
+            "2"}], "]"}], ",", " ", "\"\<-\>\"", ",", " ", 
+          RowBox[{"NumberForm", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"cable", "/", 
+              RowBox[{"(", 
+               RowBox[{"0.66", " ", "c"}], ")"}]}], " ", "fNOvA"}], ",", " ", 
+            "2"}], "]"}]}], "}"}], "]"}], ",", " ", "\"\<calibration\>\""}], 
+      "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<integer rounding\>\"", ",", " ", "0.5", ",", " ", 
+       "\"\<convention\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<radial vs geodetic offset normal\>\"", ",", " ", 
+       RowBox[{"Abs", "[", 
+        RowBox[{"sens", "[", 
+         RowBox[{"[", 
+          RowBox[{"12", ",", " ", "4"}], "]"}], "]"}], "]"}], ",", " ", 
+       "\"\<method\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<eq. 17 as printed\>\"", ",", " ", 
+       RowBox[{"Abs", "[", 
+        RowBox[{"sens", "[", 
+         RowBox[{"[", 
+          RowBox[{"13", ",", " ", "4"}], "]"}], "]"}], "]"}], ",", " ", 
+       "\"\<erratum\>\""}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Sagnac\>\"", ",", " ", 
+       RowBox[{
+        RowBox[{"Abs", "[", "sagnac", "]"}], " ", "fNOvA"}], ",", " ", 
+       "\"\<neglected\>\""}], "}"}]}], "}"}], ",", "\n", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"Left", ",", " ", "Right", ",", " ", "Left"}], "}"}], "}"}]}]}],
+   "]"}]], "Input",
+ CellLabel->
+  "In[188]:=",ExpressionUUID->"f5df08e8-b134-4e3f-988c-0a0842854af0"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"source\"\>", "\<\"ticks\"\>", "\<\"type\"\>"},
+    {"\<\"2013 vs 2014-note offsets (resolved by using the note)\"\>", 
+     "2.156405509696962`", "\<\"superseded\"\>"},
+    {"\<\"FNAL lat/lon quantization (1\[DoublePrime]): RMS / worst case\"\>", 
+     
+     TemplateBox[{TagBox[
+        InterpretationBox["\"1.8\"", 1.8231365710098106`, AutoDelete -> True],
+         NumberForm[#, 2]& ],"\" / \"",TagBox[
+        InterpretationBox["\"4.\"", 4.012922367836416, AutoDelete -> True], 
+        NumberForm[#, 2]& ]},
+      "RowDefault"], "\<\"precision\"\>"},
+    {"\<\"FNAL height datum (if 228 m is MSL)\"\>", 
+     "0.4455921407926412`", "\<\"systematic, unconfirmed\"\>"},
+    {"\<\"MI RF frequency, per kHz\"\>", 
+     "1.8816192888930194`", "\<\"systematic\"\>"},
+    {"\<\"FD horizontal offset (Table 3 TBD), per m along beam azimuth\"\>", 
+     "0.21304621270537066`", "\<\"unmeasured\"\>"},
+    {"\<\"antenna choice (Ant-1..3 spread)\"\>", 
+     "0.3324925137108833`", "\<\"choice\"\>"},
+    {"\<\"antenna cable delay (not ToF; calibration)\"\>", 
+     TemplateBox[{TagBox[
+        InterpretationBox["\"7.7\"", 7.655178256293404, AutoDelete -> True], 
+        NumberForm[#, 2]& ],"\"-\"",TagBox[
+        InterpretationBox["\"9.9\"", 9.858941693711198, AutoDelete -> True], 
+        NumberForm[#, 2]& ]},
+      "RowDefault"], "\<\"calibration\"\>"},
+    {"\<\"integer rounding\"\>", "0.5`", "\<\"convention\"\>"},
+    {"\<\"radial vs geodetic offset normal\"\>", 
+     "0.06506167424239534`", "\<\"method\"\>"},
+    {"\<\"eq. 17 as printed\"\>", "0.09823832399269608`", "\<\"erratum\"\>"},
+    {"\<\"Sagnac\"\>", "0.08340977449274423`", "\<\"neglected\"\>"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {Left, Right, Left}},
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738970639*^9},
+ CellLabel->
+  "Out[188]=",ExpressionUUID->"9cf64634-ada6-4de3-a7be-7e69864a417a"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["14. Summary", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Grid", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\"\<quantity\>\"", ",", " ", "\"\<value\>\""}], "}"}], ",", 
+     "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<flight path ND cavern \[RightArrow] FD front face, WGS84 (m)\>\"", 
+       ",", " ", "L"}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<t0delay (\[Micro]s)\>\"", ",", " ", 
+       RowBox[{"t", " ", 
+        RowBox[{"10", "^", "6"}]}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<t0delay (64 MHz ticks)\>\"", ",", " ", "nToF"}], "}"}], 
+     ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<t0delay, integer ticks\>\"", ",", " ", 
+       RowBox[{"Round", "[", "nToF", "]"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<trigger window after t0 (ticks)\>\"", ",", " ", 
+       RowBox[{"Row", "[", 
+        RowBox[{"{", 
+         RowBox[{"\"\<[\>\"", ",", " ", 
+          RowBox[{"Round", "[", 
+           RowBox[{"windowTicks", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", " ", "\"\<, \>\"", 
+          ",", " ", 
+          RowBox[{"Round", "[", 
+           RowBox[{"windowTicks", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", " ", "\"\<)\>\""}], 
+         "}"}], "]"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<MI 141-turn shift (ticks)\>\"", ",", " ", "nMI"}], "}"}], 
+     ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<total offset vs MIBS $74 (ticks)\>\"", ",", " ", "nTotal"}], "}"}],
+      ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<total offset, integer ticks\>\"", ",", " ", 
+       RowBox[{"Round", "[", "nTotal", "]"}]}], "}"}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"\"\<change vs 2013 notebook total (ticks)\>\"", ",", " ", 
+       RowBox[{"nTotal", " ", "-", " ", "nTotal2013"}]}], "}"}]}], "}"}], ",",
+    "\n", " ", 
+   RowBox[{"Frame", " ", "->", " ", "All"}], ",", " ", 
+   RowBox[{"Background", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", "LightGray", "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"Alignment", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"Left", ",", " ", "Right"}], "}"}], "}"}]}]}], "]"}]], "Input",
+ CellLabel->
+  "In[189]:=",ExpressionUUID->"762b3d4f-15fb-443f-8f81-cff31078d09d"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"quantity\"\>", "\<\"value\"\>"},
+    {"\<\"flight path ND cavern \[RightArrow] FD front face, WGS84 (m)\"\>", 
+     "809616.2633785658`"},
+    {"\<\"t0delay (\[Micro]s)\"\>", "2700.5891635158005`"},
+    {"\<\"t0delay (64 MHz ticks)\"\>", "172837.70646501123`"},
+    {"\<\"t0delay, integer ticks\"\>", "172838"},
+    {"\<\"trigger window after t0 (ticks)\"\>", 
+     TemplateBox[{"\"[\"","171558","\", \"","174758","\")\""},
+      "RowDefault"]},
+    {"\<\"MI 141-turn shift (ticks)\"\>", "99920.38174580157`"},
+    {"\<\"total offset vs MIBS $74 (ticks)\"\>", "272758.08821081277`"},
+    {"\<\"total offset, integer ticks\"\>", "272758"},
+    {"\<\"change vs 2013 notebook total (ticks)\"\>", "2.156405509682372`"}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {Left, Right}},
+   GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {
+       GrayLevel[0.85]}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.999341738991791*^9},
+ CellLabel->
+  "Out[189]=",ExpressionUUID->"f5fe88a6-d408-4d82-93eb-34477153dd06"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["15. Follow-ups", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Fill in Table 3: survey the Ash River mast axis and each antenna \
+\[RightArrow] FD front-face vector, and the MINOS mast \[RightArrow] ND \
+vector.\
+\>", "Item"],
+
+Cell["\<\
+Record an NMEA ($GPGGA and $POLYP) fix for the FNAL antennas to settle the \
+datum of the 228 m altitude, and replace the 1\[DoublePrime] coordinate with \
+the receiver fix.\
+\>", "Item"],
+
+Cell["\<\
+Correct eqs. 7, 9, 12\[Dash]14, 17 and 19 in the note before it is filed in \
+DocDB, and fill in the placeholders.\
+\>", "Item"],
+
+Cell["\<\
+Measure or look up the antenna cable delays and receiver compensation \
+settings at both sites.\
+\>", "Item"],
+
+Cell["\<\
+Decide and document the integer-tick rounding convention used in the timing \
+system configuration.\
+\>", "Item"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1207, 1244},
+WindowMargins->{{728, Automatic}, {Automatic, -303}},
+PrintPrecision->12,
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 235, 6, 160, "Title",ExpressionUUID->"5af8e11a-62bf-4184-a8d8-4c6d0b07646f"],
+Cell[818, 30, 305, 6, 85, "Subtitle",ExpressionUUID->"838a7e12-6353-437e-9725-cde802b46cdc"],
+Cell[1126, 38, 943, 22, 104, "Text",ExpressionUUID->"1be739d3-a79d-4541-b0b5-356a1e8e8fba"],
+Cell[2072, 62, 575, 10, 81, "Text",ExpressionUUID->"d6909fc2-70c9-4367-926b-c7db0ed9d3f3"],
+Cell[CellGroupData[{
+Cell[2672, 76, 54, 0, 67, "Section",ExpressionUUID->"5ad8c68d-cd8c-4977-964b-3ca656721753"],
+Cell[2729, 78, 747, 15, 84, "Text",ExpressionUUID->"6a816214-9efb-427e-92ff-e06e3e273658"],
+Cell[3479, 95, 509, 16, 30, "DisplayFormula",ExpressionUUID->"a16c4e10-caf1-4781-9baa-d24741c560ca"],
+Cell[3991, 113, 89, 2, 35, "Text",ExpressionUUID->"d586fc9e-c71b-419b-896a-c2725efc1fef"],
+Cell[4083, 117, 298, 9, 27, "DisplayFormula",ExpressionUUID->"905197ae-8a84-4b56-beed-82321bd9e88a"],
+Cell[4384, 128, 446, 11, 61, "Text",ExpressionUUID->"c1e71467-ed2f-4a9b-9c62-d1b036c336c9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4867, 144, 46, 0, 67, "Section",ExpressionUUID->"897abc68-1ea5-451d-9ce4-3c2cd0c4fe1f"],
+Cell[CellGroupData[{
+Cell[4938, 148, 1724, 53, 115, "Input",ExpressionUUID->"b2772730-82c6-4d0b-b742-1b326f39f14d"],
+Cell[6665, 203, 217, 5, 34, "Output",ExpressionUUID->"655d9985-6516-40fd-82cf-c9b98afc9d23"]
+}, Open  ]],
+Cell[6897, 211, 606, 19, 30, "Input",ExpressionUUID->"82af95ea-aa85-425d-bd43-91992b73a463"],
+Cell[7506, 232, 453, 15, 42, "DisplayFormula",ExpressionUUID->"a342f8e8-acf7-4372-86bc-9e0acf948ed6"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7996, 252, 68, 0, 67, "Section",ExpressionUUID->"ad12374d-3c81-47ad-9f6b-bf7e6a3ffc06"],
+Cell[8067, 254, 637, 10, 104, "Text",ExpressionUUID->"07eca7e4-3819-4bcc-838f-4fa5a00e9ea5"],
+Cell[CellGroupData[{
+Cell[8729, 268, 87, 1, 54, "Subsection",ExpressionUUID->"1d7d62be-2a9d-4498-b5b2-680a411ca308"],
+Cell[8819, 271, 463, 14, 58, "Text",ExpressionUUID->"1834d8e7-b7f2-4447-8aed-390e3116bfb2"],
+Cell[CellGroupData[{
+Cell[9307, 289, 3164, 77, 346, "Input",ExpressionUUID->"42696373-1280-4dea-8d66-7b43610b71ed"],
+Cell[12474, 368, 3825, 116, 193, "Output",ExpressionUUID->"91007158-6801-46de-b335-6f415b73d589"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16348, 490, 62, 0, 54, "Subsection",ExpressionUUID->"c66792ac-e6c3-48ae-b0c9-be0125641dc4"],
+Cell[16413, 492, 475, 12, 61, "Text",ExpressionUUID->"47a1baba-c9f9-41cf-a340-bdfe4174ccc8"],
+Cell[16891, 506, 173, 6, 30, "DisplayFormula",ExpressionUUID->"f64c39a0-875d-429c-b94b-f3ed8046d5e3"],
+Cell[CellGroupData[{
+Cell[17089, 516, 3584, 96, 178, "Input",ExpressionUUID->"fd2b1859-158e-424b-81f8-d4c172623250"],
+Cell[20676, 614, 830, 21, 191, "Output",ExpressionUUID->"8b661566-acc9-49ab-bf1d-f9d092c3624f"]
+}, Open  ]],
+Cell[21521, 638, 787, 18, 107, "Text",ExpressionUUID->"cb23bbe3-c71d-4657-b24d-3c1c034d1818"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22357, 662, 76, 0, 67, "Section",ExpressionUUID->"d0961c67-3b04-4a52-ab62-0a129dba1fe3"],
+Cell[CellGroupData[{
+Cell[22458, 666, 66, 0, 54, "Subsection",ExpressionUUID->"a3be1f7e-266c-484a-80c6-3a9f78f305ae"],
+Cell[22527, 668, 386, 6, 58, "Text",ExpressionUUID->"6d12024b-2d42-4e2c-a896-377c0a49cf0c"],
+Cell[CellGroupData[{
+Cell[22938, 678, 3363, 89, 157, "Input",ExpressionUUID->"e91cac33-03e8-4866-9b70-434bdbd6b9cd"],
+Cell[26304, 769, 984, 21, 117, "Output",ExpressionUUID->"7e7337e0-f8ad-42a7-9136-70329f1900f1"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27337, 796, 122, 3, 54, "Subsection",ExpressionUUID->"db38694d-05f5-4b0d-a54e-5937fcf5dde3"],
+Cell[27462, 801, 275, 6, 58, "Text",ExpressionUUID->"958399b5-227d-4b1c-ba90-3798fda46688"],
+Cell[CellGroupData[{
+Cell[27762, 811, 221, 5, 32, "Item",ExpressionUUID->"f7a6d938-59ca-45d0-8229-2ac6df3d3853"],
+Cell[27986, 818, 234, 5, 32, "Item",ExpressionUUID->"3145ae96-6a87-4eb1-b0bd-f0048930d701"],
+Cell[28223, 825, 485, 9, 53, "Item",ExpressionUUID->"9521ee12-f3fb-4beb-9a17-b63784c561e4"]
+}, Open  ]],
+Cell[28723, 837, 148, 3, 35, "Text",ExpressionUUID->"f50ba679-b9a1-40a6-b236-8c972868fa68"],
+Cell[CellGroupData[{
+Cell[28896, 844, 2319, 65, 136, "Input",ExpressionUUID->"56e17a29-7c67-43d9-85a3-52534f133a36"],
+Cell[31218, 911, 204, 5, 34, "Output",ExpressionUUID->"1ce5aa44-f7b7-4e91-a2ac-b3593972b363"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31471, 922, 88, 1, 54, "Subsection",ExpressionUUID->"f8689e56-7411-4fd5-a09f-c671ffbaf559"],
+Cell[31562, 925, 401, 13, 58, "Text",ExpressionUUID->"c0118a6d-675b-4013-947f-0011a1be9177"],
+Cell[31966, 940, 466, 16, 29, "DisplayFormula",ExpressionUUID->"6adaea3d-e74c-4dab-b444-52cfed1fbce1"],
+Cell[32435, 958, 316, 10, 29, "DisplayFormula",ExpressionUUID->"a8ac6309-53a0-41e7-821b-515655d73502"],
+Cell[32754, 970, 516, 16, 29, "DisplayFormula",ExpressionUUID->"5603d9b6-6dd8-4586-9566-24e80a5a7219"],
+Cell[33273, 988, 468, 14, 29, "DisplayFormula",ExpressionUUID->"0286b8ef-827f-44b0-8d85-40a397f4631c"],
+Cell[33744, 1004, 632, 13, 81, "Text",ExpressionUUID->"230fafc3-eb3b-4dc0-82ea-15bba85a05ce"],
+Cell[34379, 1019, 717, 20, 29, "DisplayFormula",ExpressionUUID->"ffc5d4f4-9545-46f9-ac77-d1cc4954dc90"],
+Cell[35099, 1041, 176, 5, 43, "DisplayFormula",ExpressionUUID->"32cfabd9-69a6-4b51-8cbb-79e9affee3f3"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35324, 1052, 72, 0, 67, "Section",ExpressionUUID->"1d635f5e-ece0-4e0c-9383-31d2bcdbf203"],
+Cell[35399, 1054, 400, 8, 58, "Text",ExpressionUUID->"23e9c04e-2741-41f5-9d5d-b2adc8501f15"],
+Cell[35802, 1064, 340, 11, 27, "DisplayFormula",ExpressionUUID->"3f0f5c74-e3f9-4800-9de1-0312c415d578"],
+Cell[36145, 1077, 340, 11, 29, "DisplayFormula",ExpressionUUID->"42552276-7efc-4bbe-89e8-0e0d4bb8c5d4"],
+Cell[36488, 1090, 290, 10, 27, "DisplayFormula",ExpressionUUID->"3d361569-9076-45f5-aba3-ae93c4918288"],
+Cell[36781, 1102, 409, 7, 58, "Text",ExpressionUUID->"f4335650-4753-4728-ade3-422275bdf0b6"],
+Cell[CellGroupData[{
+Cell[37215, 1113, 1307, 36, 73, "Input",ExpressionUUID->"cc9b35da-0f8f-4ce9-9bd5-5fd5fe71e0a7"],
+Cell[38525, 1151, 524, 12, 24, "Message",ExpressionUUID->"71824b4f-fe3a-4400-91d0-7b537c9930bf"],
+Cell[39052, 1165, 159, 3, 34, "Output",ExpressionUUID->"743fea4f-1b68-4c97-8bb3-cec60b3c5def"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[39248, 1173, 1060, 30, 73, "Input",ExpressionUUID->"10dc1fa1-bc9c-4e50-bbf7-4f3e9595ac17"],
+Cell[40311, 1205, 2056, 47, 131, "Output",ExpressionUUID->"03f91017-6a1b-4d3e-b6e8-560f19597546"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[42404, 1257, 1835, 53, 73, "Input",ExpressionUUID->"04cb0e37-86ce-4d7a-b314-30136af823fe"],
+Cell[44242, 1312, 9806, 220, 645, "Output",ExpressionUUID->"09053754-4376-45ef-9098-69f9b9ff10ad"]
+}, Open  ]],
+Cell[54063, 1535, 551, 8, 81, "Text",ExpressionUUID->"3b988828-6a0f-44cf-a624-003a366ba0e9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54651, 1548, 72, 0, 67, "Section",ExpressionUUID->"ab15a337-256c-4d58-b3e8-c322e7f17f23"],
+Cell[54726, 1550, 385, 12, 58, "Text",ExpressionUUID->"6f470860-e6f1-4820-9c29-fcd5c4e97c10"],
+Cell[55114, 1564, 320, 11, 55, "DisplayFormula",ExpressionUUID->"21ddd2de-4b6f-49e5-8677-c88ffc292de7"],
+Cell[55437, 1577, 320, 11, 55, "DisplayFormula",ExpressionUUID->"85055866-780c-4539-9c8a-e5941d706f7b"],
+Cell[CellGroupData[{
+Cell[55782, 1592, 2140, 67, 115, "Input",ExpressionUUID->"9db45559-ecbd-460c-9343-333dd0361c5d"],
+Cell[57925, 1661, 288, 6, 37, "Output",ExpressionUUID->"479d7ec2-ea07-4017-af51-d67ba94421be"]
+}, Open  ]],
+Cell[58228, 1670, 487, 14, 58, "Text",ExpressionUUID->"d2e638c3-3f23-4458-9ccd-1293e6c37fef"],
+Cell[58718, 1686, 423, 14, 54, "DisplayFormula",ExpressionUUID->"55663ba4-cc80-428e-b082-47181226680f"],
+Cell[59144, 1702, 389, 13, 27, "DisplayFormula",ExpressionUUID->"e7a94b7f-14b2-4bbf-8c51-dc478b7ded57"],
+Cell[59536, 1717, 389, 13, 29, "DisplayFormula",ExpressionUUID->"e1fffcb4-dbe7-4109-a16f-146d22dc4a0d"],
+Cell[59928, 1732, 468, 15, 53, "DisplayFormula",ExpressionUUID->"8850b68f-00b6-40c1-b687-7621262c3a7f"],
+Cell[60399, 1749, 740, 26, 58, "Text",ExpressionUUID->"36abcbef-92df-4381-ba41-30d608afcbec"],
+Cell[61142, 1777, 2932, 81, 115, "Input",ExpressionUUID->"54beb52e-d5df-4ad8-9009-56d88827793a"],
+Cell[64077, 1860, 3991, 108, 178, "Input",ExpressionUUID->"4064b2ed-2be9-4c81-bb73-ce1426a22150"],
+Cell[68071, 1970, 415, 17, 35, "Text",ExpressionUUID->"94780c10-3768-4c0d-9bf7-19ae25ce3583"],
+Cell[CellGroupData[{
+Cell[68511, 1991, 515, 15, 30, "Input",ExpressionUUID->"faf64e0f-9ef4-49ec-b555-47b2e8bf4c9a"],
+Cell[69029, 2008, 237, 6, 37, "Output",ExpressionUUID->"cb708671-3cca-4c30-a673-7e701b59815f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[69315, 2020, 52, 0, 67, "Section",ExpressionUUID->"d22e3a30-f3f7-4ca0-a29a-aab9de8c7e45"],
+Cell[CellGroupData[{
+Cell[69392, 2024, 95, 2, 54, "Subsection",ExpressionUUID->"b863abb9-cb88-4ab2-8db4-d567f5770ff4"],
+Cell[CellGroupData[{
+Cell[69512, 2030, 1271, 35, 73, "Input",ExpressionUUID->"8df0061d-d5fe-4078-a21d-d96b85fad515"],
+Cell[70786, 2067, 268, 7, 34, "Output",ExpressionUUID->"64359ff2-3099-4bed-9300-8391bb53bd02"]
+}, Open  ]],
+Cell[71069, 2077, 298, 7, 58, "Text",ExpressionUUID->"d49a519e-6481-4c27-b83b-e3eba8b6cb06"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[71404, 2089, 59, 0, 54, "Subsection",ExpressionUUID->"fdeb36c4-bd7e-41a9-bd86-dbc990b52bf5"],
+Cell[CellGroupData[{
+Cell[71488, 2093, 1570, 42, 52, "Input",ExpressionUUID->"b61febbc-b3ab-4756-bed3-d6230a1930a5"],
+Cell[73061, 2137, 863, 19, 99, "Output",ExpressionUUID->"6d093cda-b5d6-429c-938d-945b72902308"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[73961, 2161, 1176, 32, 94, "Input",ExpressionUUID->"258330fa-c981-4cdc-8b4e-3032be245b69"],
+Cell[75140, 2195, 268, 7, 34, "Output",ExpressionUUID->"d4203ed8-75a0-4f5f-ad1b-5db758a4bc8b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[75445, 2207, 999, 30, 52, "Input",ExpressionUUID->"d9180721-c0ad-4a4b-93f9-8871284ea83c"],
+Cell[76447, 2239, 360, 10, 34, "Output",ExpressionUUID->"aa91e85e-8449-4fb4-aeb3-d68a32c22b48"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[76844, 2254, 321, 8, 30, "Input",ExpressionUUID->"7ffedeb1-5c18-4a76-94a4-9773af32ec70"],
+Cell[77168, 2264, 170, 3, 34, "Output",ExpressionUUID->"bded7161-973d-4a6a-a62c-f41c1bab8596"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[77387, 2273, 60, 0, 54, "Subsection",ExpressionUUID->"73613468-456e-4516-8bc6-b9382e73ca6d"],
+Cell[CellGroupData[{
+Cell[77472, 2277, 3094, 87, 157, "Input",ExpressionUUID->"7df48200-d7f7-4219-afab-1dffff22c787"],
+Cell[80569, 2366, 1045, 24, 99, "Output",ExpressionUUID->"83a41aa7-b7b1-46d1-8e47-5bbecdbcbf21"]
+}, Open  ]],
+Cell[81629, 2393, 236, 4, 58, "Text",ExpressionUUID->"48e3c1e7-a97e-4e02-83b3-5c6bb9f443cb"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[81914, 2403, 60, 0, 67, "Section",ExpressionUUID->"4b49c5b9-2133-4f65-bd27-8b72846522d7"],
+Cell[81977, 2405, 317, 10, 38, "Text",ExpressionUUID->"8bb4b692-14f9-4fb2-9bec-038ae39fc4bd"],
+Cell[CellGroupData[{
+Cell[82319, 2419, 1065, 30, 94, "Input",ExpressionUUID->"2b0515f8-5a51-4ad4-a004-1e8c0c2f76c9"],
+Cell[83387, 2451, 333, 8, 34, "Output",ExpressionUUID->"d2e7f9f9-f2ce-4a0f-9ead-4898df65a1b0"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[83769, 2465, 105, 2, 67, "Section",ExpressionUUID->"89af3e12-36d3-4dab-895b-8f37fe6e0e20"],
+Cell[83877, 2469, 330, 5, 58, "Text",ExpressionUUID->"55640477-4c2f-4e6e-908b-8c9c0a643e23"],
+Cell[84210, 2476, 224, 8, 45, "DisplayFormula",ExpressionUUID->"9ad31fa9-a75f-4581-a6fd-44c8c725c7e8"],
+Cell[84437, 2486, 244, 8, 27, "DisplayFormula",ExpressionUUID->"b12f60ef-81d6-4797-8995-3401059f1773"],
+Cell[CellGroupData[{
+Cell[84706, 2498, 1291, 32, 136, "Input",ExpressionUUID->"b827ea3e-fdad-48a9-bbf6-9c0f76b08b01"],
+Cell[86000, 2532, 324, 8, 34, "Output",ExpressionUUID->"3347df0b-2658-4f18-87b3-bb25cb6bf748"]
+}, Open  ]],
+Cell[86339, 2543, 229, 8, 27, "DisplayFormula",ExpressionUUID->"24094307-3b42-48ad-bb77-94040bd0a250"],
+Cell[CellGroupData[{
+Cell[86593, 2555, 2264, 60, 220, "Input",ExpressionUUID->"604b983a-7a9e-457a-96f2-83bfc1f849a4"],
+Cell[88860, 2617, 1076, 25, 155, "Output",ExpressionUUID->"7f7234c2-91ad-4226-bfee-d3bf857f48c7"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[89985, 2648, 68, 0, 67, "Section",ExpressionUUID->"5cffad8c-efa8-455f-a48c-2f0bb0400b0c"],
+Cell[CellGroupData[{
+Cell[90078, 2652, 41, 0, 54, "Subsection",ExpressionUUID->"3075532f-b0b7-4d86-9582-c8b78217c5ef"],
+Cell[CellGroupData[{
+Cell[90144, 2656, 3473, 98, 199, "Input",ExpressionUUID->"4675dcf2-b928-4488-bbba-fab1aeb27be1"],
+Cell[93620, 2756, 841, 17, 155, "Output",ExpressionUUID->"7d2909d2-ef17-4687-92d5-6519999a0ebc"]
+}, Open  ]],
+Cell[94476, 2776, 204, 4, 35, "Text",ExpressionUUID->"0db67bdf-1273-4724-b0f3-d127a065ac67"],
+Cell[94683, 2782, 1077, 30, 73, "Input",ExpressionUUID->"117e34a0-8672-43a4-8d41-a9f396970dad"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[95797, 2817, 44, 0, 54, "Subsection",ExpressionUUID->"6dda5bef-e076-4c4d-a505-1a374c921a9e"],
+Cell[CellGroupData[{
+Cell[95866, 2821, 8335, 204, 430, "Input",ExpressionUUID->"0f229c9a-9249-478f-a90c-0305314f2244"],
+Cell[104204, 3027, 2889, 60, 327, "Output",ExpressionUUID->"c64d930b-c514-4f87-b679-49faec47939d"]
+}, Open  ]],
+Cell[107108, 3090, 440, 11, 53, "Item",ExpressionUUID->"02827a3a-9f37-40a1-8e0d-d6df5953de0a"],
+Cell[CellGroupData[{
+Cell[107573, 3105, 1534, 45, 73, "Input",ExpressionUUID->"fc06a1e1-51a3-4f2f-ae7a-e0158720b94d"],
+Cell[109110, 3152, 539, 13, 59, "Output",ExpressionUUID->"6d8881c8-8f52-43a0-83ba-65bea509d2ac"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[109686, 3170, 373, 7, 53, "Item",ExpressionUUID->"c8340757-70e8-472e-af27-5893565e4262"],
+Cell[110062, 3179, 339, 7, 53, "Item",ExpressionUUID->"e73d2506-52b5-4f8a-9058-0280ed3791fa"],
+Cell[110404, 3188, 421, 8, 53, "Item",ExpressionUUID->"f1814387-e06f-45e9-a29b-33816094ced1"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[110874, 3202, 68, 0, 54, "Subsection",ExpressionUUID->"2baef0bf-9588-4124-a476-c35de95428ae"],
+Cell[CellGroupData[{
+Cell[110967, 3206, 3552, 100, 220, "Input",ExpressionUUID->"13ab5435-10ae-4129-9674-21b2d8d2ced7"],
+Cell[114522, 3308, 1028, 22, 119, "Output",ExpressionUUID->"68a83235-2543-4994-bcfb-f7e332722819"]
+}, Open  ]],
+Cell[115565, 3333, 428, 9, 81, "Text",ExpressionUUID->"edf8ad1a-baf5-4783-bb03-b3e8b5d04329"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[116042, 3348, 46, 0, 67, "Section",ExpressionUUID->"51956db2-e56b-4b2f-8c43-d74ecdb59c3b"],
+Cell[CellGroupData[{
+Cell[116113, 3352, 205, 4, 32, "Item",ExpressionUUID->"548c4455-119e-499a-99a0-07c87acfbf6b"],
+Cell[116321, 3358, 119, 1, 32, "Item",ExpressionUUID->"da191268-78b3-488f-86cf-019e4dc83410"],
+Cell[116443, 3361, 728, 35, 37, "Item",ExpressionUUID->"a92deec2-7231-44c2-bb8a-c1879526d5b1"],
+Cell[117174, 3398, 252, 7, 32, "Item",ExpressionUUID->"4c336260-0179-4dbc-8654-8d4c33f67fe5"],
+Cell[117429, 3407, 342, 15, 32, "Item",ExpressionUUID->"0e0b7f4f-c709-44ef-a23a-2526907ac0da"],
+Cell[117774, 3424, 236, 4, 32, "Item",ExpressionUUID->"cef764c0-b81c-4798-84ed-79d133df55e5"],
+Cell[118013, 3430, 244, 4, 53, "Item",ExpressionUUID->"89a47a70-17a6-4268-8aec-4dd9f85623ca"],
+Cell[118260, 3436, 159, 3, 32, "Item",ExpressionUUID->"4f2bb08a-734e-4419-9853-da1f2b82fb20"],
+Cell[118422, 3441, 216, 6, 32, "Item",ExpressionUUID->"87d5cdb9-409d-4cd9-b65d-c7375861e8ac"],
+Cell[118641, 3449, 165, 3, 32, "Item",ExpressionUUID->"7dae1430-a645-4b45-8e1a-41fd718e2c9d"],
+Cell[118809, 3454, 286, 5, 32, "Item",ExpressionUUID->"bc29cf79-1ca8-486d-a09c-f1b534cfe6da"],
+Cell[119098, 3461, 192, 4, 32, "Item",ExpressionUUID->"ff3289d2-d8bb-45d1-8ada-69458e06668e"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[119339, 3471, 35, 0, 67, "Section",ExpressionUUID->"40be4721-e2ec-4d40-944a-06e2cb80d640"],
+Cell[119377, 3473, 303, 7, 58, "Text",ExpressionUUID->"76c5fb1a-54f7-4846-8b04-c2b3a46ef6bf"],
+Cell[CellGroupData[{
+Cell[119705, 3484, 5475, 138, 430, "Input",ExpressionUUID->"5577dd78-6612-4f49-acdd-3af9dbc6f186"],
+Cell[125183, 3624, 16033, 385, 1551, "Output",ExpressionUUID->"5eca5b32-6221-4619-add9-402a819a19f9"]
+}, Open  ]],
+Cell[141231, 4012, 224, 4, 58, "Text",ExpressionUUID->"db77db77-e5d4-408f-b366-a0e3ee8e012b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[141492, 4021, 50, 0, 67, "Section",ExpressionUUID->"8f1c93d9-9df7-479d-bd0f-17e7eb4faa2e"],
+Cell[CellGroupData[{
+Cell[141567, 4025, 4767, 123, 325, "Input",ExpressionUUID->"f5df08e8-b134-4e3f-988c-0a0842854af0"],
+Cell[146337, 4150, 2157, 43, 255, "Output",ExpressionUUID->"9cf64634-ada6-4de3-a7be-7e69864a417a"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[148543, 4199, 30, 0, 67, "Section",ExpressionUUID->"68f44027-f9bf-4d98-94ae-720695aad8bf"],
+Cell[CellGroupData[{
+Cell[148598, 4203, 2380, 59, 241, "Input",ExpressionUUID->"762b3d4f-15fb-443f-8f81-cff31078d09d"],
+Cell[150981, 4264, 1204, 25, 213, "Output",ExpressionUUID->"f5fe88a6-d408-4d82-93eb-34477153dd06"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[152234, 4295, 33, 0, 67, "Section",ExpressionUUID->"636e562f-e487-4143-8a40-a7b4fca0c53f"],
+Cell[CellGroupData[{
+Cell[152292, 4299, 172, 4, 32, "Item",ExpressionUUID->"57f8d83c-16d3-4345-905e-d9a3c3857eec"],
+Cell[152467, 4305, 197, 4, 32, "Item",ExpressionUUID->"2c66f395-5348-4b7a-b40f-fa1e3beaeb97"],
+Cell[152667, 4311, 138, 3, 32, "Item",ExpressionUUID->"4e683a4f-55eb-476d-9e5e-6cf3617393a8"],
+Cell[152808, 4316, 119, 3, 32, "Item",ExpressionUUID->"37b6cca7-c976-4a46-8ec5-60115fa49cb1"],
+Cell[152930, 4321, 123, 3, 32, "Item",ExpressionUUID->"870dcc7a-e7a1-4071-beab-cf637874017f"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

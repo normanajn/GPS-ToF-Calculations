@@ -1,0 +1,123 @@
+.TH GPS-TOF 5 "2026-11-04" "gps-tof 0.1.0" "File Formats"
+.SH NAME
+gps-tof.yaml \- configuration file format for gps-tof
+.SH DESCRIPTION
+The configuration is a YAML mapping.  All keys are optional except \fBsites\fR.
+Numeric values written with an exponent should carry a sign (\fB64.0e+6\fR) because
+YAML 1.1 parsers read \fB64.0e6\fR as a string; gps-tof coerces such strings, but the
+signed form is unambiguous.
+.SS Top-level settings
+.TP
+.B project
+Report title.
+.TP
+.B clock_hz
+Tick clock frequency in Hz (default 64e6).
+.TP
+.B legacy_unit_s
+A second time unit to express the flight time in (default 500e-9 s).
+.TP
+.B earth
+Mapping with \fBmodel\fR (wgs84 | grs80 | sphere) and \fBsphere_radius_m\fR.  The model not
+chosen is the reference row of the correction ledger.
+.TP
+.B offset_normal
+geodetic | radial: the "up" direction used when applying antenna-to-endpoint offsets.
+\fBradial\fR is the plane tangent to a sphere (p/|p|), \fBgeodetic\fR the ellipsoid normal.
+.TP
+.B apply_sagnac
+true to add the Sagnac term to the total offset (it is always reported).
+.TP
+.B rounding
+round | floor | ceil for the integer tick count.
+.TP
+.B precision_digits
+Decimal places in the report.
+.TP
+.B physics
+\fBneutrino_mass_ev\fR, \fBneutrino_energy_gev\fR: if both are given the mass-induced delay
+t m^2 / 2E^2 is reported.
+.TP
+.B trigger_window
+\fBbefore_us\fR, \fBafter_us\fR, \fBmicroslice_us\fR: the window [t - before, t + after) in ticks
+and the number of readout slices it can overlap.
+.TP
+.B sensitivity
+\fBenabled\fR, \fBarcsec_step\fR, \fBheight_step_m\fR, \fBoffset_step_m\fR: steps used for the
+numerical sensitivities.
+.SS sites
+A list of mappings.  Each site needs \fBname\fR and either \fBlat\fR/\fBlon\fR or \fBfscs_xyz_ft\fR.
+.TP
+.B name, id
+Display name and short identifier (default: slug of the name).  Baselines refer to the id.
+.TP
+.B lat, lon
+Decimal degrees or strings such as "41 50 23 N", "41:50:23N", "48 22.715780 N", "88 16 13 W".
+Longitude is east-positive when numeric.
+.TP
+.B height_m, datum, geoid_separation_m
+Height and what it is: \fBellipsoid\fR (height above the WGS84 ellipsoid, what a GPS receiver
+reports in $POLYP or $GPGGA altitude + geoid separation) or \fBmsl\fR (orthometric altitude,
+the $GPGGA altitude field); with \fBmsl\fR the geoid separation N is required and
+h = H + N is used.  The conversion appears as a ledger row.
+.TP
+.B fscs_xyz_ft
+Fermilab site coordinates (DUSAF/FSCS) in US survey feet: x east, y north, z elevation above
+the DUSAF datum.  Converted with the double stereographic projection of Beams-doc-1148
+(origin A0, azimuth 38 16 48.01429, F0 = 1.000029251309483, dH_NAVD88 = -0.17308 m,
+N = -32.78456 m).  Overrides lat/lon/height.
+.TP
+.B offset_enu_m, offset_note
+Vector from the surveyed point to the physics endpoint in the local East, North, Up frame,
+metres.  A detector 120 m below the antenna is [0, 0, -120].
+.TP
+.B cable_length_m, cable_velocity_factor, cable_delay_ns
+Antenna cable delay (reported as a calibration item, never added to the flight time).
+.TP
+.B uncertainty
+Mapping of \fBlat_arcsec\fR, \fBlon_arcsec\fR, \fBheight_m\fR (1-sigma values),
+\fBoffset_m\fR (worst case along the chord) and \fBquantization_arcsec\fR (coordinate
+resolution; gives an RMS and a worst-case entry).  Used by the error budget.
+.TP
+.B source, notes
+Free text carried into the report.
+.SS baselines
+List of \fB{from, to, label, axis_to}\fR.  \fBaxis_to\fR names a site such that the angle between
+from\(->to and from\(->axis_to is reported as the off-axis angle.  If the list is absent every
+pair of sites is computed.
+.SS timing_shifts
+List of fixed offsets added to the flight time.  Each has \fBname\fR and either
+\fBseconds\fR, or \fBturns\fR, \fBbuckets_per_turn\fR and \fBrf_hz\fR (value = turns *
+buckets / f_RF).  \fBrf_uncertainty_hz\fR adds an error-budget entry.
+.SH EXAMPLE
+.nf
+project: "NOvA NuMI -> Ash River timing offsets"
+clock_hz: 64.0e+6
+earth: {model: wgs84}
+trigger_window: {before_us: 20, after_us: 30, microslice_us: 50}
+sites:
+  - name: "NuMI target (TDR 1998 design)"
+    id: target
+    fscs_xyz_ft: [100327.838, 97780.188, 626.743]
+  - name: "NOvA Near Detector"
+    id: nd
+    lat: "41 50 23 N"
+    lon: "88 16 13 W"
+    height_m: 228.0
+    offset_enu_m: [0, 0, -120]
+    uncertainty: {quantization_arcsec: 1.0, height_m: 33.0, offset_m: 10.0}
+  - name: "Ash River Ant-2"
+    id: fd2
+    lat: "48 22.715780 N"
+    lon: "92 49.876930 W"
+    height_m: 348.638
+    datum: ellipsoid
+    offset_enu_m: [0, 0, -19.8]
+baselines:
+  - {from: nd, to: fd2, label: "ND -> FD"}
+  - {from: target, to: fd2, axis_to: decay-end}
+timing_shifts:
+  - {name: "MI 141-turn shift", turns: 141, buckets_per_turn: 588, rf_hz: 53.1034e+6, rf_uncertainty_hz: 1000}
+.fi
+.SH SEE ALSO
+.BR gps-tof (1)

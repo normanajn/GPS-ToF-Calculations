@@ -1,0 +1,30 @@
+.TH GPS-TOF-NMEA 1 "2026-11-04" "gps-tof 0.1.0" "User Commands"
+.SH NAME
+gps-tof-nmea \- validate NMEA 0183 sentences and turn $GPGGA fixes into gps-tof sites
+.SH SYNOPSIS
+.B gps-tof-nmea
+[\fB\-\-yaml\fR] [\fB\-\-name\fR \fIPREFIX\fR] [\fIFILE\fR...]
+.SH DESCRIPTION
+Reads NMEA sentences from the given files (or standard input), checks every checksum
+(XOR of the characters between $ and *), decodes $GPGGA (position, fix quality, satellites,
+HDOP, MSL altitude H, geoid separation N, and the ellipsoidal height h = H + N) and $GPRMC
+(date), and prints YAML \fBsites:\fR entries that can be pasted into a gps-tof configuration.
+The generated sites use \fBdatum: msl\fR with the receiver's geoid separation, so the
+datum conversion appears explicitly in the correction ledger.
+.SH OPTIONS
+.TP
+.B \-\-yaml
+Print only the YAML site entries.
+.TP
+.BI \-\-name " PREFIX"
+Name prefix for generated sites (default: the file name).
+.SH EXIT STATUS
+0 if all checksums are valid, 1 if any sentence fails its checksum.
+.SH EXAMPLE
+.nf
+    screen -L /dev/ttyUSB0 38400      # capture the TDU receiver stream to screenlog.0
+    gps-tof-nmea screenlog.0 --yaml >> config/mysites.yaml
+.fi
+.SH SEE ALSO
+.BR gps-tof (1),
+.BR gps-tof (5)
