@@ -37,7 +37,7 @@ class Site:
     offset_note: str = ""
     id: str = ""
     fscs_xyz_ft: Optional[Tuple[float, float, float]] = None
-    axis_position: Optional[Dict[str, float]] = None   # along_m + (right_m, up_m | off_axis_mrad, clock_deg)
+    axis_position: Optional[Dict[str, Any]] = None   # along_m + (right_m, up_m | off_axis_mrad, clock_deg) [+ frame]
     cable_length_m: Optional[float] = None
     cable_velocity_factor: Optional[float] = None
     cable_delay_ns: Optional[float] = None
@@ -93,7 +93,14 @@ class Site:
         name = d.pop("name")
         kw: Dict[str, Any] = {}
         if d.get("axis_position") is not None:
-            ap = {k: float(v) for k, v in dict(d.pop("axis_position")).items()}
+            raw = dict(d.pop("axis_position"))
+            frame = raw.pop("frame", None)
+            ap: Dict[str, Any] = {k: float(v) for k, v in raw.items()}
+            if frame is not None:
+                if not isinstance(frame, dict) or "origin" not in frame or "through" not in frame:
+                    raise ValueError("site %s: axis_position.frame needs origin and through site ids" % name)
+                ap["frame_origin"] = str(frame["origin"])
+                ap["frame_through"] = str(frame["through"])
             if "along_m" not in ap:
                 raise ValueError("site %s: axis_position needs along_m" % name)
             if not (("right_m" in ap and "up_m" in ap) or ("off_axis_mrad" in ap and "clock_deg" in ap)):
@@ -308,16 +315,28 @@ class Problem:
         pending = [s for s in self.sites if s.axis_position is not None]
         if not pending:
             return
-        if self.beam_axis is None:
-            raise ValueError("site %s uses axis_position but no beam_axis is defined" % pending[0].name)
-        for key in (self.beam_axis.origin, self.beam_axis.through):
-            if self.site(key).axis_position is not None:
-                raise ValueError("beam_axis site %s cannot itself be given in the axis frame" % key)
-        from .calc import axis_frame          # lazy: calc imports this module
+        from .calc import axis_frame, frame_from_sites   # lazy: calc imports this module
         from .geodesy import ecef_to_geodetic, WGS84
-        frame = axis_frame(self, force=True)
+        global_frame = None
         for s in pending:
             ap = s.axis_position
+            if "frame_origin" in ap:
+                o, th = self.site(ap["frame_origin"]), self.site(ap["frame_through"])
+                for x in (o, th):
+                    if x.axis_position is not None:
+                        raise ValueError("site %s: frame site %s is itself given in an axis frame" % (s.name, x.name))
+                frame = frame_from_sites(self, o, th)
+                ap["frame"] = "%s -> %s" % (o.id, th.id)
+            else:
+                if self.beam_axis is None:
+                    raise ValueError("site %s uses axis_position but no beam_axis is defined" % s.name)
+                for key in (self.beam_axis.origin, self.beam_axis.through):
+                    if self.site(key).axis_position is not None:
+                        raise ValueError("beam_axis site %s cannot itself be given in the axis frame" % key)
+                if global_frame is None:
+                    global_frame = axis_frame(self, force=True)
+                frame = global_frame
+                ap["frame"] = "%s -> %s" % (self.beam_axis.origin, self.beam_axis.through)
             along = ap["along_m"]
             if "right_m" in ap:
                 right, up = ap["right_m"], ap["up_m"]
@@ -331,7 +350,6 @@ class Problem:
             s.datum = "ellipsoid"
             s.geoid_separation_m = None
             ap["right_m"], ap["up_m"] = right, up
-            ap["frame"] = "%s -> %s" % (self.beam_axis.origin, self.beam_axis.through)  # type: ignore[assignment]
 
     @classmethod
     def from_dict(cls, d: Dict[str, Any]) -> "Problem":

@@ -43,7 +43,8 @@ def test_sites_relative_to_axis(nova):
     assert fd["transverse_right_m"] < 0 and fd["transverse_up_m"] < 0     # Ash River is left of and below the Soudan line
     assert fd["transverse_m"] == pytest.approx(11814, abs=2)             # "12 km west of the beam axis"
     assert by["decay-end"]["off_axis_mrad"] < 0.05                       # TDR design axis agrees with target -> MINOS FD
-    assert by["nd"]["off_axis_mrad"] == pytest.approx(12.47, abs=0.01)
+    assert by["nd"]["off_axis_mrad"] == pytest.approx(12.19, abs=0.01)
+    assert by["nd-1015"]["off_axis_mrad"] == pytest.approx(12.47, abs=0.01)
     assert by["nd-under-mast"]["off_axis_mrad"] == pytest.approx(13.34, abs=0.01)
 
 
@@ -59,7 +60,7 @@ def test_baseline_reports_chord_vs_axis(nova):
 
 
 def test_opening_angle_uses_global_axis(nova):
-    oa = compute_opening_angle(nova, OpeningAngle("target", "nd", "fd2"))
+    oa = compute_opening_angle(nova, OpeningAngle("target", "nd-1015", "fd2"))
     bx = oa["beam_axis"]
     assert bx["a"]["off_axis_mrad"] == pytest.approx(12.47, abs=0.01)
     assert bx["b"]["off_axis_mrad"] == pytest.approx(14.575, abs=0.002)
@@ -89,17 +90,48 @@ def test_axis_validation():
 
 def test_axis_position_sites_resolve_to_the_stated_frame_coordinates(nova):
     r = compute_all(nova)
-    nd = [s for s in r["sites"] if s["id"] == "nd"][0]
+    nd = [s for s in r["sites"] if s["id"] == "nd-1015"][0]
     assert nd["axis_position"]["along_m"] == 1015.0
     va = nd["vs_axis"]
     assert va["along_axis_m"] == pytest.approx(1015.0, abs=1e-6)
     assert va["transverse_right_m"] == pytest.approx(-11.570, abs=1e-6)
     assert va["transverse_up_m"] == pytest.approx(5.123, abs=1e-6)
     assert va["off_axis_mrad"] == pytest.approx(1e3 * math.atan(math.hypot(11.570, 5.123) / 1015.0), rel=1e-9)
-    b = compute_baseline(nova, Baseline("target", "nd"))
+    b = compute_baseline(nova, Baseline("target", "nd-1015"))
     assert b["result"]["L_m"] == pytest.approx(math.hypot(1015.0, math.hypot(11.570, 5.123)), abs=1e-6)
-    # the ND is 105 m-class underground: its ellipsoidal height is below the mast antenna's by ~124 m
     assert nd["h_ellipsoidal_m"] == pytest.approx(104.1, abs=0.5)
+
+
+def test_surveyed_faces_in_the_mczero_beamline_frame(nova):
+    """The definitive survey points: (X right, Y stationing, Z up) from MCZERO along the
+    MCZERO -> MINOS FD line must be reproduced exactly, and the FD must land at the surveyed
+    NAVD88 elevation (H = 1209.1058 ft, N = -32.46 m at Ash River)."""
+    from gps_tof.calc import frame_from_sites
+    f = frame_from_sites(nova, nova.site("mczero"), nova.site("minos-fd"))
+    st = final_stage(nova.settings)
+    fd = point_vs_axis(site_point(nova.site("fd"), nova.settings, st), f)
+    assert fd["along_axis_m"] == pytest.approx(810422.323775, abs=1e-5)
+    assert fd["transverse_right_m"] == pytest.approx(-11037.455993, abs=1e-5)
+    assert fd["transverse_up_m"] == pytest.approx(-4162.644422, abs=1e-5)
+    nd = point_vs_axis(site_point(nova.site("nd"), nova.settings, st), f)
+    assert nd["along_axis_m"] == pytest.approx(993.350283, abs=1e-6)
+    assert nd["transverse_right_m"] == pytest.approx(-11.565, abs=1e-6)
+    assert nd["transverse_up_m"] == pytest.approx(-3.643551, abs=1e-6)
+    h_fd = nova.site("fd").height_m
+    assert h_fd == pytest.approx(1209.1058 * 0.3048 - 32.462, abs=2.0)      # 337.61 vs 336.07
+    assert nova.site("fd").lat == pytest.approx(48.37820593, abs=1e-7)
+    assert nova.site("fd").lon == pytest.approx(-92.83077048, abs=1e-7)
+    assert nova.site("nd").lat == pytest.approx(41.84009631, abs=1e-7)
+    assert nova.site("nd").lon == pytest.approx(-88.27049947, abs=1e-7)
+    assert nova.site("nd").height_m == pytest.approx(96.572, abs=0.002)
+    # the chord from MCZERO equals the Euclidean norm of the beamline coordinates
+    L = compute_baseline(nova, Baseline("mczero", "fd"))["result"]["L_m"]
+    assert L == pytest.approx(math.sqrt(810422.323775**2 + 11037.455993**2 + 4162.644422**2), abs=1e-5)
+    # headline results
+    b = compute_baseline(nova, Baseline("nd", "fd"))
+    assert b["result"]["L_m"] == pytest.approx(809514.750, abs=0.002)
+    assert b["result"]["ticks"] == pytest.approx(172816.035, abs=0.002)
+    assert b["total"]["ticks_int"] == 272736
 
 
 def test_axis_position_polar_form_and_validation():

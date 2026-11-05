@@ -41,6 +41,15 @@ sites:
     notes: "Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m."
     uncertainty: {offset_m: 5.0}
 
+  - name: "MCZERO (horn 1 upstream face, TDR 1998 design)"
+    id: mczero
+    # Origin of the NuMI beamline coordinate system used by the Fermilab alignment group.  MCZERO sits
+    # at the upstream end of horn 1, between the target exit and the horn; the 1998 TDR design horn-1
+    # entrance (beam sheet row 0089 IHHRN1) is used, 1.5 m downstream of the target entrance.
+    fscs_xyz_ft: [100324.941, 97781.717, 626.552]
+    source: "NuMI TDR 1998 App. A beam sheet row 0089 IHHRN1"
+    notes: "Proxy for MCZERO to about 1 m along the beam (as-built horn position not public)."
+
   - name: "NuMI decay pipe end (TDR 1998 design)"
     id: decay-end
     fscs_xyz_ft: [98230.009, 98887.039, 488.477]
@@ -57,19 +66,26 @@ sites:
     source: "2014 note Table 2 (MINOS-based TDU receivers)"
     uncertainty: {quantization_arcsec: 1.0, height_m: 33.0}
 
-  - name: "NOvA Near Detector (1015 m from the target)"
+  - name: "NOvA ND upstream face centre (Fermilab alignment survey)"
     id: nd
-    # The ND is not under the MINOS mast: it is 1015 m downstream of the target along the beam.
-    # Position given in the beam-axis frame (axis = target -> MINOS FD): along the axis 1015 m,
-    # transverse offsets taken from the mast antenna fix (11.57 m left of the axis, 5.12 m above it,
-    # i.e. the antenna's horizontal position with the 105 + 15 m vertical offset); lat/lon/h derived.
-    axis_position: {along_m: 1015.0, right_m: -11.570, up_m: 5.123}
+    # DEFINITIVE surveyed position.  Fermilab Survey, Alignment and Geodesy group: "NOvA Near Detector
+    # Upstream Face Center coordinates in the NuMI beamline system", origin MCZERO, X = beam right
+    # (eastward looking downstream), Y = stationing, positive downstream, Z = up, orthogonal to the beam.
+    # X = -11.565000 m, Y = 993.350283 m, Z = -3.643551 m.  Computed with the 3x3 module
+    # width/height of 158.125 in and the beamline dimensions of drawing 489389 (tunnel cross section).
+    axis_position: {frame: {origin: mczero, through: minos-fd}, along_m: 993.350283, right_m: -11.565000, up_m: -3.643551}
     offset_enu_m: [0, 0, 0]
     cable_length_m: 30.48
     cable_velocity_factor: 0.85
-    source: "1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down"
-    notes: "Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate."
-    uncertainty: {offset_m: 10.0}
+    source: "Fermilab SAG survey note, NuMI beamline coordinates from MCZERO; definitive"
+    notes: "Definitive ND endpoint.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance)."
+    uncertainty: {offset_m: 1.0}
+
+  - name: "ND placed 1015 m along the beam (quoted placement, superseded by the survey)"
+    id: nd-1015
+    axis_position: {along_m: 1015.0, right_m: -11.570, up_m: 5.123}
+    source: "1015 m from target (quoted placement); transverse from 2014-note mast antenna, 105 + 15 m down"
+    notes: "Kept for comparison: 20 m too far along the beam and 8.8 m too high against the survey."
 
   - name: "ND endpoint if it were under the MINOS mast (105 + 15 m down)"
     id: nd-under-mast
@@ -84,6 +100,25 @@ sites:
     uncertainty: {quantization_arcsec: 1.0, height_m: 33.0, offset_m: 10.0}
 
   # ---- Ash River ----------------------------------------------------------------------
+  - name: "NOvA FD upstream face centre (Fermilab alignment survey)"
+    id: fd
+    # DEFINITIVE surveyed position.  Fermilab Survey, Alignment and Geodesy group (V. Bocean), note to
+    # L. Corwin: "NOvA Far Detector Upstream Face Center coordinates in the beamline system",
+    # origin MCZERO, X = beam right (eastward looking downstream), Y = stationing, positive downstream,
+    # Z = up, orthogonal to the beam.  X = -11037.455993 m, Y = 810422.323775 m, Z = -4162.644422 m.
+    # The point is 7.5" from the rail-midline/wall intersection (bookend) and at NAVD88 elevation
+    # H = 1209.1058 ft = 368.535 m (floor 1181.8175 ft + 23.25" pallet + 304.21" half plane).
+    # Beamline Y axis realised here as the line MCZERO -> MINOS FD midpoint (the as-built aiming line);
+    # it reproduces the surveyed NAVD88 elevation to 1.5 m (h = H + N, N = -32.46 m at Ash River),
+    # whereas the 1998 design axis (target -> decay-pipe end) misses it by 17 m.
+    axis_position: {frame: {origin: mczero, through: minos-fd}, along_m: 810422.323775, right_m: -11037.455993, up_m: -4162.644422}
+    offset_enu_m: [0, 0, 0]
+    cable_length_m: 30.48
+    cable_velocity_factor: 0.85
+    source: "Fermilab SAG survey note (V. Bocean), beamline coordinates from MCZERO; definitive"
+    notes: "Definitive FD endpoint.  Residual vs NAVD88 elevation: +1.5 m (geoid/datum level).  Supersedes the antenna-derived front face (fd2 - 19.8 m), which it exceeds by 58 m horizontally."
+    uncertainty: {offset_m: 1.0}
+
   - name: "Ash River Ant-1 (FD front-face centre)"
     id: fd1
     lat: "48 22.715780 N"       # degrees + decimal minutes, 1e-6' = 2 mm
@@ -95,7 +130,7 @@ sites:
     source: "2014 note Table 2"
     uncertainty: {offset_m: 2.0}
 
-  - name: "Ash River Ant-2 (FD front-face centre)"
+  - name: "Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded)"
     id: fd2
     lat: "48 22.715780 N"
     lon: "92 49.876930 W"
@@ -106,6 +141,7 @@ sites:
     cable_length_m: 30.48
     cable_velocity_factor: 0.85
     source: "2014 note Table 2 (antenna used by the 2013 notebook)"
+    notes: "Superseded by the surveyed front face (id fd), which is 58 m away horizontally and 8.8 m higher."
     uncertainty: {offset_m: 2.0}
 
   - name: "Ash River Ant-3 (FD front-face centre)"
@@ -133,21 +169,23 @@ sites:
 beam_axis: {from: target, to: minos-fd, label: "NuMI beam axis (target -> MINOS FD)"}
 
 baselines:
-  - {from: nd, to: fd2, label: "ND (1015 m from target) -> FD front face (Ant-2)"}
-  - {from: target, to: fd2, label: "NuMI target -> FD front face (Ant-2)"}
-  - {from: target, to: nd, label: "NuMI target -> ND (1015 m)"}
-  - {from: nd-under-mast, to: fd2, label: "ND placed under the mast -> FD (Ant-2), superseded 2014-note geometry"}
-  - {from: target, to: nd-under-mast, label: "NuMI target -> ND placed under the mast (superseded)"}
-  - {from: nd, to: fd1, label: "ND -> FD (Ant-1)"}
-  - {from: nd, to: fd3, label: "ND -> FD (Ant-3)"}
+  - {from: nd, to: fd, label: "ND upstream face -> FD upstream face (both surveyed)"}
+  - {from: target, to: fd, label: "NuMI target -> FD upstream face (surveyed)"}
+  - {from: target, to: nd, label: "NuMI target -> ND upstream face (surveyed)"}
+  - {from: mczero, to: fd, label: "MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)"}
+  - {from: mczero, to: nd, label: "MCZERO -> ND upstream face (surveyed; stationing 993.350 m)"}
+  - {from: nd-1015, to: fd, label: "ND at the quoted 1015 m -> FD (superseded ND placement)"}
+  - {from: nd-under-mast, to: fd2, label: "ND under the mast -> FD from the Ant-2 fix (superseded 2014-note geometry)"}
   - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)"}
   - {from: target, to: decay-end, label: "NuMI target -> decay-pipe end (TDR design axis)"}
 
 opening_angles:
   # angle at the vertex between the chords vertex -> a and vertex -> b (each also vs the beam axis)
-  - {vertex: target, a: nd, b: fd2, label: "Target: ND vs FD front face (Ant-2)"}
-  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND vs MINOS FD"}
-  - {vertex: target, a: nd-under-mast, b: nd, label: "Target: ND under the mast (superseded) vs ND at 1015 m"}
+  - {vertex: target, a: nd, b: fd, label: "Target: ND vs FD (both surveyed)"}
+  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND (surveyed) vs MINOS FD"}
+  - {vertex: target, a: nd-1015, b: nd, label: "Target: ND at the quoted 1015 m vs surveyed ND"}
+  - {vertex: target, a: nd-under-mast, b: nd, label: "Target: ND under the mast (2014 note) vs surveyed ND"}
+  - {vertex: target, a: fd2, b: fd, label: "Target: FD from the Ant-2 fix vs surveyed FD"}
 
 timing_shifts:
   - name: "Main Injector 141-turn shift (2012 shutdown)"

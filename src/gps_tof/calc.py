@@ -65,6 +65,25 @@ def _round(x: float, mode: str) -> int:
 
 
 # ---------------------------------------------------------------- beam axis
+def frame_from_sites(problem: Problem, o: Site, th: Site) -> Dict[str, Any]:
+    """Right-handed frame of the line o -> th: u along, h right (looking
+    downstream), v up (orthogonal to the line, in the vertical plane of the
+    ellipsoid normal at the origin)."""
+    s = problem.settings
+    st = final_stage(s)
+    po, pt = site_point(o, s, st), site_point(th, s, st)
+    d = vsub(pt, po)
+    u = unit(d)
+    _, _, up = enu_basis(o.lat_rad, o.lon_rad)
+    h = unit(cross(u, up))
+    v = cross(h, u)
+    az, el = azimuth_elevation(u, o.lat_rad, o.lon_rad)
+    return {"label": "%s -> %s" % (o.name, th.name), "origin": o.name, "origin_id": o.id,
+            "through": th.name, "through_id": th.id, "length_m": norm(d),
+            "azimuth_at_origin_deg": math.degrees(az), "elevation_at_origin_deg": math.degrees(el),
+            "p0": po, "u": u, "h": h, "v": v}
+
+
 def axis_frame(problem: Problem, force: bool = False) -> Optional[Dict[str, Any]]:
     """Geometry of the global beam axis: origin ECEF, unit direction, and a
     transverse basis (h = horizontal-right looking downstream, v = up-ish).
@@ -73,20 +92,10 @@ def axis_frame(problem: Problem, force: bool = False) -> Optional[Dict[str, Any]
     ax = problem.beam_axis
     if ax is None or (not force and not problem.settings.report_axis):
         return None
-    s = problem.settings
-    st = final_stage(s)
-    o, th = problem.site(ax.origin), problem.site(ax.through)
-    po, pt = site_point(o, s, st), site_point(th, s, st)
-    d = vsub(pt, po)
-    u = unit(d)
-    _, _, up = enu_basis(o.lat_rad, o.lon_rad)
-    h = unit(cross(u, up))            # horizontal, to the right when looking along the axis
-    v = cross(h, u)                   # completes the right-handed frame, points "up" transverse to the axis
-    az, el = azimuth_elevation(u, o.lat_rad, o.lon_rad)
-    return {"label": ax.label or "%s -> %s" % (o.name, th.name), "origin": o.name, "origin_id": o.id,
-            "through": th.name, "through_id": th.id, "length_m": norm(d),
-            "azimuth_at_origin_deg": math.degrees(az), "elevation_at_origin_deg": math.degrees(el),
-            "p0": po, "u": u, "h": h, "v": v}
+    f = frame_from_sites(problem, problem.site(ax.origin), problem.site(ax.through))
+    if ax.label:
+        f["label"] = ax.label
+    return f
 
 
 def point_vs_axis(p: Vec3, frame: Dict[str, Any]) -> Dict[str, Any]:

@@ -96,6 +96,32 @@ so the target-referenced total is unchanged to 0.01 tick.  (An earlier version o
 document estimated the ND → FD effect at ~1 tick; that was wrong: the ND moves along the
 chord, not transverse to it.)  The superseded geometry is kept as site `nd-under-mast`.
 
+## 4a. The surveyed detector faces (v0.5.0)
+
+The Fermilab alignment group's survey gives both NOvA upstream-face centres in the NuMI
+beamline system (origin MCZERO; X right, Y stationing, Z up orthogonal to the beam).  These
+are the definitive endpoints; the antenna-derived positions and the quoted 1015 m placement
+are kept only as superseded comparisons.  The frame is realised with `frame_from_sites`
+(u along the line, h = u × n̂ to the right, v = h × u up, n̂ the ellipsoid normal at the
+origin), which is the same construction as the global beam-axis frame:
+
+* MCZERO = TDR 1998 horn-1 upstream face (row 0089), 1.5 m downstream of the target entrance;
+  the as-built point is not public (±1 m along the beam).
+* The Y axis is the as-built aiming line MCZERO → MINOS FD midpoint.  This choice is tested,
+  not assumed: the surveyed FD elevation H = 1209.1058 ft NAVD88 (h ≈ 336.07 m with
+  N = −32.46 m) is reproduced to +1.5 m by the aiming line and missed by 17 m by the 1998
+  design axis (target → decay-pipe end).  The 1.5 m residual is at the level of the geoid
+  model and datum differences (NAVD88 vs the receiver's MSL) and the deflection of the
+  vertical at the origin (a 2″ deflection is 8 m at 810 km), and is quoted as the systematic
+  on the FD height.
+* Checks: |(X, Y, Z)| equals the MCZERO → FD chord to 10 µm; the surveyed FD is 58 m
+  horizontally and 8.8 m vertically from the Ant-2-derived face (the TBD horizontal vector of
+  the 2014 note); the surveyed ND reproduces the antenna's 11.57 m left offset to 5 mm but is
+  3.6 m below the axis and 993.35 m from MCZERO (994.9 m from the target), not 1015 m.
+* Result: ND → FD = 809 514.750 m, 2700.250552 µs, 172 816.035 ticks; with the MI shift
+  272 736.417 → 272 736 ticks.  The ND lies 2.46 m off the target → FD line (opening angle
+  2.474 mrad), so for timing purposes the ND is on the line of sight to the FD.
+
 ## 5. Decisions
 
 | decision | choice | why |
@@ -111,6 +137,7 @@ chord, not transverse to it.)  The superseded geometry is kept as site `nd-under
 | timing shifts generic | `seconds` or `turns×buckets/f_RF` | covers the MI shift and any fixed latency |
 | reference axis | optional `axis_to` per baseline | off-axis angle is the natural check of a beam-element position |
 | beam axis | global `beam_axis: {from, to}`, defaulting the reference for every site, baseline and opening angle | the physics question is always "relative to the beam"; one definition, used everywhere, replaces per-item `axis_to` (kept as an override) |
+| surveyed faces | `nd` and `fd` are the alignment-group points in the MCZERO frame; antenna-derived and quoted placements kept as `fd2`, `nd-under-mast`, `nd-1015` | a survey beats a GPS antenna fix plus an unknown offset; the history stays visible in the report |
 | sites in the axis frame | `axis_position: {along_m, right_m, up_m}` or `{along_m, off_axis_mrad, clock_deg}` resolved to geodetic at load time | beam-element and detector placements are quoted along the beam, not as lat/lon; the configuration should say what is actually known |
 | opening angles | explicit `opening_angles` list (vertex, a, b), CLI `-a` | the user's question is a specific pair of chords; computing every shared-vertex pair would bury it in near-zero antenna-to-antenna angles |
 | legacy notebook files | moved to `docs/reference/` | keep provenance, keep the top level for the package |
@@ -126,6 +153,9 @@ the beam" of the NOvA papers); the ND endpoint is 12.47 mrad off axis, 11.6 m le
 5.1 m up at 1015 m; the TDR design axis (target → decay-pipe end) agrees with the target → MINOS
 FD line to 0.02 mrad.  The ND at 1015 m is 12.47 mrad off axis.
 
+Surveyed faces: ND 12.19 mrad and FD 14.55 mrad off the Soudan axis, both left of and below it
+(clock −107° and −111°); ND → FD chord 14.56 mrad to the axis.
+
 ## 6. Verification
 
 * 2013 notebook: spherical and WGS84 chords, ToF, ticks, MI shift and total reproduced to
@@ -136,6 +166,9 @@ FD line to 0.02 mrad.  The ND at 1015 m is 12.47 mrad off axis.
 * Projection: EPSG 9809 Amersfoort example to 2 mm; FSCS A0 round trip; CFMI control point.
 * Target: MINOS FD distance within 10 m of 735 338 m; azimuth 336.098 ± 0.01°; off-axis
   14.6 ± 0.1 mrad; decay-pipe station length.
+* Survey points: the beamline (X, Y, Z) of both faces are reproduced in the MCZERO frame to
+  10 µm, the FD lands within 2 m of its NAVD88 elevation, the MCZERO → FD chord equals
+  |(X, Y, Z)|, and the headline ND → FD numbers are pinned.
 * Configuration: override order, .env parsing, YAML exponent strings, ad-hoc CLI sites,
   NMEA and FSCS helpers.
 

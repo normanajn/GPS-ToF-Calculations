@@ -150,7 +150,7 @@ def test_beam_axis_and_off_axis_angle(nova):
     b = compute_baseline(nova, Baseline("target", "fd2", axis_to="decay-end"))
     assert b["geometry"]["off_axis_angle_mrad"] == pytest.approx(14.6, abs=0.1)
     assert b["result"]["L_m"] == pytest.approx(810565, abs=5)
-    assert b["result"]["L_m"] - compute_baseline(nova, Baseline("nd", "fd2"))["result"]["L_m"] == pytest.approx(1015, abs=1)
+    assert b["result"]["L_m"] - compute_baseline(nova, Baseline("nd-1015", "fd2"))["result"]["L_m"] == pytest.approx(1015, abs=1)
     assert b["result"]["L_m"] - compute_baseline(nova, Baseline("nd-under-mast", "fd2"))["result"]["L_m"] == pytest.approx(948, abs=2)
 
 

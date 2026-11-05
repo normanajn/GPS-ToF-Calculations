@@ -17,40 +17,65 @@ $ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 
 | NOvA baseline (config/nova.yaml)        | L (m)        | ToF (µs)     | 64 MHz ticks | + MI 141-turn shift |
 |-----------------------------------------|--------------|--------------|--------------|---------------------|
-| ND (1015 m from target) → FD front face (Ant-2) | 809 549.587 | 2700.366754 | 172 823.472 | 272 743.854 (272 744) |
-| NuMI target → FD front face (Ant-2)     | 810 564.610  | 2703.752507  | 173 040.160  | 272 960.542 (272 961) |
-| NuMI target → ND (1015 m)               | 1 015.079    | 3.385939     | 216.700      |                     |
-| ND placed under the mast → FD (superseded 2014-note geometry) | 809 616.263 | 2700.589164 | 172 837.706 | 272 758.088 (272 758) |
+| **ND upstream face → FD upstream face (both surveyed)** | **809 514.750** | **2700.250552** | **172 816.035** | **272 736.417 (272 736)** |
+| NuMI target → FD upstream face (surveyed) | 810 509.171 | 2703.567584  | 173 028.325  | 272 948.707 (272 949) |
+| NuMI target → ND upstream face (surveyed) | 994.424    | 3.317043     | 212.291      |                     |
+| ND at the quoted 1015 m → FD (superseded placement) | 809 494.148 | 2700.181830 | 172 811.637 | 272 732.019 (272 732) |
+| ND under the mast → FD from the Ant-2 fix (superseded 2014-note geometry) | 809 616.263 | 2700.589164 | 172 837.706 | 272 758.088 (272 758) |
 | 2013 notebook (FNAL −300 m, no FD offset) | 809 606.162 | 2700.555470  | 172 835.550  | 272 755.932 (272 756) |
-
-**Beam axis.** `beam_axis: {from: target, to: minos-fd}` (CLI `-x target:minos-fd`) makes the
-target → MINOS far detector line the reference for everything: each site gets its off-axis
-angle, distance along the axis and transverse position (right/up looking downstream); each
-baseline gets the opening angle between its chord and the axis with right/up components and the
-off-axis position of both endpoints; each opening angle gets the angle of both chords to the axis.
-
-| Site vs NuMI beam axis | off-axis (mrad) | along axis (m) | transverse (m) | right (m) | up (m) |
-|---|---|---|---|---|---|
-| Ash River Ant-2 front face | 14.575 | 810 478.5 | 11 813.8 | −11 051.4 | −4 175.3 |
-| NOvA ND (1015 m from the target) | 12.466 | 1 015.0 | 12.653 | −11.570 | +5.123 |
-| ND if under the mast (superseded) | 13.343 | 948.3 | 12.654 | −11.570 | +5.123 |
-| TDR decay-pipe end | 0.020 | 724.2 | 0.014 | | |
-
-The chord ND → FD makes 14.58 mrad with the axis.  The TDR design axis (target → decay-pipe end)
-agrees with target → MINOS FD to 0.02 mrad.
-
-Opening angle at the target between the ND and FD chords (config `opening_angles`, CLI `-a target:nd:fd2`):
-10.440 mrad (0.5982°), of which −10.20 mrad is vertical and −2.24 mrad horizontal; the ND
-endpoint lies 10.6 m above the target → FD line.  Both chords are reported with their
-off-axis angles (12.47 and 14.58 mrad) relative to the beam axis.
 
 The 2013 Mathematica notebook and the 2014 note are reproduced to 10⁻⁹ by the test suite
 (`tests/test_nova_reproduction.py`).
 
+## Definitive detector positions (Fermilab alignment survey)
+
+The Fermilab Survey, Alignment and Geodesy group supplied the upstream-face centres of both
+NOvA detectors in the NuMI beamline coordinate system: origin MCZERO, X = beam right
+(eastward looking downstream), Y = stationing (positive downstream), Z = up, orthogonal to
+the beam.
+
+| point | X right (m) | Y stationing (m) | Z up (m) | note |
+|---|---|---|---|---|
+| NOvA ND upstream face centre | −11.565000 | 993.350283 | −3.643551 | 3×3 module 158.125″; drawing 489389 |
+| NOvA FD upstream face centre | −11 037.455993 | 810 422.323775 | −4 162.644422 | 7.5″ bookend from the rail/wall line; H = 1209.1058 ft NAVD88 |
+
+`config/nova.yaml` records them as `axis_position` entries in the frame
+`{origin: mczero, through: minos-fd}`, and the package converts them:
+
+| point | latitude | longitude | h (WGS84, m) | ECEF X, Y, Z (m) |
+|---|---|---|---|---|
+| ND upstream face centre | 41° 50′ 24.3467″ N (41.84009631°) | 88° 16′ 13.7981″ W (−88.27049947°) | 96.572 | 143 628.970, −4 756 768.845, 4 232 452.856 |
+| FD upstream face centre | 48° 22′ 41.5413″ N (48.37820593°) | 92° 49′ 50.7737″ W (−92.83077048°) | 337.611 | −209 624.380, −4 239 417.585, 4 745 165.129 |
+
+How the frame was realised, and what checks it:
+
+* **MCZERO** is taken as the upstream face of horn 1 from the 1998 TDR beam sheet (row 0089),
+  1.5 m downstream of the target entrance; the as-built point is not public, so the origin is
+  good to about 1 m along the beam (0.2 ns on an 810 km chord, nothing transverse).
+* **Y axis.** Two candidate lines were tested: the 1998 design axis (target → decay-pipe end)
+  and the as-built aiming line (MCZERO → MINOS FD midpoint).  The FD's independent NAVD88
+  elevation, H = 1209.1058 ft = 368.535 m, i.e. h ≈ 336.07 m with the Ash River geoid
+  separation of −32.46 m, is reproduced by the aiming line to **+1.5 m** (geoid-model level)
+  and missed by the design axis by 17 m.  The aiming line is therefore the surveyors' Y axis,
+  and it is what the configuration uses.
+* **Consistency.** The chord MCZERO → FD equals √(X² + Y² + Z²) = 810 508.171 m exactly; the
+  surveyed FD face is 58 m horizontally and 8.8 m vertically from the point obtained from the
+  Ant-2 antenna fix with a −19.8 m offset (the horizontal antenna → detector vector the 2014
+  note left TBD); the surveyed ND confirms the antenna's 11.57 m left offset to 5 mm but sits
+  3.6 m below the axis and 993.35 m from MCZERO, not 1015 m.
+* **Result.** With both surveyed faces the ND lies only 2.46 m off the target → FD line: the
+  opening angle at the target between the ND and FD chords is 2.474 mrad (−1.99 horizontal,
+  −1.47 vertical).  Both detectors are 12.19 and 14.55 mrad off the Soudan axis, at clock
+  angles −107° and −111° (left of and below the axis).
+
+Superseded geometries are kept in the configuration for comparison: `nd-1015` (the quoted
+1015 m placement with antenna transverse offsets), `nd-under-mast` and `fd2` (the 2014-note
+antenna-derived endpoints).
+
 ## The NuMI target position
 
 The GPS fixes in the 2013/2014 work are antenna positions; the target was never in the
-calculation.  `config/nova.yaml` now carries the target, derived as follows:
+calculation.  `config/nova.yaml` carries the target, derived as follows:
 
 1. The NuMI Facility Technical Design Report (rev 1.0, Oct 1998), Appendix A beam sheet,
    gives every beam element in Fermilab site (DUSAF/FSCS) coordinates in feet.  Row 0087
@@ -73,20 +98,24 @@ Cross-checks (all in the test suite):
 | beam azimuth at the target | 336.094° | 336.098° (Fermilab–Soudan geodetic survey, 1999) |
 | beam dip at the target | 3.339° | 3.336° design pitch, 3.343° as-built (NIM A 806, 2016) |
 | decay pipe length | 675.0 m | 675 m |
-| off-axis angle of the Ash River FD | 14.58 mrad | 14.6 mrad |
+| off-axis angle of the surveyed FD face | 14.55 mrad | 14.6 mrad |
 
-The design target is a metre-level position (as-built LE/ME target positions differ by up
-to ~1 m longitudinally, and the as-built decay-pipe/MINOS FD distances differ from the
-design by ~6 m).
+**Beam axis.** `beam_axis: {from: target, to: minos-fd}` (CLI `-x target:minos-fd`) makes the
+target → MINOS far detector line the reference for everything: each site gets its off-axis
+angle, distance along the axis and transverse position (right/up looking downstream); each
+baseline gets the opening angle between its chord and the axis with right/up components and the
+off-axis position of both endpoints; each opening angle gets the angle of both chords to the axis.
 
-**Near Detector placement.** The ND is not under the MINOS mast antenna: it is 1015 m from
-the target along the beam.  `config/nova.yaml` therefore gives the ND in the beam-axis frame,
-`axis_position: {along_m: 1015, right_m: -11.57, up_m: 5.12}`, i.e. 1015 m along the axis with
-the transverse position taken from the mast antenna fix (the only survey information for the
-transverse direction; it still carries the 1″ ≈ 30 m resolution of that coordinate).  The
-antenna-under-mast geometry of the 2014 note put the ND 948 m from the target, 65 m short;
-moving it shortens the ND → FD chord by 66.7 m, i.e. **−14.2 ticks** (172 837.7 → 172 823.5).
-That superseded geometry is kept in the configuration as `nd-under-mast` for comparison.
+| Site vs NuMI beam axis | off-axis (mrad) | along axis (m) | transverse (m) | right (m) | up (m) |
+|---|---|---|---|---|---|
+| FD upstream face centre (surveyed) | 14.555 | 810 423.3 | 11 796.3 | −11 037.5 | −4 162.6 |
+| ND upstream face centre (surveyed) | 12.194 | 994.4 | 12.125 | −11.565 | −3.644 |
+| Ash River Ant-2 fix − 19.8 m (superseded) | 14.575 | 810 478.5 | 11 813.8 | −11 051.4 | −4 175.3 |
+| ND at the quoted 1015 m (superseded) | 12.466 | 1 015.0 | 12.653 | −11.570 | +5.123 |
+| TDR decay-pipe end | 0.020 | 724.2 | 0.014 | | |
+
+The chord ND → FD makes 14.56 mrad with the axis.  The TDR design axis (target → decay-pipe end)
+agrees with target → MINOS FD to 0.02 mrad in direction.
 
 ## Layout
 
@@ -135,5 +164,5 @@ Not-to-scale schematic of the target, ND, FD and MINOS FD layout with the comput
 (`docs/nova-schematic.html`): https://claude.ai/artifact/MHZuX5iAPTuxbCbFRRoqBY
 
 
-Version 0.4.0.  Python ≥ 3.9, PyYAML only.  55 tests.  No C/C++ library yet (the
+Version 0.5.0.  Python ≥ 3.9, PyYAML only.  57 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").
