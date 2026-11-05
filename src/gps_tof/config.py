@@ -167,6 +167,13 @@ def merge(config_path: Optional[Path], cli: Dict[str, Any], environ: Optional[Di
     data["sites"] = sites
     if cli.get("pair"):
         data["baselines"] = [parse_pair_spec(p) for p in cli["pair"]]
+    if cli.get("axis"):
+        parts = cli["axis"].split(":")
+        if len(parts) < 2:
+            raise ValueError("axis spec must be ORIGIN:THROUGH[:LABEL]")
+        data["beam_axis"] = {"from": parts[0], "to": parts[1], "label": parts[2] if len(parts) > 2 else ""}
+    if cli.get("no_axis"):
+        data.pop("beam_axis", None)
     if cli.get("angle"):
         data["opening_angles"] = [parse_angle_spec(x) for x in cli["angle"]]
     if cli.get("no_timing_shifts"):

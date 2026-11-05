@@ -155,5 +155,5 @@ def test_beam_axis_and_off_axis_angle(nova):
 
 def test_compute_all_runs_every_configured_baseline(nova):
     r = compute_all(nova)
-    assert len(r["baselines"]) == len(nova.baselines) == 6
+    assert len(r["baselines"]) == len(nova.baselines) == 7
     assert all(b["ledger"][-1]["L_m"] == pytest.approx(b["result"]["L_m"]) for b in r["baselines"])

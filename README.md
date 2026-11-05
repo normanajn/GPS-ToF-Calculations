@@ -22,6 +22,21 @@ $ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 | NuMI target → ND cavern                 | 948.400      | 3.163524     | 202.466      |                     |
 | 2013 notebook (FNAL −300 m, no FD offset) | 809 606.162 | 2700.555470  | 172 835.550  | 272 755.932 (272 756) |
 
+**Beam axis.** `beam_axis: {from: target, to: minos-fd}` (CLI `-x target:minos-fd`) makes the
+target → MINOS far detector line the reference for everything: each site gets its off-axis
+angle, distance along the axis and transverse position (right/up looking downstream); each
+baseline gets the opening angle between its chord and the axis with right/up components and the
+off-axis position of both endpoints; each opening angle gets the angle of both chords to the axis.
+
+| Site vs NuMI beam axis | off-axis (mrad) | along axis (m) | transverse (m) | right (m) | up (m) |
+|---|---|---|---|---|---|
+| Ash River Ant-2 front face | 14.575 | 810 478.5 | 11 813.8 | −11 051.4 | −4 175.3 |
+| NOvA ND (as surveyed) | 13.343 | 948.3 | 12.654 | −11.570 | +5.123 |
+| TDR decay-pipe end | 0.020 | 724.2 | 0.014 | | |
+
+The chord ND → FD makes 14.56 mrad with the axis.  The TDR design axis (target → decay-pipe end)
+agrees with target → MINOS FD to 0.02 mrad.
+
 Opening angle at the target between the ND and FD chords (config `opening_angles`, CLI `-a target:nd:fd2`):
 10.650 mrad (0.6102°), of which −10.55 mrad is vertical and −1.44 mrad horizontal; the surveyed
 ND endpoint lies 10.1 m above the target → FD line.  Both chords are reported with their
@@ -110,5 +125,5 @@ Project status page (phases, results, test and compatibility matrices, design de
 https://claude.ai/artifact/S4eqJocVhnzvuuP8ziAMf4
 
 
-Version 0.2.0.  Python ≥ 3.9, PyYAML only.  47 tests.  No C/C++ library yet (the
+Version 0.3.0.  Python ≥ 3.9, PyYAML only.  53 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

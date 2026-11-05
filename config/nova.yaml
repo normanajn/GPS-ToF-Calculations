@@ -115,18 +115,23 @@ sites:
     source: "MINOS detectors NIM A 596 (2008) 190, sec. 6.5"
     notes: "Cross-check only: paper quotes 735,338.0 m from the upstream end of horn 1."
 
+# The beam axis is the line from the NuMI target through the MINOS far detector (the beam was
+# aimed at Soudan).  Every site, baseline and opening angle is reported relative to it.
+beam_axis: {from: target, to: minos-fd, label: "NuMI beam axis (target -> MINOS FD)"}
+
 baselines:
   - {from: nd, to: fd2, label: "ND cavern -> FD front face (Ant-2), 2014-note offsets"}
-  - {from: target, to: fd2, label: "NuMI target -> FD front face (Ant-2)", axis_to: decay-end}
-  - {from: target, to: nd, label: "NuMI target -> ND cavern", axis_to: decay-end}
+  - {from: target, to: fd2, label: "NuMI target -> FD front face (Ant-2)"}
+  - {from: target, to: nd, label: "NuMI target -> ND cavern"}
   - {from: nd, to: fd1, label: "ND cavern -> FD (Ant-1)"}
   - {from: nd, to: fd3, label: "ND cavern -> FD (Ant-3)"}
-  - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)", axis_to: decay-end}
+  - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)"}
+  - {from: target, to: decay-end, label: "NuMI target -> decay-pipe end (TDR design axis)"}
 
 opening_angles:
-  # angle at the vertex between the chords vertex -> a and vertex -> b
-  - {vertex: target, a: nd, b: fd2, label: "Target: ND cavern vs FD front face (Ant-2)", axis_to: decay-end}
-  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND cavern vs MINOS FD", axis_to: decay-end}
+  # angle at the vertex between the chords vertex -> a and vertex -> b (each also vs the beam axis)
+  - {vertex: target, a: nd, b: fd2, label: "Target: ND cavern vs FD front face (Ant-2)"}
+  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND cavern vs MINOS FD"}
 
 timing_shifts:
   - name: "Main Injector 141-turn shift (2012 shutdown)"

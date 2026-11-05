@@ -1,10 +1,10 @@
-.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.2.0" "Library Functions"
+.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.3.0" "Library Functions"
 .SH NAME
 gps_tof \- Python API for geodetic time-of-flight calculations
 .SH SYNOPSIS
 .nf
-from gps_tof.model import Problem, Site, Baseline, OpeningAngle, TimingShift, Settings
-from gps_tof.calc import compute_all, compute_baseline, compute_opening_angle, chord, final_stage, site_point
+from gps_tof.model import Problem, Site, Baseline, OpeningAngle, BeamAxis, TimingShift, Settings
+from gps_tof.calc import compute_all, compute_baseline, compute_opening_angle, axis_frame, point_vs_axis, direction_vs_axis, chord, final_stage, site_point
 from gps_tof.report import render
 from gps_tof.geodesy import geodetic_to_ecef, ecef_to_geodetic, enu_basis, enu_to_ecef_offset
 from gps_tof.fermilab_site import fscs_to_geodetic, geodetic_to_fscs
@@ -22,6 +22,9 @@ modified copy (used for sensitivities).
 .TP
 .B Baseline(source, target, label="", axis_to="")
 Two site ids and an optional reference-axis site.
+.TP
+.B BeamAxis(origin, through, label="")
+The global reference line (\fBProblem.beam_axis\fR); \fBfrom_dict\fR accepts {from, to, label}.
 .TP
 .B OpeningAngle(vertex, a, b, label="", axis_to="")
 Two chords sharing the vertex site.
@@ -51,6 +54,18 @@ Keys: angle_rad/deg/mrad/dms, L_a_m, L_b_m, azimuth and elevation of each chord 
 delta_azimuth_deg, delta_elevation_deg, horizontal_component_mrad, vertical_component_mrad,
 a_transverse_from_vb_m, b_transverse_from_va_m, a_along_vb_m, dL_m, dt_us, dticks,
 path_via_a_minus_direct_m and, with axis_to, off_axis_a_mrad, off_axis_b_mrad, same_side_of_axis.
+.TP
+.B axis_frame(problem) -> dict | None
+Origin ECEF \fBp0\fR, unit direction \fBu\fR, transverse unit vectors \fBh\fR (right, looking
+downstream) and \fBv\fR (up), azimuth/elevation at the origin, length.
+.TP
+.B point_vs_axis(p, frame) -> dict
+off_axis_mrad/deg, along_axis_m, transverse_m, transverse_right_m, transverse_up_m, clock_angle_deg, distance_from_origin_m.
+.TP
+.B direction_vs_axis(v, frame) -> dict
+angle_mrad/deg between a chord direction and the axis, right_component_mrad, up_component_mrad.
+Baseline results carry these under \fBbeam_axis\fR (chord_vs_axis, source, target); site summaries
+under \fBvs_axis\fR; opening angles under \fBbeam_axis\fR (a_chord_vs_axis, b_chord_vs_axis, a, b, vertex).
 .TP
 .B chord(a, b, settings, stage) -> float
 Chord length between two sites for a given \fBStage\fR (which corrections are applied);

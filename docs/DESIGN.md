@@ -41,9 +41,15 @@ writes down every correction so that each number in the result can be traced to 
    endpoint from the other chord (L sin θ) and as the difference of the two flight times.
    With a reference axis the off-axis angle of each chord and whether the endpoints lie on
    the same side of the axis are added.
-9. **Sensitivities.**  Numerical partial derivatives of L for each site: height, latitude,
+9. **Beam axis.**  A global reference line from an origin site through a second site (NuMI:
+   target → MINOS far detector, which is where the beam was aimed).  A right-handed frame
+   (u along the axis, h to the right looking downstream, v up) is built at the origin; every
+   site endpoint is expressed as off-axis angle at the origin, distance along the axis and
+   transverse (right, up) position; every chord gets its opening angle to the axis with
+   right/up components; opening angles report both chords against the axis.
+10. **Sensitivities.**  Numerical partial derivatives of L for each site: height, latitude,
    longitude (per arcsecond), endpoint moved East/North, plus method and model variants.
-10. **Error budget.**  Declared uncertainties per site multiplied by the sensitivities;
+11. **Error budget.**  Declared uncertainties per site multiplied by the sensitivities;
    coordinate quantization gives both an RMS (uniform rounding, /√12) and a worst-case
    entry; the RF-frequency uncertainty of a turn-based shift; rounding and neglected terms
    are listed but not combined.
@@ -100,6 +106,7 @@ ends, so a horizontal shift changes L only through its component along the chord
 | sensitivities numeric | finite differences on cloned sites | no analytic derivatives to maintain; steps configurable |
 | timing shifts generic | `seconds` or `turns×buckets/f_RF` | covers the MI shift and any fixed latency |
 | reference axis | optional `axis_to` per baseline | off-axis angle is the natural check of a beam-element position |
+| beam axis | global `beam_axis: {from, to}`, defaulting the reference for every site, baseline and opening angle | the physics question is always "relative to the beam"; one definition, used everywhere, replaces per-item `axis_to` (kept as an override) |
 | opening angles | explicit `opening_angles` list (vertex, a, b), CLI `-a` | the user's question is a specific pair of chords; computing every shared-vertex pair would bury it in near-zero antenna-to-antenna angles |
 | legacy notebook files | moved to `docs/reference/` | keep provenance, keep the top level for the package |
 
@@ -107,6 +114,12 @@ Opening angle at the target, ND vs FD (Ant-2): 10.650 mrad, −10.55 mrad vertic
 −1.44 mrad horizontal, so the surveyed ND endpoint is 10.1 m above the target → FD line
 (within the ~30 m resolution of the antenna coordinate).  Against the MINOS FD the angle is
 13.34 mrad, mostly horizontal, as expected for an on-axis far detector.
+
+Relative to the beam axis (target → MINOS FD): the Ash River front face is 14.575 mrad off
+axis, 11.05 km to the left and 4.18 km below the axis at 810.5 km along it (the "12 km west of
+the beam" of the NOvA papers); the surveyed ND endpoint is 13.34 mrad off axis, 11.6 m left and
+5.1 m up at 948 m; the TDR design axis (target → decay-pipe end) agrees with the target → MINOS
+FD line to 0.02 mrad.
 
 ## 6. Verification
 

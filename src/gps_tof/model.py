@@ -135,6 +135,21 @@ class Baseline:
 
 
 @dataclass
+class BeamAxis:
+    """Reference axis: the line from site ``origin`` through site ``through``
+    (for NuMI: target -> MINOS far detector).  Every site, baseline and opening
+    angle is reported relative to it."""
+    origin: str
+    through: str
+    label: str = ""
+
+    @classmethod
+    def from_dict(cls, d: Dict[str, Any]) -> "BeamAxis":
+        return cls(origin=str(d.get("from", d.get("origin"))), through=str(d.get("to", d.get("through"))),
+                   label=str(d.get("label", "")))
+
+
+@dataclass
 class OpeningAngle:
     """Angle at ``vertex`` between the chords vertex->a and vertex->b."""
     vertex: str
@@ -267,6 +282,7 @@ class Problem:
     baselines: List[Baseline]
     timing_shifts: List[TimingShift] = field(default_factory=list)
     opening_angles: List[OpeningAngle] = field(default_factory=list)
+    beam_axis: Optional[BeamAxis] = None
 
     def site(self, key: str) -> Site:
         for s in self.sites:
@@ -290,8 +306,14 @@ class Problem:
                   for i in range(len(sites)) for j in range(i + 1, len(sites))]
         shifts = [TimingShift.from_dict(t) for t in d.pop("timing_shifts", []) or []]
         angles = [OpeningAngle.from_dict(x) for x in d.pop("opening_angles", []) or []]
+        ax = d.pop("beam_axis", None)
+        axis = BeamAxis.from_dict(ax) if ax else None
         settings = Settings.from_dict(d)
-        p = cls(settings=settings, sites=sites, baselines=bl, timing_shifts=shifts, opening_angles=angles)
+        p = cls(settings=settings, sites=sites, baselines=bl, timing_shifts=shifts, opening_angles=angles, beam_axis=axis)
+        if axis:
+            p.site(axis.origin); p.site(axis.through)
+            if p.site(axis.origin) is p.site(axis.through):
+                raise ValueError("beam_axis needs two different sites")
         for b in p.baselines:
             p.site(b.source); p.site(b.target)
             if b.axis_to:

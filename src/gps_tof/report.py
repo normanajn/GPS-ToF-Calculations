@@ -193,6 +193,17 @@ def render_baseline(doc: Doc, b: Dict[str, Any], st: Dict[str, Any]):
             ("back azimuth at target", "%s°" % doc.n(g["back_azimuth_at_target_deg"], 5)),
             ("elevation at target", "%s° (positive = arrives rising)" % doc.n(g["elevation_at_target_deg"], 5)),
             ("target in source ENU frame", "E %s, N %s, U %s m" % tuple(doc.n(v, 1) for v in g["target_enu_from_source_m"]))]
+    if b.get("beam_axis"):
+        bx = b["beam_axis"]
+        cv = bx["chord_vs_axis"]
+        rows += [("opening angle chord vs beam axis (%s)" % bx["label"], "%s mrad = %s° (right %s, up %s mrad)" % (
+                     doc.n(cv["angle_mrad"], 4), doc.n(cv["angle_deg"], 6), doc.sn(cv["right_component_mrad"], 4), doc.sn(cv["up_component_mrad"], 4))),
+                 ("source off-axis at the axis origin", "%s mrad; %s m along, %s m transverse (right %s, up %s)" % (
+                     doc.n(bx["source"]["off_axis_mrad"], 4), doc.n(bx["source"]["along_axis_m"], 3), doc.n(bx["source"]["transverse_m"], 3),
+                     doc.sn(bx["source"]["transverse_right_m"], 3), doc.sn(bx["source"]["transverse_up_m"], 3))),
+                 ("target off-axis at the axis origin", "%s mrad; %s m along, %s m transverse (right %s, up %s)" % (
+                     doc.n(bx["target"]["off_axis_mrad"], 4), doc.n(bx["target"]["along_axis_m"], 3), doc.n(bx["target"]["transverse_m"], 3),
+                     doc.sn(bx["target"]["transverse_right_m"], 3), doc.sn(bx["target"]["transverse_up_m"], 3)))]
     if "off_axis_angle_mrad" in g:
         rows += [("reference axis (source → %s)" % b["axis_to"], "azimuth %s°, elevation %s°" % (doc.n(g["axis_azimuth_deg"], 5), doc.n(g["axis_elevation_deg"], 5))),
                  ("off-axis angle of this baseline", "%s mrad" % doc.n(g["off_axis_angle_mrad"], 3))]
@@ -250,22 +261,55 @@ def render(result: Dict[str, Any], fmt: str = "md") -> str:
         t.add(s["id"], s["name"], s["lat_dms"], s["lon_dms"], doc.n(s["height_given_m"], 3), s["datum"],
               doc.n(s["h_ellipsoidal_m"], 3), "%+g, %+g, %+g" % tuple(s["offset_enu_m"]))
     doc.table(t)
+    if result.get("beam_axis"):
+        ax = result["beam_axis"]
+        doc.h(2, "Beam axis: %s" % ax["label"])
+        doc.kv([("origin", ax["origin"]), ("passes through", ax["through"]),
+                ("length origin → through", "%s m" % doc.n(ax["length_m"], 3)),
+                ("azimuth at origin", "%s°" % doc.n(ax["azimuth_at_origin_deg"], 5)),
+                ("elevation at origin", "%s° (negative = dips below the local horizontal)" % doc.n(ax["elevation_at_origin_deg"], 5)),
+                ("unit vector (ECEF)", "(%.9f, %.9f, %.9f)" % tuple(ax["unit_ecef"]))])
+        doc.p("Every site endpoint relative to the axis: the off-axis angle is measured at the origin between the axis "
+              "and the line origin → endpoint; 'right' is to the right looking downstream along the axis, 'up' is the "
+              "transverse direction closest to the local vertical at the origin; the clock angle is 0° above the axis, "
+              "90° to the right.")
+        t = Table(["id", "site", "off-axis (mrad)", "off-axis (deg)", "along axis (m)", "transverse (m)", "right (m)", "up (m)", "clock (deg)"],
+                  ["l", "l", "r", "r", "r", "r", "r", "r", "r"])
+        for s in result["sites"]:
+            va = s.get("vs_axis")
+            if va:
+                t.add(s["id"], s["name"], doc.n(va["off_axis_mrad"], 4), doc.n(va["off_axis_deg"], 5), doc.n(va["along_axis_m"], 3),
+                      doc.n(va["transverse_m"], 3), doc.sn(va["transverse_right_m"], 3), doc.sn(va["transverse_up_m"], 3),
+                      doc.n(va["clock_angle_deg"], 2) if va["clock_angle_deg"] is not None else "-")
+        doc.table(t)
     if len(result["baselines"]) > 1:
         doc.h(2, "Summary of baselines")
-        t = Table(["baseline", "L (m)", "ToF (µs)", "ticks", "total ticks", "total int"])
+        has_axis = any(b.get("beam_axis") for b in result["baselines"])
+        hdr = ["baseline", "L (m)", "ToF (µs)", "ticks", "total ticks", "total int"] + (["chord vs axis (mrad)"] if has_axis else [])
+        t = Table(hdr)
         for b in result["baselines"]:
-            t.add(b["label"], doc.n(b["result"]["L_m"], 3), doc.n(b["result"]["t_us"], 6), doc.n(b["result"]["ticks"], 3),
-                  doc.n(b["total"]["ticks"], 3), doc.n(b["total"]["ticks_int"]))
+            row = [b["label"], doc.n(b["result"]["L_m"], 3), doc.n(b["result"]["t_us"], 6), doc.n(b["result"]["ticks"], 3),
+                   doc.n(b["total"]["ticks"], 3), doc.n(b["total"]["ticks_int"])]
+            if has_axis:
+                row.append(doc.n(b["beam_axis"]["chord_vs_axis"]["angle_mrad"], 4) if b.get("beam_axis") else "-")
+            t.add(*row)
         doc.table(t)
     if result.get("opening_angles"):
         doc.h(2, "Opening angles")
         doc.p("Angle at the vertex site between two chords, from the fully corrected endpoints. The transverse "
               "distance is how far one endpoint lies from the straight line through the vertex and the other endpoint.")
-        t = Table(["angle", "vertex", "chord a", "chord b", "angle (mrad)", "angle (deg)", "horiz. (mrad)", "vert. (mrad)"],
-                  ["l", "l", "l", "l", "r", "r", "r", "r"])
+        has_axis = any(oa.get("beam_axis") for oa in result["opening_angles"])
+        hdr = ["angle", "vertex", "chord a", "chord b", "angle (mrad)", "angle (deg)", "horiz. (mrad)", "vert. (mrad)"]
+        if has_axis:
+            hdr += ["a vs axis (mrad)", "b vs axis (mrad)"]
+        t = Table(hdr, ["l", "l", "l", "l"] + ["r"] * (len(hdr) - 4))
         for oa in result["opening_angles"]:
-            t.add(oa["label"], oa["vertex"], oa["a"], oa["b"], doc.n(oa["angle_mrad"], 4), doc.n(oa["angle_deg"], 6),
-                  doc.n(oa["horizontal_component_mrad"], 4), doc.n(oa["vertical_component_mrad"], 4))
+            row = [oa["label"], oa["vertex"], oa["a"], oa["b"], doc.n(oa["angle_mrad"], 4), doc.n(oa["angle_deg"], 6),
+                   doc.n(oa["horizontal_component_mrad"], 4), doc.n(oa["vertical_component_mrad"], 4)]
+            if has_axis:
+                bx = oa.get("beam_axis")
+                row += [doc.n(bx["a_chord_vs_axis"]["angle_mrad"], 4) if bx else "-", doc.n(bx["b_chord_vs_axis"]["angle_mrad"], 4) if bx else "-"]
+            t.add(*row)
         doc.table(t)
         for oa in result["opening_angles"]:
             doc.h(3, oa["label"])
@@ -280,6 +324,14 @@ def render(result: Dict[str, Any], fmt: str = "md") -> str:
                 ("chord b − chord a", "%s m = %s µs = %s ticks" % (doc.sn(oa["dL_m"], 3), doc.sn(oa["dt_us"], 6), doc.sn(oa["dticks"], 3))),
                 ("path vertex → a → b minus direct vertex → b", "%s m" % doc.n(oa["path_via_a_minus_direct_m"], 4)),
             ]
+            if oa.get("beam_axis"):
+                bx = oa["beam_axis"]
+                rows += [("chord a vs beam axis (%s)" % bx["label"], "%s mrad (right %s, up %s)" % (
+                             doc.n(bx["a_chord_vs_axis"]["angle_mrad"], 4), doc.sn(bx["a_chord_vs_axis"]["right_component_mrad"], 4), doc.sn(bx["a_chord_vs_axis"]["up_component_mrad"], 4))),
+                         ("chord b vs beam axis", "%s mrad (right %s, up %s)" % (
+                             doc.n(bx["b_chord_vs_axis"]["angle_mrad"], 4), doc.sn(bx["b_chord_vs_axis"]["right_component_mrad"], 4), doc.sn(bx["b_chord_vs_axis"]["up_component_mrad"], 4))),
+                         ("%s off-axis at the axis origin" % oa["a"], "%s mrad, %s m transverse" % (doc.n(bx["a"]["off_axis_mrad"], 4), doc.n(bx["a"]["transverse_m"], 3))),
+                         ("%s off-axis at the axis origin" % oa["b"], "%s mrad, %s m transverse" % (doc.n(bx["b"]["off_axis_mrad"], 4), doc.n(bx["b"]["transverse_m"], 3)))]
             if oa.get("axis_to"):
                 rows += [("off-axis angles w.r.t. vertex → %s" % oa["axis_to"], "a: %s mrad, b: %s mrad" % (doc.n(oa["off_axis_a_mrad"], 3), doc.n(oa["off_axis_b_mrad"], 3))),
                          ("a and b on the same side of the axis", doc.n(oa["same_side_of_axis"])),

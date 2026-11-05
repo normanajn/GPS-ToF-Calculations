@@ -7,10 +7,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from .angles import dms
 from .constants import C, OMEGA_EARTH, ARCSEC
-from .geodesy import (ELLIPSOIDS, Ellipsoid, geodetic_to_ecef, spherical_to_ecef, ecef_to_geodetic,
+from .geodesy import (ELLIPSOIDS, Ellipsoid, geodetic_to_ecef, spherical_to_ecef, ecef_to_geodetic, enu_basis,
                       enu_to_ecef_offset, ecef_to_enu, azimuth_elevation, angle_between,
                       vsub, vadd, norm, unit, dot, cross, Vec3)
-from .model import Problem, Site, Baseline, Settings, TimingShift, OpeningAngle
+from .model import Problem, Site, Baseline, Settings, TimingShift, OpeningAngle, BeamAxis
 
 
 # ------------------------------------------------------------------ endpoints
@@ -64,7 +64,55 @@ def _round(x: float, mode: str) -> int:
     return int(math.floor(x + 0.5))
 
 
-def _site_summary(site: Site, settings: Settings) -> Dict[str, Any]:
+# ---------------------------------------------------------------- beam axis
+def axis_frame(problem: Problem) -> Optional[Dict[str, Any]]:
+    """Geometry of the global beam axis: origin ECEF, unit direction, and a
+    transverse basis (h = horizontal-right looking downstream, v = up-ish)."""
+    ax = problem.beam_axis
+    if ax is None:
+        return None
+    s = problem.settings
+    st = final_stage(s)
+    o, th = problem.site(ax.origin), problem.site(ax.through)
+    po, pt = site_point(o, s, st), site_point(th, s, st)
+    d = vsub(pt, po)
+    u = unit(d)
+    _, _, up = enu_basis(o.lat_rad, o.lon_rad)
+    h = unit(cross(u, up))            # horizontal, to the right when looking along the axis
+    v = cross(h, u)                   # completes the right-handed frame, points "up" transverse to the axis
+    az, el = azimuth_elevation(u, o.lat_rad, o.lon_rad)
+    return {"label": ax.label or "%s -> %s" % (o.name, th.name), "origin": o.name, "origin_id": o.id,
+            "through": th.name, "through_id": th.id, "length_m": norm(d),
+            "azimuth_at_origin_deg": math.degrees(az), "elevation_at_origin_deg": math.degrees(el),
+            "p0": po, "u": u, "h": h, "v": v}
+
+
+def point_vs_axis(p: Vec3, frame: Dict[str, Any]) -> Dict[str, Any]:
+    """Off-axis angle at the axis origin, distance along the axis, transverse
+    distance and its right/up components, for an ECEF point."""
+    r = vsub(p, frame["p0"])
+    along = dot(r, frame["u"])
+    right = dot(r, frame["h"])
+    up = dot(r, frame["v"])
+    trans = math.hypot(right, up)
+    ang = angle_between(r, frame["u"]) if norm(r) > 0.0 else 0.0
+    return {"off_axis_mrad": ang * 1e3, "off_axis_deg": math.degrees(ang), "along_axis_m": along,
+            "transverse_m": trans, "transverse_right_m": right, "transverse_up_m": up,
+            "clock_angle_deg": math.degrees(math.atan2(right, up)) if trans > 1e-6 else None,
+            "distance_from_origin_m": norm(r)}
+
+
+def direction_vs_axis(v: Vec3, frame: Dict[str, Any]) -> Dict[str, Any]:
+    """Angle between a chord direction and the axis direction, with its
+    components in the axis transverse frame."""
+    u = unit(v)
+    ang = angle_between(u, frame["u"])
+    return {"angle_mrad": ang * 1e3, "angle_deg": math.degrees(ang),
+            "right_component_mrad": 1e3 * math.atan2(dot(u, frame["h"]), dot(u, frame["u"])),
+            "up_component_mrad": 1e3 * math.atan2(dot(u, frame["v"]), dot(u, frame["u"]))}
+
+
+def _site_summary(site: Site, settings: Settings, frame: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     st = final_stage(settings)
     p_ant = site_point(site, settings, Stage(settings.earth_model, True, False, False, settings.offset_normal))
     p_end = site_point(site, settings, st)
@@ -84,6 +132,8 @@ def _site_summary(site: Site, settings: Settings) -> Dict[str, Any]:
         "cable_delay_ns": (site.cable_delay_s * 1e9) if site.cable_delay_s is not None else None,
         "uncertainty": dict(site.uncertainty), "source": site.source, "notes": site.notes,
     }
+    if frame is not None:
+        d["vs_axis"] = point_vs_axis(p_end, frame)
     return d
 
 
@@ -314,8 +364,13 @@ def compute_baseline(problem: Problem, bl: Baseline) -> Dict[str, Any]:
     ticks = _ticks(t, s)
     n_int = _round(ticks, s.rounding)
     ledger = build_ledger(a, b, s)
+    frame = axis_frame(problem)
     axis_pt = site_point(problem.site(bl.axis_to), s, st) if getattr(bl, "axis_to", "") else None
     geo = geometry(a, b, s, pa, pb, axis_pt)
+    axis_info = None
+    if frame is not None:
+        axis_info = {"label": frame["label"], "chord_vs_axis": direction_vs_axis(vsub(pb, pa), frame),
+                     "source": point_vs_axis(pa, frame), "target": point_vs_axis(pb, frame)}
     eff = effects(a, b, s, pa, pb, t)
     shifts = []
     for ts in problem.timing_shifts:
@@ -359,8 +414,9 @@ def compute_baseline(problem: Problem, bl: Baseline) -> Dict[str, Any]:
     budget = error_budget(a, b, s, sens, problem.timing_shifts, eff) if s.sensitivities else None
     return {
         "label": bl.label or "%s -> %s" % (a.name, b.name),
-        "source": _site_summary(a, s), "target": _site_summary(b, s),
+        "source": _site_summary(a, s, frame), "target": _site_summary(b, s, frame),
         "axis_to": getattr(bl, "axis_to", "") or None,
+        "beam_axis": axis_info,
         "ledger": ledger, "result": result, "geometry": geo, "effects": eff,
         "timing_shifts": shifts, "total": total, "window": window,
         "sensitivities": sens, "error_budget": budget,
@@ -401,6 +457,11 @@ def compute_opening_angle(problem: Problem, oa: OpeningAngle) -> Dict[str, Any]:
         "unit_a_ecef": list(unit(va)), "unit_b_ecef": list(unit(vb)),
         "axis_to": oa.axis_to or None,
     }
+    frame = axis_frame(problem)
+    if frame is not None:
+        out["beam_axis"] = {"label": frame["label"],
+                            "a_chord_vs_axis": direction_vs_axis(va, frame), "b_chord_vs_axis": direction_vs_axis(vb, frame),
+                            "a": point_vs_axis(pa, frame), "b": point_vs_axis(pb, frame), "vertex": point_vs_axis(pv, frame)}
     if oa.axis_to:
         pax = site_point(problem.site(oa.axis_to), s, st)
         ax = vsub(pax, pv)
@@ -417,11 +478,19 @@ def compute_all(problem: Problem) -> Dict[str, Any]:
     from . import __version__
     import datetime
     s = problem.settings
+    frame = axis_frame(problem)
+    axis_summary = None
+    if frame is not None:
+        axis_summary = {k: frame[k] for k in ("label", "origin", "origin_id", "through", "through_id", "length_m",
+                                              "azimuth_at_origin_deg", "elevation_at_origin_deg")}
+        axis_summary["unit_ecef"] = list(frame["u"])
+        axis_summary["origin_ecef"] = list(frame["p0"])
     return {
         "project": s.project, "generated": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "gps_tof_version": __version__,
         "settings": {k: getattr(s, k) for k in s.__dataclass_fields__},  # type: ignore[attr-defined]
-        "sites": [_site_summary(x, s) for x in problem.sites],
+        "beam_axis": axis_summary,
+        "sites": [_site_summary(x, s, frame) for x in problem.sites],
         "baselines": [compute_baseline(problem, b) for b in problem.baselines],
         "opening_angles": [compute_opening_angle(problem, oa) for oa in problem.opening_angles],
     }

@@ -1,4 +1,4 @@
-.TH GPS-TOF 1 "2026-11-05" "gps-tof 0.2.0" "User Commands"
+.TH GPS-TOF 1 "2026-11-05" "gps-tof 0.3.0" "User Commands"
 .SH NAME
 gps-tof \- straight-line time of flight between surveyed sites with a correction ledger
 .SH SYNOPSIS
@@ -26,6 +26,9 @@ and the off-axis angle with respect to a reference axis;
 .IP \(bu 2
 \fBnon-geometric effects\fR: Sagnac term, neutrino-mass delay, antenna cable delays;
 .IP \(bu 2
+the \fBopening angle to the beam axis\fR (a global reference line between two sites), plus the
+off-axis angle and transverse position of every site relative to that axis;
+.IP \(bu 2
 \fBopening angles\fR between two chords that share a vertex site (for example target\(->ND
 against target\(->FD);
 .IP \(bu 2
@@ -52,6 +55,14 @@ u_height_m, u_offset_m, u_quantization_arcsec).  Repeatable.
 Baseline between two site ids.  \fIAXIS\fR names a third site; the angle between
 FROM\(->TO and FROM\(->AXIS is reported as the off-axis angle.  Repeatable.  Without
 \fB\-p\fR and without \fBbaselines:\fR in the file, every pair of sites is computed.
+.TP
+.BR \-x ", " \-\-axis " " \fIORIGIN:THROUGH[:LABEL]\fR
+Define the beam axis as the line from site \fIORIGIN\fR through site \fITHROUGH\fR (for NuMI,
+target \(-> MINOS far detector).  Every site is then reported with its off-axis angle at the
+origin, its distance along the axis and its transverse position (right/up looking downstream);
+every baseline gets the opening angle between its chord and the axis and the off-axis angle of
+both endpoints; every opening angle gets the angle of each chord to the axis.  Overrides
+\fBbeam_axis:\fR in the file.  \fB\-\-no\-axis\fR drops the file's axis.
 .TP
 .BR \-a ", " \-\-angle " " \fIVERTEX:A:B[:LABEL[:AXIS]]\fR
 Opening angle at site \fIVERTEX\fR between the chords VERTEX\(->A and VERTEX\(->B, with its

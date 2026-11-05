@@ -1,4 +1,4 @@
-.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.2.0" "File Formats"
+.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.3.0" "File Formats"
 .SH NAME
 gps-tof.yaml \- configuration file format for gps-tof
 .SH DESCRIPTION
@@ -81,6 +81,14 @@ resolution; gives an RMS and a worst-case entry).  Used by the error budget.
 .TP
 .B source, notes
 Free text carried into the report.
+.SS beam_axis
+\fB{from, to, label}\fR: the reference axis is the line from site \fBfrom\fR through site \fBto\fR.
+When present, the report contains a "Beam axis" section (azimuth and elevation at the origin, and
+for every site the off-axis angle at the origin, the distance along the axis, the transverse
+distance with its right/up components and a clock angle), every baseline reports the opening
+angle between its chord and the axis with right/up components and the off-axis position of both
+endpoints, and every opening angle reports the angle of each chord to the axis.  Command line:
+\fB\-x FROM:TO\fR, \fB\-\-no\-axis\fR.
 .SS baselines
 List of \fB{from, to, label, axis_to}\fR.  \fBaxis_to\fR names a site such that the angle between
 from\(->to and from\(->axis_to is reported as the off-axis angle.  If the list is absent every
@@ -101,6 +109,7 @@ project: "NOvA NuMI -> Ash River timing offsets"
 clock_hz: 64.0e+6
 earth: {model: wgs84}
 trigger_window: {before_us: 20, after_us: 30, microslice_us: 50}
+beam_axis: {from: target, to: minos-fd, label: "NuMI beam axis"}
 sites:
   - name: "NuMI target (TDR 1998 design)"
     id: target
