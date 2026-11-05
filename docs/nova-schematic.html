@@ -70,7 +70,8 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <text class="mono" x="34" y="154">14.55 mrad</text><text class="small" x="112" y="154">to the FD (dashed arc)</text>
   <text class="mono" x="34" y="170">0.02 mrad</text><text class="small" x="112" y="170">to the decay-pipe end</text>
   <text class="mono" x="34" y="186">2.47 mrad</text><text class="small" x="112" y="186">ND vs FD opening angle</text>
-  <text class="small" x="112" y="200">(−1.99 mrad in plan, −1.47 mrad vertical: ND is 2.5 m off the target → FD line)</text>
+  <text class="small" x="112" y="200">(−1.99 mrad in plan, −1.47 mrad vertical)</text>
+  <text class="small" x="112" y="214">the ND is 2.5 m off the target → FD line</text>
   <!-- beam axis -->
   <line class="beam" x1="90" y1="300" x2="840" y2="300" stroke-width="2.5" marker-end="url(#arrbeam)"/>
   <text class="beamtext" x="890" y="332" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
@@ -97,8 +98,8 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <text class="small" x="256" y="228" text-anchor="end">MINOS mast antenna</text>
   <text class="small" x="256" y="242" text-anchor="end">941 m along, 53 m upstream of the ND</text>
   <rect x="688" y="110" width="24" height="20" fill="var(--panel)" stroke="var(--far)" stroke-width="2"/>
-  <text class="fartext" x="722" y="118">NOvA FD, Ash River</text>
-  <text class="small" x="722" y="132">810,423 m along, 11,037 m left (surveyed)</text>
+  <text class="fartext" x="722" y="118">NOvA FD, Ash River (surveyed)</text>
+  <text class="small" x="722" y="132">810,423 m along, 11,037 m left</text>
   <text class="small" x="722" y="146">("12 km west of the beam")</text>
   <rect x="607" y="287" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
   <text x="642" y="270">MINOS FD, Soudan</text>
@@ -189,9 +190,10 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <!-- ND at (360,120) -->
   <line x1="450" y1="160" x2="360" y2="188" stroke="currentColor" stroke-width="1.4"/>
   <rect x="353" y="181" width="14" height="14" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
-  <text x="345" y="178" text-anchor="end">NOvA ND (surveyed)</text>
-  <text class="small mono" x="345" y="192" text-anchor="end">left 11.565 m, down 3.644 m</text>
-  <text class="small" x="345" y="206" text-anchor="end">12.13 m off the axis at 994 m: 12.19 mrad</text>
+  <line x1="353" y1="183" x2="332" y2="156" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>
+  <text x="330" y="118" text-anchor="end">NOvA ND (surveyed)</text>
+  <text class="small mono" x="330" y="132" text-anchor="end">left 11.565 m, down 3.644 m</text>
+  <text class="small" x="330" y="146" text-anchor="end">12.13 m off the axis at 994 m: 12.19 mrad</text>
   <!-- mast antenna above the ND -->
   <line x1="360" y1="181" x2="360" y2="56" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
   <circle cx="360" cy="52" r="4" fill="currentColor"/>
