@@ -104,6 +104,10 @@ def _site_block(doc: Doc, s: Dict[str, Any], role: str):
     rows.append(("ellipsoidal height h", "%s m" % doc.n(s["h_ellipsoidal_m"], 3)))
     if s["fscs_xyz_ft"]:
         rows.append(("Fermilab site coordinates (ft)", "x %.3f, y %.3f, z %.3f" % tuple(s["fscs_xyz_ft"])))
+    if s.get("axis_position"):
+        ap = s["axis_position"]
+        rows.append(("given in the beam-axis frame (%s)" % ap.get("frame", "axis"),
+                     "along %.3f m, right %+.3f m, up %+.3f m; lat/lon/h above are derived" % (ap["along_m"], ap["right_m"], ap["up_m"])))
     o = s["offset_enu_m"]
     rows.append(("surveyed point -> endpoint (E, N, U)", "%+.3f, %+.3f, %+.3f m%s" % (o[0], o[1], o[2],
                  ("  (" + s["offset_note"] + ")") if s["offset_note"] else "")))

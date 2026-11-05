@@ -17,9 +17,10 @@ $ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 
 | NOvA baseline (config/nova.yaml)        | L (m)        | ToF (µs)     | 64 MHz ticks | + MI 141-turn shift |
 |-----------------------------------------|--------------|--------------|--------------|---------------------|
-| ND cavern → FD front face (Ant-2)       | 809 616.263  | 2700.589164  | 172 837.706  | 272 758.088 (272 758) |
-| NuMI target → FD front face (Ant-2)     | 810 564.610  | 2703.752507  | 173 040.161  | 272 960.542 (272 961) |
-| NuMI target → ND cavern                 | 948.400      | 3.163524     | 202.466      |                     |
+| ND (1015 m from target) → FD front face (Ant-2) | 809 549.587 | 2700.366754 | 172 823.472 | 272 743.854 (272 744) |
+| NuMI target → FD front face (Ant-2)     | 810 564.610  | 2703.752507  | 173 040.160  | 272 960.542 (272 961) |
+| NuMI target → ND (1015 m)               | 1 015.079    | 3.385939     | 216.700      |                     |
+| ND placed under the mast → FD (superseded 2014-note geometry) | 809 616.263 | 2700.589164 | 172 837.706 | 272 758.088 (272 758) |
 | 2013 notebook (FNAL −300 m, no FD offset) | 809 606.162 | 2700.555470  | 172 835.550  | 272 755.932 (272 756) |
 
 **Beam axis.** `beam_axis: {from: target, to: minos-fd}` (CLI `-x target:minos-fd`) makes the
@@ -31,16 +32,17 @@ off-axis position of both endpoints; each opening angle gets the angle of both c
 | Site vs NuMI beam axis | off-axis (mrad) | along axis (m) | transverse (m) | right (m) | up (m) |
 |---|---|---|---|---|---|
 | Ash River Ant-2 front face | 14.575 | 810 478.5 | 11 813.8 | −11 051.4 | −4 175.3 |
-| NOvA ND (as surveyed) | 13.343 | 948.3 | 12.654 | −11.570 | +5.123 |
+| NOvA ND (1015 m from the target) | 12.466 | 1 015.0 | 12.653 | −11.570 | +5.123 |
+| ND if under the mast (superseded) | 13.343 | 948.3 | 12.654 | −11.570 | +5.123 |
 | TDR decay-pipe end | 0.020 | 724.2 | 0.014 | | |
 
-The chord ND → FD makes 14.56 mrad with the axis.  The TDR design axis (target → decay-pipe end)
+The chord ND → FD makes 14.58 mrad with the axis.  The TDR design axis (target → decay-pipe end)
 agrees with target → MINOS FD to 0.02 mrad.
 
 Opening angle at the target between the ND and FD chords (config `opening_angles`, CLI `-a target:nd:fd2`):
-10.650 mrad (0.6102°), of which −10.55 mrad is vertical and −1.44 mrad horizontal; the surveyed
-ND endpoint lies 10.1 m above the target → FD line.  Both chords are reported with their
-off-axis angles (13.33 and 14.58 mrad) relative to the beam axis.
+10.440 mrad (0.5982°), of which −10.20 mrad is vertical and −2.24 mrad horizontal; the ND
+endpoint lies 10.6 m above the target → FD line.  Both chords are reported with their
+off-axis angles (12.47 and 14.58 mrad) relative to the beam axis.
 
 The 2013 Mathematica notebook and the 2014 note are reproduced to 10⁻⁹ by the test suite
 (`tests/test_nova_reproduction.py`).
@@ -75,11 +77,16 @@ Cross-checks (all in the test suite):
 
 The design target is a metre-level position (as-built LE/ME target positions differ by up
 to ~1 m longitudinally, and the as-built decay-pipe/MINOS FD distances differ from the
-design by ~6 m).  The target → ND chord comes out 948 m against a published ~1015 m, which
-says the MINOS-mast antenna (quoted to 1″) with zero horizontal offset is about 65 m short
-of the real NOvA ND along the beam; the report's sensitivities put that at 1 m of chord per
-metre along the beam, i.e. ~14 ticks, and the horizontal antenna → detector survey in the
-2014 note's Table 3 is still the biggest open item.
+design by ~6 m).
+
+**Near Detector placement.** The ND is not under the MINOS mast antenna: it is 1015 m from
+the target along the beam.  `config/nova.yaml` therefore gives the ND in the beam-axis frame,
+`axis_position: {along_m: 1015, right_m: -11.57, up_m: 5.12}`, i.e. 1015 m along the axis with
+the transverse position taken from the mast antenna fix (the only survey information for the
+transverse direction; it still carries the 1″ ≈ 30 m resolution of that coordinate).  The
+antenna-under-mast geometry of the 2014 note put the ND 948 m from the target, 65 m short;
+moving it shortens the ND → FD chord by 66.7 m, i.e. **−14.2 ticks** (172 837.7 → 172 823.5).
+That superseded geometry is kept in the configuration as `nd-under-mast` for comparison.
 
 ## Layout
 
@@ -128,5 +135,5 @@ Not-to-scale schematic of the target, ND, FD and MINOS FD layout with the comput
 (`docs/nova-schematic.html`): https://claude.ai/artifact/MHZuX5iAPTuxbCbFRRoqBY
 
 
-Version 0.3.0.  Python ≥ 3.9, PyYAML only.  53 tests.  No C/C++ library yet (the
+Version 0.4.0.  Python ≥ 3.9, PyYAML only.  55 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

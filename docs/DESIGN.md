@@ -84,13 +84,17 @@ as-built target → MINOS FD distance differs from this design value by ~6 m).  
 below the 1″ (≈ 30 m) resolution of the published MINOS-mast antenna coordinates that
 dominate the error budget of the ND end.
 
-Finding: the target → "ND" chord computed from the MINOS-mast antenna with a 120 m vertical
-offset and no horizontal offset is 948 m, against the ~1015 m usually quoted for the NOvA
-ND, and the off-axis angle of that endpoint is 13.3 mrad rather than 14.6.  The antenna is
-therefore not above the NOvA ND; the missing horizontal antenna → ND vector (2014 note
-Table 3, TBD) is of order 65 m along the beam, i.e. about 14 ticks on a target-referenced
-delay and about 1 tick on the ND → FD delay (the chord direction is nearly the same at both
-ends, so a horizontal shift changes L only through its component along the chord).
+Near Detector placement (v0.4.0): the ND is not under the MINOS mast antenna.  The
+2014-note geometry (antenna minus 120 m) puts the endpoint 948 m from the target, 65 m short
+of the 1015 m at which the ND actually sits along the beam.  The ND is therefore given in the
+beam-axis frame, `axis_position: {along_m: 1015, right_m: -11.57, up_m: 5.12}`: the along-axis
+distance from the quoted placement, the transverse position from the antenna fix (the only
+transverse survey information available, still at 1″ ≈ 30 m resolution).  Moving the ND
+66.7 m further along a chord that is itself nearly along the beam shortens ND → FD by 66.7 m,
+i.e. −14.2 ticks (172 837.7 → 172 823.5), and lengthens target → ND by 66.7 m (+14.2 ticks),
+so the target-referenced total is unchanged to 0.01 tick.  (An earlier version of this
+document estimated the ND → FD effect at ~1 tick; that was wrong: the ND moves along the
+chord, not transverse to it.)  The superseded geometry is kept as site `nd-under-mast`.
 
 ## 5. Decisions
 
@@ -107,19 +111,20 @@ ends, so a horizontal shift changes L only through its component along the chord
 | timing shifts generic | `seconds` or `turns×buckets/f_RF` | covers the MI shift and any fixed latency |
 | reference axis | optional `axis_to` per baseline | off-axis angle is the natural check of a beam-element position |
 | beam axis | global `beam_axis: {from, to}`, defaulting the reference for every site, baseline and opening angle | the physics question is always "relative to the beam"; one definition, used everywhere, replaces per-item `axis_to` (kept as an override) |
+| sites in the axis frame | `axis_position: {along_m, right_m, up_m}` or `{along_m, off_axis_mrad, clock_deg}` resolved to geodetic at load time | beam-element and detector placements are quoted along the beam, not as lat/lon; the configuration should say what is actually known |
 | opening angles | explicit `opening_angles` list (vertex, a, b), CLI `-a` | the user's question is a specific pair of chords; computing every shared-vertex pair would bury it in near-zero antenna-to-antenna angles |
 | legacy notebook files | moved to `docs/reference/` | keep provenance, keep the top level for the package |
 
-Opening angle at the target, ND vs FD (Ant-2): 10.650 mrad, −10.55 mrad vertical and
-−1.44 mrad horizontal, so the surveyed ND endpoint is 10.1 m above the target → FD line
-(within the ~30 m resolution of the antenna coordinate).  Against the MINOS FD the angle is
-13.34 mrad, mostly horizontal, as expected for an on-axis far detector.
+Opening angle at the target, ND vs FD (Ant-2): 10.440 mrad, −10.20 mrad vertical and
+−2.24 mrad horizontal, so the ND endpoint is 10.6 m above the target → FD line (within the
+~30 m resolution of the antenna coordinate).  Against the MINOS FD the angle is 12.47 mrad,
+mostly horizontal, as expected for an on-axis far detector.
 
 Relative to the beam axis (target → MINOS FD): the Ash River front face is 14.575 mrad off
 axis, 11.05 km to the left and 4.18 km below the axis at 810.5 km along it (the "12 km west of
-the beam" of the NOvA papers); the surveyed ND endpoint is 13.34 mrad off axis, 11.6 m left and
-5.1 m up at 948 m; the TDR design axis (target → decay-pipe end) agrees with the target → MINOS
-FD line to 0.02 mrad.
+the beam" of the NOvA papers); the ND endpoint is 12.47 mrad off axis, 11.6 m left and
+5.1 m up at 1015 m; the TDR design axis (target → decay-pipe end) agrees with the target → MINOS
+FD line to 0.02 mrad.  The ND at 1015 m is 12.47 mrad off axis.
 
 ## 6. Verification
 

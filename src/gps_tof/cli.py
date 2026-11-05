@@ -59,7 +59,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("-x", "--axis", metavar="ORIGIN:THROUGH[:LABEL]",
                    help="beam axis: the line from site ORIGIN through site THROUGH; every site, baseline and "
                         "opening angle is reported relative to it (overrides beam_axis: in the file)")
-    p.add_argument("--no-axis", action="store_true", help="ignore beam_axis from the config")
+    p.add_argument("--no-axis", action="store_true", help="do not report against the beam axis (it is still used to place axis_position sites)")
     p.add_argument("--nmea", action="append", metavar="FILE", help="add sites from $GPGGA sentences in FILE")
     p.add_argument("--no-timing-shifts", action="store_true", help="ignore timing_shifts from the config")
     p.add_argument("-f", "--format", choices=["text", "md", "json", "all"], help="output format (default text)")
@@ -74,7 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Optional[List[str]] = None) -> int:
     p = build_parser()
     a = p.parse_args(argv)
-    cli: Dict[str, Any] = {k: getattr(a, k) for k in SCALARS}
+    cli: Dict[str, Any] = {k: getattr(a, k, None) for k in SCALARS}
     cli.update({"config": a.config, "format": a.format, "output": a.output, "site": a.site, "pair": a.pair,
                 "angle": a.angle, "axis": a.axis, "no_axis": a.no_axis, "no_timing_shifts": a.no_timing_shifts})
     extra = []

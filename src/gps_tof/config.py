@@ -23,7 +23,7 @@ SCALARS: Dict[str, type] = {
     "sphere_radius_m": float, "offset_normal": str, "apply_sagnac": bool, "rounding": str,
     "precision_digits": int, "neutrino_mass_ev": float, "neutrino_energy_gev": float,
     "window_before_us": float, "window_after_us": float, "microslice_us": float,
-    "sensitivities": bool, "arcsec_step": float, "height_step_m": float, "offset_step_m": float,
+    "sensitivities": bool, "report_axis": bool, "arcsec_step": float, "height_step_m": float, "offset_step_m": float,
 }
 RUN_KEYS: Dict[str, type] = {"config": str, "format": str, "output": str}
 
@@ -173,7 +173,7 @@ def merge(config_path: Optional[Path], cli: Dict[str, Any], environ: Optional[Di
             raise ValueError("axis spec must be ORIGIN:THROUGH[:LABEL]")
         data["beam_axis"] = {"from": parts[0], "to": parts[1], "label": parts[2] if len(parts) > 2 else ""}
     if cli.get("no_axis"):
-        data.pop("beam_axis", None)
+        data["report_axis"] = False
     if cli.get("angle"):
         data["opening_angles"] = [parse_angle_spec(x) for x in cli["angle"]]
     if cli.get("no_timing_shifts"):

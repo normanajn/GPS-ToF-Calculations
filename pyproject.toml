@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gps-tof"
-version = "0.3.0"
+version = "0.4.0"
 description = "Geodetic straight-line time-of-flight calculator with correction ledger, sensitivities and error budget"
 readme = "README.md"
 requires-python = ">=3.9"

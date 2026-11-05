@@ -1,4 +1,4 @@
-.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.3.0" "File Formats"
+.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.4.0" "File Formats"
 .SH NAME
 gps-tof.yaml \- configuration file format for gps-tof
 .SH DESCRIPTION
@@ -66,6 +66,14 @@ Fermilab site coordinates (DUSAF/FSCS) in US survey feet: x east, y north, z ele
 the DUSAF datum.  Converted with the double stereographic projection of Beams-doc-1148
 (origin A0, azimuth 38 16 48.01429, F0 = 1.000029251309483, dH_NAVD88 = -0.17308 m,
 N = -32.78456 m).  Overrides lat/lon/height.
+.TP
+.B axis_position
+Alternative to lat/lon/height: the site's endpoint given in the beam-axis frame as
+\fBalong_m\fR plus either \fBright_m\fR and \fBup_m\fR (transverse offsets, right when looking
+downstream) or \fBoff_axis_mrad\fR and \fBclock_deg\fR (0\(de = above the axis, 90\(de = right).
+Requires \fBbeam_axis\fR; the axis sites themselves cannot use it.  The geodetic coordinates are
+derived and printed in the report.  Example: the NOvA Near Detector 1015 m along the beam,
+11.57 m left and 5.12 m above the axis: \fBaxis_position: {along_m: 1015, right_m: -11.57, up_m: 5.12}\fR.
 .TP
 .B offset_enu_m, offset_note
 Vector from the surveyed point to the physics endpoint in the local East, North, Up frame,

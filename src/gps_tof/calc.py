@@ -65,11 +65,13 @@ def _round(x: float, mode: str) -> int:
 
 
 # ---------------------------------------------------------------- beam axis
-def axis_frame(problem: Problem) -> Optional[Dict[str, Any]]:
+def axis_frame(problem: Problem, force: bool = False) -> Optional[Dict[str, Any]]:
     """Geometry of the global beam axis: origin ECEF, unit direction, and a
-    transverse basis (h = horizontal-right looking downstream, v = up-ish)."""
+    transverse basis (h = horizontal-right looking downstream, v = up-ish).
+    Returns None when no axis is defined or axis reporting is switched off
+    (unless ``force``, used to resolve axis_position sites)."""
     ax = problem.beam_axis
-    if ax is None:
+    if ax is None or (not force and not problem.settings.report_axis):
         return None
     s = problem.settings
     st = final_stage(s)
@@ -127,6 +129,7 @@ def _site_summary(site: Site, settings: Settings, frame: Optional[Dict[str, Any]
         "h_ellipsoidal_m": site.h_ellipsoidal,
         "offset_enu_m": list(site.offset_enu_m), "offset_note": site.offset_note,
         "fscs_xyz_ft": list(site.fscs_xyz_ft) if site.fscs_xyz_ft else None,
+        "axis_position": dict(site.axis_position) if site.axis_position else None,
         "ecef_surveyed_m": list(p_ant), "ecef_endpoint_m": list(p_end),
         "endpoint_lat_deg": math.degrees(la), "endpoint_lon_deg": math.degrees(lo), "endpoint_h_m": h,
         "cable_delay_ns": (site.cable_delay_s * 1e9) if site.cable_delay_s is not None else None,

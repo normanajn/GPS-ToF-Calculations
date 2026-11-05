@@ -57,17 +57,30 @@ sites:
     source: "2014 note Table 2 (MINOS-based TDU receivers)"
     uncertainty: {quantization_arcsec: 1.0, height_m: 33.0}
 
-  - name: "NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)"
+  - name: "NOvA Near Detector (1015 m from the target)"
     id: nd
+    # The ND is not under the MINOS mast: it is 1015 m downstream of the target along the beam.
+    # Position given in the beam-axis frame (axis = target -> MINOS FD): along the axis 1015 m,
+    # transverse offsets taken from the mast antenna fix (11.57 m left of the axis, 5.12 m above it,
+    # i.e. the antenna's horizontal position with the 105 + 15 m vertical offset); lat/lon/h derived.
+    axis_position: {along_m: 1015.0, right_m: -11.570, up_m: 5.123}
+    offset_enu_m: [0, 0, 0]
+    cable_length_m: 30.48
+    cable_velocity_factor: 0.85
+    source: "1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down"
+    notes: "Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate."
+    uncertainty: {offset_m: 10.0}
+
+  - name: "ND endpoint if it were under the MINOS mast (105 + 15 m down)"
+    id: nd-under-mast
     lat: "41 50 23 N"
     lon: "88 16 13 W"
     height_m: 228.0
     datum: ellipsoid
     offset_enu_m: [0, 0, -120]
-    offset_note: "105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)"
-    cable_length_m: 30.48
-    cable_velocity_factor: 0.85
-    source: "2014 note sec. 3.1 and Tables 2-3"
+    offset_note: "105 m cavern depth + 15 m mast"
+    source: "2014 note sec. 3.1 and Tables 2-3 (superseded: the ND is not under the mast)"
+    notes: "Kept for comparison only; it is 948 m from the target, 65 m short of the ND."
     uncertainty: {quantization_arcsec: 1.0, height_m: 33.0, offset_m: 10.0}
 
   # ---- Ash River ----------------------------------------------------------------------
@@ -120,18 +133,21 @@ sites:
 beam_axis: {from: target, to: minos-fd, label: "NuMI beam axis (target -> MINOS FD)"}
 
 baselines:
-  - {from: nd, to: fd2, label: "ND cavern -> FD front face (Ant-2), 2014-note offsets"}
+  - {from: nd, to: fd2, label: "ND (1015 m from target) -> FD front face (Ant-2)"}
   - {from: target, to: fd2, label: "NuMI target -> FD front face (Ant-2)"}
-  - {from: target, to: nd, label: "NuMI target -> ND cavern"}
-  - {from: nd, to: fd1, label: "ND cavern -> FD (Ant-1)"}
-  - {from: nd, to: fd3, label: "ND cavern -> FD (Ant-3)"}
+  - {from: target, to: nd, label: "NuMI target -> ND (1015 m)"}
+  - {from: nd-under-mast, to: fd2, label: "ND placed under the mast -> FD (Ant-2), superseded 2014-note geometry"}
+  - {from: target, to: nd-under-mast, label: "NuMI target -> ND placed under the mast (superseded)"}
+  - {from: nd, to: fd1, label: "ND -> FD (Ant-1)"}
+  - {from: nd, to: fd3, label: "ND -> FD (Ant-3)"}
   - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)"}
   - {from: target, to: decay-end, label: "NuMI target -> decay-pipe end (TDR design axis)"}
 
 opening_angles:
   # angle at the vertex between the chords vertex -> a and vertex -> b (each also vs the beam axis)
-  - {vertex: target, a: nd, b: fd2, label: "Target: ND cavern vs FD front face (Ant-2)"}
-  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND cavern vs MINOS FD"}
+  - {vertex: target, a: nd, b: fd2, label: "Target: ND vs FD front face (Ant-2)"}
+  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND vs MINOS FD"}
+  - {vertex: target, a: nd-under-mast, b: nd, label: "Target: ND under the mast (superseded) vs ND at 1015 m"}
 
 timing_shifts:
   - name: "Main Injector 141-turn shift (2012 shutdown)"

@@ -1,4 +1,4 @@
-.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.3.0" "Library Functions"
+.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.4.0" "Library Functions"
 .SH NAME
 gps_tof \- Python API for geodetic time-of-flight calculations
 .SH SYNOPSIS
@@ -14,7 +14,7 @@ from gps_tof import nmea
 .SH DESCRIPTION
 .SS Model (gps_tof.model)
 .TP
-.B Site(name, lat, lon, height_m, datum="ellipsoid", geoid_separation_m=None, offset_enu_m=(0,0,0), id="", fscs_xyz_ft=None, ...)
+.B Site(name, lat, lon, height_m, datum="ellipsoid", geoid_separation_m=None, offset_enu_m=(0,0,0), id="", fscs_xyz_ft=None, axis_position=None, ...)
 A surveyed point and the displacement to its physics endpoint.  \fBSite.from_dict\fR accepts
 the configuration-file keys (angles as strings).  \fBh_ellipsoidal\fR, \fBlat_rad\fR,
 \fBlon_rad\fR, \fBcable_delay_s\fR are derived properties; \fBreplace(**changes)\fR returns a
@@ -37,7 +37,9 @@ Dataclass of run settings (clock_hz, earth_model, offset_normal, rounding, windo
 \fBSettings.from_dict\fR accepts the nested file layout (earth:, physics:, trigger_window:, sensitivity:).
 .TP
 .B Problem(settings, sites, baselines, timing_shifts)
-\fBProblem.from_dict(d)\fR builds everything from a configuration mapping; \fBsite(id)\fR looks a site up.
+\fBProblem.from_dict(d)\fR builds everything from a configuration mapping and resolves sites given
+with \fBaxis_position\fR (along/right/up in the beam-axis frame) to geodetic coordinates;
+\fBsite(id)\fR looks a site up.
 .SS Engine (gps_tof.calc)
 .TP
 .B compute_all(problem) -> dict

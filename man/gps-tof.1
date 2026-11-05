@@ -1,4 +1,4 @@
-.TH GPS-TOF 1 "2026-11-05" "gps-tof 0.3.0" "User Commands"
+.TH GPS-TOF 1 "2026-11-05" "gps-tof 0.4.0" "User Commands"
 .SH NAME
 gps-tof \- straight-line time of flight between surveyed sites with a correction ledger
 .SH SYNOPSIS
@@ -62,7 +62,8 @@ target \(-> MINOS far detector).  Every site is then reported with its off-axis 
 origin, its distance along the axis and its transverse position (right/up looking downstream);
 every baseline gets the opening angle between its chord and the axis and the off-axis angle of
 both endpoints; every opening angle gets the angle of each chord to the axis.  Overrides
-\fBbeam_axis:\fR in the file.  \fB\-\-no\-axis\fR drops the file's axis.
+\fBbeam_axis:\fR in the file.  \fB\-\-no\-axis\fR suppresses the axis in the report (sites given with
+\fBaxis_position\fR are still placed with it).
 .TP
 .BR \-a ", " \-\-angle " " \fIVERTEX:A:B[:LABEL[:AXIS]]\fR
 Opening angle at site \fIVERTEX\fR between the chords VERTEX\(->A and VERTEX\(->B, with its

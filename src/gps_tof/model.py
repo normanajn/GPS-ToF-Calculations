@@ -37,6 +37,7 @@ class Site:
     offset_note: str = ""
     id: str = ""
     fscs_xyz_ft: Optional[Tuple[float, float, float]] = None
+    axis_position: Optional[Dict[str, float]] = None   # along_m + (right_m, up_m | off_axis_mrad, clock_deg)
     cable_length_m: Optional[float] = None
     cable_velocity_factor: Optional[float] = None
     cable_delay_ns: Optional[float] = None
@@ -91,7 +92,16 @@ class Site:
         d = dict(d)
         name = d.pop("name")
         kw: Dict[str, Any] = {}
-        if "fscs_xyz_ft" in d and d["fscs_xyz_ft"] is not None:
+        if d.get("axis_position") is not None:
+            ap = {k: float(v) for k, v in dict(d.pop("axis_position")).items()}
+            if "along_m" not in ap:
+                raise ValueError("site %s: axis_position needs along_m" % name)
+            if not (("right_m" in ap and "up_m" in ap) or ("off_axis_mrad" in ap and "clock_deg" in ap)):
+                raise ValueError("site %s: axis_position needs right_m+up_m or off_axis_mrad+clock_deg" % name)
+            kw["axis_position"] = ap
+            d.pop("lat", None); d.pop("lon", None); d.pop("height_m", None); d.pop("fscs_xyz_ft", None)
+            kw["lat"], kw["lon"], kw["height_m"] = 0.0, 0.0, 0.0   # resolved by Problem.from_dict
+        elif "fscs_xyz_ft" in d and d["fscs_xyz_ft"] is not None:
             kw["fscs_xyz_ft"] = tuple(d.pop("fscs_xyz_ft"))
             d.pop("lat", None); d.pop("lon", None); d.pop("height_m", None)
         else:
@@ -116,7 +126,8 @@ class Site:
 
     def replace(self, **changes) -> "Site":
         d = asdict(self)
-        d.pop("fscs_xyz_ft", None)  # already folded into lat/lon/h
+        d.pop("fscs_xyz_ft", None)   # already folded into lat/lon/h
+        d.pop("axis_position", None)  # already resolved to lat/lon/h
         d.update(changes)
         return Site(**d)
 
@@ -223,6 +234,7 @@ class Settings:
     window_after_us: Optional[float] = None
     microslice_us: Optional[float] = None
     sensitivities: bool = True
+    report_axis: bool = True              # False: keep beam_axis for resolving axis_position sites, but do not report it
     arcsec_step: float = 1.0
     height_step_m: float = 1.0
     offset_step_m: float = 1.0
@@ -290,6 +302,37 @@ class Problem:
                 return s
         raise KeyError("no site with id or name %r (have %s)" % (key, [s.id for s in self.sites]))
 
+    def _resolve_axis_positions(self) -> None:
+        """Sites given as (along, right, up) in the beam-axis frame get their
+        geodetic coordinates from the axis origin and direction."""
+        pending = [s for s in self.sites if s.axis_position is not None]
+        if not pending:
+            return
+        if self.beam_axis is None:
+            raise ValueError("site %s uses axis_position but no beam_axis is defined" % pending[0].name)
+        for key in (self.beam_axis.origin, self.beam_axis.through):
+            if self.site(key).axis_position is not None:
+                raise ValueError("beam_axis site %s cannot itself be given in the axis frame" % key)
+        from .calc import axis_frame          # lazy: calc imports this module
+        from .geodesy import ecef_to_geodetic, WGS84
+        frame = axis_frame(self, force=True)
+        for s in pending:
+            ap = s.axis_position
+            along = ap["along_m"]
+            if "right_m" in ap:
+                right, up = ap["right_m"], ap["up_m"]
+            else:
+                r = along * math.tan(ap["off_axis_mrad"] * 1e-3)
+                right, up = r * math.sin(math.radians(ap["clock_deg"])), r * math.cos(math.radians(ap["clock_deg"]))
+            u, h, v, p0 = frame["u"], frame["h"], frame["v"], frame["p0"]
+            pt = tuple(p0[i] + along * u[i] + right * h[i] + up * v[i] for i in range(3))
+            lat, lon, hh = ecef_to_geodetic(pt, WGS84)
+            s.lat, s.lon, s.height_m = math.degrees(lat), math.degrees(lon), hh
+            s.datum = "ellipsoid"
+            s.geoid_separation_m = None
+            ap["right_m"], ap["up_m"] = right, up
+            ap["frame"] = "%s -> %s" % (self.beam_axis.origin, self.beam_axis.through)  # type: ignore[assignment]
+
     @classmethod
     def from_dict(cls, d: Dict[str, Any]) -> "Problem":
         d = dict(d)
@@ -314,6 +357,7 @@ class Problem:
             p.site(axis.origin); p.site(axis.through)
             if p.site(axis.origin) is p.site(axis.through):
                 raise ValueError("beam_axis needs two different sites")
+        p._resolve_axis_positions()
         for b in p.baselines:
             p.site(b.source); p.site(b.target)
             if b.axis_to:

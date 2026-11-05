@@ -29,15 +29,16 @@ def test_opening_angle_matches_vector_angle_and_is_symmetric(nova):
     # components: the total angle is the quadrature sum of the horizontal and vertical parts (small angles)
     assert math.hypot(oa["horizontal_component_mrad"], oa["vertical_component_mrad"]) == pytest.approx(oa["angle_mrad"], rel=1e-4)
     assert oa["a_transverse_from_vb_m"] == pytest.approx(oa["L_a_m"] * math.sin(oa["angle_rad"]))
-    assert oa["L_a_m"] == pytest.approx(948.4, abs=0.1) and oa["L_b_m"] == pytest.approx(810564.6, abs=0.1)
+    assert oa["L_a_m"] == pytest.approx(1015.08, abs=0.05) and oa["L_b_m"] == pytest.approx(810564.6, abs=0.1)
 
 
 def test_nova_target_opening_angle_value(nova):
     oa = compute_opening_angle(nova, OpeningAngle("target", "nd", "fd2", axis_to="decay-end"))
-    assert oa["angle_mrad"] == pytest.approx(10.65, abs=0.01)
-    assert oa["vertical_component_mrad"] == pytest.approx(-10.55, abs=0.01)
-    assert oa["a_transverse_from_vb_m"] == pytest.approx(10.10, abs=0.01)
-    assert oa["off_axis_a_mrad"] == pytest.approx(13.33, abs=0.01)
+    assert oa["angle_mrad"] == pytest.approx(10.44, abs=0.01)
+    assert oa["vertical_component_mrad"] == pytest.approx(-10.20, abs=0.01)
+    assert oa["horizontal_component_mrad"] == pytest.approx(-2.24, abs=0.01)
+    assert oa["a_transverse_from_vb_m"] == pytest.approx(1015.08 * math.sin(10.4403e-3), abs=0.02)
+    assert oa["off_axis_a_mrad"] == pytest.approx(12.47, abs=0.03)   # local axis target -> decay-end
     assert oa["off_axis_b_mrad"] == pytest.approx(14.58, abs=0.01)
     assert oa["same_side_of_axis"] is True
 
@@ -54,7 +55,7 @@ def test_collinear_points_have_zero_opening_angle():
 
 
 def test_config_and_cli_angles(nova, capsys):
-    assert len(nova.opening_angles) == 2
+    assert len(nova.opening_angles) == 3
     r = compute_all(nova)
     assert [x["label"] for x in r["opening_angles"]] == [x.label for x in nova.opening_angles]
     assert parse_angle_spec("target:nd:fd2:lbl:decay-end") == {"vertex": "target", "a": "nd", "b": "fd2", "label": "lbl", "axis_to": "decay-end"}
@@ -63,4 +64,4 @@ def test_config_and_cli_angles(nova, capsys):
     rc = cli.main(["-c", str(ROOT / "config" / "nova.yaml"), "-p", "target:nd", "-a", "target:nd:fd2", "--format", "md", "--no-sensitivities"])
     assert rc == 0
     out = capsys.readouterr().out
-    assert "## Opening angles" in out and "10.65" in out
+    assert "## Opening angles" in out and "10.44" in out

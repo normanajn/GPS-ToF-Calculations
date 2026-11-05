@@ -1,6 +1,6 @@
 # NOvA NuMI -> Ash River timing offsets: time-of-flight report
 
-Generated 2026-11-05T13:27:21-06:00 by gps-tof 0.3.0.
+Generated 2026-11-05T14:31:58-06:00 by gps-tof 0.4.0.
 
 
 ## Settings
@@ -23,7 +23,8 @@ Generated 2026-11-05T13:27:21-06:00 by gps-tof 0.3.0.
 | target | NuMI target (TDR 1998 design, upstream face) | 41° 49' 55.0917" N | 88° 15' 55.9086" W | 158.074 | ellipsoid | 158.074 | +0, +0, +0 |
 | decay-end | NuMI decay pipe end (TDR 1998 design) | 41° 50' 16.5133" N | 88° 16' 08.6061" W | 115.930 | ellipsoid | 115.930 | +0, +0, +0 |
 | fnal-mast | FNAL MINOS Surface Building mast antenna | 41° 50' 23.0000" N | 88° 16' 13.0000" W | 228.000 | ellipsoid | 228.000 | +0, +0, +0 |
-| nd | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 41° 50' 23.0000" N | 88° 16' 13.0000" W | 228.000 | ellipsoid | 228.000 | +0, +0, -120 |
+| nd | NOvA Near Detector (1015 m from the target) | 41° 50' 24.9725" N | 88° 16' 14.1694" W | 104.124 | ellipsoid | 104.124 | +0, +0, +0 |
+| nd-under-mast | ND endpoint if it were under the MINOS mast (105 + 15 m down) | 41° 50' 23.0000" N | 88° 16' 13.0000" W | 228.000 | ellipsoid | 228.000 | +0, +0, -120 |
 | fd1 | Ash River Ant-1 (FD front-face centre) | 48° 22' 42.9468" N | 92° 49' 52.6158" W | 348.000 | ellipsoid | 348.000 | +0, +0, -19.8 |
 | fd2 | Ash River Ant-2 (FD front-face centre) | 48° 22' 42.9468" N | 92° 49' 52.6158" W | 348.638 | ellipsoid | 348.638 | +0, +0, -19.8 |
 | fd3 | Ash River Ant-3 (FD front-face centre) | 48° 22' 42.9850" N | 92° 49' 52.6583" W | 350.346 | ellipsoid | 350.346 | +0, +0, -19.8 |
@@ -48,7 +49,8 @@ Every site endpoint relative to the axis: the off-axis angle is measured at the 
 | target | NuMI target (TDR 1998 design, upstream face) | 0.0000 | 0.00000 | 0.000 | 0.000 | +0.000 | +0.000 | - |
 | decay-end | NuMI decay pipe end (TDR 1998 design) | 0.0197 | 0.00113 | 724.184 | 0.014 | -0.000 | +0.014 | -1.89 |
 | fnal-mast | FNAL MINOS Surface Building mast antenna | 132.4921 | 7.59124 | 941.341 | 125.455 | -11.570 | +124.921 | -5.29 |
-| nd | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 13.3426 | 0.76448 | 948.316 | 12.654 | -11.570 | +5.123 | -66.12 |
+| nd | NOvA Near Detector (1015 m from the target) | 12.4658 | 0.71424 | 1,015.000 | 12.653 | -11.570 | +5.123 | -66.12 |
+| nd-under-mast | ND endpoint if it were under the MINOS mast (105 + 15 m down) | 13.3426 | 0.76448 | 948.316 | 12.654 | -11.570 | +5.123 | -66.12 |
 | fd1 | Ash River Ant-1 (FD front-face centre) | 14.5756 | 0.83512 | 810,478.470 | 11,814.007 | -11,051.359 | -4,175.910 | -110.70 |
 | fd2 | Ash River Ant-2 (FD front-face centre) | 14.5753 | 0.83510 | 810,478.514 | 11,813.783 | -11,051.360 | -4,175.273 | -110.70 |
 | fd3 | Ash River Ant-3 (FD front-face centre) | 14.5748 | 0.83508 | 810,480.077 | 11,813.444 | -11,051.603 | -4,173.670 | -110.69 |
@@ -59,11 +61,13 @@ Every site endpoint relative to the axis: the off-axis angle is measured at the 
 
 | baseline | L (m) | ToF (µs) | ticks | total ticks | total int | chord vs axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
-| ND cavern -> FD front face (Ant-2), 2014-note offsets | 809,616.263 | 2,700.589164 | 172,837.706 | 272,758.088 | 272,758 | 14.5812 |
+| ND (1015 m from target) -> FD front face (Ant-2) | 809,549.587 | 2,700.366754 | 172,823.472 | 272,743.854 | 272,744 | 14.5824 |
 | NuMI target -> FD front face (Ant-2) | 810,564.610 | 2,703.752507 | 173,040.160 | 272,960.542 | 272,961 | 14.5753 |
-| NuMI target -> ND cavern | 948.400 | 3.163524 | 202.466 | 100,122.847 | 100,123 | 13.3426 |
-| ND cavern -> FD (Ant-1) | 809,616.223 | 2,700.589028 | 172,837.698 | 272,758.080 | 272,758 | 14.5815 |
-| ND cavern -> FD (Ant-3) | 809,617.821 | 2,700.594359 | 172,838.039 | 272,758.421 | 272,758 | 14.5808 |
+| NuMI target -> ND (1015 m) | 1,015.079 | 3.385939 | 216.700 | 100,137.082 | 100,137 | 12.4658 |
+| ND placed under the mast -> FD (Ant-2), superseded 2014-note geometry | 809,616.263 | 2,700.589164 | 172,837.706 | 272,758.088 | 272,758 | 14.5812 |
+| NuMI target -> ND placed under the mast (superseded) | 948.400 | 3.163524 | 202.466 | 100,122.847 | 100,123 | 13.3426 |
+| ND -> FD (Ant-1) | 809,549.546 | 2,700.366618 | 172,823.464 | 272,743.845 | 272,744 | 14.5827 |
+| ND -> FD (Ant-3) | 809,551.144 | 2,700.371949 | 172,823.805 | 272,744.186 | 272,744 | 14.5820 |
 | NuMI target -> MINOS FD (validation of the target position) | 735,344.614 | 2,452.845607 | 156,982.119 | 256,902.501 | 256,903 | 0.0000 |
 | NuMI target -> decay-pipe end (TDR design axis) | 724.184 | 2.415619 | 154.600 | 100,074.981 | 100,075 | 0.0197 |
 
@@ -74,64 +78,85 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 
 | angle | vertex | chord a | chord b | angle (mrad) | angle (deg) | horiz. (mrad) | vert. (mrad) | a vs axis (mrad) | b vs axis (mrad) |
 |:---|:---|:---|:---|---:|---:|---:|---:|---:|---:|
-| Target: ND cavern vs FD front face (Ant-2) | NuMI target (TDR 1998 design, upstream face) | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | Ash River Ant-2 (FD front-face centre) | 10.6503 | 0.610220 | -1.4426 | -10.5522 | 13.3426 | 14.5753 |
-| Target: ND cavern vs MINOS FD | NuMI target (TDR 1998 design, upstream face) | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | MINOS Far Detector (supermodule midpoint, Soudan) | 13.3426 | 0.764475 | 12.1982 | -5.4065 | 13.3426 | 0.0000 |
+| Target: ND vs FD front face (Ant-2) | NuMI target (TDR 1998 design, upstream face) | NOvA Near Detector (1015 m from the target) | Ash River Ant-2 (FD front-face centre) | 10.4403 | 0.598186 | -2.2437 | -10.1964 | 12.4658 | 14.5753 |
+| Target: ND vs MINOS FD | NuMI target (TDR 1998 design, upstream face) | NOvA Near Detector (1015 m from the target) | MINOS Far Detector (supermodule midpoint, Soudan) | 12.4658 | 0.714239 | 11.3968 | -5.0507 | 12.4658 | 0.0000 |
+| Target: ND under the mast (superseded) vs ND at 1015 m | NuMI target (TDR 1998 design, upstream face) | ND endpoint if it were under the MINOS mast (105 + 15 m down) | NOvA Near Detector (1015 m from the target) | 0.8768 | 0.050236 | 0.8013 | -0.3558 | 13.3426 | 12.4658 |
 
 
-### Target: ND cavern vs FD front face (Ant-2)
+### Target: ND vs FD front face (Ant-2)
 
 | quantity | value |
 |:---|:---|
-| opening angle | 10.6503 mrad = 0.610220° = 0° 36' 36.792" |
-| chord a: vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | L = 948.400 m, azimuth 335.39423°, elevation -3.03079° |
+| opening angle | 10.4403 mrad = 0.598186° = 0° 35' 53.469" |
+| chord a: vertex → NOvA Near Detector (1015 m from the target) | L = 1,015.079 m, azimuth 335.44021°, elevation -3.05118° |
 | chord b: vertex → Ash River Ant-2 (FD front-face centre) | L = 810,564.610 m, azimuth 335.31144°, elevation -3.63539° |
-| horizontal / vertical components at the vertex | Δazimuth -0.08279° (-1.4426 mrad), Δelevation -0.60460° (-10.5522 mrad) |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) transverse to the line vertex → Ash River Ant-2 (FD front-face centre) | 10.101 m (along it: 948.347 m) |
-| Ash River Ant-2 (FD front-face centre) transverse to the line vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 8,632.633 m |
-| chord b − chord a | +809,616.210 m = +2,700.588984 µs = +172,837.695 ticks |
-| path vertex → a → b minus direct vertex → b | 0.0539 m |
-| chord a vs beam axis (NuMI beam axis (target -> MINOS FD)) | 13.3426 mrad (right -12.2001, up +5.4026) |
+| horizontal / vertical components at the vertex | Δazimuth -0.12877° (-2.2437 mrad), Δelevation -0.58421° (-10.1964 mrad) |
+| NOvA Near Detector (1015 m from the target) transverse to the line vertex → Ash River Ant-2 (FD front-face centre) | 10.598 m (along it: 1,015.024 m) |
+| Ash River Ant-2 (FD front-face centre) transverse to the line vertex → NOvA Near Detector (1015 m from the target) | 8,462.394 m |
+| chord b − chord a | +809,549.531 m = +2,700.366569 µs = +172,823.460 ticks |
+| path vertex → a → b minus direct vertex → b | 0.0554 m |
+| chord a vs beam axis (NuMI beam axis (target -> MINOS FD)) | 12.4658 mrad (right -11.3985, up +5.0472) |
 | chord b vs beam axis | 14.5753 mrad (right -13.6348, up -5.1516) |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) off-axis at the axis origin | 13.3426 mrad, 12.654 m transverse |
+| NOvA Near Detector (1015 m from the target) off-axis at the axis origin | 12.4658 mrad, 12.653 m transverse |
 | Ash River Ant-2 (FD front-face centre) off-axis at the axis origin | 14.5753 mrad, 11,813.783 m transverse |
 
 
-### Target: ND cavern vs MINOS FD
+### Target: ND vs MINOS FD
 
 | quantity | value |
 |:---|:---|
-| opening angle | 13.3426 mrad = 0.764475° = 0° 45' 52.110" |
-| chord a: vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | L = 948.400 m, azimuth 335.39423°, elevation -3.03079° |
+| opening angle | 12.4658 mrad = 0.714239° = 0° 42' 51.259" |
+| chord a: vertex → NOvA Near Detector (1015 m from the target) | L = 1,015.079 m, azimuth 335.44021°, elevation -3.05118° |
 | chord b: vertex → MINOS Far Detector (supermodule midpoint, Soudan) | L = 735,344.614 m, azimuth 336.09421°, elevation -3.34056° |
-| horizontal / vertical components at the vertex | Δazimuth 0.69998° (12.1982 mrad), Δelevation -0.30977° (-5.4065 mrad) |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) transverse to the line vertex → MINOS Far Detector (supermodule midpoint, Soudan) | 12.654 m (along it: 948.316 m) |
-| MINOS Far Detector (supermodule midpoint, Soudan) transverse to the line vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 9,811.124 m |
-| chord b − chord a | +734,396.213 m = +2,449.682084 µs = +156,779.653 ticks |
-| path vertex → a → b minus direct vertex → b | 0.0845 m |
-| chord a vs beam axis (NuMI beam axis (target -> MINOS FD)) | 13.3426 mrad (right -12.2001, up +5.4026) |
+| horizontal / vertical components at the vertex | Δazimuth 0.65401° (11.3968 mrad), Δelevation -0.28938° (-5.0507 mrad) |
+| NOvA Near Detector (1015 m from the target) transverse to the line vertex → MINOS Far Detector (supermodule midpoint, Soudan) | 12.653 m (along it: 1,015.000 m) |
+| MINOS Far Detector (supermodule midpoint, Soudan) transverse to the line vertex → NOvA Near Detector (1015 m from the target) | 9,166.434 m |
+| chord b − chord a | +734,329.535 m = +2,449.459668 µs = +156,765.419 ticks |
+| path vertex → a → b minus direct vertex → b | 0.0790 m |
+| chord a vs beam axis (NuMI beam axis (target -> MINOS FD)) | 12.4658 mrad (right -11.3985, up +5.0472) |
 | chord b vs beam axis | 0.0000 mrad (right +0.0000, up +0.0000) |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) off-axis at the axis origin | 13.3426 mrad, 12.654 m transverse |
+| NOvA Near Detector (1015 m from the target) off-axis at the axis origin | 12.4658 mrad, 12.653 m transverse |
 | MINOS Far Detector (supermodule midpoint, Soudan) off-axis at the axis origin | 0.0000 mrad, 0.000 m transverse |
 
 
-## Baseline: ND cavern -> FD front face (Ant-2), 2014-note offsets
-
-
-### Source: NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)
+### Target: ND under the mast (superseded) vs ND at 1015 m
 
 | quantity | value |
 |:---|:---|
-| latitude | 41° 50' 23.0000" N  (41.839722222°) |
-| longitude | 88° 16' 13.0000" W  (-88.270277778°, east positive) |
-| height as given | 228.000 m (ellipsoid) |
-| ellipsoidal height h | 228.000 m |
-| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) |
-| ECEF of surveyed point | (143651.168, -4756893.863, 4232509.570) m |
-| ECEF of endpoint | (143648.469, -4756804.502, 4232429.524) m |
-| endpoint geodetic | 41.839722222°, -88.270277778°, h = 108.000 m |
+| opening angle | 0.8768 mrad = 0.050236° = 0° 03' 00.851" |
+| chord a: vertex → ND endpoint if it were under the MINOS mast (105 + 15 m down) | L = 948.400 m, azimuth 335.39423°, elevation -3.03079° |
+| chord b: vertex → NOvA Near Detector (1015 m from the target) | L = 1,015.079 m, azimuth 335.44021°, elevation -3.05118° |
+| horizontal / vertical components at the vertex | Δazimuth 0.04598° (0.8013 mrad), Δelevation -0.02039° (-0.3558 mrad) |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down) transverse to the line vertex → NOvA Near Detector (1015 m from the target) | 0.832 m (along it: 948.400 m) |
+| NOvA Near Detector (1015 m from the target) transverse to the line vertex → ND endpoint if it were under the MINOS mast (105 + 15 m down) | 0.890 m |
+| chord b − chord a | +66.678 m = +0.222415 µs = +14.235 ticks |
+| path vertex → a → b minus direct vertex → b | 0.0055 m |
+| chord a vs beam axis (NuMI beam axis (target -> MINOS FD)) | 13.3426 mrad (right -12.2001, up +5.4026) |
+| chord b vs beam axis | 12.4658 mrad (right -11.3985, up +5.0472) |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down) off-axis at the axis origin | 13.3426 mrad, 12.654 m transverse |
+| NOvA Near Detector (1015 m from the target) off-axis at the axis origin | 12.4658 mrad, 12.653 m transverse |
+
+
+## Baseline: ND (1015 m from target) -> FD front face (Ant-2)
+
+
+### Source: NOvA Near Detector (1015 m from the target)
+
+| quantity | value |
+|:---|:---|
+| latitude | 41° 50' 24.9725" N  (41.840270144°) |
+| longitude | 88° 16' 14.1694" W  (-88.270602609°, east positive) |
+| height as given | 104.124 m (ellipsoid) |
+| ellipsoidal height h | 104.124 m |
+| given in the beam-axis frame (target -> minos-fd) | along 1015.000 m, right -11.570 m, up +5.123 m; lat/lon/h above are derived |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
+| ECEF of surveyed point | (143620.189, -4756761.853, 4232472.279) m |
+| ECEF of endpoint | (143620.189, -4756761.853, 4232472.279) m |
+| endpoint geodetic | 41.840270144°, -88.270602609°, h = 104.124 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
-| uncertainties | height_m = 33, offset_m = 10, quantization_arcsec = 1 |
-| source | 2014 note sec. 3.1 and Tables 2-3 |
+| uncertainties | offset_m = 10 |
+| source | 1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down |
+| notes | Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate. |
 
 
 ### Target: Ash River Ant-2 (FD front-face centre)
@@ -157,12 +182,12 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 |:---|:---|
 | Earth model | wgs84 |
 | offset normal | geodetic |
-| chord length L | 809,616.2634 m |
-| time of flight t = L/c | 2,700.589164 µs |
+| chord length L | 809,549.5865 m |
+| time of flight t = L/c | 2,700.366754 µs |
 | clock | 64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick) |
-| ticks (exact) | 172,837.7065 |
-| ticks (round) | 172,838  (residual +4.59 ns) |
-| legacy units (500 ns) | 5,401.1783 |
+| ticks (exact) | 172,823.4722 |
+| ticks (round) | 172,823  (residual -7.38 ns) |
+| legacy units (500 ns) | 5,400.7335 |
 
 
 ### Correction ledger
@@ -171,10 +196,9 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | step | applied | L (m) | ΔL (m) | Δt (ns) | Δticks | cum. Δticks |
 |:---|:---|---:|---:|---:|---:|---:|
-| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,448.173 | +0.000 | +0.00 | +0.000 | +0.000 |
-| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,625.125 | -823.048 | -2,745.39 | -175.705 | +0.000 |
-| vertical offset | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) | 809,617.527 | -7.598 | -25.35 | -1.622 | -1.622 |
-| vertical offset | Ash River Ant-2 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,616.263 | -1.263 | -4.21 | -0.270 | -1.892 |
+| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,373.791 | +0.000 | +0.00 | +0.000 | +0.000 |
+| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,550.850 | -822.941 | -2,745.04 | -175.682 | +0.000 |
+| vertical offset | Ash River Ant-2 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,549.587 | -1.263 | -4.21 | -0.270 | -0.270 |
 
 
 ### Timing shifts and combined offset
@@ -185,11 +209,11 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| time of flight | 2,700.589164 µs = 172,837.706 ticks |
+| time of flight | 2,700.366754 µs = 172,823.472 ticks |
 | sum of timing shifts | 1,561.255965 µs = 99,920.382 ticks |
 | Sagnac included | no |
-| total offset | 4,261.845128 µs = 272,758.088 ticks |
-| total, integer (round) | 272,758 ticks (residual -1.38 ns) |
+| total offset | 4,261.622718 µs = 272,743.854 ticks |
+| total, integer (round) | 272,744 ticks (residual +2.28 ns) |
 
 
 ### Trigger window
@@ -197,8 +221,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | quantity | value |
 |:---|:---|
 | window | [t − 20 µs, t + 30 µs), width 50 µs |
-| relative to flight time only | [171,557.71, 174,757.71) ticks |
-| relative to flight time + shifts | [271,478.09, 274,678.09) ticks |
+| relative to flight time only | [171,543.47, 174,743.47) ticks |
+| relative to flight time + shifts | [271,463.85, 274,663.85) ticks |
 | microslice | 50 µs = 3,200.0 ticks |
 | microslices overlapped | 1 to 2 (record up to 100 µs) |
 
@@ -207,18 +231,18 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| geocentric central angle | 7.28975° |
-| surface arc at mean radius | 810,159.6 m |
-| arc − chord | 543.31 m (115.99 ticks) |
-| sagitta | 12,880.3 m |
-| deepest point of chord | h = -12,653.4 m at 50 % of the path |
-| azimuth at source (from North) | 335.30817° |
-| elevation at source | -3.62758° (negative = dips below horizontal) |
-| back azimuth at target | 152.07080° |
-| elevation at target | 3.65737° (positive = arrives rising) |
-| target in source ENU frame | E -337,529.4, N 734,117.4, U -51,225.1 m |
-| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5812 mrad = 0.835442° (right -13.6364, up -5.1639 mrad) |
-| source off-axis at the axis origin | 13.3426 mrad; 948.316 m along, 12.654 m transverse (right -11.570, up +5.123) |
+| geocentric central angle | 7.28916° |
+| surface arc at mean radius | 810,092.8 m |
+| arc − chord | 543.19 m (115.96 ticks) |
+| sagitta | 12,878.1 m |
+| deepest point of chord | h = -12,653.2 m at 50 % of the path |
+| azimuth at source (from North) | 335.30789° |
+| elevation at source | -3.62700° (negative = dips below horizontal) |
+| back azimuth at target | 152.07073° |
+| elevation at target | 3.65735° (positive = arrives rising) |
+| target in source ENU frame | E -337,505.4, N 734,055.8, U -51,212.8 m |
+| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5824 mrad = 0.835511° (right -13.6376, up -5.1644 mrad) |
+| source off-axis at the axis origin | 12.4658 mrad; 1,015.000 m along, 12.653 m transverse (right -11.570, up +5.123) |
 | target off-axis at the axis origin | 14.5753 mrad; 810,478.514 m along, 11,813.783 m transverse (right -11,051.360, up -4,175.273) |
 
 
@@ -227,8 +251,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | effect | ns | ticks | status |
 |:---|---:|---:|:---|
 | Sagnac (Earth rotation, ECEF frame) | -1.303 | -0.0834 | not applied |
-| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.376e-15 | 2.160e-16 | negligible |
-| antenna cable delay, NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 119.61 | 7.655 | receiver calibration, not ToF |
+| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.375e-15 | 2.160e-16 | negligible |
+| antenna cable delay, NOvA Near Detector (1015 m from the target) | 119.61 | 7.655 | receiver calibration, not ToF |
 | antenna cable delay, Ash River Ant-2 (FD front-face centre) | 119.61 | 7.655 | receiver calibration, not ToF |
 
 
@@ -238,18 +262,18 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height +1 m | +0.0633 | +0.211 | +0.0135 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): latitude +1" | -27.9761 | -93.318 | -5.9724 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): longitude +1" | +9.6190 | +32.086 | +2.0535 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
+| NOvA Near Detector (1015 m from the target): height +1 m | +0.0633 | +0.211 | +0.0135 |
+| NOvA Near Detector (1015 m from the target): latitude +1" | -27.9760 | -93.318 | -5.9724 |
+| NOvA Near Detector (1015 m from the target): longitude +1" | +9.6190 | +32.086 | +2.0535 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
 | Ash River Ant-2 (FD front-face centre): height +1 m | +0.0638 | +0.213 | +0.0136 |
-| Ash River Ant-2 (FD front-face centre): latitude +1" | +27.2366 | +90.851 | +5.8145 |
+| Ash River Ant-2 (FD front-face centre): latitude +1" | +27.2365 | +90.851 | +5.8145 |
 | Ash River Ant-2 (FD front-face centre): longitude +1" | -9.6186 | -32.084 | -2.0534 |
 | Ash River Ant-2 (FD front-face centre): endpoint +1 m East | -0.4674 | -1.559 | -0.0998 |
 | Ash River Ant-2 (FD front-face centre): endpoint +1 m North | +0.8817 | +2.941 | +0.1882 |
-| offsets along the radial normal instead of geodetic | -0.3048 | -1.017 | -0.0651 |
-| spherical Earth (R = 6378137 m) at the final endpoints | +823.0489 | +2,745.396 | +175.7053 |
+| offsets along the radial normal instead of geodetic | +0.0583 | +0.194 | +0.0124 |
+| spherical Earth (R = 6378137 m) at the final endpoints | +822.9406 | +2,745.034 | +175.6822 |
 | GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
 
 
@@ -257,10 +281,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height ±33 m (1σ) | 6.96 | 0.446 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.49 | 1.823 | precision | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (worst case) | 62.70 | 4.013 | precision | no |
+| NOvA Near Detector (1015 m from the target): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
 | Ash River Ant-2 (FD front-face centre): endpoint offset ±2 m, worst case along the chord | 6.67 | 0.427 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
@@ -268,8 +289,8 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | quantity | value |
 |:---|:---|
-| root-sum-square of combined items | 3.436 ticks = 53.7 ns |
-| linear sum of combined items | 6.712 ticks = 104.9 ns |
+| root-sum-square of combined items | 2.878 ticks = 45.0 ns |
+| linear sum of combined items | 4.443 ticks = 69.4 ns |
 
 
 ## Baseline: NuMI target -> FD front face (Ant-2)
@@ -427,7 +448,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | linear sum of combined items | 3.376 ticks = 52.7 ns |
 
 
-## Baseline: NuMI target -> ND cavern
+## Baseline: NuMI target -> ND (1015 m)
 
 
 ### Source: NuMI target (TDR 1998 design, upstream face)
@@ -449,7 +470,143 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | notes | Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m. |
 
 
-### Target: NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)
+### Target: NOvA Near Detector (1015 m from the target)
+
+| quantity | value |
+|:---|:---|
+| latitude | 41° 50' 24.9725" N  (41.840270144°) |
+| longitude | 88° 16' 14.1694" W  (-88.270602609°, east positive) |
+| height as given | 104.124 m (ellipsoid) |
+| ellipsoidal height h | 104.124 m |
+| given in the beam-axis frame (target -> minos-fd) | along 1015.000 m, right -11.570 m, up +5.123 m; lat/lon/h above are derived |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
+| ECEF of surveyed point | (143620.189, -4756761.853, 4232472.279) m |
+| ECEF of endpoint | (143620.189, -4756761.853, 4232472.279) m |
+| endpoint geodetic | 41.840270144°, -88.270602609°, h = 104.124 m |
+| antenna cable delay | 119.61 ns (calibration, not part of ToF) |
+| uncertainties | offset_m = 10 |
+| source | 1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down |
+| notes | Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate. |
+
+
+### Result
+
+| quantity | value |
+|:---|:---|
+| Earth model | wgs84 |
+| offset normal | geodetic |
+| chord length L | 1,015.0789 m |
+| time of flight t = L/c | 3.385939 µs |
+| clock | 64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick) |
+| ticks (exact) | 216.7001 |
+| ticks (round) | 217  (residual +4.69 ns) |
+| legacy units (500 ns) | 6.7719 |
+
+
+### Correction ledger
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+| step | applied | L (m) | ΔL (m) | Δt (ns) | Δticks | cum. Δticks |
+|:---|:---|---:|---:|---:|---:|---:|
+| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 1,016.699 | +0.000 | +0.00 | +0.000 | +0.000 |
+| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 1,015.079 | -1.620 | -5.41 | -0.346 | +0.000 |
+
+
+### Timing shifts and combined offset
+
+| shift | value (µs) | ticks | detail |
+|:---|---:|---:|:---|
+| Main Injector 141-turn shift (2012 shutdown) | 1,561.255965 | 99,920.382 | 141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF |
+
+| quantity | value |
+|:---|:---|
+| time of flight | 3.385939 µs = 216.700 ticks |
+| sum of timing shifts | 1,561.255965 µs = 99,920.382 ticks |
+| Sagnac included | no |
+| total offset | 1,564.641903 µs = 100,137.082 ticks |
+| total, integer (round) | 100,137 ticks (residual -1.28 ns) |
+
+
+### Trigger window
+
+| quantity | value |
+|:---|:---|
+| window | [t − 20 µs, t + 30 µs), width 50 µs |
+| relative to flight time only | [-1,063.30, 2,136.70) ticks |
+| relative to flight time + shifts | [98,857.08, 102,057.08) ticks |
+| microslice | 50 µs = 3,200.0 ticks |
+| microslices overlapped | 1 to 2 (record up to 100 µs) |
+
+
+### Chord geometry
+
+| quantity | value |
+|:---|:---|
+| geocentric central angle | 0.00912° |
+| surface arc at mean radius | 1,013.5 m |
+| arc − chord | -1.60 m (-0.34 ticks) |
+| sagitta | 0.0 m |
+| deepest point of chord | h = 104.1 m at 100 % of the path |
+| azimuth at source (from North) | 335.44021° |
+| elevation at source | -3.05118° (negative = dips below horizontal) |
+| back azimuth at target | 155.43683° |
+| elevation at target | -3.04206° (positive = arrives rising) |
+| target in source ENU frame | E -421.3, N 921.9, U -54.0 m |
+| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 12.4658 mrad = 0.714239° (right -11.3985, up +5.0472 mrad) |
+| source off-axis at the axis origin | 0.0000 mrad; 0.000 m along, 0.000 m transverse (right +0.000, up +0.000) |
+| target off-axis at the axis origin | 12.4658 mrad; 1,015.000 m along, 12.653 m transverse (right -11.570, up +5.123) |
+
+
+### Effects outside the geometric flight time
+
+| effect | ns | ticks | status |
+|:---|---:|---:|:---|
+| Sagnac (Earth rotation, ECEF frame) | -0.002 | -0.0001 | not applied |
+| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 4.232e-18 | 2.709e-19 | negligible |
+| antenna cable delay, NOvA Near Detector (1015 m from the target) | 119.61 | 7.655 | receiver calibration, not ToF |
+
+
+### Sensitivities
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+| variation | ΔL (m) | Δt (ns) | Δticks |
+|:---|---:|---:|---:|
+| NuMI target (TDR 1998 design, upstream face): height +1 m | +0.0537 | +0.179 | +0.0115 |
+| NuMI target (TDR 1998 design, upstream face): latitude +1" | -27.9380 | -93.191 | -5.9642 |
+| NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.7924 | +32.664 | +2.0905 |
+| NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4155 | +1.386 | +0.0887 |
+| NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9082 | -3.029 | -0.1939 |
+| NOvA Near Detector (1015 m from the target): height +1 m | -0.0526 | -0.175 | -0.0112 |
+| NOvA Near Detector (1015 m from the target): latitude +1" | +28.1016 | +93.737 | +5.9992 |
+| NOvA Near Detector (1015 m from the target): longitude +1" | -9.3583 | -31.216 | -1.9978 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m East | -0.4147 | -1.383 | -0.0885 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m North | +0.9083 | +3.030 | +0.1939 |
+| spherical Earth (R = 6378137 m) at the final endpoints | +1.6204 | +5.405 | +0.3459 |
+| GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
+
+
+### Error budget
+
+| source | ns | ticks | type | in RSS |
+|:---|---:|---:|:---|:---|
+| NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
+| NOvA Near Detector (1015 m from the target): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
+| Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
+| integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
+| Sagnac term (not applied) | 0.00 | 0.000 | neglected | no |
+
+| quantity | value |
+|:---|:---|
+| root-sum-square of combined items | 3.039 ticks = 47.5 ns |
+| linear sum of combined items | 5.084 ticks = 79.4 ns |
+
+
+## Baseline: ND placed under the mast -> FD (Ant-2), superseded 2014-note geometry
+
+
+### Source: ND endpoint if it were under the MINOS mast (105 + 15 m down)
 
 | quantity | value |
 |:---|:---|
@@ -457,13 +614,189 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 88° 16' 13.0000" W  (-88.270277778°, east positive) |
 | height as given | 228.000 m (ellipsoid) |
 | ellipsoidal height h | 228.000 m |
-| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast) |
 | ECEF of surveyed point | (143651.168, -4756893.863, 4232509.570) m |
 | ECEF of endpoint | (143648.469, -4756804.502, 4232429.524) m |
 | endpoint geodetic | 41.839722222°, -88.270277778°, h = 108.000 m |
-| antenna cable delay | 119.61 ns (calibration, not part of ToF) |
 | uncertainties | height_m = 33, offset_m = 10, quantization_arcsec = 1 |
-| source | 2014 note sec. 3.1 and Tables 2-3 |
+| source | 2014 note sec. 3.1 and Tables 2-3 (superseded: the ND is not under the mast) |
+| notes | Kept for comparison only; it is 948 m from the target, 65 m short of the ND. |
+
+
+### Target: Ash River Ant-2 (FD front-face centre)
+
+| quantity | value |
+|:---|:---|
+| latitude | 48° 22' 42.9468" N  (48.378596333°) |
+| longitude | 92° 49' 52.6158" W  (-92.831282167°, east positive) |
+| height as given | 348.638 m (ellipsoid) |
+| ellipsoidal height h | 348.638 m |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -19.800 m  (12 m antenna -> detector top + 7.8 m to mid-height) |
+| ECEF of surveyed point | (-209661.000, -4239390.613, 4745202.209) m |
+| ECEF of endpoint | (-209660.350, -4239377.478, 4745187.407) m |
+| endpoint geodetic | 48.378596333°, -92.831282167°, h = 328.838 m |
+| antenna cable delay | 119.61 ns (calibration, not part of ToF) |
+| uncertainties | offset_m = 2 |
+| source | 2014 note Table 2 (antenna used by the 2013 notebook) |
+
+
+### Result
+
+| quantity | value |
+|:---|:---|
+| Earth model | wgs84 |
+| offset normal | geodetic |
+| chord length L | 809,616.2634 m |
+| time of flight t = L/c | 2,700.589164 µs |
+| clock | 64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick) |
+| ticks (exact) | 172,837.7065 |
+| ticks (round) | 172,838  (residual +4.59 ns) |
+| legacy units (500 ns) | 5,401.1783 |
+
+
+### Correction ledger
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+| step | applied | L (m) | ΔL (m) | Δt (ns) | Δticks | cum. Δticks |
+|:---|:---|---:|---:|---:|---:|---:|
+| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,448.173 | +0.000 | +0.00 | +0.000 | +0.000 |
+| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,625.125 | -823.048 | -2,745.39 | -175.705 | +0.000 |
+| vertical offset | ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast) | 809,617.527 | -7.598 | -25.35 | -1.622 | -1.622 |
+| vertical offset | Ash River Ant-2 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,616.263 | -1.263 | -4.21 | -0.270 | -1.892 |
+
+
+### Timing shifts and combined offset
+
+| shift | value (µs) | ticks | detail |
+|:---|---:|---:|:---|
+| Main Injector 141-turn shift (2012 shutdown) | 1,561.255965 | 99,920.382 | 141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF |
+
+| quantity | value |
+|:---|:---|
+| time of flight | 2,700.589164 µs = 172,837.706 ticks |
+| sum of timing shifts | 1,561.255965 µs = 99,920.382 ticks |
+| Sagnac included | no |
+| total offset | 4,261.845128 µs = 272,758.088 ticks |
+| total, integer (round) | 272,758 ticks (residual -1.38 ns) |
+
+
+### Trigger window
+
+| quantity | value |
+|:---|:---|
+| window | [t − 20 µs, t + 30 µs), width 50 µs |
+| relative to flight time only | [171,557.71, 174,757.71) ticks |
+| relative to flight time + shifts | [271,478.09, 274,678.09) ticks |
+| microslice | 50 µs = 3,200.0 ticks |
+| microslices overlapped | 1 to 2 (record up to 100 µs) |
+
+
+### Chord geometry
+
+| quantity | value |
+|:---|:---|
+| geocentric central angle | 7.28975° |
+| surface arc at mean radius | 810,159.6 m |
+| arc − chord | 543.31 m (115.99 ticks) |
+| sagitta | 12,880.3 m |
+| deepest point of chord | h = -12,653.4 m at 50 % of the path |
+| azimuth at source (from North) | 335.30817° |
+| elevation at source | -3.62758° (negative = dips below horizontal) |
+| back azimuth at target | 152.07080° |
+| elevation at target | 3.65737° (positive = arrives rising) |
+| target in source ENU frame | E -337,529.4, N 734,117.4, U -51,225.1 m |
+| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5812 mrad = 0.835442° (right -13.6364, up -5.1639 mrad) |
+| source off-axis at the axis origin | 13.3426 mrad; 948.316 m along, 12.654 m transverse (right -11.570, up +5.123) |
+| target off-axis at the axis origin | 14.5753 mrad; 810,478.514 m along, 11,813.783 m transverse (right -11,051.360, up -4,175.273) |
+
+
+### Effects outside the geometric flight time
+
+| effect | ns | ticks | status |
+|:---|---:|---:|:---|
+| Sagnac (Earth rotation, ECEF frame) | -1.303 | -0.0834 | not applied |
+| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.376e-15 | 2.160e-16 | negligible |
+| antenna cable delay, Ash River Ant-2 (FD front-face centre) | 119.61 | 7.655 | receiver calibration, not ToF |
+
+
+### Sensitivities
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+| variation | ΔL (m) | Δt (ns) | Δticks |
+|:---|---:|---:|---:|
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): height +1 m | +0.0633 | +0.211 | +0.0135 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): latitude +1" | -27.9761 | -93.318 | -5.9724 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): longitude +1" | +9.6190 | +32.086 | +2.0535 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
+| Ash River Ant-2 (FD front-face centre): height +1 m | +0.0638 | +0.213 | +0.0136 |
+| Ash River Ant-2 (FD front-face centre): latitude +1" | +27.2366 | +90.851 | +5.8145 |
+| Ash River Ant-2 (FD front-face centre): longitude +1" | -9.6186 | -32.084 | -2.0534 |
+| Ash River Ant-2 (FD front-face centre): endpoint +1 m East | -0.4674 | -1.559 | -0.0998 |
+| Ash River Ant-2 (FD front-face centre): endpoint +1 m North | +0.8817 | +2.941 | +0.1882 |
+| offsets along the radial normal instead of geodetic | -0.3048 | -1.017 | -0.0651 |
+| spherical Earth (R = 6378137 m) at the final endpoints | +823.0489 | +2,745.396 | +175.7053 |
+| GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
+
+
+### Error budget
+
+| source | ns | ticks | type | in RSS |
+|:---|---:|---:|:---|:---|
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): height ±33 m (1σ) | 6.96 | 0.446 | systematic | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.49 | 1.823 | precision | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): coordinate quantization 1" (worst case) | 62.70 | 4.013 | precision | no |
+| Ash River Ant-2 (FD front-face centre): endpoint offset ±2 m, worst case along the chord | 6.67 | 0.427 | systematic | yes |
+| Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
+| integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
+| Sagnac term (not applied) | 1.30 | 0.083 | neglected | no |
+
+| quantity | value |
+|:---|:---|
+| root-sum-square of combined items | 3.436 ticks = 53.7 ns |
+| linear sum of combined items | 6.712 ticks = 104.9 ns |
+
+
+## Baseline: NuMI target -> ND placed under the mast (superseded)
+
+
+### Source: NuMI target (TDR 1998 design, upstream face)
+
+| quantity | value |
+|:---|:---|
+| latitude | 41° 49' 55.0917" N  (41.831969923°) |
+| longitude | 88° 15' 55.9086" W  (-88.265530166°, east positive) |
+| height as given | 158.074 m (ellipsoid) |
+| geoid separation N | -32.785 m |
+| ellipsoidal height h | 158.074 m |
+| Fermilab site coordinates (ft) | x 100327.838, y 97780.188, z 626.743 |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
+| ECEF of surveyed point | (144061.137, -4757403.941, 4231821.378) m |
+| ECEF of endpoint | (144061.137, -4757403.941, 4231821.378) m |
+| endpoint geodetic | 41.831969923°, -88.265530166°, h = 158.074 m |
+| uncertainties | offset_m = 5 |
+| source | NuMI TDR 1998 App. A beam sheet (design); Beams-doc-1148 projection |
+| notes | Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m. |
+
+
+### Target: ND endpoint if it were under the MINOS mast (105 + 15 m down)
+
+| quantity | value |
+|:---|:---|
+| latitude | 41° 50' 23.0000" N  (41.839722222°) |
+| longitude | 88° 16' 13.0000" W  (-88.270277778°, east positive) |
+| height as given | 228.000 m (ellipsoid) |
+| ellipsoidal height h | 228.000 m |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast) |
+| ECEF of surveyed point | (143651.168, -4756893.863, 4232509.570) m |
+| ECEF of endpoint | (143648.469, -4756804.502, 4232429.524) m |
+| endpoint geodetic | 41.839722222°, -88.270277778°, h = 108.000 m |
+| uncertainties | height_m = 33, offset_m = 10, quantization_arcsec = 1 |
+| source | 2014 note sec. 3.1 and Tables 2-3 (superseded: the ND is not under the mast) |
+| notes | Kept for comparison only; it is 948 m from the target, 65 m short of the ND. |
 
 
 ### Result
@@ -488,7 +821,7 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 |:---|:---|---:|---:|---:|---:|---:|
 | reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 951.174 | +0.000 | +0.00 | +0.000 | +0.000 |
 | Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 949.664 | -1.510 | -5.04 | -0.322 | +0.000 |
-| vertical offset | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) | 948.400 | -1.264 | -4.22 | -0.270 | -0.270 |
+| vertical offset | ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast) | 948.400 | -1.264 | -4.22 | -0.270 | -0.270 |
 
 
 ### Timing shifts and combined offset
@@ -542,7 +875,6 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 |:---|---:|---:|:---|
 | Sagnac (Earth rotation, ECEF frame) | -0.002 | -0.0001 | not applied |
 | neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.954e-18 | 2.531e-19 | negligible |
-| antenna cable delay, NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 119.61 | 7.655 | receiver calibration, not ToF |
 
 
 ### Sensitivities
@@ -556,11 +888,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.8242 | +32.770 | +2.0973 |
 | NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4162 | +1.388 | +0.0889 |
 | NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9078 | -3.028 | -0.1938 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height +1 m | -0.0522 | -0.174 | -0.0111 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): latitude +1" | +28.0976 | +93.724 | +5.9983 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): longitude +1" | -9.3599 | -31.221 | -1.9982 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m East | -0.4154 | -1.386 | -0.0887 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m North | +0.9080 | +3.029 | +0.1938 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): height +1 m | -0.0522 | -0.174 | -0.0111 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): latitude +1" | +28.0976 | +93.724 | +5.9983 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): longitude +1" | -9.3599 | -31.221 | -1.9982 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint +1 m East | -0.4154 | -1.386 | -0.0887 |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint +1 m North | +0.9080 | +3.029 | +0.1938 |
 | offsets along the radial normal instead of geodetic | +0.3635 | +1.213 | +0.0776 |
 | spherical Earth (R = 6378137 m) at the final endpoints | +1.5119 | +5.043 | +0.3228 |
 | GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
@@ -571,10 +903,10 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
 | NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height ±33 m (1σ) | 5.75 | 0.368 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.52 | 1.825 | precision | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (worst case) | 62.47 | 3.998 | precision | no |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): height ±33 m (1σ) | 5.75 | 0.368 | systematic | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.52 | 1.825 | precision | yes |
+| ND endpoint if it were under the MINOS mast (105 + 15 m down): coordinate quantization 1" (worst case) | 62.47 | 3.998 | precision | no |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
 | Sagnac term (not applied) | 0.00 | 0.000 | neglected | no |
@@ -585,24 +917,26 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | linear sum of combined items | 7.277 ticks = 113.7 ns |
 
 
-## Baseline: ND cavern -> FD (Ant-1)
+## Baseline: ND -> FD (Ant-1)
 
 
-### Source: NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)
+### Source: NOvA Near Detector (1015 m from the target)
 
 | quantity | value |
 |:---|:---|
-| latitude | 41° 50' 23.0000" N  (41.839722222°) |
-| longitude | 88° 16' 13.0000" W  (-88.270277778°, east positive) |
-| height as given | 228.000 m (ellipsoid) |
-| ellipsoidal height h | 228.000 m |
-| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) |
-| ECEF of surveyed point | (143651.168, -4756893.863, 4232509.570) m |
-| ECEF of endpoint | (143648.469, -4756804.502, 4232429.524) m |
-| endpoint geodetic | 41.839722222°, -88.270277778°, h = 108.000 m |
+| latitude | 41° 50' 24.9725" N  (41.840270144°) |
+| longitude | 88° 16' 14.1694" W  (-88.270602609°, east positive) |
+| height as given | 104.124 m (ellipsoid) |
+| ellipsoidal height h | 104.124 m |
+| given in the beam-axis frame (target -> minos-fd) | along 1015.000 m, right -11.570 m, up +5.123 m; lat/lon/h above are derived |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
+| ECEF of surveyed point | (143620.189, -4756761.853, 4232472.279) m |
+| ECEF of endpoint | (143620.189, -4756761.853, 4232472.279) m |
+| endpoint geodetic | 41.840270144°, -88.270602609°, h = 104.124 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
-| uncertainties | height_m = 33, offset_m = 10, quantization_arcsec = 1 |
-| source | 2014 note sec. 3.1 and Tables 2-3 |
+| uncertainties | offset_m = 10 |
+| source | 1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down |
+| notes | Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate. |
 
 
 ### Target: Ash River Ant-1 (FD front-face centre)
@@ -627,12 +961,12 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 |:---|:---|
 | Earth model | wgs84 |
 | offset normal | geodetic |
-| chord length L | 809,616.2227 m |
-| time of flight t = L/c | 2,700.589028 µs |
+| chord length L | 809,549.5458 m |
+| time of flight t = L/c | 2,700.366618 µs |
 | clock | 64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick) |
-| ticks (exact) | 172,837.6978 |
-| ticks (round) | 172,838  (residual +4.72 ns) |
-| legacy units (500 ns) | 5,401.1781 |
+| ticks (exact) | 172,823.4635 |
+| ticks (round) | 172,823  (residual -7.24 ns) |
+| legacy units (500 ns) | 5,400.7332 |
 
 
 ### Correction ledger
@@ -641,10 +975,9 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | step | applied | L (m) | ΔL (m) | Δt (ns) | Δticks | cum. Δticks |
 |:---|:---|---:|---:|---:|---:|---:|
-| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,448.132 | +0.000 | +0.00 | +0.000 | +0.000 |
-| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,625.084 | -823.048 | -2,745.39 | -175.705 | +0.000 |
-| vertical offset | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) | 809,617.486 | -7.599 | -25.35 | -1.622 | -1.622 |
-| vertical offset | Ash River Ant-1 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,616.223 | -1.263 | -4.21 | -0.270 | -1.892 |
+| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,373.750 | +0.000 | +0.00 | +0.000 | +0.000 |
+| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,550.809 | -822.941 | -2,745.04 | -175.682 | +0.000 |
+| vertical offset | Ash River Ant-1 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,549.546 | -1.263 | -4.21 | -0.270 | -0.270 |
 
 
 ### Timing shifts and combined offset
@@ -655,11 +988,11 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| time of flight | 2,700.589028 µs = 172,837.698 ticks |
+| time of flight | 2,700.366618 µs = 172,823.464 ticks |
 | sum of timing shifts | 1,561.255965 µs = 99,920.382 ticks |
 | Sagnac included | no |
-| total offset | 4,261.844993 µs = 272,758.080 ticks |
-| total, integer (round) | 272,758 ticks (residual -1.24 ns) |
+| total offset | 4,261.622583 µs = 272,743.845 ticks |
+| total, integer (round) | 272,744 ticks (residual +2.42 ns) |
 
 
 ### Trigger window
@@ -667,8 +1000,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | quantity | value |
 |:---|:---|
 | window | [t − 20 µs, t + 30 µs), width 50 µs |
-| relative to flight time only | [171,557.70, 174,757.70) ticks |
-| relative to flight time + shifts | [271,478.08, 274,678.08) ticks |
+| relative to flight time only | [171,543.46, 174,743.46) ticks |
+| relative to flight time + shifts | [271,463.85, 274,663.85) ticks |
 | microslice | 50 µs = 3,200.0 ticks |
 | microslices overlapped | 1 to 2 (record up to 100 µs) |
 
@@ -677,18 +1010,18 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| geocentric central angle | 7.28975° |
-| surface arc at mean radius | 810,159.5 m |
-| arc − chord | 543.31 m (115.99 ticks) |
-| sagitta | 12,880.3 m |
-| deepest point of chord | h = -12,653.7 m at 50 % of the path |
-| azimuth at source (from North) | 335.30817° |
-| elevation at source | -3.62762° (negative = dips below horizontal) |
-| back azimuth at target | 152.07080° |
-| elevation at target | 3.65733° (positive = arrives rising) |
-| target in source ENU frame | E -337,529.4, N 734,117.3, U -51,225.7 m |
-| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5815 mrad = 0.835458° (right -13.6364, up -5.1647 mrad) |
-| source off-axis at the axis origin | 13.3426 mrad; 948.316 m along, 12.654 m transverse (right -11.570, up +5.123) |
+| geocentric central angle | 7.28916° |
+| surface arc at mean radius | 810,092.7 m |
+| arc − chord | 543.18 m (115.96 ticks) |
+| sagitta | 12,878.1 m |
+| deepest point of chord | h = -12,653.5 m at 50 % of the path |
+| azimuth at source (from North) | 335.30789° |
+| elevation at source | -3.62705° (negative = dips below horizontal) |
+| back azimuth at target | 152.07073° |
+| elevation at target | 3.65731° (positive = arrives rising) |
+| target in source ENU frame | E -337,505.4, N 734,055.7, U -51,213.4 m |
+| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5827 mrad = 0.835527° (right -13.6376, up -5.1651 mrad) |
+| source off-axis at the axis origin | 12.4658 mrad; 1,015.000 m along, 12.653 m transverse (right -11.570, up +5.123) |
 | target off-axis at the axis origin | 14.5756 mrad; 810,478.470 m along, 11,814.007 m transverse (right -11,051.359, up -4,175.910) |
 
 
@@ -697,8 +1030,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | effect | ns | ticks | status |
 |:---|---:|---:|:---|
 | Sagnac (Earth rotation, ECEF frame) | -1.303 | -0.0834 | not applied |
-| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.376e-15 | 2.160e-16 | negligible |
-| antenna cable delay, NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 119.61 | 7.655 | receiver calibration, not ToF |
+| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.375e-15 | 2.160e-16 | negligible |
+| antenna cable delay, NOvA Near Detector (1015 m from the target) | 119.61 | 7.655 | receiver calibration, not ToF |
 
 
 ### Sensitivities
@@ -707,18 +1040,18 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height +1 m | +0.0633 | +0.211 | +0.0135 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): latitude +1" | -27.9761 | -93.318 | -5.9724 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): longitude +1" | +9.6190 | +32.086 | +2.0535 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
+| NOvA Near Detector (1015 m from the target): height +1 m | +0.0633 | +0.211 | +0.0135 |
+| NOvA Near Detector (1015 m from the target): latitude +1" | -27.9760 | -93.318 | -5.9724 |
+| NOvA Near Detector (1015 m from the target): longitude +1" | +9.6190 | +32.086 | +2.0535 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
 | Ash River Ant-1 (FD front-face centre): height +1 m | +0.0638 | +0.213 | +0.0136 |
 | Ash River Ant-1 (FD front-face centre): latitude +1" | +27.2365 | +90.851 | +5.8145 |
 | Ash River Ant-1 (FD front-face centre): longitude +1" | -9.6186 | -32.084 | -2.0534 |
 | Ash River Ant-1 (FD front-face centre): endpoint +1 m East | -0.4674 | -1.559 | -0.0998 |
 | Ash River Ant-1 (FD front-face centre): endpoint +1 m North | +0.8817 | +2.941 | +0.1882 |
-| offsets along the radial normal instead of geodetic | -0.3048 | -1.017 | -0.0651 |
-| spherical Earth (R = 6378137 m) at the final endpoints | +823.0489 | +2,745.396 | +175.7053 |
+| offsets along the radial normal instead of geodetic | +0.0583 | +0.194 | +0.0124 |
+| spherical Earth (R = 6378137 m) at the final endpoints | +822.9406 | +2,745.034 | +175.6822 |
 | GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
 
 
@@ -726,10 +1059,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height ±33 m (1σ) | 6.96 | 0.446 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.49 | 1.823 | precision | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (worst case) | 62.70 | 4.013 | precision | no |
+| NOvA Near Detector (1015 m from the target): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
 | Ash River Ant-1 (FD front-face centre): endpoint offset ±2 m, worst case along the chord | 6.67 | 0.427 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
@@ -737,28 +1067,30 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | quantity | value |
 |:---|:---|
-| root-sum-square of combined items | 3.436 ticks = 53.7 ns |
-| linear sum of combined items | 6.712 ticks = 104.9 ns |
+| root-sum-square of combined items | 2.878 ticks = 45.0 ns |
+| linear sum of combined items | 4.443 ticks = 69.4 ns |
 
 
-## Baseline: ND cavern -> FD (Ant-3)
+## Baseline: ND -> FD (Ant-3)
 
 
-### Source: NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)
+### Source: NOvA Near Detector (1015 m from the target)
 
 | quantity | value |
 |:---|:---|
-| latitude | 41° 50' 23.0000" N  (41.839722222°) |
-| longitude | 88° 16' 13.0000" W  (-88.270277778°, east positive) |
-| height as given | 228.000 m (ellipsoid) |
-| ellipsoidal height h | 228.000 m |
-| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, -120.000 m  (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) |
-| ECEF of surveyed point | (143651.168, -4756893.863, 4232509.570) m |
-| ECEF of endpoint | (143648.469, -4756804.502, 4232429.524) m |
-| endpoint geodetic | 41.839722222°, -88.270277778°, h = 108.000 m |
+| latitude | 41° 50' 24.9725" N  (41.840270144°) |
+| longitude | 88° 16' 14.1694" W  (-88.270602609°, east positive) |
+| height as given | 104.124 m (ellipsoid) |
+| ellipsoidal height h | 104.124 m |
+| given in the beam-axis frame (target -> minos-fd) | along 1015.000 m, right -11.570 m, up +5.123 m; lat/lon/h above are derived |
+| surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
+| ECEF of surveyed point | (143620.189, -4756761.853, 4232472.279) m |
+| ECEF of endpoint | (143620.189, -4756761.853, 4232472.279) m |
+| endpoint geodetic | 41.840270144°, -88.270602609°, h = 104.124 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
-| uncertainties | height_m = 33, offset_m = 10, quantization_arcsec = 1 |
-| source | 2014 note sec. 3.1 and Tables 2-3 |
+| uncertainties | offset_m = 10 |
+| source | 1015 m from target (NOvA ND placement); transverse from 2014-note mast antenna, 105 + 15 m down |
+| notes | Along-axis position from the quoted 1015 m; the transverse position still rests on the 1-arcsecond antenna coordinate. |
 
 
 ### Target: Ash River Ant-3 (FD front-face centre)
@@ -783,12 +1115,12 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 |:---|:---|
 | Earth model | wgs84 |
 | offset normal | geodetic |
-| chord length L | 809,617.8209 m |
-| time of flight t = L/c | 2,700.594359 µs |
+| chord length L | 809,551.1440 m |
+| time of flight t = L/c | 2,700.371949 µs |
 | clock | 64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick) |
-| ticks (exact) | 172,838.0390 |
-| ticks (round) | 172,838  (residual -0.61 ns) |
-| legacy units (500 ns) | 5,401.1887 |
+| ticks (exact) | 172,823.8047 |
+| ticks (round) | 172,824  (residual +3.05 ns) |
+| legacy units (500 ns) | 5,400.7439 |
 
 
 ### Correction ledger
@@ -797,10 +1129,9 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | step | applied | L (m) | ΔL (m) | Δt (ns) | Δticks | cum. Δticks |
 |:---|:---|---:|---:|---:|---:|---:|
-| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,449.730 | +0.000 | +0.00 | +0.000 | +0.000 |
-| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,626.682 | -823.048 | -2,745.39 | -175.705 | +0.000 |
-| vertical offset | NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint -120.000 m along the local geodetic vertical (105 m cavern depth + 15 m mast; horizontal antenna->ND vector not surveyed (TBD)) | 809,619.084 | -7.598 | -25.34 | -1.622 | -1.622 |
-| vertical offset | Ash River Ant-3 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,617.821 | -1.263 | -4.21 | -0.270 | -1.892 |
+| reference model | spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets | 810,375.348 | +0.000 | +0.00 | +0.000 | +0.000 |
+| Earth model | WGS84 ellipsoid; heights as given; surveyed points, no offsets | 809,552.407 | -822.941 | -2,745.04 | -175.682 | +0.000 |
+| vertical offset | Ash River Ant-3 (FD front-face centre): endpoint -19.800 m along the local geodetic vertical (12 m antenna -> detector top + 7.8 m to mid-height) | 809,551.144 | -1.263 | -4.21 | -0.270 | -0.270 |
 
 
 ### Timing shifts and combined offset
@@ -811,11 +1142,11 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| time of flight | 2,700.594359 µs = 172,838.039 ticks |
+| time of flight | 2,700.371949 µs = 172,823.805 ticks |
 | sum of timing shifts | 1,561.255965 µs = 99,920.382 ticks |
 | Sagnac included | no |
-| total offset | 4,261.850323 µs = 272,758.421 ticks |
-| total, integer (round) | 272,758 ticks (residual -6.57 ns) |
+| total offset | 4,261.627913 µs = 272,744.186 ticks |
+| total, integer (round) | 272,744 ticks (residual -2.91 ns) |
 
 
 ### Trigger window
@@ -823,8 +1154,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | quantity | value |
 |:---|:---|
 | window | [t − 20 µs, t + 30 µs), width 50 µs |
-| relative to flight time only | [171,558.04, 174,758.04) ticks |
-| relative to flight time + shifts | [271,478.42, 274,678.42) ticks |
+| relative to flight time only | [171,543.80, 174,743.80) ticks |
+| relative to flight time + shifts | [271,464.19, 274,664.19) ticks |
 | microslice | 50 µs = 3,200.0 ticks |
 | microslices overlapped | 1 to 2 (record up to 100 µs) |
 
@@ -833,18 +1164,18 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 
 | quantity | value |
 |:---|:---|
-| geocentric central angle | 7.28977° |
-| surface arc at mean radius | 810,161.1 m |
-| arc − chord | 543.32 m (115.99 ticks) |
-| sagitta | 12,880.3 m |
-| deepest point of chord | h = -12,652.6 m at 50 % of the path |
-| azimuth at source (from North) | 335.30816° |
-| elevation at source | -3.62746° (negative = dips below horizontal) |
-| back azimuth at target | 152.07077° |
-| elevation at target | 3.65750° (positive = arrives rising) |
-| target in source ENU frame | E -337,530.3, N 734,118.8, U -51,223.6 m |
-| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5808 mrad = 0.835417° (right -13.6367, up -5.1619 mrad) |
-| source off-axis at the axis origin | 13.3426 mrad; 948.316 m along, 12.654 m transverse (right -11.570, up +5.123) |
+| geocentric central angle | 7.28917° |
+| surface arc at mean radius | 810,094.3 m |
+| arc − chord | 543.19 m (115.96 ticks) |
+| sagitta | 12,878.2 m |
+| deepest point of chord | h = -12,652.4 m at 50 % of the path |
+| azimuth at source (from North) | 335.30788° |
+| elevation at source | -3.62689° (negative = dips below horizontal) |
+| back azimuth at target | 152.07071° |
+| elevation at target | 3.65748° (positive = arrives rising) |
+| target in source ENU frame | E -337,506.3, N 734,057.2, U -51,211.3 m |
+| opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD)) | 14.5820 mrad = 0.835485° (right -13.6378, up -5.1624 mrad) |
+| source off-axis at the axis origin | 12.4658 mrad; 1,015.000 m along, 12.653 m transverse (right -11.570, up +5.123) |
 | target off-axis at the axis origin | 14.5748 mrad; 810,480.077 m along, 11,813.444 m transverse (right -11,051.603, up -4,173.670) |
 
 
@@ -853,8 +1184,8 @@ Each row is one change to the endpoints, applied in order. ΔL is the change fro
 | effect | ns | ticks | status |
 |:---|---:|---:|:---|
 | Sagnac (Earth rotation, ECEF frame) | -1.303 | -0.0834 | not applied |
-| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.376e-15 | 2.160e-16 | negligible |
-| antenna cable delay, NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) | 119.61 | 7.655 | receiver calibration, not ToF |
+| neutrino mass delay (m = 0.1 eV, E = 2 GeV) | 3.375e-15 | 2.160e-16 | negligible |
+| antenna cable delay, NOvA Near Detector (1015 m from the target) | 119.61 | 7.655 | receiver calibration, not ToF |
 
 
 ### Sensitivities
@@ -863,18 +1194,18 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height +1 m | +0.0633 | +0.211 | +0.0135 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): latitude +1" | -27.9761 | -93.318 | -5.9724 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): longitude +1" | +9.6190 | +32.086 | +2.0535 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
+| NOvA Near Detector (1015 m from the target): height +1 m | +0.0633 | +0.211 | +0.0135 |
+| NOvA Near Detector (1015 m from the target): latitude +1" | -27.9760 | -93.318 | -5.9724 |
+| NOvA Near Detector (1015 m from the target): longitude +1" | +9.6191 | +32.086 | +2.0535 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m East | +0.4169 | +1.391 | +0.0890 |
+| NOvA Near Detector (1015 m from the target): endpoint +1 m North | -0.9067 | -3.025 | -0.1936 |
 | Ash River Ant-3 (FD front-face centre): height +1 m | +0.0638 | +0.213 | +0.0136 |
 | Ash River Ant-3 (FD front-face centre): latitude +1" | +27.2365 | +90.851 | +5.8145 |
 | Ash River Ant-3 (FD front-face centre): longitude +1" | -9.6186 | -32.084 | -2.0534 |
 | Ash River Ant-3 (FD front-face centre): endpoint +1 m East | -0.4674 | -1.559 | -0.0998 |
 | Ash River Ant-3 (FD front-face centre): endpoint +1 m North | +0.8817 | +2.941 | +0.1882 |
-| offsets along the radial normal instead of geodetic | -0.3048 | -1.017 | -0.0651 |
-| spherical Earth (R = 6378137 m) at the final endpoints | +823.0490 | +2,745.396 | +175.7053 |
+| offsets along the radial normal instead of geodetic | +0.0583 | +0.194 | +0.0124 |
+| spherical Earth (R = 6378137 m) at the final endpoints | +822.9407 | +2,745.035 | +175.6822 |
 | GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
 
 
@@ -882,10 +1213,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): height ±33 m (1σ) | 6.96 | 0.446 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (RMS of uniform rounding) | 28.49 | 1.823 | precision | yes |
-| NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down): coordinate quantization 1" (worst case) | 62.70 | 4.013 | precision | no |
+| NOvA Near Detector (1015 m from the target): endpoint offset ±10 m, worst case along the chord | 33.36 | 2.135 | systematic | yes |
 | Ash River Ant-3 (FD front-face centre): endpoint offset ±2 m, worst case along the chord | 6.67 | 0.427 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
@@ -893,8 +1221,8 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | quantity | value |
 |:---|:---|
-| root-sum-square of combined items | 3.436 ticks = 53.7 ns |
-| linear sum of combined items | 6.712 ticks = 104.9 ns |
+| root-sum-square of combined items | 2.878 ticks = 45.0 ns |
+| linear sum of combined items | 4.443 ticks = 69.4 ns |
 
 
 ## Baseline: NuMI target -> MINOS FD (validation of the target position)
