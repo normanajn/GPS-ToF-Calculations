@@ -257,6 +257,34 @@ def render(result: Dict[str, Any], fmt: str = "md") -> str:
             t.add(b["label"], doc.n(b["result"]["L_m"], 3), doc.n(b["result"]["t_us"], 6), doc.n(b["result"]["ticks"], 3),
                   doc.n(b["total"]["ticks"], 3), doc.n(b["total"]["ticks_int"]))
         doc.table(t)
+    if result.get("opening_angles"):
+        doc.h(2, "Opening angles")
+        doc.p("Angle at the vertex site between two chords, from the fully corrected endpoints. The transverse "
+              "distance is how far one endpoint lies from the straight line through the vertex and the other endpoint.")
+        t = Table(["angle", "vertex", "chord a", "chord b", "angle (mrad)", "angle (deg)", "horiz. (mrad)", "vert. (mrad)"],
+                  ["l", "l", "l", "l", "r", "r", "r", "r"])
+        for oa in result["opening_angles"]:
+            t.add(oa["label"], oa["vertex"], oa["a"], oa["b"], doc.n(oa["angle_mrad"], 4), doc.n(oa["angle_deg"], 6),
+                  doc.n(oa["horizontal_component_mrad"], 4), doc.n(oa["vertical_component_mrad"], 4))
+        doc.table(t)
+        for oa in result["opening_angles"]:
+            doc.h(3, oa["label"])
+            rows = [
+                ("opening angle", "%s mrad = %s° = %s" % (doc.n(oa["angle_mrad"], 4), doc.n(oa["angle_deg"], 6), oa["angle_dms"])),
+                ("chord a: vertex → %s" % oa["a"], "L = %s m, azimuth %s°, elevation %s°" % (doc.n(oa["L_a_m"], 3), doc.n(oa["azimuth_a_deg"], 5), doc.n(oa["elevation_a_deg"], 5))),
+                ("chord b: vertex → %s" % oa["b"], "L = %s m, azimuth %s°, elevation %s°" % (doc.n(oa["L_b_m"], 3), doc.n(oa["azimuth_b_deg"], 5), doc.n(oa["elevation_b_deg"], 5))),
+                ("horizontal / vertical components at the vertex", "Δazimuth %s° (%s mrad), Δelevation %s° (%s mrad)" % (
+                    doc.n(oa["delta_azimuth_deg"], 5), doc.n(oa["horizontal_component_mrad"], 4), doc.n(oa["delta_elevation_deg"], 5), doc.n(oa["vertical_component_mrad"], 4))),
+                ("%s transverse to the line vertex → %s" % (oa["a"], oa["b"]), "%s m (along it: %s m)" % (doc.n(oa["a_transverse_from_vb_m"], 3), doc.n(oa["a_along_vb_m"], 3))),
+                ("%s transverse to the line vertex → %s" % (oa["b"], oa["a"]), "%s m" % doc.n(oa["b_transverse_from_va_m"], 3)),
+                ("chord b − chord a", "%s m = %s µs = %s ticks" % (doc.sn(oa["dL_m"], 3), doc.sn(oa["dt_us"], 6), doc.sn(oa["dticks"], 3))),
+                ("path vertex → a → b minus direct vertex → b", "%s m" % doc.n(oa["path_via_a_minus_direct_m"], 4)),
+            ]
+            if oa.get("axis_to"):
+                rows += [("off-axis angles w.r.t. vertex → %s" % oa["axis_to"], "a: %s mrad, b: %s mrad" % (doc.n(oa["off_axis_a_mrad"], 3), doc.n(oa["off_axis_b_mrad"], 3))),
+                         ("a and b on the same side of the axis", doc.n(oa["same_side_of_axis"])),
+                         ("azimuthal separation about the axis", "%s°" % doc.n(oa["azimuth_about_axis_deg"], 3))]
+            doc.kv(rows)
     for b in result["baselines"]:
         render_baseline(doc, b, st)
     return doc.render()

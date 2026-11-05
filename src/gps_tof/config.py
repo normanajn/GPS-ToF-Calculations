@@ -129,6 +129,18 @@ def parse_pair_spec(spec: str) -> Dict[str, str]:
     return d
 
 
+def parse_angle_spec(spec: str) -> Dict[str, str]:
+    parts = spec.split(":")
+    if len(parts) < 3:
+        raise ValueError("angle spec must be VERTEX:A:B[:LABEL[:AXIS_TO]]")
+    d = {"vertex": parts[0], "a": parts[1], "b": parts[2]}
+    if len(parts) > 3 and parts[3]:
+        d["label"] = parts[3]
+    if len(parts) > 4 and parts[4]:
+        d["axis_to"] = parts[4]
+    return d
+
+
 def merge(config_path: Optional[Path], cli: Dict[str, Any], environ: Optional[Dict[str, str]] = None,
           dotenv_paths: Optional[List[Path]] = None) -> Dict[str, Any]:
     """Return the merged problem dict plus run keys, applying the override order
@@ -155,6 +167,8 @@ def merge(config_path: Optional[Path], cli: Dict[str, Any], environ: Optional[Di
     data["sites"] = sites
     if cli.get("pair"):
         data["baselines"] = [parse_pair_spec(p) for p in cli["pair"]]
+    if cli.get("angle"):
+        data["opening_angles"] = [parse_angle_spec(x) for x in cli["angle"]]
     if cli.get("no_timing_shifts"):
         data["timing_shifts"] = []
     for k in RUN_KEYS:

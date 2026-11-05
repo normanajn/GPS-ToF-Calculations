@@ -9,8 +9,8 @@ from .angles import dms
 from .constants import C, OMEGA_EARTH, ARCSEC
 from .geodesy import (ELLIPSOIDS, Ellipsoid, geodetic_to_ecef, spherical_to_ecef, ecef_to_geodetic,
                       enu_to_ecef_offset, ecef_to_enu, azimuth_elevation, angle_between,
-                      vsub, vadd, norm, unit, dot, Vec3)
-from .model import Problem, Site, Baseline, Settings, TimingShift
+                      vsub, vadd, norm, unit, dot, cross, Vec3)
+from .model import Problem, Site, Baseline, Settings, TimingShift, OpeningAngle
 
 
 # ------------------------------------------------------------------ endpoints
@@ -367,6 +367,52 @@ def compute_baseline(problem: Problem, bl: Baseline) -> Dict[str, Any]:
     }
 
 
+def compute_opening_angle(problem: Problem, oa: OpeningAngle) -> Dict[str, Any]:
+    """Angle at the vertex between the chords vertex->a and vertex->b, with its
+    horizontal/vertical decomposition at the vertex, the transverse distance of
+    each endpoint from the other chord, and the difference in flight time."""
+    s = problem.settings
+    v, a, b = problem.site(oa.vertex), problem.site(oa.a), problem.site(oa.b)
+    st = final_stage(s)
+    pv, pa, pb = site_point(v, s, st), site_point(a, s, st), site_point(b, s, st)
+    va, vb = vsub(pa, pv), vsub(pb, pv)
+    La, Lb = norm(va), norm(vb)
+    ang = angle_between(va, vb)
+    az_a, el_a = azimuth_elevation(va, v.lat_rad, v.lon_rad)
+    az_b, el_b = azimuth_elevation(vb, v.lat_rad, v.lon_rad)
+    daz = (math.degrees(az_b - az_a) + 180.0) % 360.0 - 180.0
+    out: Dict[str, Any] = {
+        "label": oa.label or "%s: %s vs %s" % (v.name, a.name, b.name),
+        "vertex": v.name, "vertex_id": v.id, "a": a.name, "a_id": a.id, "b": b.name, "b_id": b.id,
+        "angle_rad": ang, "angle_deg": math.degrees(ang), "angle_mrad": ang * 1e3,
+        "angle_dms": "%d° %02d' %06.3f\"" % (int(math.degrees(ang)), int(math.degrees(ang) * 60) % 60, (math.degrees(ang) * 3600) % 60),
+        "L_a_m": La, "L_b_m": Lb,
+        "azimuth_a_deg": math.degrees(az_a), "elevation_a_deg": math.degrees(el_a),
+        "azimuth_b_deg": math.degrees(az_b), "elevation_b_deg": math.degrees(el_b),
+        "delta_azimuth_deg": daz, "delta_elevation_deg": math.degrees(el_b - el_a),
+        "horizontal_component_mrad": daz * math.pi / 180.0 * 1e3 * math.cos(0.5 * (el_a + el_b)),
+        "vertical_component_mrad": (el_b - el_a) * 1e3,
+        "a_transverse_from_vb_m": La * math.sin(ang),    # distance of a's endpoint from the line vertex->b
+        "b_transverse_from_va_m": Lb * math.sin(ang),
+        "a_along_vb_m": La * math.cos(ang),              # projection of vertex->a onto vertex->b
+        "dL_m": Lb - La, "dt_us": (Lb - La) / C * 1e6, "dticks": _ticks((Lb - La) / C, s),
+        # the a endpoint seen as a point on the way to b: its flight-time advance over the straight projection
+        "path_via_a_minus_direct_m": (La + norm(vsub(pb, pa))) - Lb,
+        "unit_a_ecef": list(unit(va)), "unit_b_ecef": list(unit(vb)),
+        "axis_to": oa.axis_to or None,
+    }
+    if oa.axis_to:
+        pax = site_point(problem.site(oa.axis_to), s, st)
+        ax = vsub(pax, pv)
+        out["off_axis_a_mrad"] = 1e3 * angle_between(va, ax)
+        out["off_axis_b_mrad"] = 1e3 * angle_between(vb, ax)
+        # signed angle about the axis: positive if a and b lie on the same side of the axis
+        na, nb = cross(ax, va), cross(ax, vb)
+        out["same_side_of_axis"] = bool(dot(na, nb) > 0.0)
+        out["azimuth_about_axis_deg"] = math.degrees(angle_between(na, nb)) if norm(na) and norm(nb) else None
+    return out
+
+
 def compute_all(problem: Problem) -> Dict[str, Any]:
     from . import __version__
     import datetime
@@ -377,4 +423,5 @@ def compute_all(problem: Problem) -> Dict[str, Any]:
         "settings": {k: getattr(s, k) for k in s.__dataclass_fields__},  # type: ignore[attr-defined]
         "sites": [_site_summary(x, s) for x in problem.sites],
         "baselines": [compute_baseline(problem, b) for b in problem.baselines],
+        "opening_angles": [compute_opening_angle(problem, oa) for oa in problem.opening_angles],
     }

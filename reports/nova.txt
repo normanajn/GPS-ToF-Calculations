@@ -1,7 +1,7 @@
 NOvA NuMI -> Ash River timing offsets: time-of-flight report
 ============================================================
 
-Generated 2026-11-04T22:25:22-06:00 by gps-tof 0.1.0.
+Generated 2026-11-05T13:20:41-06:00 by gps-tof 0.2.0.
 
 
 Settings
@@ -44,6 +44,53 @@ NuMI target -> ND cavern                                         948.400      3.
 ND cavern -> FD (Ant-1)                                      809,616.223  2,700.589028  172,837.698  272,758.080    272,758
 ND cavern -> FD (Ant-3)                                      809,617.821  2,700.594359  172,838.039  272,758.421    272,758
 NuMI target -> MINOS FD (validation of the target position)  735,344.614  2,452.845607  156,982.119  256,902.501    256,903
+
+
+Opening angles
+--------------
+
+Angle at the vertex site between two chords, from the fully corrected endpoints. The transverse distance is how far one endpoint lies from the straight line through the vertex and the other endpoint.
+
+angle                                       vertex                                        chord a                                                       chord b                                            angle (mrad)  angle (deg)  horiz. (mrad)  vert. (mrad)
+------------------------------------------  --------------------------------------------  ------------------------------------------------------------  -------------------------------------------------  ------------  -----------  -------------  ------------
+Target: ND cavern vs FD front face (Ant-2)  NuMI target (TDR 1998 design, upstream face)  NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)  Ash River Ant-2 (FD front-face centre)                  10.6503     0.610220        -1.4426      -10.5522
+Target: ND cavern vs MINOS FD               NuMI target (TDR 1998 design, upstream face)  NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)  MINOS Far Detector (supermodule midpoint, Soudan)       13.3426     0.764475        12.1982       -5.4065
+
+
+Target: ND cavern vs FD front face (Ant-2)
+..........................................
+
+quantity                                                                                                                             value                                                                  
+-----------------------------------------------------------------------------------------------------------------------------------  -----------------------------------------------------------------------
+opening angle                                                                                                                        10.6503 mrad = 0.610220° = 0° 36' 36.792"                              
+chord a: vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)                                                       L = 948.400 m, azimuth 335.39423°, elevation -3.03079°                 
+chord b: vertex → Ash River Ant-2 (FD front-face centre)                                                                             L = 810,564.610 m, azimuth 335.31144°, elevation -3.63539°             
+horizontal / vertical components at the vertex                                                                                       Δazimuth -0.08279° (-1.4426 mrad), Δelevation -0.60460° (-10.5522 mrad)
+NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) transverse to the line vertex → Ash River Ant-2 (FD front-face centre)  10.101 m (along it: 948.347 m)                                         
+Ash River Ant-2 (FD front-face centre) transverse to the line vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)  8,632.633 m                                                            
+chord b − chord a                                                                                                                    +809,616.210 m = +2,700.588984 µs = +172,837.695 ticks                 
+path vertex → a → b minus direct vertex → b                                                                                          0.0539 m                                                               
+off-axis angles w.r.t. vertex → decay-end                                                                                            a: 13.334 mrad, b: 14.582 mrad                                         
+a and b on the same side of the axis                                                                                                 yes                                                                    
+azimuthal separation about the axis                                                                                                  44.578°                                                                
+
+
+Target: ND cavern vs MINOS FD
+.............................
+
+quantity                                                                                                                                        value                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------  ---------------------------------------------------------------------
+opening angle                                                                                                                                   13.3426 mrad = 0.764475° = 0° 45' 52.110"                            
+chord a: vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)                                                                  L = 948.400 m, azimuth 335.39423°, elevation -3.03079°               
+chord b: vertex → MINOS Far Detector (supermodule midpoint, Soudan)                                                                             L = 735,344.614 m, azimuth 336.09421°, elevation -3.34056°           
+horizontal / vertical components at the vertex                                                                                                  Δazimuth 0.69998° (12.1982 mrad), Δelevation -0.30977° (-5.4065 mrad)
+NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down) transverse to the line vertex → MINOS Far Detector (supermodule midpoint, Soudan)  12.654 m (along it: 948.316 m)                                       
+MINOS Far Detector (supermodule midpoint, Soudan) transverse to the line vertex → NOvA Near Detector (via MINOS mast antenna, 105 + 15 m down)  9,811.124 m                                                          
+chord b − chord a                                                                                                                               +734,396.213 m = +2,449.682084 µs = +156,779.653 ticks               
+path vertex → a → b minus direct vertex → b                                                                                                     0.0845 m                                                             
+off-axis angles w.r.t. vertex → decay-end                                                                                                       a: 13.334 mrad, b: 0.020 mrad                                        
+a and b on the same side of the axis                                                                                                            no                                                                   
+azimuthal separation about the axis                                                                                                             115.700°                                                             
 
 
 Baseline: ND cavern -> FD front face (Ant-2), 2014-note offsets

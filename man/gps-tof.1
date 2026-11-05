@@ -1,4 +1,4 @@
-.TH GPS-TOF 1 "2026-11-04" "gps-tof 0.1.0" "User Commands"
+.TH GPS-TOF 1 "2026-11-05" "gps-tof 0.2.0" "User Commands"
 .SH NAME
 gps-tof \- straight-line time of flight between surveyed sites with a correction ledger
 .SH SYNOPSIS
@@ -26,6 +26,9 @@ and the off-axis angle with respect to a reference axis;
 .IP \(bu 2
 \fBnon-geometric effects\fR: Sagnac term, neutrino-mass delay, antenna cable delays;
 .IP \(bu 2
+\fBopening angles\fR between two chords that share a vertex site (for example target\(->ND
+against target\(->FD);
+.IP \(bu 2
 \fBsensitivities\fR of the chord to each input and an \fBerror budget\fR built from the
 uncertainties declared for each site.
 .PP
@@ -49,6 +52,12 @@ u_height_m, u_offset_m, u_quantization_arcsec).  Repeatable.
 Baseline between two site ids.  \fIAXIS\fR names a third site; the angle between
 FROM\(->TO and FROM\(->AXIS is reported as the off-axis angle.  Repeatable.  Without
 \fB\-p\fR and without \fBbaselines:\fR in the file, every pair of sites is computed.
+.TP
+.BR \-a ", " \-\-angle " " \fIVERTEX:A:B[:LABEL[:AXIS]]\fR
+Opening angle at site \fIVERTEX\fR between the chords VERTEX\(->A and VERTEX\(->B, with its
+horizontal and vertical components at the vertex, the transverse distance of each endpoint
+from the other chord, the difference of the two flight times, and (with \fIAXIS\fR) the
+off-axis angle of each chord.  Repeatable; overrides \fBopening_angles:\fR in the file.
 .TP
 .BR \-\-nmea " " \fIFILE\fR
 Add one site per $GPGGA sentence in \fIFILE\fR (MSL altitude plus geoid separation).
@@ -96,10 +105,11 @@ Two ad-hoc sites, no configuration file, 100 MHz clock:
         -p a:b
 .fi
 .PP
-NuMI target from Fermilab site coordinates, off-axis angle against the decay-pipe end:
+NuMI target from Fermilab site coordinates, off-axis angle against the decay-pipe end, and the
+opening angle at the target between the ND and FD chords:
 .PP
 .nf
-    gps-tof -c config/nova.yaml -p target:fd2:"target to FD":decay-end
+    gps-tof -c config/nova.yaml -p target:fd2:"target to FD":decay-end -a target:nd:fd2::decay-end
 .fi
 .SH EXIT STATUS
 0 on success, 2 on a usage or configuration error.

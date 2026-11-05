@@ -22,6 +22,11 @@ $ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 | NuMI target → ND cavern                 | 948.400      | 3.163524     | 202.466      |                     |
 | 2013 notebook (FNAL −300 m, no FD offset) | 809 606.162 | 2700.555470  | 172 835.550  | 272 755.932 (272 756) |
 
+Opening angle at the target between the ND and FD chords (config `opening_angles`, CLI `-a target:nd:fd2`):
+10.650 mrad (0.6102°), of which −10.55 mrad is vertical and −1.44 mrad horizontal; the surveyed
+ND endpoint lies 10.1 m above the target → FD line.  Both chords are reported with their
+off-axis angles (13.33 and 14.58 mrad) relative to the beam axis.
+
 The 2013 Mathematica notebook and the 2014 note are reproduced to 10⁻⁹ by the test suite
 (`tests/test_nova_reproduction.py`).
 
@@ -85,6 +90,8 @@ source venv/bin/activate  # or:  .\venv\Scripts\Activate.ps1
 gps-tof -c config/nova.yaml
 ```
 
+Opening angle at a vertex (`-a VERTEX:A:B[:LABEL[:AXIS]]`), e.g. `gps-tof -c config/nova.yaml -a target:nd:fd2::decay-end`.
+
 Ad-hoc sites without a configuration file:
 
 ```
@@ -103,5 +110,5 @@ Project status page (phases, results, test and compatibility matrices, design de
 https://claude.ai/artifact/S4eqJocVhnzvuuP8ziAMf4
 
 
-Version 0.1.0.  Python ≥ 3.9, PyYAML only.  43 tests.  No C/C++ library yet (the
+Version 0.2.0.  Python ≥ 3.9, PyYAML only.  47 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

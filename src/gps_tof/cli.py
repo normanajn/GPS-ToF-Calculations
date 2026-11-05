@@ -54,6 +54,8 @@ def build_parser() -> argparse.ArgumentParser:
                         "[offset=E,N,U] [fscs=x,y,z] [id=..] [u_lat_arcsec=..]'  (repeatable)")
     p.add_argument("-p", "--pair", action="append", metavar="FROM:TO[:LABEL[:AXIS]]",
                    help="baseline between two site ids (repeatable; default: every pair of sites)")
+    p.add_argument("-a", "--angle", action="append", metavar="VERTEX:A:B[:LABEL[:AXIS]]",
+                   help="opening angle at site VERTEX between the chords to A and to B (repeatable)")
     p.add_argument("--nmea", action="append", metavar="FILE", help="add sites from $GPGGA sentences in FILE")
     p.add_argument("--no-timing-shifts", action="store_true", help="ignore timing_shifts from the config")
     p.add_argument("-f", "--format", choices=["text", "md", "json", "all"], help="output format (default text)")
@@ -70,7 +72,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     a = p.parse_args(argv)
     cli: Dict[str, Any] = {k: getattr(a, k) for k in SCALARS}
     cli.update({"config": a.config, "format": a.format, "output": a.output, "site": a.site, "pair": a.pair,
-                "no_timing_shifts": a.no_timing_shifts})
+                "angle": a.angle, "no_timing_shifts": a.no_timing_shifts})
     extra = []
     for f in a.nmea or []:
         txt = Path(f).read_text(encoding="utf-8", errors="replace")

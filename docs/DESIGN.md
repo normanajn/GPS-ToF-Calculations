@@ -35,9 +35,15 @@ writes down every correction so that each number in the result can be traced to 
    and the residual reported in ns.
 7. **Timing shifts.**  Fixed offsets (e.g. 141 Main Injector turns of 588 buckets at the
    flat-top RF) are added to the flight time to form the total offset.
-8. **Sensitivities.**  Numerical partial derivatives of L for each site: height, latitude,
+8. **Opening angles.**  For two chords sharing a vertex site (target → ND and target → FD)
+   the angle is computed from the fully corrected ECEF endpoints, decomposed into azimuth
+   and elevation differences at the vertex, and expressed as the transverse distance of each
+   endpoint from the other chord (L sin θ) and as the difference of the two flight times.
+   With a reference axis the off-axis angle of each chord and whether the endpoints lie on
+   the same side of the axis are added.
+9. **Sensitivities.**  Numerical partial derivatives of L for each site: height, latitude,
    longitude (per arcsecond), endpoint moved East/North, plus method and model variants.
-9. **Error budget.**  Declared uncertainties per site multiplied by the sensitivities;
+10. **Error budget.**  Declared uncertainties per site multiplied by the sensitivities;
    coordinate quantization gives both an RMS (uniform rounding, /√12) and a worst-case
    entry; the RF-frequency uncertainty of a turn-based shift; rounding and neglected terms
    are listed but not combined.
@@ -94,7 +100,13 @@ ends, so a horizontal shift changes L only through its component along the chord
 | sensitivities numeric | finite differences on cloned sites | no analytic derivatives to maintain; steps configurable |
 | timing shifts generic | `seconds` or `turns×buckets/f_RF` | covers the MI shift and any fixed latency |
 | reference axis | optional `axis_to` per baseline | off-axis angle is the natural check of a beam-element position |
+| opening angles | explicit `opening_angles` list (vertex, a, b), CLI `-a` | the user's question is a specific pair of chords; computing every shared-vertex pair would bury it in near-zero antenna-to-antenna angles |
 | legacy notebook files | moved to `docs/reference/` | keep provenance, keep the top level for the package |
+
+Opening angle at the target, ND vs FD (Ant-2): 10.650 mrad, −10.55 mrad vertical and
+−1.44 mrad horizontal, so the surveyed ND endpoint is 10.1 m above the target → FD line
+(within the ~30 m resolution of the antenna coordinate).  Against the MINOS FD the angle is
+13.34 mrad, mostly horizontal, as expected for an on-axis far detector.
 
 ## 6. Verification
 

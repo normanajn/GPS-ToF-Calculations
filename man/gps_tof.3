@@ -1,10 +1,10 @@
-.TH GPS_TOF 3 "2026-11-04" "gps-tof 0.1.0" "Library Functions"
+.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.2.0" "Library Functions"
 .SH NAME
 gps_tof \- Python API for geodetic time-of-flight calculations
 .SH SYNOPSIS
 .nf
-from gps_tof.model import Problem, Site, Baseline, TimingShift, Settings
-from gps_tof.calc import compute_all, compute_baseline, chord, final_stage, site_point
+from gps_tof.model import Problem, Site, Baseline, OpeningAngle, TimingShift, Settings
+from gps_tof.calc import compute_all, compute_baseline, compute_opening_angle, chord, final_stage, site_point
 from gps_tof.report import render
 from gps_tof.geodesy import geodetic_to_ecef, ecef_to_geodetic, enu_basis, enu_to_ecef_offset
 from gps_tof.fermilab_site import fscs_to_geodetic, geodetic_to_fscs
@@ -23,6 +23,9 @@ modified copy (used for sensitivities).
 .B Baseline(source, target, label="", axis_to="")
 Two site ids and an optional reference-axis site.
 .TP
+.B OpeningAngle(vertex, a, b, label="", axis_to="")
+Two chords sharing the vertex site.
+.TP
 .B TimingShift(name, seconds=None, turns=None, buckets_per_turn=None, rf_hz=None, rf_uncertainty_hz=None)
 A fixed offset; \fBvalue_s\fR, \fBt_rev_s\fR, \fBrf_sensitivity_s_per_hz\fR.
 .TP
@@ -35,13 +38,19 @@ Dataclass of run settings (clock_hz, earth_model, offset_normal, rounding, windo
 .SS Engine (gps_tof.calc)
 .TP
 .B compute_all(problem) -> dict
-JSON-serialisable result: settings, sites and one entry per baseline.
+JSON-serialisable result: settings, sites, one entry per baseline and one per opening angle.
 .TP
 .B compute_baseline(problem, baseline) -> dict
 Keys: \fBsource\fR, \fBtarget\fR (site summaries with ECEF positions), \fBledger\fR (list of
 correction steps with L_m, dL_m, dt_ns, dticks, cum_dticks), \fBresult\fR (L_m, t_s, t_us,
 ticks, ticks_int, legacy_units), \fBgeometry\fR, \fBeffects\fR (sagnac_ns, neutrino delay,
 cables), \fBtiming_shifts\fR, \fBtotal\fR, \fBwindow\fR, \fBsensitivities\fR, \fBerror_budget\fR.
+.TP
+.B compute_opening_angle(problem, opening_angle) -> dict
+Keys: angle_rad/deg/mrad/dms, L_a_m, L_b_m, azimuth and elevation of each chord at the vertex,
+delta_azimuth_deg, delta_elevation_deg, horizontal_component_mrad, vertical_component_mrad,
+a_transverse_from_vb_m, b_transverse_from_va_m, a_along_vb_m, dL_m, dt_us, dticks,
+path_via_a_minus_direct_m and, with axis_to, off_axis_a_mrad, off_axis_b_mrad, same_side_of_axis.
 .TP
 .B chord(a, b, settings, stage) -> float
 Chord length between two sites for a given \fBStage\fR (which corrections are applied);

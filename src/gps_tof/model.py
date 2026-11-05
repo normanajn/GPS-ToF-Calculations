@@ -135,6 +135,21 @@ class Baseline:
 
 
 @dataclass
+class OpeningAngle:
+    """Angle at ``vertex`` between the chords vertex->a and vertex->b."""
+    vertex: str
+    a: str
+    b: str
+    label: str = ""
+    axis_to: str = ""    # optional site defining a reference axis from the vertex
+
+    @classmethod
+    def from_dict(cls, d: Dict[str, Any]) -> "OpeningAngle":
+        return cls(vertex=str(d["vertex"]), a=str(d["a"]), b=str(d["b"]), label=str(d.get("label", "")),
+                   axis_to=str(d.get("axis_to", "") or ""))
+
+
+@dataclass
 class TimingShift:
     """A fixed offset added to the flight time (e.g. an accelerator timing
     reference change).  Give either ``seconds`` or turns*buckets/rf_hz."""
@@ -251,6 +266,7 @@ class Problem:
     sites: List[Site]
     baselines: List[Baseline]
     timing_shifts: List[TimingShift] = field(default_factory=list)
+    opening_angles: List[OpeningAngle] = field(default_factory=list)
 
     def site(self, key: str) -> Site:
         for s in self.sites:
@@ -273,10 +289,15 @@ class Problem:
             bl = [Baseline(sites[i].id, sites[j].id)
                   for i in range(len(sites)) for j in range(i + 1, len(sites))]
         shifts = [TimingShift.from_dict(t) for t in d.pop("timing_shifts", []) or []]
+        angles = [OpeningAngle.from_dict(x) for x in d.pop("opening_angles", []) or []]
         settings = Settings.from_dict(d)
-        p = cls(settings=settings, sites=sites, baselines=bl, timing_shifts=shifts)
+        p = cls(settings=settings, sites=sites, baselines=bl, timing_shifts=shifts, opening_angles=angles)
         for b in p.baselines:
             p.site(b.source); p.site(b.target)
             if b.axis_to:
                 p.site(b.axis_to)
+        for oa in p.opening_angles:
+            p.site(oa.vertex); p.site(oa.a); p.site(oa.b)
+            if oa.axis_to:
+                p.site(oa.axis_to)
         return p

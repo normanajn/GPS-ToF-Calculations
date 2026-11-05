@@ -1,4 +1,4 @@
-.TH GPS-TOF 5 "2026-11-04" "gps-tof 0.1.0" "File Formats"
+.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.2.0" "File Formats"
 .SH NAME
 gps-tof.yaml \- configuration file format for gps-tof
 .SH DESCRIPTION
@@ -85,6 +85,12 @@ Free text carried into the report.
 List of \fB{from, to, label, axis_to}\fR.  \fBaxis_to\fR names a site such that the angle between
 from\(->to and from\(->axis_to is reported as the off-axis angle.  If the list is absent every
 pair of sites is computed.
+.SS opening_angles
+List of \fB{vertex, a, b, label, axis_to}\fR.  The angle at \fBvertex\fR between the chords
+vertex\(->a and vertex\(->b is reported with its horizontal (azimuth) and vertical (elevation)
+components at the vertex, the transverse distance of each endpoint from the other chord, the
+difference of the two flight times in ticks, and, with \fBaxis_to\fR, the off-axis angle of
+each chord and whether the two endpoints lie on the same side of the axis.
 .SS timing_shifts
 List of fixed offsets added to the flight time.  Each has \fBname\fR and either
 \fBseconds\fR, or \fBturns\fR, \fBbuckets_per_turn\fR and \fBrf_hz\fR (value = turns *
@@ -116,6 +122,8 @@ sites:
 baselines:
   - {from: nd, to: fd2, label: "ND -> FD"}
   - {from: target, to: fd2, axis_to: decay-end}
+opening_angles:
+  - {vertex: target, a: nd, b: fd2, label: "ND vs FD from the target", axis_to: decay-end}
 timing_shifts:
   - {name: "MI 141-turn shift", turns: 141, buckets_per_turn: 588, rf_hz: 53.1034e+6, rf_uncertainty_hz: 1000}
 .fi

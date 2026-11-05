@@ -6,7 +6,7 @@ times of flight in SI and clock-tick units, and a ledger of every correction
 applied on the way, together with sensitivities and an error budget.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
-from .model import Site, Baseline, TimingShift, Settings  # noqa: F401
-from .calc import compute_baseline, compute_all  # noqa: F401
+from .model import Site, Baseline, TimingShift, OpeningAngle, Settings  # noqa: F401
+from .calc import compute_baseline, compute_opening_angle, compute_all  # noqa: F401

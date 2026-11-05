@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(gps-tof VERSION 0.1.0 LANGUAGES NONE)
+project(gps-tof VERSION 0.2.0 LANGUAGES NONE)
 
 # Pure-Python project.  CMake provides a bootstrap target (venv + editable install),
 # a ctest entry that runs pytest inside that venv, and installation of the man pages.

@@ -123,6 +123,11 @@ baselines:
   - {from: nd, to: fd3, label: "ND cavern -> FD (Ant-3)"}
   - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)", axis_to: decay-end}
 
+opening_angles:
+  # angle at the vertex between the chords vertex -> a and vertex -> b
+  - {vertex: target, a: nd, b: fd2, label: "Target: ND cavern vs FD front face (Ant-2)", axis_to: decay-end}
+  - {vertex: target, a: nd, b: minos-fd, label: "Target: ND cavern vs MINOS FD", axis_to: decay-end}
+
 timing_shifts:
   - name: "Main Injector 141-turn shift (2012 shutdown)"
     turns: 141
