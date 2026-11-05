@@ -138,7 +138,9 @@ def _site_summary(site: Site, settings: Settings, frame: Optional[Dict[str, Any]
         "h_ellipsoidal_m": site.h_ellipsoidal,
         "offset_enu_m": list(site.offset_enu_m), "offset_note": site.offset_note,
         "fscs_xyz_ft": list(site.fscs_xyz_ft) if site.fscs_xyz_ft else None,
-        "axis_position": dict(site.axis_position) if site.axis_position else None,
+        "axis_position": {k: v for k, v in site.axis_position.items() if not k.startswith("frame_")} if site.axis_position else None,
+        "face": dict(site.face) if site.face else None,
+        "derived_from": site.derived_from or None, "edge": site.edge or None,
         "ecef_surveyed_m": list(p_ant), "ecef_endpoint_m": list(p_end),
         "endpoint_lat_deg": math.degrees(la), "endpoint_lon_deg": math.degrees(lo), "endpoint_h_m": h,
         "cable_delay_ns": (site.cable_delay_s * 1e9) if site.cable_delay_s is not None else None,
@@ -486,6 +488,61 @@ def compute_opening_angle(problem: Problem, oa: OpeningAngle) -> Dict[str, Any]:
     return out
 
 
+def compute_face(problem: Problem, parent: Site) -> Dict[str, Any]:
+    """Edge points of a detector face: positions, angles to the beam axis, the
+    angle the face subtends at the axis origin, and left/centre/right versions
+    of every configured opening angle that involves the parent site."""
+    s = problem.settings
+    st = final_stage(s)
+    frame = axis_frame(problem, force=True) if problem.beam_axis else None
+    order = ["left", "center", "right", "top", "bottom"]
+    pts: Dict[str, Site] = {"center": parent}
+    for x in problem.sites:
+        if x.derived_from == parent.id:
+            pts[x.edge] = x
+    rows = []
+    for edge in order:
+        if edge not in pts:
+            continue
+        x = pts[edge]
+        p = site_point(x, s, st)
+        la, lo, h = ecef_to_geodetic(p)
+        row = {"edge": edge, "id": x.id, "name": x.name, "lat_deg": math.degrees(la), "lon_deg": math.degrees(lo),
+               "lat_dms": dms(math.degrees(la), "lat"), "lon_dms": dms(math.degrees(lo), "lon"), "h_m": h, "ecef_m": list(p)}
+        if frame is not None:
+            row["vs_axis"] = point_vs_axis(p, frame)
+        rows.append(row)
+    out: Dict[str, Any] = {"site": parent.name, "site_id": parent.id, "face": dict(parent.face or {}), "points": rows}
+    if frame is not None:
+        def sub(a: str, b: str) -> Optional[float]:
+            if a in pts and b in pts:
+                va = vsub(site_point(pts[a], s, st), frame["p0"]); vb = vsub(site_point(pts[b], s, st), frame["p0"])
+                return 1e3 * angle_between(va, vb)
+            return None
+        out["subtended_at_axis_origin_mrad"] = {"left_right": sub("left", "right"), "top_bottom": sub("top", "bottom")}
+    variants = []
+    for oa in problem.opening_angles:
+        if parent.id not in (oa.a, oa.b):
+            continue
+        slot = "a" if oa.a == parent.id else "b"
+        entry = {"label": oa.label or "%s: %s vs %s" % (oa.vertex, oa.a, oa.b), "vertex": problem.site(oa.vertex).name,
+                 "other": problem.site(oa.b if slot == "a" else oa.a).name, "edges": []}
+        for edge in order:
+            if edge not in pts:
+                continue
+            x = pts[edge]
+            o2 = OpeningAngle(oa.vertex, x.id if slot == "a" else oa.a, x.id if slot == "b" else oa.b, axis_to=oa.axis_to)
+            r = compute_opening_angle(problem, o2)
+            entry["edges"].append({"edge": edge, "angle_mrad": r["angle_mrad"], "angle_deg": r["angle_deg"],
+                                   "horizontal_component_mrad": r["horizontal_component_mrad"],
+                                   "vertical_component_mrad": r["vertical_component_mrad"],
+                                   "transverse_m": r["a_transverse_from_vb_m"] if slot == "a" else r["b_transverse_from_va_m"],
+                                   "chord_vs_axis_mrad": (r["beam_axis"]["a_chord_vs_axis"]["angle_mrad"] if slot == "a" else r["beam_axis"]["b_chord_vs_axis"]["angle_mrad"]) if r.get("beam_axis") else None})
+        variants.append(entry)
+    out["opening_angles"] = variants
+    return out
+
+
 def compute_all(problem: Problem) -> Dict[str, Any]:
     from . import __version__
     import datetime
@@ -505,4 +562,5 @@ def compute_all(problem: Problem) -> Dict[str, Any]:
         "sites": [_site_summary(x, s, frame) for x in problem.sites],
         "baselines": [compute_baseline(problem, b) for b in problem.baselines],
         "opening_angles": [compute_opening_angle(problem, oa) for oa in problem.opening_angles],
+        "faces": [compute_face(problem, x) for x in problem.sites if x.face],
     }

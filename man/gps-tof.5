@@ -1,4 +1,4 @@
-.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.5.0" "File Formats"
+.TH GPS-TOF 5 "2026-11-05" "gps-tof 0.6.0" "File Formats"
 .SH NAME
 gps-tof.yaml \- configuration file format for gps-tof
 .SH DESCRIPTION
@@ -76,7 +76,17 @@ another pair of sites instead (for example the NuMI beamline system with origin 
 frame's sites cannot themselves be given this way.  The geodetic coordinates are derived and
 printed in the report.  Example: the NOvA Near Detector 1015 m along the beam,
 surveyed in the NuMI beamline system: \fBaxis_position: {frame: {origin: mczero, through: minos-fd},
-along_m: 993.350283, right_m: -11.565, up_m: -3.643551}\fR.
+along_m: 993.350283, right_m: -11.565, up_m: -3.643551}\fR, with
+\fBface: {half_width_m: 2.0081875, half_height_m: 2.0081875}\fR for its 158.125 in square front face.
+.TP
+.B face
+\fB{half_width_m[, half_height_m]}\fR: the site is the centre of a detector face.  Edge sites
+\fIid\fR-left, \fIid\fR-right (and \fIid\fR-top, \fIid\fR-bottom) are derived in the site's beamline
+frame (its \fBaxis_position\fR frame, or the global \fBbeam_axis\fR frame): left is beam left
+looking downstream.  The report gains a "Detector faces" section with the edge positions
+(geodetic and ECEF), each point's angle to the beam axis, the angle the face subtends at the
+axis origin, and left/centre/right (top/bottom) versions of every \fBopening_angles\fR entry that
+involves the site.  The edge sites can also be used by name in baselines and opening angles.
 .TP
 .B offset_enu_m, offset_note
 Vector from the surveyed point to the physics endpoint in the local East, North, Up frame,

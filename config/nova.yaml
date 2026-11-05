@@ -74,6 +74,9 @@ sites:
     # X = -11.565000 m, Y = 993.350283 m, Z = -3.643551 m.  Computed with the 3x3 module
     # width/height of 158.125 in and the beamline dimensions of drawing 489389 (tunnel cross section).
     axis_position: {frame: {origin: mczero, through: minos-fd}, along_m: 993.350283, right_m: -11.565000, up_m: -3.643551}
+    # Front face: 3x3 modules = 158.125 in square (survey note); half-width 79.0625 in = 2.0081875 m.
+    # Derived edge sites nd-left / nd-right (and nd-top / nd-bottom) are placed in the same frame.
+    face: {half_width_m: 2.0081875, half_height_m: 2.0081875}
     offset_enu_m: [0, 0, 0]
     cable_length_m: 30.48
     cable_velocity_factor: 0.85
@@ -112,6 +115,8 @@ sites:
     # it reproduces the surveyed NAVD88 elevation to 1.5 m (h = H + N, N = -32.46 m at Ash River),
     # whereas the 1998 design axis (target -> decay-pipe end) misses it by 17 m.
     axis_position: {frame: {origin: mczero, through: minos-fd}, along_m: 810422.323775, right_m: -11037.455993, up_m: -4162.644422}
+    # Front face: the survey note uses 304.21 in as the half size of the detector plane (15.45 m square).
+    face: {half_width_m: 7.726934, half_height_m: 7.726934}
     offset_enu_m: [0, 0, 0]
     cable_length_m: 30.48
     cable_velocity_factor: 0.85

@@ -1,6 +1,6 @@
 # NOvA NuMI -> Ash River timing offsets: time-of-flight report
 
-Generated 2026-11-05T14:39:08-06:00 by gps-tof 0.4.0.
+Generated 2026-11-05T15:00:21-06:00 by gps-tof 0.6.0.
 
 
 ## Settings
@@ -32,6 +32,14 @@ Generated 2026-11-05T14:39:08-06:00 by gps-tof 0.4.0.
 | fd2 | Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded) | 48° 22' 42.9468" N | 92° 49' 52.6158" W | 348.638 | ellipsoid | 348.638 | +0, +0, -19.8 |
 | fd3 | Ash River Ant-3 (FD front-face centre) | 48° 22' 42.9850" N | 92° 49' 52.6583" W | 350.346 | ellipsoid | 350.346 | +0, +0, -19.8 |
 | minos-fd | MINOS Far Detector (supermodule midpoint, Soudan) | 47° 49' 12.9612" N | 92° 14' 29.0832" W | -248.400 | ellipsoid | -248.400 | +0, +0, +0 |
+| nd-left | NOvA ND upstream face centre (Fermilab alignment survey), left edge | 41° 50' 24.3203" N | 88° 16' 13.8777" W | 96.572 | ellipsoid | 96.572 | +0, +0, +0 |
+| nd-right | NOvA ND upstream face centre (Fermilab alignment survey), right edge | 41° 50' 24.3731" N | 88° 16' 13.7185" W | 96.572 | ellipsoid | 96.572 | +0, +0, +0 |
+| nd-top | NOvA ND upstream face centre (Fermilab alignment survey), top edge | 41° 50' 24.3501" N | 88° 16' 13.8002" W | 98.577 | ellipsoid | 98.577 | +0, +0, +0 |
+| nd-bottom | NOvA ND upstream face centre (Fermilab alignment survey), bottom edge | 41° 50' 24.3432" N | 88° 16' 13.7961" W | 94.568 | ellipsoid | 94.568 | +0, +0, +0 |
+| fd-left | NOvA FD upstream face centre (Fermilab alignment survey), left edge | 48° 22' 41.4272" N | 92° 49' 51.1078" W | 337.623 | ellipsoid | 337.623 | +0, +0, +0 |
+| fd-right | NOvA FD upstream face centre (Fermilab alignment survey), right edge | 48° 22' 41.6555" N | 92° 49' 50.4396" W | 337.599 | ellipsoid | 337.599 | +0, +0, +0 |
+| fd-top | NOvA FD upstream face centre (Fermilab alignment survey), top edge | 48° 22' 41.5262" N | 92° 49' 50.7614" W | 345.320 | ellipsoid | 345.320 | +0, +0, +0 |
+| fd-bottom | NOvA FD upstream face centre (Fermilab alignment survey), bottom edge | 48° 22' 41.5565" N | 92° 49' 50.7860" W | 329.903 | ellipsoid | 329.903 | +0, +0, +0 |
 
 
 ## Beam axis: NuMI beam axis (target -> MINOS FD)
@@ -61,6 +69,14 @@ Every site endpoint relative to the axis: the off-axis angle is measured at the 
 | fd2 | Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded) | 14.5753 | 0.83510 | 810,478.514 | 11,813.783 | -11,051.360 | -4,175.273 | -110.70 |
 | fd3 | Ash River Ant-3 (FD front-face centre) | 14.5748 | 0.83508 | 810,480.077 | 11,813.444 | -11,051.603 | -4,173.670 | -110.69 |
 | minos-fd | MINOS Far Detector (supermodule midpoint, Soudan) | 0.0000 | 0.00000 | 735,344.614 | 0.000 | +0.000 | +0.000 | - |
+| nd-left | NOvA ND upstream face centre (Fermilab alignment survey), left edge | 14.1325 | 0.80973 | 994.350 | 14.054 | -13.573 | -3.643 | -105.03 |
+| nd-right | NOvA ND upstream face centre (Fermilab alignment survey), right edge | 10.2854 | 0.58931 | 994.350 | 10.228 | -9.557 | -3.643 | -110.87 |
+| nd-top | NOvA ND upstream face centre (Fermilab alignment survey), top edge | 11.7457 | 0.67298 | 994.350 | 11.680 | -11.565 | -1.635 | -98.05 |
+| nd-bottom | NOvA ND upstream face centre (Fermilab alignment survey), bottom edge | 12.9444 | 0.74166 | 994.350 | 12.872 | -11.565 | -5.652 | -116.04 |
+| fd-left | NOvA FD upstream face centre (Fermilab alignment survey), left edge | 14.5636 | 0.83443 | 810,423.324 | 11,803.545 | -11,045.183 | -4,162.644 | -110.65 |
+| fd-right | NOvA FD upstream face centre (Fermilab alignment survey), right edge | 14.5458 | 0.83341 | 810,423.324 | 11,789.085 | -11,029.729 | -4,162.644 | -110.68 |
+| fd-top | NOvA FD upstream face centre (Fermilab alignment survey), top edge | 14.5514 | 0.83373 | 810,423.324 | 11,793.590 | -11,037.456 | -4,154.917 | -110.63 |
+| fd-bottom | NOvA FD upstream face centre (Fermilab alignment survey), bottom edge | 14.5581 | 0.83412 | 810,423.324 | 11,799.044 | -11,037.456 | -4,170.371 | -110.70 |
 
 
 ## Summary of baselines
@@ -181,6 +197,121 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 | NOvA FD upstream face centre (Fermilab alignment survey) off-axis at the axis origin | 14.5547 mrad, 11,796.315 m transverse |
 
 
+## Detector faces: edges, centre and angles to the beamline
+
+
+### NOvA ND upstream face centre (Fermilab alignment survey)
+
+Face half-width 2.0082 m, half-height 2.0082 m; edge points derived in the same beamline frame as the centre (left = beam left, looking downstream).
+
+| point | latitude | longitude | h (m) | ECEF X (m) | ECEF Y (m) | ECEF Z (m) |
+|:---|:---|:---|---:|---:|---:|---:|
+| left | 41° 50' 24.3203" N | 88° 16' 13.8777" W | 96.572 | 143,627.151 | -4,756,769.443 | 4,232,452.250 |
+| center | 41° 50' 24.3467" N | 88° 16' 13.7981" W | 96.572 | 143,628.970 | -4,756,768.845 | 4,232,452.856 |
+| right | 41° 50' 24.3731" N | 88° 16' 13.7185" W | 96.572 | 143,630.788 | -4,756,768.247 | 4,232,453.463 |
+| top | 41° 50' 24.3501" N | 88° 16' 13.8002" W | 98.577 | 143,628.965 | -4,756,770.269 | 4,232,454.273 |
+| bottom | 41° 50' 24.3432" N | 88° 16' 13.7961" W | 94.568 | 143,628.974 | -4,756,767.422 | 4,232,451.439 |
+
+| point | angle to beam axis (mrad) | (deg) | along axis (m) | right (m) | up (m) | transverse (m) | clock (deg) |
+|:---|---:|---:|---:|---:|---:|---:|---:|
+| left | 14.1325 | 0.80973 | 994.350 | -13.573 | -3.643 | 14.054 | -105.03 |
+| center | 12.1935 | 0.69864 | 994.350 | -11.565 | -3.643 | 12.125 | -107.49 |
+| right | 10.2854 | 0.58931 | 994.350 | -9.557 | -3.643 | 10.228 | -110.87 |
+| top | 11.7457 | 0.67298 | 994.350 | -11.565 | -1.635 | 11.680 | -98.05 |
+| bottom | 12.9444 | 0.74166 | 994.350 | -11.565 | -5.652 | 12.872 | -116.04 |
+
+| quantity | value |
+|:---|:---|
+| angle subtended at the axis origin, left edge to right edge | 4.0386 mrad |
+| angle subtended at the axis origin, top edge to bottom edge | 4.0389 mrad |
+
+Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 design, upstream face), other chord to NOvA FD upstream face centre (Fermilab alignment survey), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 1.4724 | 0.084359 | +0.0296 | -1.4721 | 1.464 | 14.1325 |
+| center | 2.4740 | 0.141748 | -1.9895 | -1.4705 | 2.460 | 12.1935 |
+| right | 4.2695 | 0.244626 | -4.0088 | -1.4691 | 4.246 | 10.2854 |
+| top | 4.0179 | 0.230210 | -1.9910 | -3.4899 | 3.995 | 11.7457 |
+| bottom | 2.0624 | 0.118169 | -1.9880 | +0.5489 | 2.051 | 12.9444 |
+
+Opening angle Target: ND (surveyed) vs MINOS FD: vertex NuMI target (TDR 1998 design, upstream face), other chord to MINOS Far Detector (supermodule midpoint, Soudan), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 14.1325 | 0.809731 | +13.6508 | +3.6584 | 14.054 | 14.1325 |
+| center | 12.1935 | 0.698637 | +11.6313 | +3.6600 | 12.125 | 12.1935 |
+| right | 10.2854 | 0.589311 | +9.6117 | +3.6613 | 10.228 | 10.2854 |
+| top | 11.7457 | 0.672981 | +11.6306 | +1.6405 | 11.680 | 11.7457 |
+| bottom | 12.9444 | 0.741658 | +11.6319 | +5.6794 | 12.872 | 12.9444 |
+
+Opening angle Target: ND at the quoted 1015 m vs surveyed ND: vertex NuMI target (TDR 1998 design, upstream face), other chord to ND placed 1015 m along the beam (quoted placement, superseded by the survey), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 8.9968 | 0.515481 | -2.2572 | -8.7091 | 8.947 | 14.1325 |
+| center | 8.7139 | 0.499271 | -0.2374 | -8.7107 | 8.665 | 12.1935 |
+| right | 8.8925 | 0.509503 | +1.7825 | -8.7120 | 8.843 | 10.2854 |
+| top | 6.6954 | 0.383618 | -0.2360 | -6.6912 | 6.658 | 11.7457 |
+| bottom | 10.7328 | 0.614942 | -0.2387 | -10.7301 | 10.673 | 12.9444 |
+
+Opening angle Target: ND under the mast (2014 note) vs surveyed ND: vertex NuMI target (TDR 1998 design, upstream face), other chord to ND endpoint if it were under the MINOS mast (105 + 15 m down), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 9.1811 | 0.526040 | -1.4560 | -9.0649 | 9.130 | 14.1325 |
+| center | 9.0840 | 0.520476 | +0.5638 | -9.0665 | 9.033 | 12.1935 |
+| right | 9.4287 | 0.540227 | +2.5837 | -9.0678 | 9.376 | 10.2854 |
+| top | 7.0697 | 0.405064 | +0.5652 | -7.0471 | 7.030 | 11.7457 |
+| bottom | 11.1002 | 0.635994 | +0.5624 | -11.0859 | 11.038 | 12.9444 |
+
+
+### NOvA FD upstream face centre (Fermilab alignment survey)
+
+Face half-width 7.7269 m, half-height 7.7269 m; edge points derived in the same beamline frame as the centre (left = beam left, looking downstream).
+
+| point | latitude | longitude | h (m) | ECEF X (m) | ECEF Y (m) | ECEF Z (m) |
+|:---|:---|:---|---:|---:|---:|---:|
+| left | 48° 22' 41.4272" N | 92° 49' 51.1078" W | 337.623 | -209,631.378 | -4,239,419.886 | 4,745,162.796 |
+| center | 48° 22' 41.5413" N | 92° 49' 50.7737" W | 337.611 | -209,624.380 | -4,239,417.585 | 4,745,165.129 |
+| right | 48° 22' 41.6555" N | 92° 49' 50.4396" W | 337.599 | -209,617.382 | -4,239,415.284 | 4,745,167.462 |
+| top | 48° 22' 41.5262" N | 92° 49' 50.7614" W | 345.320 | -209,624.397 | -4,239,423.061 | 4,745,170.581 |
+| bottom | 48° 22' 41.5565" N | 92° 49' 50.7860" W | 329.903 | -209,624.363 | -4,239,412.109 | 4,745,159.678 |
+
+| point | angle to beam axis (mrad) | (deg) | along axis (m) | right (m) | up (m) | transverse (m) | clock (deg) |
+|:---|---:|---:|---:|---:|---:|---:|---:|
+| left | 14.5636 | 0.83443 | 810,423.324 | -11,045.183 | -4,162.644 | 11,803.545 | -110.65 |
+| center | 14.5547 | 0.83392 | 810,423.324 | -11,037.456 | -4,162.644 | 11,796.315 | -110.66 |
+| right | 14.5458 | 0.83341 | 810,423.324 | -11,029.729 | -4,162.644 | 11,789.085 | -110.68 |
+| top | 14.5514 | 0.83373 | 810,423.324 | -11,037.456 | -4,154.917 | 11,793.590 | -110.63 |
+| bottom | 14.5581 | 0.83412 | 810,423.324 | -11,037.456 | -4,170.371 | 11,799.044 | -110.70 |
+
+| quantity | value |
+|:---|:---|
+| angle subtended at the axis origin, left edge to right edge | 0.0191 mrad |
+| angle subtended at the axis origin, top edge to bottom edge | 0.0191 mrad |
+
+Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 design, upstream face), other chord to NOvA ND upstream face centre (Fermilab alignment survey), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 2.4816 | 0.142188 | -1.9991 | -1.4705 | 2,011.394 | 14.5636 |
+| center | 2.4740 | 0.141748 | -1.9895 | -1.4705 | 2,005.179 | 14.5547 |
+| right | 2.4663 | 0.141310 | -1.9800 | -1.4705 | 1,998.974 | 14.5458 |
+| top | 2.4683 | 0.141424 | -1.9895 | -1.4609 | 2,000.591 | 14.5514 |
+| bottom | 2.4797 | 0.142074 | -1.9895 | -1.4800 | 2,009.785 | 14.5581 |
+
+Opening angle Target: FD from the Ant-2 fix vs surveyed FD: vertex NuMI target (TDR 1998 design, upstream face), other chord to Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded), for each point of this face.
+
+| point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
+|:---|---:|---:|---:|---:|---:|---:|
+| left | 0.0166 | 0.000953 | +0.0067 | +0.0152 | 13.483 | 14.5636 |
+| center | 0.0223 | 0.001275 | +0.0162 | +0.0152 | 18.036 | 14.5547 |
+| right | 0.0299 | 0.001714 | +0.0258 | +0.0152 | 24.252 | 14.5458 |
+| top | 0.0296 | 0.001696 | +0.0162 | +0.0247 | 23.995 | 14.5514 |
+| bottom | 0.0172 | 0.000985 | +0.0162 | +0.0057 | 13.937 | 14.5581 |
+
+
 ## Baseline: ND upstream face -> FD upstream face (both surveyed)
 
 
@@ -192,6 +323,7 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 | longitude | 88° 16' 13.7981" W  (-88.270499477°, east positive) |
 | height as given | 96.572 m (ellipsoid) |
 | ellipsoidal height h | 96.572 m |
+| detector face | half-width 2.0082 m, half-height 2.0082 m; edge sites nd-left / nd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 993.350 m, right -11.565 m, up -3.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (143628.970, -4756768.845, 4232452.856) m |
@@ -211,6 +343,7 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 | longitude | 92° 49' 50.7737" W  (-92.830770475°, east positive) |
 | height as given | 337.611 m (ellipsoid) |
 | ellipsoidal height h | 337.611 m |
+| detector face | half-width 7.7269 m, half-height 7.7269 m; edge sites fd-left / fd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 810422.324 m, right -11037.456 m, up -4162.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (-209624.380, -4239417.585, 4745165.129) m |
@@ -367,6 +500,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 92° 49' 50.7737" W  (-92.830770475°, east positive) |
 | height as given | 337.611 m (ellipsoid) |
 | ellipsoidal height h | 337.611 m |
+| detector face | half-width 7.7269 m, half-height 7.7269 m; edge sites fd-left / fd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 810422.324 m, right -11037.456 m, up -4162.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (-209624.380, -4239417.585, 4745165.129) m |
@@ -522,6 +656,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 88° 16' 13.7981" W  (-88.270499477°, east positive) |
 | height as given | 96.572 m (ellipsoid) |
 | ellipsoidal height h | 96.572 m |
+| detector face | half-width 2.0082 m, half-height 2.0082 m; edge sites nd-left / nd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 993.350 m, right -11.565 m, up -3.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (143628.970, -4756768.845, 4232452.856) m |
@@ -676,6 +811,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 92° 49' 50.7737" W  (-92.830770475°, east positive) |
 | height as given | 337.611 m (ellipsoid) |
 | ellipsoidal height h | 337.611 m |
+| detector face | half-width 7.7269 m, half-height 7.7269 m; edge sites fd-left / fd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 810422.324 m, right -11037.456 m, up -4162.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (-209624.380, -4239417.585, 4745165.129) m |
@@ -829,6 +965,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 88° 16' 13.7981" W  (-88.270499477°, east positive) |
 | height as given | 96.572 m (ellipsoid) |
 | ellipsoidal height h | 96.572 m |
+| detector face | half-width 2.0082 m, half-height 2.0082 m; edge sites nd-left / nd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 993.350 m, right -11.565 m, up -3.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (143628.970, -4756768.845, 4232452.856) m |
@@ -981,6 +1118,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | longitude | 92° 49' 50.7737" W  (-92.830770475°, east positive) |
 | height as given | 337.611 m (ellipsoid) |
 | ellipsoidal height h | 337.611 m |
+| detector face | half-width 7.7269 m, half-height 7.7269 m; edge sites fd-left / fd-right derived |
 | given in the beamline frame mczero -> minos-fd (along, right, up) | along 810422.324 m, right -11037.456 m, up -4162.644 m; lat/lon/h above are derived |
 | surveyed point -> endpoint (E, N, U) | +0.000, +0.000, +0.000 m |
 | ECEF of surveyed point | (-209624.380, -4239417.585, 4745165.129) m |

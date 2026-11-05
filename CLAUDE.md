@@ -26,13 +26,15 @@ gps-tof-nmea screenlog.0 --yaml
   `fermilab_site.py` FSCS/DUSAF feet <-> geodetic (Beams-doc-1148); `nmea.py` checksums and GGA.
 - `model.py` dataclasses `Site`, `Baseline`, `OpeningAngle`, `BeamAxis`, `TimingShift`, `Settings`, `Problem` (+ `from_dict`;
   sites may be given as `axis_position: {along_m, right_m, up_m}` in the beam-axis frame, or in any
-  `frame: {origin, through}` of two sites, and are resolved to geodetic coordinates there).
+  `frame: {origin, through}` of two sites, and are resolved to geodetic coordinates there;
+  `face: {half_width_m, half_height_m}` derives `<id>-left/-right/-top/-bottom` edge sites).
 - `calc.py` engine: `site_point` (endpoint for a `Stage` of corrections), `build_ledger`
   (progressive chain, asserts closure with the direct final chord), `geometry`, `effects`,
   `sensitivities`, `error_budget`, `compute_baseline`, `compute_opening_angle` (angle at a vertex
   between two chords, with components and off-axis angles), `axis_frame` / `point_vs_axis` /
   `direction_vs_axis` (global beam axis: every site, baseline and opening angle is reported
-  against it), `compute_all` (plain dicts).
+  against it), `compute_face` (edge points of a detector face, their angles to the axis and
+  left/centre/right opening angles), `compute_all` (plain dicts).
 - `report.py` renders dicts to text/Markdown/JSON.  `config.py` merges YAML < .env < env < CLI.
   `cli.py` has `main`, `main_nmea`, `main_fscs`.
 - Single-threaded, stdlib + PyYAML.  All distances in metres, angles in radians internally,
@@ -54,6 +56,6 @@ timing_shifts: [{name: MI shift, turns: 141, buckets_per_turn: 588, rf_hz: 53.10
 ```
 
 ## Testing
-`pytest -q` (57 tests): notebook/2014-note reproduction to 1e-9, EPSG 9809 worked example,
+`pytest -q` (61 tests): notebook/2014-note reproduction to 1e-9, EPSG 9809 worked example,
 Beams-doc-1148 control points, NuMI target cross-checks (MINOS FD distance, beam azimuth,
 off-axis angle), config precedence, CLI smoke tests.  `ctest --test-dir build` after `cmake -S . -B build`.

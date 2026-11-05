@@ -38,6 +38,9 @@ class Site:
     id: str = ""
     fscs_xyz_ft: Optional[Tuple[float, float, float]] = None
     axis_position: Optional[Dict[str, Any]] = None   # along_m + (right_m, up_m | off_axis_mrad, clock_deg) [+ frame]
+    face: Optional[Dict[str, float]] = None           # {half_width_m[, half_height_m]}: derives edge sites
+    derived_from: str = ""                           # parent site id for derived edge points
+    edge: str = ""                                   # left | right | top | bottom
     cable_length_m: Optional[float] = None
     cable_velocity_factor: Optional[float] = None
     cable_delay_ns: Optional[float] = None
@@ -120,9 +123,14 @@ class Site:
                 d[k] = float(d[k])
         if d.get("uncertainty"):
             d["uncertainty"] = {k: float(v) for k, v in d["uncertainty"].items()}
+        if d.get("face") is not None:
+            face = {k: float(v) for k, v in dict(d.pop("face")).items()}
+            if "half_width_m" not in face and "half_height_m" not in face:
+                raise ValueError("site %s: face needs half_width_m and/or half_height_m" % name)
+            kw["face"] = face
         for k in ("datum", "geoid_separation_m", "offset_enu_m", "offset_note", "id",
                   "cable_length_m", "cable_velocity_factor", "cable_delay_ns",
-                  "uncertainty", "source", "notes"):
+                  "uncertainty", "source", "notes", "derived_from", "edge"):
             if k in d and d[k] is not None:
                 kw[k] = d.pop(k)
         if "offset_enu_m" in kw:
@@ -135,6 +143,7 @@ class Site:
         d = asdict(self)
         d.pop("fscs_xyz_ft", None)   # already folded into lat/lon/h
         d.pop("axis_position", None)  # already resolved to lat/lon/h
+        d.pop("face", None)
         d.update(changes)
         return Site(**d)
 
@@ -309,6 +318,49 @@ class Problem:
                 return s
         raise KeyError("no site with id or name %r (have %s)" % (key, [s.id for s in self.sites]))
 
+    def _derive_face_edges(self) -> None:
+        """For every site with a ``face``, add left/right (and top/bottom) edge
+        sites in the same beamline frame (or the global beam-axis frame)."""
+        from .calc import axis_frame, point_vs_axis, site_point, final_stage   # lazy
+        parents = [s for s in self.sites if s.face]
+        if not parents:
+            return
+        new: List[Site] = []
+        for s in parents:
+            hw = s.face.get("half_width_m")
+            hh = s.face.get("half_height_m")
+            edges = []
+            if hw:
+                edges += [("left", -hw, 0.0), ("right", +hw, 0.0)]
+            if hh:
+                edges += [("top", 0.0, +hh), ("bottom", 0.0, -hh)]
+            if s.axis_position is not None:
+                base = dict(s.axis_position)
+            else:
+                if self.beam_axis is None:
+                    raise ValueError("site %s: face edges need beam_axis or an axis_position frame" % s.name)
+                frame = axis_frame(self, force=True)
+                va = point_vs_axis(site_point(s, self.settings, final_stage(self.settings)), frame)
+                base = {"along_m": va["along_axis_m"], "right_m": va["transverse_right_m"], "up_m": va["transverse_up_m"]}
+            if "right_m" not in base:   # polar form: convert to right/up first
+                r = base["along_m"] * math.tan(base["off_axis_mrad"] * 1e-3)
+                base["right_m"] = r * math.sin(math.radians(base["clock_deg"]))
+                base["up_m"] = r * math.cos(math.radians(base["clock_deg"]))
+                base.pop("off_axis_mrad"); base.pop("clock_deg")
+            for edge, dr, du in edges:
+                ap = {k: v for k, v in base.items() if k in ("along_m", "right_m", "up_m", "frame_origin", "frame_through")}
+                ap["right_m"] = base["right_m"] + dr
+                ap["up_m"] = base["up_m"] + du
+                new.append(Site(name="%s, %s edge" % (s.name, edge), id="%s-%s" % (s.id, edge),
+                                axis_position=ap, uncertainty=dict(s.uncertainty),
+                                source=s.source, derived_from=s.id, edge=edge,
+                                notes="%+.4f m %s of the face centre in the beamline frame" % (dr if dr else du, "right" if dr else "up")))
+        ids = {x.id for x in self.sites}
+        for x in new:
+            if x.id in ids:
+                raise ValueError("derived edge site id %s already exists" % x.id)
+        self.sites.extend(new)
+
     def _resolve_axis_positions(self) -> None:
         """Sites given as (along, right, up) in the beam-axis frame get their
         geodetic coordinates from the axis origin and direction."""
@@ -375,6 +427,7 @@ class Problem:
             p.site(axis.origin); p.site(axis.through)
             if p.site(axis.origin) is p.site(axis.through):
                 raise ValueError("beam_axis needs two different sites")
+        p._derive_face_edges()
         p._resolve_axis_positions()
         for b in p.baselines:
             p.site(b.source); p.site(b.target)

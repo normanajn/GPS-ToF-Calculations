@@ -1,10 +1,10 @@
-.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.5.0" "Library Functions"
+.TH GPS_TOF 3 "2026-11-05" "gps-tof 0.6.0" "Library Functions"
 .SH NAME
 gps_tof \- Python API for geodetic time-of-flight calculations
 .SH SYNOPSIS
 .nf
 from gps_tof.model import Problem, Site, Baseline, OpeningAngle, BeamAxis, TimingShift, Settings
-from gps_tof.calc import compute_all, compute_baseline, compute_opening_angle, axis_frame, point_vs_axis, direction_vs_axis, chord, final_stage, site_point
+from gps_tof.calc import compute_all, compute_baseline, compute_opening_angle, compute_face, axis_frame, point_vs_axis, direction_vs_axis, chord, final_stage, site_point
 from gps_tof.report import render
 from gps_tof.geodesy import geodetic_to_ecef, ecef_to_geodetic, enu_basis, enu_to_ecef_offset
 from gps_tof.fermilab_site import fscs_to_geodetic, geodetic_to_fscs
@@ -68,6 +68,12 @@ off_axis_mrad/deg, along_axis_m, transverse_m, transverse_right_m, transverse_up
 angle_mrad/deg between a chord direction and the axis, right_component_mrad, up_component_mrad.
 Baseline results carry these under \fBbeam_axis\fR (chord_vs_axis, source, target); site summaries
 under \fBvs_axis\fR; opening angles under \fBbeam_axis\fR (a_chord_vs_axis, b_chord_vs_axis, a, b, vertex).
+.TP
+.B compute_face(problem, site) -> dict
+For a site with \fBface\fR: \fBpoints\fR (left, center, right, top, bottom with lat/lon/h, ECEF and
+\fBvs_axis\fR), \fBsubtended_at_axis_origin_mrad\fR (left_right, top_bottom) and \fBopening_angles\fR
+(per configured opening angle involving the site: the angle for each face point).  Included in
+\fBcompute_all\fR as \fBfaces\fR; the derived edge sites appear in \fBProblem.sites\fR.
 .TP
 .B chord(a, b, settings, stage) -> float
 Chord length between two sites for a given \fBStage\fR (which corrections are applied);

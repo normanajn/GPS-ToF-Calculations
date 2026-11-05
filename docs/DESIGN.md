@@ -122,6 +122,23 @@ origin), which is the same construction as the global beam-axis frame:
   272 736.417 → 272 736 ticks.  The ND lies 2.46 m off the target → FD line (opening angle
   2.474 mrad), so for timing purposes the ND is on the line of sight to the FD.
 
+## 4b. Detector face edges (v0.6.0)
+
+A site may carry `face: {half_width_m, half_height_m}`.  `Problem.from_dict` then derives
+edge sites (`<id>-left`, `-right`, `-top`, `-bottom`) by offsetting the centre in the
+transverse directions of the site's own beamline frame (or of the global beam axis for a
+geodetic site), before the axis-frame resolution runs, so the edges are ordinary sites
+afterwards: they appear in the site tables, can be named in baselines and opening angles,
+and `compute_face` reports their positions, their angles to the axis, the subtended angle at
+the axis origin, and the left/centre/right variants of every configured opening angle that
+involves the parent.  The face is taken perpendicular to the beamline frame rather than to
+the detector's own axis; for the ND (12 mrad off axis, 2 m half-width) the difference is
+3 cm, far below the survey uncertainty.
+
+ND front face (158.125 in square): left / centre / right edges 14.133 / 12.194 / 10.285 mrad
+from the beam axis; the face subtends 4.039 mrad at the target; opening angles to the FD
+chord 1.472 / 2.474 / 4.270 mrad (the left edge is nearest the target → FD line).
+
 ## 5. Decisions
 
 | decision | choice | why |
@@ -138,6 +155,7 @@ origin), which is the same construction as the global beam-axis frame:
 | reference axis | optional `axis_to` per baseline | off-axis angle is the natural check of a beam-element position |
 | beam axis | global `beam_axis: {from, to}`, defaulting the reference for every site, baseline and opening angle | the physics question is always "relative to the beam"; one definition, used everywhere, replaces per-item `axis_to` (kept as an override) |
 | surveyed faces | `nd` and `fd` are the alignment-group points in the MCZERO frame; antenna-derived and quoted placements kept as `fd2`, `nd-under-mast`, `nd-1015` | a survey beats a GPS antenna fix plus an unknown offset; the history stays visible in the report |
+| face edges | `face: {half_width_m, half_height_m}` derives edge sites in the beamline frame | left/centre/right angles are a geometry question about one physical face; deriving ordinary sites keeps every report section consistent |
 | sites in the axis frame | `axis_position: {along_m, right_m, up_m}` or `{along_m, off_axis_mrad, clock_deg}` resolved to geodetic at load time | beam-element and detector placements are quoted along the beam, not as lat/lon; the configuration should say what is actually known |
 | opening angles | explicit `opening_angles` list (vertex, a, b), CLI `-a` | the user's question is a specific pair of chords; computing every shared-vertex pair would bury it in near-zero antenna-to-antenna angles |
 | legacy notebook files | moved to `docs/reference/` | keep provenance, keep the top level for the package |

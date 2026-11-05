@@ -68,6 +68,19 @@ How the frame was realised, and what checks it:
   −1.47 vertical).  Both detectors are 12.19 and 14.55 mrad off the Soudan axis, at clock
   angles −107° and −111° (left of and below the axis).
 
+**Detector face edges.** `face: {half_width_m, half_height_m}` on a site derives its left/right
+(and top/bottom) edge points in the same beamline frame; the report lists their positions, their
+angles to the beam axis, the angle the face subtends at the target, and left/centre/right versions
+of every opening angle involving that detector.  The ND face is 158.125 in square (survey note),
+the FD half-size 304.21 in.
+
+| ND upstream face (surveyed) | angle to beam axis (mrad) | right (m) | opening angle to the FD chord (mrad) |
+|---|---|---|---|
+| left edge | 14.133 | −13.573 | 1.472 |
+| centre | 12.194 | −11.565 | 2.474 |
+| right edge | 10.285 | −9.557 | 4.270 |
+| face width at the target | 4.039 mrad subtended | | |
+
 Superseded geometries are kept in the configuration for comparison: `nd-1015` (the quoted
 1015 m placement with antenna transverse offsets), `nd-under-mast` and `fd2` (the 2014-note
 antenna-derived endpoints).
@@ -164,5 +177,5 @@ Not-to-scale schematic of the target, ND, FD and MINOS FD layout with the comput
 (`docs/nova-schematic.html`): https://claude.ai/artifact/MHZuX5iAPTuxbCbFRRoqBY
 
 
-Version 0.5.0.  Python ≥ 3.9, PyYAML only.  57 tests.  No C/C++ library yet (the
+Version 0.6.0.  Python ≥ 3.9, PyYAML only.  61 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

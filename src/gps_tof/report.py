@@ -104,6 +104,11 @@ def _site_block(doc: Doc, s: Dict[str, Any], role: str):
     rows.append(("ellipsoidal height h", "%s m" % doc.n(s["h_ellipsoidal_m"], 3)))
     if s["fscs_xyz_ft"]:
         rows.append(("Fermilab site coordinates (ft)", "x %.3f, y %.3f, z %.3f" % tuple(s["fscs_xyz_ft"])))
+    if s.get("face"):
+        rows.append(("detector face", "half-width %s m%s; edge sites %s-left / %s-right derived" % (
+            doc.n(s["face"].get("half_width_m"), 4), (", half-height %s m" % doc.n(s["face"].get("half_height_m"), 4)) if s["face"].get("half_height_m") else "", s["id"], s["id"])))
+    if s.get("derived_from"):
+        rows.append(("derived point", "%s edge of the face of site %s" % (s["edge"], s["derived_from"])))
     if s.get("axis_position"):
         ap = s["axis_position"]
         rows.append(("given in the beamline frame %s (along, right, up)" % ap.get("frame", "axis"),
@@ -341,6 +346,43 @@ def render(result: Dict[str, Any], fmt: str = "md") -> str:
                          ("a and b on the same side of the axis", doc.n(oa["same_side_of_axis"])),
                          ("azimuthal separation about the axis", "%s°" % doc.n(oa["azimuth_about_axis_deg"], 3))]
             doc.kv(rows)
+    if result.get("faces"):
+        doc.h(2, "Detector faces: edges, centre and angles to the beamline")
+        for f in result["faces"]:
+            fc = f["face"]
+            doc.h(3, f["site"])
+            doc.p("Face half-width %s m%s; edge points derived in the same beamline frame as the centre (left = beam left, looking downstream)." % (
+                doc.n(fc.get("half_width_m"), 4), (", half-height %s m" % doc.n(fc.get("half_height_m"), 4)) if fc.get("half_height_m") else ""))
+            t = Table(["point", "latitude", "longitude", "h (m)", "ECEF X (m)", "ECEF Y (m)", "ECEF Z (m)"], ["l", "l", "l", "r", "r", "r", "r"])
+            for r in f["points"]:
+                t.add(r["edge"], r["lat_dms"], r["lon_dms"], doc.n(r["h_m"], 3), doc.n(r["ecef_m"][0], 3), doc.n(r["ecef_m"][1], 3), doc.n(r["ecef_m"][2], 3))
+            doc.table(t)
+            if any("vs_axis" in r for r in f["points"]):
+                t = Table(["point", "angle to beam axis (mrad)", "(deg)", "along axis (m)", "right (m)", "up (m)", "transverse (m)", "clock (deg)"],
+                          ["l", "r", "r", "r", "r", "r", "r", "r"])
+                for r in f["points"]:
+                    va = r["vs_axis"]
+                    t.add(r["edge"], doc.n(va["off_axis_mrad"], 4), doc.n(va["off_axis_deg"], 5), doc.n(va["along_axis_m"], 3),
+                          doc.sn(va["transverse_right_m"], 3), doc.sn(va["transverse_up_m"], 3), doc.n(va["transverse_m"], 3),
+                          doc.n(va["clock_angle_deg"], 2) if va["clock_angle_deg"] is not None else "-")
+                doc.table(t)
+                sb = f.get("subtended_at_axis_origin_mrad") or {}
+                rows = []
+                if sb.get("left_right") is not None:
+                    rows.append(("angle subtended at the axis origin, left edge to right edge", "%s mrad" % doc.n(sb["left_right"], 4)))
+                if sb.get("top_bottom") is not None:
+                    rows.append(("angle subtended at the axis origin, top edge to bottom edge", "%s mrad" % doc.n(sb["top_bottom"], 4)))
+                if rows:
+                    doc.kv(rows)
+            for v in f["opening_angles"]:
+                doc.p("Opening angle %s: vertex %s, other chord to %s, for each point of this face." % (v["label"], v["vertex"], v["other"]))
+                t = Table(["point", "opening angle (mrad)", "(deg)", "horizontal (mrad)", "vertical (mrad)", "transverse to other chord (m)", "chord vs beam axis (mrad)"],
+                          ["l", "r", "r", "r", "r", "r", "r"])
+                for e in v["edges"]:
+                    t.add(e["edge"], doc.n(e["angle_mrad"], 4), doc.n(e["angle_deg"], 6), doc.sn(e["horizontal_component_mrad"], 4),
+                          doc.sn(e["vertical_component_mrad"], 4), doc.n(e["transverse_m"], 3),
+                          doc.n(e["chord_vs_axis_mrad"], 4) if e["chord_vs_axis_mrad"] is not None else "-")
+                doc.table(t)
     for b in result["baselines"]:
         render_baseline(doc, b, st)
     return doc.render()
