@@ -99,5 +99,9 @@ coordinates ↔ geodetic).  Configuration precedence is command line > environme
 
 ## Status
 
+Project status page (phases, results, test and compatibility matrices, design decisions):
+https://claude.ai/artifact/S4eqJocVhnzvuuP8ziAMf4
+
+
 Version 0.1.0.  Python ≥ 3.9, PyYAML only.  43 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").
