@@ -9,3 +9,12 @@ __pycache__/
 core/
 reports/*.json
 .DS_Store
+docs/note/*.aux
+docs/note/*.bbl
+docs/note/*.blg
+docs/note/*.fdb_latexmk
+docs/note/*.fls
+docs/note/*.log
+docs/note/*.out
+docs/note/*.toc
+docs/note/build.log

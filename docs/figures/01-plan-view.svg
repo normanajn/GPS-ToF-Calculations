@@ -1,72 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-label="Plan view: the beam axis from the NuMI target through the MINOS far detector, with the surveyed NOvA near detector 12.19 mrad and far detector 14.55 mrad to the left of the axis; the near-to-far chord makes 14.56 mrad with the axis.">
-<style>
-  svg { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  text { font-size: 12px; fill: #1d2126; }
-  .small { font-size: 11px; fill: #5d6670; }
-  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 11.5px; }
-  .beam { stroke: #0b6e8f; }
-  .beamtext { fill: #0b6e8f; font-weight: 600; }
-  .fartext { fill: #8a3b2f; }
-  .far { stroke: #8a3b2f; }
-</style>
-<rect width="100%" height="100%" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="900" height="400" viewBox="0 0 900 400">
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d2126"/>
-    </marker>
-    <marker id="arrbeam" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e8f"/>
-    </marker>
+    <clipPath id="clip-path-1">
+      <path d="M45.349 35.311 L47.547 25.966 L56.892 28.165 L54.694 37.51 Z"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path d="M822 290 L842 290 L842 310 L822 310 Z"/>
+    </clipPath>
   </defs>
-  <!-- compass, top left -->
-  <line x1="44" y1="62" x2="52" y2="28" stroke="#1d2126" stroke-width="1.2" marker-end="url(#arr)"/>
-  <text class="small" x="60" y="36">N (the axis runs N 23.9° W)</text>
-  <text class="small" x="34" y="82">left of the axis = up the page</text>
-  <!-- angle callout, left, between compass and chords -->
-  <text class="small" x="34" y="120" font-weight="600">angles at the target</text>
-  <text class="mono" x="34" y="138">12.19 mrad</text><text class="small" x="112" y="138">to the ND (solid arc)</text>
-  <text class="mono" x="34" y="154">14.55 mrad</text><text class="small" x="112" y="154">to the FD (dashed arc)</text>
-  <text class="mono" x="34" y="170">0.02 mrad</text><text class="small" x="112" y="170">to the decay-pipe end</text>
-  <text class="mono" x="34" y="186">2.47 mrad</text><text class="small" x="112" y="186">ND vs FD opening angle</text>
-  <text class="small" x="112" y="200">(−1.99 mrad in plan, −1.47 mrad vertical)</text>
-  <text class="small" x="112" y="214">the ND is 2.5 m off the target → FD line</text>
-  <!-- beam axis -->
-  <line class="beam" x1="90" y1="300" x2="840" y2="300" stroke-width="2.5" marker-end="url(#arrbeam)"/>
-  <text class="beamtext" x="890" y="332" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
-  <!-- chords: T(90,300) N(300,262) F(700,120) -->
-  <line x1="90" y1="300" x2="300" y2="262" stroke="#1d2126" stroke-width="1.6"/>
-  <line x1="90" y1="300" x2="700" y2="120" stroke="#1d2126" stroke-width="1.4" stroke-dasharray="7 5"/>
-  <line class="far" x1="300" y1="262" x2="700" y2="120" stroke-width="1.6" stroke-dasharray="3 4"/>
-  <!-- angle arcs at the target -->
-  <path d="M 160 300 A 70 70 0 0 0 158.9 287.5" fill="none" stroke="#1d2126" stroke-width="1.2"/>
-  <path d="M 200 300 A 110 110 0 0 0 195.5 268.9" fill="none" stroke="#1d2126" stroke-width="1.2" stroke-dasharray="4 3"/>
-  <!-- sites -->
-  <circle cx="90" cy="300" r="6" fill="#0b6e8f"/>
-  <text x="90" y="358" text-anchor="middle">NuMI target</text>
-  <text class="small" x="90" y="372" text-anchor="middle">TDR 1998 design position</text>
-  <circle cx="170" cy="300" r="3" fill="#1d2126"/>
-  <text class="small" x="162" y="322" text-anchor="end">decay-pipe end</text>
-  <text class="small" x="162" y="336" text-anchor="end">724 m, on the axis</text>
-  <rect x="293" y="255" width="14" height="14" fill="#ffffff" stroke="#1d2126" stroke-width="1.6"/>
-  <line x1="300" y1="269" x2="300" y2="318" stroke="#1d2126" stroke-width="1" stroke-dasharray="2 3"/>
-  <text x="300" y="334" text-anchor="middle">NOvA ND</text>
-  <text class="small" x="300" y="348" text-anchor="middle">994 m along, 11.6 m left (surveyed)</text>
-  <circle cx="262" cy="262" r="3" fill="#1d2126"/>
-  <line x1="262" y1="262" x2="262" y2="246" stroke="#1d2126" stroke-width="1" stroke-dasharray="2 3"/>
-  <text class="small" x="256" y="228" text-anchor="end">MINOS mast antenna</text>
-  <text class="small" x="256" y="242" text-anchor="end">941 m along, 53 m upstream of the ND</text>
-  <rect x="688" y="110" width="24" height="20" fill="#ffffff" stroke="#8a3b2f" stroke-width="2"/>
-  <text class="fartext" x="722" y="118">NOvA FD, Ash River (surveyed)</text>
-  <text class="small" x="722" y="132">810,423 m along, 11,037 m left</text>
-  <text class="small" x="722" y="146">("12 km west of the beam")</text>
-  <rect x="607" y="287" width="26" height="26" fill="#ffffff" stroke="#0b6e8f" stroke-width="2"/>
-  <text x="642" y="270">MINOS FD, Soudan</text>
-  <text class="small" x="642" y="284">735,345 m along, on the axis by definition</text>
-  <!-- chord labels in clear space -->
-  <text class="fartext" x="300" y="136">ND → FD chord</text>
-  <text class="small" x="300" y="150">809,515 m · 2700.251 µs · 172,816.0 ticks</text>
-  <text class="small" x="300" y="164">14.56 mrad to the beam axis</text>
-  <text class="small" x="590" y="236" text-anchor="middle">target → FD chord 810,509 m · 2703.568 µs · 173,028.3 ticks</text>
-  <text class="small" x="590" y="250" text-anchor="middle">target → ND chord 994 m · 3.317 µs · 212.3 ticks</text>
+  <title>01-plan-view.svg</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <rect id="rect1" x="0" y="0" width="900" height="400" fill="#ffffff"/>
+    <line id="line2" x1="44" y1="62" x2="52" y2="28" fill="#000000" stroke="#1d2126" stroke-width="1.2"/>
+    <g clip-path="url(#clip-path-1)">
+      <polygon points="45.349,35.311 52.22,27.066 54.694,37.51" fill="#1d2126"/>
+    </g>
+    <text id="text2" transform="matrix(1 0 0 1 60 36)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">N (axis runs N 23.9° W)</tspan></text>
+    <text id="text3" transform="matrix(1 0 0 1 34 82)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">left of the axis = up the page</tspan></text>
+    <text id="text4" transform="matrix(1 0 0 1 34 120)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">angles at the target</tspan></text>
+    <text id="text5" transform="matrix(1 0 0 1 34 138)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11.5" fill="#1d2126"><tspan x="0" y="0">12.19 mrad</tspan></text>
+    <text id="text6" transform="matrix(1 0 0 1 112 138)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">to the ND (solid arc)</tspan></text>
+    <text id="text7" transform="matrix(1 0 0 1 34 154)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11.5" fill="#1d2126"><tspan x="0" y="0">14.55 mrad</tspan></text>
+    <text id="text8" transform="matrix(1 0 0 1 112 154)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">to the FD (dashed arc)</tspan></text>
+    <text id="text9" transform="matrix(1 0 0 1 34 170)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11.5" fill="#1d2126"><tspan x="0" y="0">0.02 mrad</tspan></text>
+    <text id="text10" transform="matrix(1 0 0 1 112 170)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">to the decay-pipe end</tspan></text>
+    <text id="text11" transform="matrix(1 0 0 1 34 186)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11.5" fill="#1d2126"><tspan x="0" y="0">2.47 mrad</tspan></text>
+    <text id="text12" transform="matrix(1 0 0 1 112 186)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">ND vs FD opening angle</tspan></text>
+    <text id="text13" transform="matrix(1 0 0 1 112 200)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">(−1.99 mrad in plan, −1.47 mrad vertical)</tspan></text>
+    <text id="text14" transform="matrix(1 0 0 1 112 214)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">the ND is 2.5 m off the target → FD line</tspan></text>
+    <line id="line14" x1="90" y1="300" x2="840" y2="300" fill="#000000" stroke="#0b6e8f" stroke-width="2.5"/>
+    <g clip-path="url(#clip-path-2)">
+      <polygon points="822,290 842,300 822,310" fill="#0b6e8f"/>
+    </g>
+    <text id="text15" transform="matrix(1 0 0 1 853.027 330.054)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#0b6e8f" text-anchor="end"><tspan x="0" y="0">beam axis: azimuth 336.094°</tspan></text>
+    <line id="line15" x1="90" y1="300" x2="300" y2="262" fill="#000000" stroke="#1d2126" stroke-width="1.6"/>
+    <line id="line16" x1="90" y1="300" x2="700" y2="120" fill="#000000" stroke="#1d2126" stroke-width="1.4" stroke-dasharray="7 5"/>
+    <line id="line17" x1="300" y1="262" x2="700" y2="120" fill="#000000" stroke="#8a3b2f" stroke-width="1.6" stroke-dasharray="3 4"/>
+    <path id="path17" d="M160 300 C160.008 295.809 159.64 291.625 158.9 287.5" fill="none" stroke="#1d2126" stroke-width="1.2"/>
+    <path id="path18" d="M200 300 C199.996 289.471 198.481 278.998 195.5 268.9" fill="none" stroke="#1d2126" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <circle id="circle18" cx="90" cy="300" r="6" fill="#0b6e8f"/>
+    <text id="text18" transform="matrix(1 0 0 1 90 358)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#1d2126" text-anchor="middle"><tspan x="0" y="0">NuMI target</tspan></text>
+    <text id="text19" transform="matrix(1 0 0 1 90 372)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="middle"><tspan x="0" y="0">TDR 1998 position</tspan></text>
+    <circle id="circle19" cx="170" cy="300" r="3" fill="#1d2126"/>
+    <text id="text20" transform="matrix(1 0 0 1 162 322)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="end"><tspan x="0" y="0">decay-pipe end</tspan></text>
+    <text id="text21" transform="matrix(1 0 0 1 162 336)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="end"><tspan x="0" y="0">724 m, on the axis</tspan></text>
+    <rect id="rect21" x="293" y="255" width="14" height="14" fill="#ffffff" stroke="#1d2126" stroke-width="1.6"/>
+    <line id="line21" x1="300" y1="269" x2="300" y2="318" fill="#000000" stroke="#1d2126" stroke-dasharray="2 3"/>
+    <text id="text22" transform="matrix(1 0 0 1 300 334)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#1d2126" text-anchor="middle"><tspan x="0" y="0">NOvA ND</tspan></text>
+    <text id="text23" transform="matrix(1 0 0 1 300 348)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="middle"><tspan x="0" y="0">994 m along, 11.6 m left (surveyed)</tspan></text>
+    <circle id="circle23" cx="262" cy="262" r="3" fill="#1d2126"/>
+    <line id="line23" x1="262" y1="262" x2="262" y2="246" fill="#000000" stroke="#1d2126" stroke-dasharray="2 3"/>
+    <text id="text24" transform="matrix(1 0 0 1 256 228)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="end"><tspan x="0" y="0">MINOS mast antenna</tspan></text>
+    <text id="text25" transform="matrix(1 0 0 1 256 242)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="end"><tspan x="0" y="0">941 m along, 53 m upstream of the ND</tspan></text>
+    <rect id="rect25" x="688" y="110" width="24" height="20" fill="#ffffff" stroke="#8a3b2f" stroke-width="2"/>
+    <text id="text26" transform="matrix(1 0 0 1 722 118)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#8a3b2f"><tspan x="0" y="0">NOvA FD, Ash River (surveyed)</tspan></text>
+    <text id="text27" transform="matrix(1 0 0 1 722 132)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">810,423 m along, 11,037 m left</tspan></text>
+    <text id="text28" transform="matrix(1 0 0 1 722 146)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">(&quot;12 km west of the beam&quot;)</tspan></text>
+    <rect id="rect28" x="607" y="287" width="26" height="26" fill="#ffffff" stroke="#0b6e8f" stroke-width="2"/>
+    <text id="text29" transform="matrix(1 0 0 1 642 270)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#1d2126"><tspan x="0" y="0">MINOS FD, Soudan</tspan></text>
+    <text id="text30" transform="matrix(1 0 0 1 642 284)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">735,345 m along, on the axis by definition</tspan></text>
+    <text id="text31" transform="matrix(1 0 0 1 300 136)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="12" fill="#8a3b2f"><tspan x="0" y="0">ND → FD chord</tspan></text>
+    <text id="text32" transform="matrix(1 0 0 1 300 150)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">809,515 m · 2700.251 µs · 172,816.0 ticks</tspan></text>
+    <text id="text33" transform="matrix(1 0 0 1 300 164)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670"><tspan x="0" y="0">14.56 mrad to the beam axis</tspan></text>
+    <text id="text34" transform="matrix(1 0 0 1 590 236)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="middle"><tspan x="0" y="0">target → FD chord 810,509 m · 2703.568 µs · 173,028.3 ticks</tspan></text>
+    <text id="text35" transform="matrix(1 0 0 1 590 250)" x="0" y="0" xml:space="preserve" font-family="&apos;Source Sans 3&apos;, sans-serif" font-size="11" fill="#5d6670" text-anchor="middle"><tspan x="0" y="0">target → ND chord 994 m · 3.317 µs · 212.3 ticks</tspan></text>
+  </g>
 </svg>

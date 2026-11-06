@@ -1,0 +1,1214 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+<TITLE>         Fermilab/FMI Coordinate Systems</TITLE>
+
+<META NAME="GENERATOR" CONTENT="Internet Assistant for Microsoft Word 2.04z">
+</HEAD>
+<BODY>
+
+<TABLE>
+<TR><TD WIDTH=565><P>
+<IMG SRC="/align/images/mi0209_1.gif"><B><FONT SIZE=6>F<B>ermilab</B></FONT></B>
+</TD></TR>
+</TABLE>
+<P>
+<B><FONT SIZE="4"> &nbsp; &nbsp; &nbsp; &nbsp;Doc. No. : </B> &nbsp; Beams-doc-1148</FONT><BR>
+<B><FONT SIZE=4>Old Doc. No. : </B> &nbsp; MI-0209</FONT><BR>
+<B><FONT SIZE=4>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Version : </B> &nbsp; 4.0</FONT><BR>
+</p>
+<BR> <BR>
+<P>
+<B><FONT SIZE=5> </FONT></B>
+<P>
+<CENTER><B><FONT SIZE=5>      <B><FONT SIZE=5>FERMILAB COORDINATE
+SYSTEMS</FONT></B></FONT></B><FONT SIZE=5>   <BR>
+<BR>
+</FONT></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>    <B>Babatunde "O'Sheg" Oshinowo</B></FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>    Survey Alignment and Geodesy Group</FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>   Fermi National Accelerator Laboratory</FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>  P.O. Box 500, MS 334</FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>Batavia, Illinois 60510</FONT></B></CENTER>
+<P>
+<B><FONT SIZE=4> </FONT></B>
+<P>
+<CENTER><B><FONT SIZE=4>0<B>5/15/97<BR>
+<BR>
+</B></FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=5>ABSTRACT</FONT></B><FONT SIZE=4> <BR>
+</FONT></CENTER>
+<P>
+<FONT SIZE=4>The objectives of this document are to relate Fermilab
+to a global coordinate system, to define a mapping projection
+and establish all the coordinate systems that will be used at
+Fermilab and for the Fermilab Main Injector</FONT><FONT SIZE=5>
+(</FONT><FONT SIZE=4>FMI) project, and to describe all the parameters
+that are necessary for the several coordinate systems.  The main
+objective is to define a new <B>assimilated </B> DUSAF coordinate
+system for the Fermilab site.  This implies that the new system
+will have the same origin and coordinate axes definitions as the
+DUSAF coordinate system.  The Survey Alignment and Geodesy (SAG)
+group, has defined a <B>Fermilab Site Coordinate System</B> (<B>FSCS</B>)
+for the site and a <B>Local Tunnel Coordinate System</B> (<B>LTCS</B>)
+for the FMI project.  A <B>Double Stereographic Projection </B>has
+been adopted to define both coordinate systems. <BR><BR> <BR>
+</FONT>
+<FONT SIZE=5> <B>Table of Contents<BR>
+</B></FONT>
+<P>
+<DL>
+  <DT>  <B><FONT SIZE=4>1.    Introduction </FONT> </B> <BR>
+  <DD>  <FONT SIZE=4> 1.1  DUSAF Coordinate System
+  <DD>                1.2 Map Projection   </FONT>
+</DL>
+<DL> 
+  <DT>   <B><FONT SIZE=4>2.  Geodetic Coordinate System (GCS)</FONT></B><BR>
+  <DD>   <FONT SIZE=4>  2.1  Orthometric Height  </FONT>
+</DL>
+
+<B><FONT SIZE=4>3.  Geodetic Cartesian Coordinate System (GCCS)<BR></FONT></B>
+
+<P>
+<DL>
+  <DT> <B><FONT SIZE=4>4.  Fermilab Site Coordinate System (FSCS)<BR></FONT></B>
+  <DD>  <FONT SIZE=4> 4.1   FSCS:XYZ  </FONT>
+  <DD>  <FONT SIZE=4> 4.2   FSCS:XYH  </FONT>
+</DL>
+<DL> 
+   <DT><B><FONT SIZE=4>  5.  Local Tunnel Coordinate System (LTCS)</FONT></B><BR>
+   <DD>   <FONT SIZE=4> 5.1   LTCS:XYZ  </FONT>
+   <DD>   <FONT SIZE=4> 5.2   DSP:XYH  </FONT>
+   <DD>   <FONT SIZE=4> 5.3   LTCS:XYH  </FONT>
+</DL>
+<P>
+<FONT SIZE=4>6<B>.  Local Geodetic System (LGS) <BR>
+</B></FONT>
+<P>
+<B><FONT SIZE=4>7.  Oblique Mercator Projection System (OMPS)
+<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>8.  Illinois State Plane System (ISPS)<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>9.  Acknowledgment<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>References<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>Appendix A  -  </FONT></B><FONT SIZE=4>Spatial
+Definition of the FMI Plane</FONT>
+<P>
+<B><FONT SIZE=4>Appendix B  -  </FONT></B><FONT SIZE=4>Notes on
+Scale Compatibilities</FONT>
+<P>
+<B><FONT SIZE=4>Appendix C  -  </FONT></B><FONT SIZE=4>Notes on
+Precision and Accuracy</FONT><B><FONT SIZE=5> </FONT></B>
+<P>
+<B><FONT SIZE=4>Appendix D  -  </FONT></B><FONT SIZE=4>Double
+Stereographic Projection</FONT>
+<P>
+<B><FONT SIZE=4>Appendix E  -  </FONT></B><FONT SIZE=4>Lattice
+Program Documentation and Source Codes</FONT> <BR><BR> <BR> <BR>
+<P ALIGN=CENTER>
+<B><FONT SIZE=5> FERMILAB COORDINATE SYSTEMS<BR>
+<BR> <BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=5>1.   Introduction<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>Several years ago a DUSAF coordinate system was established
+at Fermilab and the original documentation could not be traced.
+ It is a Cartesian coordinate system with no known map projection
+associated with it.  Therefore, it is not possible to directly
+convert these DUSAF plane coordinates to the global geodetic (or
+geographic) coordinate system using the appropriate Earth parameters.
+ The need for a map projection and a tie to a global coordinate
+system also stems from the future global experiments being planned
+at Fermilab.  These global experiments use the Global Positioning
+Systems (GPS) technology in which data is collected in the geodetic
+coordinate system.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The objectives of this document are to relate Fermilab
+to a global coordinate system, to define a mapping projection
+and establish all the coordinate systems that will be used for
+the Fermilab site and for the Fermilab Main Injector</FONT><FONT SIZE=5>
+(</FONT><FONT SIZE=4>FMI) project, and to describe all the parameters
+that are necessary for the several coordinate systems.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Since all lattice coordinates for all Fermilab and
+FMI projects are provided in the DUSAF coordinate system,  the
+main objective is then to define a new <B>assimilated</B> DUSAF
+coordinate system for the Fermilab site.  This implies that the
+new system will have the same origin and coordinate axes definitions
+as the DUSAF coordinate system.<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>1.1  DUSAF Coordinate System<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The<B> </B>DUSAF coordinate system is a right-handed
+Cartesian coordinate system defined as follows:<BR>
+</FONT>
+<DL>
+   <DD><FONT SIZE=4> Origin   -   A0</FONT>
+   <DD>
+   <DD><FONT SIZE=4> Y-axis   -  NORTH axis.  Positive along the extraction
+                     line towards the Neutrino Area</FONT>
+   <DD>
+   <DD><FONT SIZE=4> X-axis   -  EAST axis.  Positive to the right
+                     and perpendicular to the y-axis </FONT>
+   <DD>
+   <DD><FONT SIZE=4> Z-axis   -  ELEVATION axis.  Positive up at A0
+                     and perpendicular to both X- and Y-axes. </FONT>
+</DL>
+<BR>
+<P>
+<FONT SIZE=4>The parameters that define the DUSAF coordinate system
+origin are:<BR>
+</FONT>
+<DL>
+  <DD><FONT SIZE=4> X   =   100000.000 ft      (30480.06096 m) 
+   ;  False Easting at A0  </FONT>
+  <DD><FONT SIZE=4> Y   =   100000.000 ft      (30480.06096 m) 
+   ;  False Northing at A0</FONT>
+  <DD><FONT SIZE=4> Z   =  720.000 ft          (  219.45644 m)   
+   ;  Elevation<BR>
+</FONT>
+</DL>
+<P>
+<FONT SIZE=4>The DUSAF elevation Z is referenced to the DUSAF
+ (Vertical) Datum which is an arbitrary datum.  At A0, Z = 720.000
+ft implies that the elevation of A0 is 720 ft above the DUSAF
+Datum.<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>1.2  Map Projection<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The Survey Alignment and Geodesy group has adopted
+a <B>Double Stereographic Projection </B>(see Appendix D) to define
+a <B>Fermilab Site Coordinate System (FSCS)</B> for the Fermilab
+site.  The <B>FSCS</B> is referenced to the North American Datum
+of 1983 (NAD83) and its reference ellipsoid of 1980 (GRS80). 
+The Double Stereographic Projection was chosen to map the GRS80
+geodetic coordinates onto the conformal mapping plane which defines
+the Fermilab Site Coordinate System. The Double Stereographic
+Projection was also adopted<B> </B>to define a <B>Local Tunnel
+Coordinate System (LTCS) </B>for the FMI project.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Before these new coordinate systems and other projection
+systems are defined in greater details, the <B>Geodetic Coordinate
+System (GCS)</B> will be described.  The geodetic coordinate system
+is the fundamental coordinate system with respect to which all
+other coordinate systems are defined.<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>2.   Geodetic Coordinate System (GCS)<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>GCS</FONT></B><FONT SIZE=4> is a curvilinear coordinate
+system, based upon a geocentric, bi-axial reference ellipsoid
+(GRS80), called the North American Datum of 1983 (NAD83), with
+axes coincident with those of the Geodetic Cartesian Coordinate
+System, axis of rotation along the Z-axis (see section 3 below).
+ It is the fundamental coordinate system with respect to which
+all other coordinate systems are defined.  The geometric parameters
+of the ellipsoid are:<BR>
+</FONT>
+<DL><FONT SIZE=4>                    
+   <DD> <I>a</I>       =    6378137.000 m  (exactly, by definition)
+   <DD> <I>1/f </I>    =    298.257 222101 (to 12 significant digits)<BR>
+</FONT></DL>
+<P>
+<FONT SIZE=4>where <I>a</I><B> </B>is the semi-major axis of the
+ellipsoid and <I>f </I>is the flattening of the ellipsoid.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The coordinates of a given point, P<SUB>i</SUB>,
+within this system are defined as:<BR>
+</FONT>
+<DL> 
+    <DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_11.gif"><SUB>i</SUB> = Geodetic Latitude </FONT>
+    <DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_9.gif"><SUB>i</SUB> = Geodetic Longitude
+    <DD> h<SUB>i</SUB>    =    Ellipsoidal Height 
+      (height above the ellipsoid, normal to the ellipsoidal surface)<BR>
+</FONT></DL>
+<P>
+<FONT SIZE=4>Since the ellipsoidal height is directly related
+to the orthometric height (elevation), this relationship will
+be described in the following section.<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5> </FONT></B>
+<P>
+<B><FONT SIZE=5>2.1  Orthometric Height<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The orthometric height, H, of a point, P, is defined
+as the geometric distance between the geoid and the point, measured
+along the plumb line through the point.  The orthometric height
+is based on the North American Vertical Datum of 1988 (NAVD88).
+ The orthometric height above the NAVD88 datum is determined by
+<BR>
+<DL><DD> H<SUB>NAVD88</SUB>  =  h  -  N<BR> </DL>
+<P> where  <BR>
+<DL> <DD> h  =   Ellipsoidal Height, as defined in the Geodetic 
+                    Coordinate system
+     <DD> N  =   Geoid Height, the separation between the Reference 
+                 Ellipsoid and the Geoid at point, P.   <BR>
+</DL>
+<P>
+The geoid height values are interpolated from a grid
+of regularly-spaced estimates using the GEOID93 Model based on GRS80
+(or WGS84, which is equivalent to NAD83, as defined below).  The
+actual computation is performed as an interpolation from a regularly-spaced
+grid of points.  The interpolation is accomplished by a locally fit biquadratic
+function.  The polynomial surface is fit to nine data points defining
+the area surrounding the point where the interpolation is to take
+place. <BR>
+<P>
+The NAVD88 orthometric heights are derived from heights
+above the DUSAF datum using the expression:<BR>
+<DL> <DD> H<SUB>NAVD88   </SUB> =    H<SUB>DUSAF</SUB>
+                                  +   dH<SUB>NAVD88<BR></SUB>
+</DL>
+<P>
+where dH<SUB>NAVD88 </SUB>= - 0.17308 m is the correction
+to tie the DUSAF datum to the NAVD88 datum.<BR> <BR>
+
+The relationship between the ellipsoidal height in
+the <B>GCS</B> system and the orthometric height above the DUSAF
+datum is given by:
+<DL> <DD> h    =    H<SUB>DUSAF</SUB>  +
+                            dH<SUB>NAVD88 </SUB> +  N<BR>
+</DL>
+</FONT><BR> <BR>
+<P>
+<B><FONT SIZE=5>3.   Geodetic Cartesian Coordinate System (GCCS)
+<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>GCCS</FONT></B><FONT SIZE=4> is a geocentric,
+right handed Cartesian coordinate system, with axes defined to
+be coincident with those of the Reference Ellipsoid GRS80, used
+for NAD83 datum.   It is used as an intermediate system by 
+which other systems are converted to and from the
+geodetic coordinate system </FONT><B><FONT SIZE=5>GCS</FONT></B>
+<FONT SIZE=4>. The orientation is defined as follows:<BR>
+<DL>
+  <DD>Z-axis   -   Parallel to the direction of the BTS-84 Terrestrial Pole 
+                   BTS-84 = Bureau International de l'Heure (BIH) Terrestrial 
+                   System of 1984 <BR>
+  <DD>X-axis   -   Parallel to the intersection of the BTS-84 Reference 
+                   Meridian and the plane of the equator of the BTS-84
+                   pole <BR>
+  <DD>Y-axis   -   Perpendicular to both X- and Z-axes, to complete the 
+                   right handed coordinate system.<BR>
+</DL> </FONT>
+<P>
+<FONT SIZE=4>In these respects, NAD83 is similar to the other
+modern global reference system, such as the World Geodetic System
+of 1984 (WGS84). The Global Positioning Systems (GPS) data are
+given in the WGS84 coordinate system.  In principle, the three
+dimensional coordinates of a single physical point should be the
+same in both systems; in practice, small differences are sometimes
+found.  For these coordinate system definitions and transformations,
+it can be assumed for all practical purposes that the NAD83 and
+WGS84 are entirely coincident.  There are standard formulas used
+for conversion between the <B>GCCS</B> coordinates (XYZ) and the
+geodetic coordinates (<IMG SRC="/align/images/mi0209_13.gif">) of the 
+<B>GCS</B>.  Transformation between the <B>GCCS</B> coordinates (XYZ) and 
+other Cartesian coordinate systems are also possible.<BR>
+<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>4.  Fermilab Site Coordinate System (FSCS)<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The</FONT><B><FONT SIZE=5> </FONT></B><FONT SIZE=4>Fermilab
+Site Coordinate System (FSCS)  is an <B>assimilated</B> DUSAF
+coordinate system.  Its origin and rotation axes are located at
+A0, preserving as nearly as possible the DUSAF coordinate system.
+<BR>
+<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>4.1   FSCS:XYZ<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>FSCS:XYZ</FONT></B><FONT SIZE=4> coordinate system
+corresponds to the lattice version of the <B>FSCS</B>.  This coordinate
+system was developed for the beamlines extracting from the Main
+Ring and the Tevatron at A0. It is a right-handed
+Cartesian coordinate system defined as follows:<BR>
+<DL>
+  <DD>Origin   -   A0
+  <DD>
+  <DD>Y-axis   -   NORTH axis rotated by Geodetic Azimuth from the 
+                   Geodetic North.  Positive along the extraction line
+                   towards the Neutrino Area
+  <DD>
+  <DD>X-axis   -  EAST axis.  Positive to the right and perpendicular to 
+                  the Y-axis
+  <DD>
+  <DD>Z-axis   -   Positive up and perpendicular to both X- and Y-axis.  
+                  It is aligned with the direction of the normal to the 
+                  ellipsoid at A0.
+</DL> </FONT> <BR>
+<P>
+<FONT SIZE=4>The parameters that define the <B>FSCS:XYZ</B> coordinate
+system origin at A0 are:<BR></FONT>
+<DL> <FONT SIZE=4>
+   <DD>X   =   100000.000 ft              (30480.06096 m)
+   <DD>Y   =   100000.000 ft              (30480.06096 m)
+   <DD>Z   =   720.000 ft              (    219.45644 m)<BR> </FONT>
+</DL> <P> <FONT SIZE=4>
+To relate the <B>FSCS:XYZ</B> system to the <B>GCS</B>
+system, the ellipsoidal height of A0 is given as:<BR>
+<DL> <DD> h<SUB>0</SUB>    =    186.49880 m <BR> </FONT></DL>
+<P> <FONT SIZE=4>
+The Geodetic Azimuth  defining the alignment of the
+Y-axis at A0 is given as:<BR>
+</FONT>
+<DL><DD> <FONT SIZE=4> <IMG SRC="/align/images/mi0209_10.gif"> = 38<SUP>o</SUP> 16' 48.01429"
+</FONT> </DL>
+<BR>
+<BR>
+<P>
+<B><FONT SIZE=5>4.2   FSCS:XYH <BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=4>FSCS:XYH</FONT></B><FONT SIZE=4> is a</FONT><FONT SIZE=5>
+</FONT><FONT SIZE=4>right-handed Cartesian coordinate system based
+on a Double Stereographic Projection and heights above
+the DUSAF datum.  At the origin A0,  the (XYH) coordinates in
+this system are identical to the (XYZ) coordinates in the <B>FSCS:XYZ</B></FONT><B><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>system.  Figure 1 shows the relationship
+between the <B>FSCS:XYZ </B>and<B> FSCS:XYH </B>systems. </FONT>
+<B><FONT SIZE=4>FSCS:XYH</FONT></B><FONT SIZE=4> is a two dimensional
+mapping plane whose coordinates (X,Y) or (E, N; Easting, Northing)
+are generated by a Double Stereographic Projection of geodetic
+coordinates (<IMG SRC="/align/images/mi0209_12.gif">), with the origin defined as the point on the ellipsoid
+corresponding to A0.  The Double Stereographic Projection is performed
+in two steps: namely, the projection from the reference ellipsoid
+to a conformal sphere and from the sphere to a plane.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The basic parameters for performing the Double Stereographic
+Projection are as follows:<BR>
+</FONT>
+<DL>
+  <DD> <FONT SIZE=4> <IMG SRC="/align/images/mi0209_11.gif"><SUB>0</SUB> = Geodetic Latitude of the origin 
+  <DD> <IMG SRC="/align/images/mi0209_9.gif"><SUB>0</SUB> = Geodetic Longitude of the origin
+  <DD> h<SUB>0</SUB>  =   Ellipsoidal Height of the origin
+  <DD> X<SUB>0</SUB>  =   False Easting at the origin
+  <DD> Y<SUB>0</SUB>  =   False Northing at the origin
+  <DD> F<SUB>0</SUB>  =   Scale factor at the origin 
+  <DD> <IMG SRC="/align/images/mi0209_10.gif">
+      =  Geodetic Azimuth of the Y-axis (North) at the origin<BR>
+</FONT> </DL>
+<P>
+<FONT SIZE=4>The geodetic coordinates (<IMG SRC="/align/images/mi0209_12.gif">),
+are projected into E
+and N using the double Stereographic projection, with the origin
+defined as the point on the ellipsoid corresponding to A0.  The
+E and N coordinates are rotated about the Z-axis by the angle <IMG SRC="/align/images/mi0209_10.gif">
+ (geodetic azimuth) to obtain the X and Y coordinates.  The X
+and Y coordinates are then re-scaled by the scale factor F<SUB>0</SUB>
+to give true scale at the origin at 720 ft above the DUSAF datum.
+ False coordinates are applied at the origin.<BR>
+<BR> <BR> <BR>
+</FONT>
+<P>
+<IMG SRC="/align/images/mi0209_2.gif">
+<BR> <BR> <BR> <FONT SIZE=4> The defined parameters of
+the Double Stereographic Projection for the <B>FSCS:XYH</B> are
+given below:<BR> <BR> </FONT>
+<FONT SIZE=4>Geodetic coordinates at the origin A0<BR> </FONT>
+<DL> 
+  <DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_11.gif"><SUB>0</SUB> = N  41<SUP>o</SUP> 50' 14.312704" 
+  <DD> <IMG SRC="/align/images/mi0209_9.gif"><SUB>0</SUB> = W 88<SUP>o</SUP> 15' 41.143123"
+  <DD> h<SUB>0</SUB>    =    186.49880 m    <BR>
+</FONT>
+</DL>
+<P>
+<FONT SIZE=4>The relationship between the ellipsoidal height h<SUB>0
+</SUB>in the <B>GCS</B> system and the orthometric height above
+the DUSAF datum is given by:</FONT>
+<DL> <DD> <FONT SIZE=4> h<SUB>0</SUB>    = H<SUB>720DUSAF</SUB> +
+                          dH<SUB>NAVD88 </SUB> +  N<SUB>0<BR> </SUB>
+          </FONT>
+</DL>
+<P>
+<FONT SIZE=4>where H<SUB>720DUSAF</SUB> corresponds to 720 feet
+above the DUSAF datum and dH<SUB>NAVD88  </SUB>= -0.17308 m is the 
+correction
+to tie the DUSAF datum to the NAVD88 datum.  N<SUB>0</SUB> is
+the geoid height (geoid93 model) at A0 and is equal to -32.78456
+m.  At any other point the ellipsoidal height is given as:<BR>
+</FONT>
+<DL>
+  <DD><FONT SIZE=4>     h<SUB> </SUB>    =    H<SUB>DUSAF </SUB>
+         +  dH<SUB>NAVD88 </SUB> +  N<SUB> <BR> </SUB></FONT>
+</DL>
+<P>
+<FONT SIZE=4>The orthometric height at A0 is given by:<BR>
+</FONT>
+<DL>
+  <DD><FONT SIZE=4> H<SUB>720NAVD88 </SUB>    =    h<SUB>0</SUB>
+                    -  N<SUB>0<BR> </SUB></FONT>
+</DL>
+<P>
+<FONT SIZE=4>The orthometric height at A0 in the <B>FSCS</B> =
+219.45644 - 0.17308 = 219.28336 m.  This relationship must be
+considered when transforming between the <B>FSCS</B> and other
+coordinate systems.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The orthometric heights are converted to heights
+above the DUSAF datum using the expression:<BR>
+</FONT>
+<DL>
+  <DD><FONT SIZE=4>  H<SUB>DUSAF</SUB>    =    H<SUB>NAVD88  </SUB>
+                     -   dH<SUB>NAVD88.<BR> </SUB></FONT>
+</DL>
+<P>
+<FONT SIZE=4>Geodetic Azimuth of the Y-axis of <B>FSCS</B> at
+the origin A0 is given by:<BR>
+</FONT>
+<DL><DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_10.gif"> = 38<SUP>o</SUP> 16' 48.01429"
+</FONT> </DL>
+<P>
+<FONT SIZE=4>False coordinates applied at the origin are given
+by:<BR>
+<DL> 
+  <DD> X<SUB>0</SUB>   =   100000.000 ft      (30480.06096 m)     
+      ;  False Easting at A0
+  <DD> Y<SUB>0</SUB>   =   100000.000 ft      (30480.06096 m)     
+      ;  False Northing at A0
+</DL> </FONT>
+<P> <FONT SIZE=4>
+At A0, the scale factor corresponding to the height
+of 720 ft above the DUSAF datum (H<SUB>720DUSAF</SUB>) is given
+by:<BR>
+<DL> <DD> <FONT SIZE=4>         F<SUB>0</SUB>   =   1.000029251309483  
+</DL> <BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>5.   Local Tunnel Coordinate System (LTCS)<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The</FONT><B><FONT SIZE=5> </FONT></B><FONT SIZE=4>Local
+Tunnel Coordinate System (LTCS)</FONT><B><FONT SIZE=5> </FONT></B><FONT SIZE=4>was
+established to meet the stringent accuracy requirements of the
+FMI project. Its origin and rotation axes are located at a point,
+CFMI, which lies at the centroid of the FMI Plane and whose (X,Y)
+coordinates are in the <B>FSCS</B>.<B>   </B>The coordinates in
+the LTCS are defined in the FMI Plane.  The FMI Plane is that
+plane defined by the nominal designed orthometric heights of the
+cell boundaries 308, 522, and 620.  The coordinates of the cell
+boundaries 308, 522, and 620 in the FMI Plane (and other coordinate
+systems) are given in Table A1 in Appendix A.  To convert the
+LTCS coordinates to global geodetic coordinates the FMI Plane
+must be tilted by a small angle to a projection plane<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>5.1  LTCS:XYZ<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The <B>LTCS:XYZ</B> coordinate system corresponds
+to the lattice version of the <B>LTCS</B>.  The X-Y plane of the
+<B>LTCS</B>  is coincident with the FMI plane. It is a right-handed
+Cartesian coordinate system defined as follows:<BR>
+<DL> 
+  <DD> Origin   -   CFMI  (Centroid of the FMI Plane)
+  <DD>
+  <DD> Y-axis   -   NORTH axis rotated by Geodetic Azimuth from the
+                    Geodetic North.
+  <DD>
+  <DD> X-axis   -   EAST axis.  Positive to the right and perpendicular 
+                    to the Y-axis.
+  <DD>
+  <DD> Z-axis   -   Positive up at CFMI and perpendicular to both X- and
+                    Y-axes.<BR>
+</DL> </FONT>
+<P>
+<FONT SIZE=4>The parameters that define the <B>LTCS:XYZ</B> coordinate
+system origin at CFMI are:<BR>
+</FONT>
+<DL> <FONT SIZE=4>   
+  <DD>X  =  100,661.49800 ft           (30681.68595 m)
+  <DD>Y  =   95,856.98802 ft           (29217.26838 m)
+  <DD>Z  =  715.664 ft            (  218.13491 m)<BR>
+     </FONT>
+</DL>
+<P>
+<FONT SIZE=4>To relate the <B>LTCS:XYZ</B> system to the <B>GCS</B>
+system, the ellipsoidal height of CFMI is given as:<BR>
+<DL> <DD> h<SUB>0</SUB>    =    185.19035 m    <BR> </DL>
+<P>
+<FONT SIZE=4>The Geodetic Azimuth  defining the alignment of the
+Y-axis at CFMI is given as:<BR></FONT>
+<DL><DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_10.gif"> = 38<SUP>o</SUP> 16' 29.97831"
+</FONT> </DL>
+<BR> <BR> <BR>
+<P>
+<B><FONT SIZE=5>5.2  DSP:XYH <BR> </FONT></B>
+<P>
+<B><FONT SIZE=4>DSP:XYH </FONT></B><FONT SIZE=4>is a right-handed
+Cartesian coordinate system based on Double Stereographic Projection 
+and heights above the DUSAF datum. The (XYH) coordinates in this
+system are identical to the (XYZ) coordinates in the 
+<B>LTCS:XYZ </B> system at the origin CFMI. The relationship
+between the <B>LTCS:XYZ </B> 
+and <B>DSP:XYH</B> systems is shown in Figure 2.</FONT>
+<BR> <BR> <BR> <BR> 
+<P>
+<IMG SRC="/align/images/mi0209_3.gif">
+<BR> <BR> <BR>
+<P>
+<B><FONT SIZE=4>DSP:XYH</FONT></B><FONT SIZE=4> is a two dimensional
+mapping projection plane whose coordinates (X,Y) or (E, N; Easting,
+Northing) are generated by a Double Stereographic Projection of
+geodetic coordinates (<IMG SRC="/align/images/mi0209_12.gif">), with the origin defined as the point
+on the ellipsoid corresponding to CFMI.  This projection plane
+is tilted from the <B>LTCS:XYH</B> FMI plane by an angle <IMG SRC="/align/images/mi0209_14.gif">,
+see Figure 2. The basic parameters of the projection are the same as those
+of <B>FSCS:XYH</B>. The parameters for FMI have been selected
+to minimize the effect of the point scale factor for all points
+around the FMI tunnel. The parameters of the projection are given
+below.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The geodetic coordinates (<IMG SRC="/align/images/mi0209_12.gif">)are projected into E
+and N using the double Stereographic projection, with the origin
+defined as the point on the ellipsoid corresponding to CFMI. 
+The E and N coordinates are rotated about the Z-axis by the angle
+<IMG SRC="/align/images/mi0209_10.gif"> (geodetic azimuth) to obtain the X and Y coordinates.  The X
+and Y coordinates are then re-scaled by the scale factor F<SUB>0</SUB>
+to give true scale at the origin at 715.664 ft above DUSAF datum.
+ False coordinates are applied at the origin.
+The defined parameters of the Double Stereographic
+Projection for the <B>DSP:XYH</B> are given below:<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Geodetic coordinates at the origin at CFMI (Centroid
+of the FMI Plane):<BR> </FONT>
+<DL>
+  <DD> <FONT SIZE=4><IMG SRC="/align/images/mi0209_11.gif"><SUB>0</SUB> = N  41<SUP>o</SUP> 49' 38.134927" 
+  <DD> <IMG SRC="/align/images/mi0209_9.gif"><SUB>0</SUB> = W 88<SUP>o</SUP> 16' 08.184535"
+  <DD> h<SUB>0</SUB>    =    185.19035 m      <BR> </FONT>
+</DL>
+<P>
+<FONT SIZE=4>The ellipsoidal height in the <B>GCS</B> system,
+h, is converted to an orthometric height above the DUSAF datum
+using the same definitions and parameters as those given for the
+<B>FSCS:XYH</B> coordinate height.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Geodetic Azimuth of the Y-axis of <B>LTCS</B> at
+the origin CFMI is given by:<BR>
+<DL> <DD> <IMG SRC="/align/images/mi0209_10.gif">
+    = 38<SUP>o</SUP> 16' 29.97831"<BR> </FONT> </DL>
+<P>
+<FONT SIZE=4>False coordinates applied at the origin are given
+by:<BR>
+</FONT>
+<FONT SIZE=4>
+<DL> 
+  <DD> X  =  100,661.49800 ft     (30681.68595 m)  ;False Easting at CFMI
+  <DD> Y  =   95,856.98802 ft     (29217.26838 m)  ;False Northing at CFMI
+</DL>
+<BR> 
+At CFMI , the scale factor corresponding to the height
+of CFMI above the DUSAF datum (H<SUB>CFMIDUSAF</SUB>) is given
+by:<BR>
+<DL>  <DD> F<SUB>0</SUB>   =   1.000029046120306 </DL>
+</FONT>
+<BR> <BR> <BR> <BR>
+<P>
+<B><FONT SIZE=5>5.3  LTCS:XYH<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The actual working plane of reference for the FMI
+tunnel is the FMI Plane. Therefore the coordinates in the <B>DSP:XYH</B>
+projection plane must be related to the FMI Plane.  The <B>LTCS:XYH</B>
+coordinates in the Lattice Program (see Appendix E) refers to
+the <B>LTCS:XYH</B> coordinates in the FMI Plane. The relationship
+between the <B>LTCS:XYZ,</B></FONT><B><FONT SIZE=5> </FONT><FONT SIZE=4>DSP:XYH</FONT><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>and</FONT><B><FONT SIZE=5> </FONT><FONT SIZE=4>FSCS:XYH</FONT><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>systems is shown in Figure 2.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>To rotate the coordinates on the <B>DSP:XYH</B> projection
+plane to the FMI Plane a seven-parameter transformation is performed
+using the following expression:<BR>
+</FONT>
+<DL> <FONT SIZE=4>
+  <DD> <U><B>X<SUB> </SUB></B></U><SUB>LTCS:XYH</SUB>
+ =  <U><B>X</B></U><SUB>Translation</SUB>   +   S * <B>R</B>(<IMG SRC="/align/images/mi0209_14.gif"><SUB>X</SUB>,<IMG SRC="/align/images/mi0209_14.gif"><SUB>Y</SUB>,<IMG SRC="/align/images/mi0209_14.gif"><SUB>H</SUB>)
+* <U><B>X</B></U><SUB>DSP:XYH</SUB></FONT>
+</DL>
+<P>
+<FONT SIZE=4>where <U><B>X</B></U><SUB>LTCS:XYH </SUB>is the vector
+containing the (XYH) coordinates in the FMI Plane; <U><B>X</B></U><SUB>DSP:XYH
+</SUB>is the vector containing the (XYH) coordinates in the projection
+plane; <U><B>X</B></U><SUB>Translation </SUB>is the vector containing
+the translation parameters in XYH; <B>R</B>(<IMG SRC="/align/images/mi0209_14.gif"><SUB>X</SUB>,<IMG SRC="/align/images/mi0209_14.gif"><SUB>Y</SUB>,<IMG SRC="/align/images/mi0209_14.gif"><SUB>H</SUB>)
+is the rotation matrix; and S is the scale.</FONT>
+<P>
+<FONT SIZE=5> </FONT>
+<P>
+<FONT SIZE=4>The transformation parameters from the <B>DSP:XYH</B>
+projection plane to the <B>LTCS:XYH</B> FMI Plane are defined
+as follows:<BR>
+</FONT>
+<DL>
+  <DD> <FONT SIZE=4> Scale                  =    1.00000 Fixed </FONT>
+  <DD> <FONT SIZE=4> X Rotation, <IMG SRC="/align/images/mi0209_14.gif"><SUB>X
+   </SUB> =    2.07594   arcsec </FONT>
+  <DD> <FONT SIZE=4> Y Rotation, <IMG SRC="/align/images/mi0209_14.gif"><SUB>Y
+   </SUB> =   -0.74326   arcsec </FONT>
+  <DD> <FONT SIZE=4> H Rotation, <IMG SRC="/align/images/mi0209_14.gif"><SUB>H</SUB>
+   =    0.00000   arcsec           Fixed </FONT>
+  <DD><FONT SIZE=4> X Translation      =   -0.00079   m </FONT>
+  <DD><FONT SIZE=4> Y Translation      =   -0.00220   m </FONT>
+  <DD><FONT SIZE=4> H Translation      =    0.38636   m </FONT>
+</DL>
+<BR> <BR> <BR> <BR>
+<P>
+<B><FONT SIZE=5>6.   Local Geodetic System (LGS)</FONT></B><FONT SIZE=4>
+<BR>
+</FONT>
+<P>
+<FONT SIZE=4>A left handed Cartesian coordinate system, defined
+to be topocentric about a point, P, i.e., a coordinate system
+with the origin at a point,  P, of known geodetic coordinates.
+The left-handed coordinate system is defined as follows:<BR>
+<DL>
+   <DD>h-axis   -   Outward ellipsoid normal in the <B>GCS</B> system 
+                    passing through point P.
+   <DD>
+   <DD>n-axis   -   Perpendicular to the h-axis, and directed towards 
+                    Geodetic North (i.e., lies in the plane defined by the
+                    Geodetic Cartesian Z-axis and point P). 
+   <DD>
+   <DD>e-axis   -   Perpendicular to both the n- and h-axes, forming a 
+                    left handed coordinate system with the positive 
+                    direction to the East.
+</DL>
+</FONT><BR> <P>
+<FONT SIZE=4>It should be noted that there exists an infinite
+number of local geodetic coordinate systems, dependent upon the
+choice of point P.<BR>
+<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>7.   Oblique Mercator Projection System (OMPS)
+<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The Global Positioning Systems (GPS) data collected
+at the Fermilab are in the geodetic coordinate system.  Present
+software available transform these data into a conformal mapping
+plane using the Oblique Mercator Projection and the same basic
+parameters as defined for the Double Stereographic Projection.
+<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The Oblique Mercator Projection Coordinate System
+(<B>OMPS</B>) is a two dimensional mapping plane whose coordinates
+(X,Y) or (E, N), are generated by a Oblique Mercator Projection
+of Geodetic Latitude and Longitude (<IMG SRC="/align/images/mi0209_12.gif">), in the <B>GCS</B> system.
+ <BR>
+</FONT>
+<P>
+<FONT SIZE=4>The defined parameters of the Oblique Mercator Projection
+for the Fermilab site are given below:<BR> 
+<DL>
+   <DT> Geodetic Origin at A0 
+    <DD> <IMG SRC="/align/images/mi0209_11.gif"><SUB>0</SUB> = N 41<SUP>o</SUP> 50' 14.312704" 
+    <DD> <IMG SRC="/align/images/mi0209_9.gif"><SUB>0</SUB> = W 88<SUP>o</SUP> 15' 41.143123"
+    <DD>   h<SUB>0</SUB>    =    186.49880 m   <BR> </FONT>
+</DL> 
+<P>
+<FONT SIZE=4>The ellipsoidal height in the <B>GCS</B> system,
+h, is converted to an orthometric height above the DUSAF datum
+using the same definitions and parameters as those given for the
+<B>FSCS:XYH</B> coordinate height.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Geodetic Azimuth of the Central Meridian (center
+line) of the projection at the origin A0 is given by:<BR> 
+<DL><DD> <IMG SRC="/align/images/mi0209_10.gif">
+   =  38<SUP>o</SUP> 16' 48.01429"  </FONT> </DL>
+<P>
+<FONT SIZE=4>False coordinates applied at the origin are given
+by:<BR>
+<DL> 
+  <DD> <FONT SIZE=4> X<SUB>0</SUB> = 100000.000 ft (30480.06096 m)  
+        ;  False Easting at A0  </FONT>
+  <DD><FONT SIZE=4>  Y<SUB>0</SUB> = 100000.000 ft (30480.06096 m)   
+        ;  False Northing at A0 </FONT>
+</DL>
+<P>
+<FONT SIZE=4>At A0, the scale factor corresponding to the height
+of 720 ft above the DUSAF datum (H<SUB>720DUSAF</SUB>) is given
+by:<BR>
+</FONT>
+<DL> <DD> <FONT SIZE=4> F<SUB>0</SUB> = 1.000029251309483 </FONT> </DL> 
+<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>8.   Illinois State Plane System (ISPS)<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>It might be necessary sometime to relate the FSCS
+to an outside monument coordinates defined by the Illinois State
+Plane Coordinate System (<B>ISPS</B>).  The Illinois State Plane
+Coordinate System is a two dimensional mapping plane whose coordinates
+(x, y) or (E, N), are generated by a 1983 State Plane Transverse
+Mercator Projection of Geodetic Latitude and Longitude 
+(<IMG SRC="/align/images/mi0209_12.gif">) in
+the <B>GCS</B> system. The zone used in the vicinity of  Fermilab
+site is the Illinois East Zone #1201 as given by the National
+Geodetic Survey (Stem, 1989).<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The parameters of the projection are given by:<BR>
+</FONT>
+<DL>
+   <DT><FONT SIZE=4> Grid Origin:
+   <DD><IMG SRC="/align/images/mi0209_11.gif"><SUB>0</SUB> = N 36<SUP>o</SUP> 40' 00.00000"
+   <DD><IMG SRC="/align/images/mi0209_9.gif"><SUB>0</SUB> = W 88<SUP>o</SUP> 20' 00.00000" </FONT>
+</DL> <BR>
+<P>
+<FONT SIZE=4>False coordinates applied at the origin are given
+by:<BR>
+</FONT>
+<DL> 
+  <DD> <FONT SIZE=4>        E<SUB>0</SUB>    =   300000.0000 m      
+          ;  False Easting at the grid origin</FONT>
+  <DD> <FONT SIZE=4>        N<SUB>0</SUB>    =            0.0000 m  
+              ;  False Northing at the grid origin<BR> </FONT>
+</DL>
+<P>
+<FONT SIZE=4>Central meridian scale factor at the grid origin
+<BR>
+</FONT>
+<DL> <DD> <FONT SIZE=4>  F<SUB>0</SUB>    =   0.9999750000 </FONT> </DL> 
+<BR> <BR> <BR>
+<P>
+<B><FONT SIZE=5>9.   </FONT><FONT SIZE=4>Acknowledgment<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>Thanks to all those who made this paper possible.
+  The geodetic committee comprising of the author, Virgil Bocean,
+and George Wojcik defined and ratified the coordinate systems
+and projection parameters. Virgil Bocean computed the projection
+parameters which were also recomputed by the author for verification.
+Virgil Bocean also wrote Appendix A.  Terry Sager,  Stu Lakanen,
+John Greenwood, and the committee members reviewed this documentation.
+ Helpful discussions with all the above mentioned are also gratefully
+acknowledged.
+<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>References</FONT></B>
+<P>
+<FONT SIZE=4>Leick, A., (1990).  GPS Satellite Surveying, John
+Wiley &amp; Sons, Inc., New York.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Schwarz, C. R., (1989).  North American Datum of
+1983, NOAA Professional Paper NOS 2, Ed. Charles R. Schwarz, National
+Geodetic Survey Rockville, MD.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Snyder, J. P., (1987).  Map Projections  -  A Working
+Manual.  U.S. Geological Survey Professional Paper 1395.  U.S.
+Government Printing Office, Washington D.C.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Stem, J. E., (1989) .  State Plane Coordinates System
+of 1983.  NOAA Manual NOS NGS.  National Geodetic Information
+Branch, NOAA, Rockville, MD.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The Fermilab Main Injector, Technical Design Handbook.
+Fermilab Main Injector Department, Fermi National Accelerator
+Laboratory, August 1994.</FONT>
+<P>
+<FONT SIZE=4>The FMI Collaboration Internal Communication.  Fermi
+National Accelerator Laboratory, December 12, 1995.</FONT>
+<P>
+<FONT SIZE=4>Thompson, D.B., Mepham, M.P. and R.R. Steves, (1977).
+ The Stereographic Double Projection.  The Department of Surveying
+and Engineering, University of New Brunswick, Fredericton, N.B.,
+Canada.  Technical Report No. 46.</FONT>
+<P>
+<FONT SIZE=4>Vanicek, P., and Krakiwsky, E. J., (1982).  Geodesy:
+The Concepts, North-Holland Publishing Company.<BR>
+<BR>
+<BR>
+<BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>Appendix A<BR>
+<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=5>Spatial Definition of the FMI Plane<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The objective of this section is to summarize the
+definition of the plane that contains the Fermilab Main Injector
+(FMI) with respect to the existing Tevatron and the local Earth
+parameters. The details of the FMI location are determined by
+the requirements for transfers of both protons and antiprotons
+into the Tevatron.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The FMI is situated southwest of the Tevatron Ring.
+ The MI-60 straight section is parallel to the Tevatron F0 straight
+section, and has the FSCS Azimuth = 301<SUP>o</SUP> 13' 53.9".
+The two beamlines are separated by 11.823 m horizontally. The
+design location of the MI-60 reference point is 13.222 m downstream
+from the F0 TeV point, and offset from the TeV straight section
+by 11.823 m (FMI Technical Design Handbook, 1994).<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The FMI is designed to be a planar machine. The final
+vertical definition of the FMI plane begins by specifying that
+cell boundaries 522 and 620 are designed at the nominal orthometric
+height of 218.15314 m (DUSAF Datum), and allow the initial constraint
+on delta elevation between the FMI and TeV to vary (FMI Collaboration
+Internal Communication, 1995). Based on the latest (1995) as found
+elevation of the Tevatron F0 straight section quads string (220.48886
+m DUSAF Datum), and the nominal FMI design elevation (218.15314
+m DUSAF Datum), the FMI plane is located 2.33572 m below the Tevatron
+beam.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Additionally, to account for the relative tilt of
+the FMI and the Tevatron planes,  and also for fully constraining
+the FMI plane in the geodetic space with respect to the local
+Earth parameters, it is further specified that the cell boundaries
+522, 620, and 308 are placed at the same nominal design orthometric
+height of 218.15314 m (DUSAF Datum). The coordinates of the cell
+boundaries 308, 522, and 620 in the FMI Plane (and other coordinate
+systems) are given in Table A1.<BR>
+<BR>
+</FONT>
+<P>
+<IMG SRC="/align/images/mi0209_4.gif">
+<BR> <BR> <BR>
+<P>
+<B><FONT SIZE=5>Appendix B<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=5>Notes on Scale Compatibilities<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>S<SUB>c</SUB>                   Distance between
+two points inverted from the coordinates.</FONT>
+<P>
+<FONT SIZE=4>S<SUB>a</SUB>                   Actual distance between
+two points as measured in reality.</FONT>
+<P>
+<B><FONT SIZE=4>GCCS</FONT></B><FONT SIZE=4>            This is
+a Cartesian coordinate system, which does not involve the use
+of a projection. S<SUB>c</SUB> and S<SUB>a</SUB></FONT><B><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>will be equal.</FONT>
+<P>
+<B><FONT SIZE=4>FSCS:XYZ</FONT></B><FONT SIZE=4>    This is a
+Cartesian coordinate system. S<SUB>c</SUB> and S<SUB>a</SUB></FONT><B><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>will be equal.</FONT>
+<P>
+<B><FONT SIZE=4>FSCS:XYH</FONT></B><FONT SIZE=4>   This is a projection
+coordinate system that has been re-scaled by the appropriate scale
+factor F to be compatible with the 720 ft above DUSAF datum. 
+Therefore a two dimensional distance S<SUB>a </SUB>measured at
+the 720 ft height is related to S<SUB>c </SUB>by the expression:</FONT>
+<DL> 
+ <DD> <FONT SIZE=4> S<SUB>c </SUB> = k<B><SUP>.</SUP></B>S<SUB>a</SUB></FONT>
+</DL>
+<P>
+<FONT SIZE=4>where the projection scale factor k is equal to 1
+at the origin.</FONT>
+<P>
+<FONT SIZE=4>Away from the 720 ft above DUSAF datum an additional
+scaling is required:</FONT>
+<DL>
+ <DD> <FONT SIZE=4>  S<SUB>c </SUB> =  k<B><SUP>.<IMG SRC="/align/images/mi0209_5.gif">.
+      </SUP></B>S<SUB>a</SUB> </FONT>
+</DL>
+<P>
+<FONT SIZE=4>where F<SUB>h </SUB>is the height scale factor at
+the measurement height, and F<SUB>720 </SUB>is the standard  height
+scale factor (= 1.000029251309483).</FONT>
+<P>
+<B><FONT SIZE=4>LTCS:XYZ</FONT></B><FONT SIZE=4>    This is a
+Cartesian coordinate system. S<SUB>c</SUB> and S<SUB>a</SUB></FONT><B><FONT SIZE=5>
+</FONT></B><FONT SIZE=4>will be equal.</FONT>
+<P>
+<B><FONT SIZE=4>LTCS:XYH</FONT></B><FONT SIZE=4>    This is a
+projection coordinate system that has been</FONT>
+<P>
+<FONT SIZE=4> re-scaled by the appropriate scale factor F to be
+compatible with the 715.664 ft above DUSAF datum.  In a similar
+definition to that used for </FONT>
+<P>
+<FONT SIZE=4>the <B>FSCS:XYH</B>, the relationship between the
+two dimensional distance S<SUB>c</SUB> and S<SUB>a </SUB>is: </FONT>
+<DL>
+  <DD> <FONT SIZE=4> 
+    S<SUB>c </SUB> =  k<B><SUP>.<IMG SRC="/align/images/mi0209_6.gif">.</SUP></B>S<SUB>a</SUB>
+       </FONT>
+</DL>
+<P>
+<FONT SIZE=4>where k is the projection scale factor, equal to
+1 at the origin CFMI.</FONT>
+<P>
+<FONT SIZE=4>F<SUB>h </SUB>is the height scale factor at the measurement
+height, and F<SUB>CFMI </SUB>is the standard  height scale factor
+(= 1.000029046120306).</FONT>
+<P>
+<B><FONT SIZE=4>LGS</FONT><FONT SIZE=5> </FONT></B><FONT SIZE=4>
+      This is a Cartesian coordinate system. S<SUB>c</SUB> and
+S<SUB>a</SUB></FONT><B><FONT SIZE=5> </FONT></B><FONT SIZE=4>will
+be equal.</FONT>
+<P>
+<B><FONT SIZE=4>OMPS</FONT></B><FONT SIZE=4>     This is a projection
+coordinate system that has been re-scaled by the appropriate scale
+factor F<SUB>0</SUB> (= 1.000029251309483) to be compatible with
+the 720 ft above DUSAF datum. </FONT>
+<P>
+<FONT SIZE=4>In a similar definition to that used for the <B>FSCS:XYH</B>,
+the relationship between the two dimensional distance S<SUB>c</SUB>
+and S<SUB>a </SUB>is:</FONT>
+<DL> <DD> <FONT SIZE=4> 
+  S<SUB>c </SUB> =  k<B><SUP>.<IMG SRC="/align/images/mi0209_7.gif">.</SUP></B>S<SUB>a</SUB>
+          </FONT>
+</DL>
+<P>
+<FONT SIZE=4>where k is the projection scale factor, equal to
+1 along the center line of the projection (azimuth ); F<SUB>h
+</SUB>is the height scale factor at the measurement height; and
+F<SUB>720 </SUB>is the standard height scale factor at the DUSAF
+datum.</FONT>
+<P>
+<B><FONT SIZE=4>ISPS</FONT></B><FONT SIZE=4>     This is a projection
+coordinate system that has not been re-scaled by to any datum.
+</FONT>
+<P>
+<FONT SIZE=4>The relationship between the two dimensional distance
+S<SUB>c</SUB> and S<SUB>a </SUB>is:</FONT>
+<DL> <DD> <FONT SIZE=4>
+ S<SUB>c </SUB> =  k<B><SUP>.<IMG SRC="/align/images/mi0209_8.gif">.</SUP></B>S<SUB>a</SUB>
+          </FONT>
+</DL>
+<P>
+<FONT SIZE=4>where k is the projection scale factor, equal to
+0.999975 along the central meridian line of the projection (azimuth
+); F<SUB>h </SUB>is the height scale factor at the measurement
+height, equal to 1 on the ellipsoid.<BR>
+<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>Appendix C<BR>
+<BR> 
+</FONT></B>
+<P>
+<B><FONT SIZE=5>Notes on Precision and Accuracy<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>The precision of the conversion from one coordinate
+system to another has been specified by the SAG group to be  1x10<SUP>-7
+</SUP>m.  Therefore in converting from one system to another and
+back again, the coordinates will be compatible to this level.
+<BR>
+</FONT>
+<P>
+<FONT SIZE=4>In terms of accuracy, it should be noted that a coordinate
+conversion cannot compensate for the inaccuracies in the original
+data. Therefore in converting to the <B>ISPS</B>, for example,
+the compatibility with other data can only be as good as the survey
+that defined the geodetic coordinates of the point A0.<BR>
+<BR> <BR> <BR> 
+</FONT>
+<P>
+<B><FONT SIZE=5>Appendix D<BR>
+<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=5>Double Stereographic Projection<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>Traditional geodetic computations are carried out
+on the surface of a biaxial ellipsoid (ellipsoid of revolution),
+which is the mathematical figure that is the most convenient representation
+of the size and shape of the earth.  To perform the same computations
+on a plane, it is necessary to map the ellipsoidal information
+(points, angles, lines, etc.) on a plane mapping surface. A convenient
+mapping for geodetic purposes is a conformal mapping in which
+ellipsoidal angles are preserved on the mapping plane.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The Stereographic projection of an ellipsoid of revolution
+can be approached by a double projection (hence double Stereographic
+projection), in which the biaxial ellipsoid is conformally mapped
+to a sphere, which is then "stereographically" projected
+to a plane.</FONT>
+<P>
+<FONT SIZE=4>The Stereographic projection of a sphere to a plane
+has the following properties (Thompson, et. al., 1977):<BR>
+</FONT>
+<P>
+<FONT SIZE=4>(i)   It is a perspective projection, the features
+being projected from the sphere onto the plane from a common point 
+of perspective. This perspective center lays on the sphere, and is the
+antipodal point of the point at which the plane is tangent to the sphere.
+</FONT>
+<P>
+<FONT SIZE=4>(ii)   It is an azimuthal projection, characterized
+by the fact that the direction, or azimuth, from the center of the 
+projection to every other point on the map is shown correctly.</FONT>
+<P>
+<FONT SIZE=4>(iii)  It is a conformal projection, the relative
+local angles about every point on the map are shown correctly (angles not
+distorted).</FONT>
+<P>
+<FONT SIZE=4>(iv)  Scale increases away radially from the origin
+(center) of the projection.</FONT>
+<P>
+<FONT SIZE=4>(v)   Great circles are projected as circles.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The Stereographic projection of a sphere to a plane
+is the only true perspective projection of any kind that is also 
+conformal. There is no mapping of an ellipsoid to a plane that possesses
+all the characteristics of the Stereographic mapping of a sphere
+to a plane.  For the conformal mapping of the biaxial ellipsoid
+on a plane, the ellipsoidal data is first mapped conformally on
+to a sphere.  Then, a second conformal mapping of the spherical
+data to the plane completes the double Stereographic projection.
+ The result is a conformal mapping of ellipsoidal data on a plane,
+since the two mappings are conformal.<BR>
+</FONT>
+<P>
+<FONT SIZE=4>The Stereographic projection is the most widely used
+azimuthal projection, mainly used for portraying large areas of
+similar extent in all directions.  The Stereographic projection
+is very suitable when areas of interest  are circularly shaped,
+like the FMI area. Since all the surveying activities will occur
+along the path of the ring, choosing the origin of the projection
+at the centroid of the FMI Plane has as a result that the scale
+along the tunnel will be standardized to the same scale factor.
+The differences created by the fact that the FMI shape is not
+perfectly circular is very insignificant.<BR>
+<BR> <BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=5>Appendix E<BR>
+</FONT></B>
+<P>
+<B><FONT SIZE=5>Lattice Program Documentation and Source Codes
+<BR>
+</FONT></B>
+<P>
+<CENTER><B><FONT SIZE=5>ERRATA</FONT><FONT SIZE=5> </FONT></B></CENTER>
+<P>
+<CENTER><B><FONT SIZE=4>  LATTICE PROGRAM DOCUMENTATION<BR>
+<BR>
+</FONT></B></CENTER>
+<P>
+<B><FONT SIZE=4>On page 3,<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>Geodetice Cartesian Coordinate System<BR>
+</FONT>
+<P>
+<FONT SIZE=4>should read<BR>
+</FONT>
+<P>
+<FONT SIZE=4>Geodetic Cartesian Coordinate System<BR>
+<BR> <BR>
+</FONT>
+<P>
+<B><FONT SIZE=4>On page 6,
+</FONT></B>
+<PRE> <B> <FONT SIZE=4>      
+         X<SUB>GC</SUB>                      X<SUB>GC</SUB>
+   X<SUB>GC</SUB> = Y<SUB>GC</SUB>   should read   X<SUB>GC</SUB> = Y<SUB>GC</SUB>
+         Y<SUB>GC</SUB>                      Z<SUB>GC</SUB>
+</FONT> </B> </PRE> <BR>
+
+<PRE> <B> <FONT SIZE=4>              
+         X<SUB>LG</SUB>                      X<SUB>LG</SUB>
+   X<SUB>LG</SUB> = Y<SUB>LG</SUB>   should read   X<SUB>LG</SUB> = Y<SUB>LG</SUB>
+         Y<SUB>LG</SUB>                      Z<SUB>LG</SUB>
+</FONT> </B> </PRE>
+<P>
+<B><FONT SIZE=4>On page 8,<BR>
+</FONT></B>
+<PRE> <B> <FONT SIZE=4>
+          X<SUB>FXYZ</SUB>                        X<SUB>FXYZ</SUB>
+   X<SUB>FXYZ</SUB> = Y<SUB>FXYZ</SUB>   should read   X<SUB>FXYZ</SUB> = Y<SUB>FXYZ</SUB>
+          Y<SUB>FXYZ</SUB>                        Z<SUB>FXYZ</SUB>
+</FONT> </B> </PRE> <BR>
+<PRE> <B> <FONT SIZE=4>
+        X<SUB>LG</SUB>                        X<SUB>LG</SUB>
+   X<SUB>LG</SUB> = Y<SUB>LG</SUB>   should read   X<SUB>LG</SUB> = Y<SUB>LG</SUB>
+        Y<SUB>LG</SUB>                        Z<SUB>LG</SUB>
+</FONT> </B> </PRE> 
+<BR> <BR> 
+<P>
+<B><FONT SIZE=4>On page 8,<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4>a  =  Geodetic Azimuth of the Fermilab (XYZ) Origin
+<BR>
+</FONT>
+<P>
+<FONT SIZE=4>should read<BR>
+<P>
+<IMG SRC="/align/images/mi0209_10.gif"> = Geodetic Azimuth
+of the Fermilab (XYZ) Origin<BR>
+</FONT>
+<P>
+<B><FONT SIZE=4>On page 12,<BR>
+</FONT></B>
+<P>
+<FONT SIZE=4><IMG SRC="/align/images/mi0209_10.gif"> = Geodetic Azimuth
+of the Fermilab (XYZ) Origin<BR>
+</FONT>
+</BODY>
+</HTML>

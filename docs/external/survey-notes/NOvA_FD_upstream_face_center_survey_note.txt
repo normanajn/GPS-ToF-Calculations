@@ -1,0 +1,26 @@
+Source: Fermilab Survey, Alignment and Geodesy group (Virgil Bocean), note addressed to Luke
+(Corwin), forwarded by A. Norman on 2026-11-05.  Transcribed verbatim from the email.
+
+Hi Luke,
+
+Please find attached the NOvA Far Detector Upstream Face Center coordinates in the beamline system with the following axes orientation:
+
+Origin = MCZERO
+X = positive beam right (Eastward) when looking downstream beamline
+Y (stationing) = positive downstream beamline
+Z = positive upward when looking downstream beamline (and orthogonal to the beam)
+
+                                                   X [m]                     Y [m]                   Z [m]
+NOvA_FD_ UPST_Face_CTR     -11037.455993      810422.323775      -4162.644422
+
+The point was computed as it follows:
+-          7.5" from where the midline of the rails intersects the wall, to account for the metal bookend between the wall and the detector
+-          Vertically, starting from the measured highest floor point which had an elevation in the national NAVD88 vertical datum of H=1181.8175 ft
+(point used for calculating shims thickness under the supporting pallets throughout the Detector Hall), we accounted for 23.25" the height of
+the pallet and the 304.21" half size of the detector plane; The resulted elevation for the center of the detector upstream face is H = 1209.1058 ft.
+
+Please let me know if more detail and/or information are needed.
+
+Thanks.
+
+Virgil

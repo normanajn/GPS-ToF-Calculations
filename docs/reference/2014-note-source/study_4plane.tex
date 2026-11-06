@@ -1,0 +1,87 @@
+\section{Study - 4 Planes}
+
+In the first study with the model, a geometry that only extended 4 planes deep was used.  This geometry was intended to verify the localized effect of staggering the planes and quantify the effects in terms of missed detector cells and total active path lengths.  The full module width was retained to minimize edge effects, and track trajectories were thrown at the model as describe previously.
+
+The simulations were run with opening angle distributions extending to maximum angles of 15, 30 and 45 degrees to scan the available parameter space for detector crack effects in the forward direction, and other crack effects at larger angles dues to aliasing affect.
+
+In a sample of 500,000 tracks with opening angles no greater than 5 degrees, 1309 tracks resulted in no detector cell registering a valid crossing in the unstaggered geometry.  In stagger geometries with 1/3, 1/2 and 2/3 cell width patterns, 0 tracks resulted in no detector cell registering a valid crossing in the staggered geometry.  These results were filtered to only include tracks that did not exist the detector volume prematurely.  The same analysis was performed for tracks with opening angles up to 10, 20 and 30 degrees and the results are tabulated in table~\ref{table:no-hits-4cell}.  Additionally, simulation was run with a geometry which allowed for shifting of detector modules by an ``assembly tolerance''.  In this simulation a maximum deviation of 4.1mm in the positioning of the first cell of a module was allowed, corresponding to a maximum accumulated deviation of 50cm in the position of the last module.  The deviations for these studies were generated uniformly, but only in the positive direction (i.e. no ``narrow'' modules were considered).  There geometries resulted in a significant reduction in the number of tracks that missed 4 successive cells.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Table Block
+\begin{table}[tb]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Max Angle (deg)                 & No Stagger     & 1/3 Cell Stagger & 1/2 Cell Stagger & 2/3 Cell Stagger & Assembly\\
+\hline
+5                               & 1309           & 0                & 0                & 0                & 478  \\
+10                              & 616            & 0                & 0                & 0                & 156  \\
+20                              & 252            & 0                & 0                & 0                & 66   \\
+30                              & 145            & 0                & 0                & 0                & 30   \\
+\hline
+\end{tabular}
+\caption[4 Cell Missed Hits]{Number of track trajectories with no hits in a 4 plane deep cell geometry for different maximum track opening angles.  Base sample set was a collection of 500,000 track trajectories with random slopes generated uniformly from ($\theta,-\theta$) and with initial position uniformly generated across a full 384 cell detector.  Geometries considered are for different plane to plane staggerings, as well as the baseline ``aligned'' and ``aligned'' but with assembly tolerances.}
+\label{table:no-hits-4cell}
+\end{center}
+\end{table}
+% End Table Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Distributions of the total number of hit cells were then examined for both these geometries.  In each case both the number of hit cells on a given trajectory, and the total pathlength of active material for which that track passed through were measured.  These distributions are shown in figures \ref{fig:hitcells-4-10}-\ref{fig:pathlength-4-30}, where the unstaggered geometry is shown in blue and the staggered geometry's distribution in green on each plot.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{hitcells-4cell-5-log.eps}
+\caption[]{Number of hit cells for a 4 plane deep geometry at maximum incident angle of 5 degrees.  Unstaggered geometry is shown in blue and the half cell staggered geometry in green, and assembled geometry with tolerances is shown in black.  Magenta and Red distributions represent the staggering by 1/3 and 2/3 of a detector cell.}
+\label{fig:hitcells-4-10}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{hitcells-4cell-30-log.eps}
+\caption[]{Number of hit cells for a 4 plane deep geometry at maximum incident angle of 30 degrees.  Unstaggered geometry is shown in blue and the half cell staggered geometry in green.  The distribution in black represents the ``as assembled'' geometry, with magenta and red distributions corresponding to the 1/3 and 2/3 cell stagger patterns.}
+\label{fig:hitcells-4-20}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{pathlength_4-5.eps}
+\caption[]{Pathlength for track through active detector area for a 4 plane deep geometry at maximum incident angle of 5 degrees.  Unstaggered geometry is shown in blue, the half cell staggered geometry in green, and the ``as assembled'' in black.}
+\label{fig:pathlength-4-10}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{pathlength_4-30.eps}
+\caption[]{Pathlength for track through active detector area for a 4 plane deep geometry at maximum incident angle of 30 degrees.  Unstaggered geometry is shown in blue and the half cell staggered geometry in green, and the ``as assembled'' in black.}
+\label{fig:pathlength-4-30}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+At small opening angles the staggering of detector planes results in an overall increase in both the number of cells that are traversed, and the total path length of active material that the tracks cross.  At angles between 10 to 20 degrees the staggering of the detector planes has the effect of on average slightly decreasing the number number of hit cells along a given trajectory due to a aliasing effect that results in a ``gap'' coming immediately after a long pathlength cell crossing.  This also has the effect of reducing the average pathlength of material that a given trajectory in this range traverses.  At maximum incident angles above 20 degrees there is essentially no net differences between the staggered and unstaggered geometries, except in the zero hit cells bin.
+
+We can estimate that the effect of staggering the cells in terms of the elimination of 4 consecutive detectors cells, would be to regain 0.26\% of the very forward track angles (less than 5 degrees), but less than 0.03\% of all forward cone trajectories.  Staggering has almost no effect on the reduction of 3 of 4 or 2 of 4 type trajectories.
+
+When the effect of random variation in the ``assembled'' position of the planes is considered the effect is less pronounced.  Staggering the planes by a 1/2 cell results in only a 0.09\% recovery of tracks in the very forward direction, and only a 0.006\% recovery of tracks over the forward cone.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "nova-cellstagger"
+%%% End: 

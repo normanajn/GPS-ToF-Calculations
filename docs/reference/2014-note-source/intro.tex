@@ -1,0 +1,45 @@
+\section{Introduction}
+
+The operation of the NOvA data acquistion (DAQ) and trigger hardware/software requires knowledge of the flight path of the neutrinos that are generated in the NuMI (Neutrinos at the Main Injector) and travel to the far detector.  Knowledge of this flight path allows for the computation of the propagation time required for the neutrinos to travel from the their origin to their crossing point with the NOvA far detector.  This propagation time is used to then set the global time delay that is used in the trigger system that determines the absolute start point of time window for which a ``beam'' trigger is issues.
+
+The NuMI spill duration is nominally 10~$\mu$s and in baseline operations the trigger window would be set to be centered on this beam spill and include small side bands which allow for characterization of the detector in the interval surrounding the beam spill.  In the NOvA TDR these sidebands were proposed to be $\pm$10~$\mu$s which would yeild a total trigger window of 30~$\mu$s.  This trigger width is not optimal for the manner in which the DAQ systems were designed.  The design of the DAQ readout systems relys on a natural time based discretization of the data.  This discretization provides a smallest quanta of data which groups the hits into 50~$\mu$s long blocks.  As a result, the event builders are unable to break the data into windows shorter than 50~$\mu$s and requests for the extraction of data windows with a given width always result in the actual extraction of an integer number of contiguous 50~$\mu$s blocks.  As a result of this design the optimal setting for the trigger  window is to center the 10~$mu$s trigger inside of a 50~$\mu$s base window which then provides sidebands with a minimum width of 20~$\mu$s.  The trigger window then has the form of a half open interval:
+\begin{equation}
+\Delta T_{trig} = [ t_{0} + t^\prime_{delay} - 20~\mu s , t_{0} + t^{\prime}_{delay}+ 30~\mu s)
+\end{equation}
+Where $t_{0}$ is the time of the leading edge of the spill and $t^{\prime}_{delay}$ is the offset/delay between when the spill occured at FNAL and the time at which the beam crossed the detector.
+
+When this trigger window is actually extracted from the data stream, it will be superimposed upon actual boundaries provided by the microslice quanta.  This will in all cases cause it [the trigger] to overlap with exactly 2 microslice blocks.  This is because the microslice intervals are considered closed:
+\begin{equation}
+\mu Slice = [t_n,t_n+50\mu s ]
+\end{equation}
+So that in the event that the front edge of a trigger window exactly coincides with one of the microslice boundaries, the trigger window is considered in overlap with both the trailing edge of first microslice and the leading edge of the second microslice.  This will cause both to be recorded into the data stream and for the final event on disk to have a width of 100~$\mu$s reguardless of the position of the trigger $t_0$ realative to the microslice boundary times.
+
+
+\begin{figure}[h]
+\begin{center}
+\begin{bytefield}{10}
+%  \bitheader[b]{}\\
+  \bitlabel{1}{$t_0$}
+  \bitbox{8}{\color{red}Trig $\Delta$t=50$\mu$s}
+\end{bytefield}\\
+\begin{bytefield}{20}
+%  \bitheader[b]{}\\
+  \bitbox{5}{\tiny $\mu$slice n}
+  \bitbox{5}{\tiny $\mu$slice n+1}
+  \bitbox{5}{\tiny $\mu$slice n+2}
+  \bitbox{5}{\tiny $\mu$slice n+3}
+%  \bitbox{5}{\color{lightgray}\rule{\width}{\height}}
+ % \bitbox{5}{Pixel Adr}
+ % \bitbox{7}{FEB Status}
+ % \bitbox{6}{FEB ID}
+ % \bitbox{1}{\tiny D \\ M}
+ % \bitbox{1}{\tiny D \\ P}
+ % \bitbox{1}{\tiny L \\ S}
+\end{bytefield}
+\caption[]{Event extracted from Microslice}
+\end{center}
+\end{figure}
+
+
+In this scheme, the time $t^\prime_{delay}$ must be initially determined from an apriori calculation of the flight time of the neutrinos from the NuMI target to the NOvA detectors.  This document details how this calculation was performed and how certain inputs, such as the position of the NOvA detector were determines.
+

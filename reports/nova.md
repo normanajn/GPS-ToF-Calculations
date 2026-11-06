@@ -1,6 +1,6 @@
 # NOvA NuMI -> Ash River timing offsets: time-of-flight report
 
-Generated 2026-11-05T15:22:01-06:00 by gps-tof 0.6.0.
+Generated 2026-11-06T14:11:45-06:00 by gps-tof 0.7.0.
 
 
 ## Settings
@@ -20,9 +20,9 @@ Generated 2026-11-05T15:22:01-06:00 by gps-tof 0.6.0.
 
 | id | name | latitude | longitude | h given (m) | datum | h ell. (m) | offset E,N,U (m) |
 |:---|:---|:---|:---|---:|:---|---:|:---|
-| target | NuMI target (TDR 1998 design, upstream face) | 41° 49' 55.0917" N | 88° 15' 55.9086" W | 158.074 | ellipsoid | 158.074 | +0, +0, +0 |
-| mczero | MCZERO (horn 1 upstream face, TDR 1998 design) | 41° 49' 55.1213" N | 88° 15' 55.9261" W | 158.016 | ellipsoid | 158.016 | +0, +0, +0 |
-| decay-end | NuMI decay pipe end (TDR 1998 design) | 41° 50' 16.5133" N | 88° 16' 08.6061" W | 115.930 | ellipsoid | 115.930 | +0, +0, +0 |
+| target | NuMI target (TDR 1998) upstream face | 41° 49' 55.0917" N | 88° 15' 55.9086" W | 158.074 | ellipsoid | 158.074 | +0, +0, +0 |
+| mczero | MCZERO horn 1 upstream face, (TDR 1998) | 41° 49' 55.1213" N | 88° 15' 55.9261" W | 158.016 | ellipsoid | 158.016 | +0, +0, +0 |
+| decay-end | NuMI decay pipe end (TDR 1998) | 41° 50' 16.5133" N | 88° 16' 08.6061" W | 115.930 | ellipsoid | 115.930 | +0, +0, +0 |
 | fnal-mast | FNAL MINOS Surface Building mast antenna | 41° 50' 23.0000" N | 88° 16' 13.0000" W | 228.000 | ellipsoid | 228.000 | +0, +0, +0 |
 | nd | NOvA ND upstream face centre (Fermilab alignment survey) | 41° 50' 24.3467" N | 88° 16' 13.7981" W | 96.572 | ellipsoid | 96.572 | +0, +0, +0 |
 | nd-1015 | ND placed 1015 m along the beam (quoted placement, superseded by the survey) | 41° 50' 24.9725" N | 88° 16' 14.1694" W | 104.124 | ellipsoid | 104.124 | +0, +0, +0 |
@@ -46,7 +46,7 @@ Generated 2026-11-05T15:22:01-06:00 by gps-tof 0.6.0.
 
 | quantity | value |
 |:---|:---|
-| origin | NuMI target (TDR 1998 design, upstream face) |
+| origin | NuMI target (TDR 1998) upstream face |
 | passes through | MINOS Far Detector (supermodule midpoint, Soudan) |
 | length origin → through | 735,344.614 m |
 | azimuth at origin | 336.09421° |
@@ -57,9 +57,9 @@ Every site endpoint relative to the axis: the off-axis angle is measured at the 
 
 | id | site | off-axis (mrad) | off-axis (deg) | along axis (m) | transverse (m) | right (m) | up (m) | clock (deg) |
 |:---|:---|---:|---:|---:|---:|---:|---:|---:|
-| target | NuMI target (TDR 1998 design, upstream face) | 0.0000 | 0.00000 | 0.000 | 0.000 | +0.000 | +0.000 | - |
-| mczero | MCZERO (horn 1 upstream face, TDR 1998 design) | 0.1459 | 0.00836 | 1.000 | 0.000 | +0.000 | +0.000 | 64.88 |
-| decay-end | NuMI decay pipe end (TDR 1998 design) | 0.0197 | 0.00113 | 724.184 | 0.014 | -0.000 | +0.014 | -1.89 |
+| target | NuMI target (TDR 1998) upstream face | 0.0000 | 0.00000 | 0.000 | 0.000 | +0.000 | +0.000 | - |
+| mczero | MCZERO horn 1 upstream face, (TDR 1998) | 0.1459 | 0.00836 | 1.000 | 0.000 | +0.000 | +0.000 | 64.88 |
+| decay-end | NuMI decay pipe end (TDR 1998) | 0.0197 | 0.00113 | 724.184 | 0.014 | -0.000 | +0.014 | -1.89 |
 | fnal-mast | FNAL MINOS Surface Building mast antenna | 132.4921 | 7.59124 | 941.341 | 125.455 | -11.570 | +124.921 | -5.29 |
 | nd | NOvA ND upstream face centre (Fermilab alignment survey) | 12.1935 | 0.69864 | 994.350 | 12.125 | -11.565 | -3.643 | -107.49 |
 | nd-1015 | ND placed 1015 m along the beam (quoted placement, superseded by the survey) | 12.4658 | 0.71424 | 1,015.000 | 12.653 | -11.570 | +5.123 | -66.12 |
@@ -100,11 +100,11 @@ Angle at the vertex site between two chords, from the fully corrected endpoints.
 
 | angle | vertex | chord a | chord b | angle (mrad) | angle (deg) | horiz. (mrad) | vert. (mrad) | a vs axis (mrad) | b vs axis (mrad) |
 |:---|:---|:---|:---|---:|---:|---:|---:|---:|---:|
-| Target: ND vs FD (both surveyed) | NuMI target (TDR 1998 design, upstream face) | NOvA ND upstream face centre (Fermilab alignment survey) | NOvA FD upstream face centre (Fermilab alignment survey) | 2.4740 | 0.141748 | -1.9895 | -1.4705 | 12.1935 | 14.5547 |
-| Target: ND (surveyed) vs MINOS FD | NuMI target (TDR 1998 design, upstream face) | NOvA ND upstream face centre (Fermilab alignment survey) | MINOS Far Detector (supermodule midpoint, Soudan) | 12.1935 | 0.698637 | 11.6313 | 3.6600 | 12.1935 | 0.0000 |
-| Target: ND at the quoted 1015 m vs surveyed ND | NuMI target (TDR 1998 design, upstream face) | ND placed 1015 m along the beam (quoted placement, superseded by the survey) | NOvA ND upstream face centre (Fermilab alignment survey) | 8.7139 | 0.499271 | -0.2374 | -8.7107 | 12.4658 | 12.1935 |
-| Target: ND under the mast (2014 note) vs surveyed ND | NuMI target (TDR 1998 design, upstream face) | ND endpoint if it were under the MINOS mast (105 + 15 m down) | NOvA ND upstream face centre (Fermilab alignment survey) | 9.0840 | 0.520476 | 0.5638 | -9.0665 | 13.3426 | 12.1935 |
-| Target: FD from the Ant-2 fix vs surveyed FD | NuMI target (TDR 1998 design, upstream face) | Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded) | NOvA FD upstream face centre (Fermilab alignment survey) | 0.0223 | 0.001275 | 0.0162 | 0.0152 | 14.5753 | 14.5547 |
+| Target: ND vs FD (both surveyed) | NuMI target (TDR 1998) upstream face | NOvA ND upstream face centre (Fermilab alignment survey) | NOvA FD upstream face centre (Fermilab alignment survey) | 2.4740 | 0.141748 | -1.9895 | -1.4705 | 12.1935 | 14.5547 |
+| Target: ND (surveyed) vs MINOS FD | NuMI target (TDR 1998) upstream face | NOvA ND upstream face centre (Fermilab alignment survey) | MINOS Far Detector (supermodule midpoint, Soudan) | 12.1935 | 0.698637 | 11.6313 | 3.6600 | 12.1935 | 0.0000 |
+| Target: ND at the quoted 1015 m vs surveyed ND | NuMI target (TDR 1998) upstream face | ND placed 1015 m along the beam (quoted placement, superseded by the survey) | NOvA ND upstream face centre (Fermilab alignment survey) | 8.7139 | 0.499271 | -0.2374 | -8.7107 | 12.4658 | 12.1935 |
+| Target: ND under the mast (2014 note) vs surveyed ND | NuMI target (TDR 1998) upstream face | ND endpoint if it were under the MINOS mast (105 + 15 m down) | NOvA ND upstream face centre (Fermilab alignment survey) | 9.0840 | 0.520476 | 0.5638 | -9.0665 | 13.3426 | 12.1935 |
+| Target: FD from the Ant-2 fix vs surveyed FD | NuMI target (TDR 1998) upstream face | Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded) | NOvA FD upstream face centre (Fermilab alignment survey) | 0.0223 | 0.001275 | 0.0162 | 0.0152 | 14.5753 | 14.5547 |
 
 
 ### Target: ND vs FD (both surveyed)
@@ -225,7 +225,7 @@ Face half-width 2.0082 m, half-height 2.0082 m; edge points derived in the same 
 | angle subtended at the axis origin, left edge to right edge | 4.0386 mrad |
 | angle subtended at the axis origin, top edge to bottom edge | 4.0389 mrad |
 
-Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 design, upstream face), other chord to NOvA FD upstream face centre (Fermilab alignment survey), for each point of this face.
+Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998) upstream face, other chord to NOvA FD upstream face centre (Fermilab alignment survey), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -235,7 +235,7 @@ Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 des
 | top | 4.0179 | 0.230210 | -1.9910 | -3.4899 | 3.995 | 11.7457 |
 | bottom | 2.0624 | 0.118169 | -1.9880 | +0.5489 | 2.051 | 12.9444 |
 
-Opening angle Target: ND (surveyed) vs MINOS FD: vertex NuMI target (TDR 1998 design, upstream face), other chord to MINOS Far Detector (supermodule midpoint, Soudan), for each point of this face.
+Opening angle Target: ND (surveyed) vs MINOS FD: vertex NuMI target (TDR 1998) upstream face, other chord to MINOS Far Detector (supermodule midpoint, Soudan), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -245,7 +245,7 @@ Opening angle Target: ND (surveyed) vs MINOS FD: vertex NuMI target (TDR 1998 de
 | top | 11.7457 | 0.672981 | +11.6306 | +1.6405 | 11.680 | 11.7457 |
 | bottom | 12.9444 | 0.741658 | +11.6319 | +5.6794 | 12.872 | 12.9444 |
 
-Opening angle Target: ND at the quoted 1015 m vs surveyed ND: vertex NuMI target (TDR 1998 design, upstream face), other chord to ND placed 1015 m along the beam (quoted placement, superseded by the survey), for each point of this face.
+Opening angle Target: ND at the quoted 1015 m vs surveyed ND: vertex NuMI target (TDR 1998) upstream face, other chord to ND placed 1015 m along the beam (quoted placement, superseded by the survey), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -255,7 +255,7 @@ Opening angle Target: ND at the quoted 1015 m vs surveyed ND: vertex NuMI target
 | top | 6.6954 | 0.383618 | -0.2360 | -6.6912 | 6.658 | 11.7457 |
 | bottom | 10.7328 | 0.614942 | -0.2387 | -10.7301 | 10.673 | 12.9444 |
 
-Opening angle Target: ND under the mast (2014 note) vs surveyed ND: vertex NuMI target (TDR 1998 design, upstream face), other chord to ND endpoint if it were under the MINOS mast (105 + 15 m down), for each point of this face.
+Opening angle Target: ND under the mast (2014 note) vs surveyed ND: vertex NuMI target (TDR 1998) upstream face, other chord to ND endpoint if it were under the MINOS mast (105 + 15 m down), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -291,7 +291,7 @@ Face half-width 7.7269 m, half-height 7.7269 m; edge points derived in the same 
 | angle subtended at the axis origin, left edge to right edge | 0.0191 mrad |
 | angle subtended at the axis origin, top edge to bottom edge | 0.0191 mrad |
 
-Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 design, upstream face), other chord to NOvA ND upstream face centre (Fermilab alignment survey), for each point of this face.
+Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998) upstream face, other chord to NOvA ND upstream face centre (Fermilab alignment survey), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -301,7 +301,7 @@ Opening angle Target: ND vs FD (both surveyed): vertex NuMI target (TDR 1998 des
 | top | 2.4683 | 0.141424 | -1.9895 | -1.4609 | 2,000.591 | 14.5514 |
 | bottom | 2.4797 | 0.142074 | -1.9895 | -1.4800 | 2,009.785 | 14.5581 |
 
-Opening angle Target: FD from the Ant-2 fix vs surveyed FD: vertex NuMI target (TDR 1998 design, upstream face), other chord to Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded), for each point of this face.
+Opening angle Target: FD from the Ant-2 fix vs surveyed FD: vertex NuMI target (TDR 1998) upstream face, other chord to Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded), for each point of this face.
 
 | point | opening angle (mrad) | (deg) | horizontal (mrad) | vertical (mrad) | transverse to other chord (m) | chord vs beam axis (mrad) |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -331,8 +331,8 @@ Opening angle Target: FD from the Ant-2 fix vs surveyed FD: vertex NuMI target (
 | endpoint geodetic | 41.840096298°, -88.270499477°, h = 96.572 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
 | uncertainties | offset_m = 1 |
-| source | Fermilab SAG survey note, NuMI beamline coordinates from MCZERO; definitive |
-| notes | Definitive ND endpoint.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
+| source | Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078 |
+| notes | Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
 
 
 ### Target: NOvA FD upstream face centre (Fermilab alignment survey)
@@ -473,7 +473,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: NuMI target -> FD upstream face (surveyed)
 
 
-### Source: NuMI target (TDR 1998 design, upstream face)
+### Source: NuMI target (TDR 1998) upstream face
 
 | quantity | value |
 |:---|:---|
@@ -596,11 +596,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NuMI target (TDR 1998 design, upstream face): height +1 m | +0.0634 | +0.211 | +0.0135 |
-| NuMI target (TDR 1998 design, upstream face): latitude +1" | -27.9770 | -93.321 | -5.9726 |
-| NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.6187 | +32.084 | +2.0534 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4168 | +1.390 | +0.0890 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9068 | -3.025 | -0.1936 |
+| NuMI target (TDR 1998) upstream face: height +1 m | +0.0634 | +0.211 | +0.0135 |
+| NuMI target (TDR 1998) upstream face: latitude +1" | -27.9770 | -93.321 | -5.9726 |
+| NuMI target (TDR 1998) upstream face: longitude +1" | +9.6187 | +32.084 | +2.0534 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m East | +0.4168 | +1.390 | +0.0890 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m North | -0.9068 | -3.025 | -0.1936 |
 | NOvA FD upstream face centre (Fermilab alignment survey): height +1 m | +0.0638 | +0.213 | +0.0136 |
 | NOvA FD upstream face centre (Fermilab alignment survey): latitude +1" | +27.2369 | +90.853 | +5.8146 |
 | NOvA FD upstream face centre (Fermilab alignment survey): longitude +1" | -9.6182 | -32.083 | -2.0533 |
@@ -614,7 +614,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
+| NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
 | NOvA FD upstream face centre (Fermilab alignment survey): endpoint offset ±1 m, worst case along the chord | 3.34 | 0.213 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
@@ -629,7 +629,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: NuMI target -> ND upstream face (surveyed)
 
 
-### Source: NuMI target (TDR 1998 design, upstream face)
+### Source: NuMI target (TDR 1998) upstream face
 
 | quantity | value |
 |:---|:---|
@@ -664,8 +664,8 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | endpoint geodetic | 41.840096298°, -88.270499477°, h = 96.572 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
 | uncertainties | offset_m = 1 |
-| source | Fermilab SAG survey note, NuMI beamline coordinates from MCZERO; definitive |
-| notes | Definitive ND endpoint.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
+| source | Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078 |
+| notes | Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
 
 
 ### Result
@@ -752,11 +752,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NuMI target (TDR 1998 design, upstream face): height +1 m | +0.0624 | +0.208 | +0.0133 |
-| NuMI target (TDR 1998 design, upstream face): latitude +1" | -27.9185 | -93.126 | -5.9601 |
-| NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.7970 | +32.679 | +2.0915 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4155 | +1.386 | +0.0887 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9076 | -3.027 | -0.1938 |
+| NuMI target (TDR 1998) upstream face: height +1 m | +0.0624 | +0.208 | +0.0133 |
+| NuMI target (TDR 1998) upstream face: latitude +1" | -27.9185 | -93.126 | -5.9601 |
+| NuMI target (TDR 1998) upstream face: longitude +1" | +9.7970 | +32.679 | +2.0915 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m East | +0.4155 | +1.386 | +0.0887 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m North | -0.9076 | -3.027 | -0.1938 |
 | NOvA ND upstream face centre (Fermilab alignment survey): height +1 m | -0.0613 | -0.204 | -0.0131 |
 | NOvA ND upstream face centre (Fermilab alignment survey): latitude +1" | +28.0866 | +93.687 | +5.9959 |
 | NOvA ND upstream face centre (Fermilab alignment survey): longitude +1" | -9.3539 | -31.201 | -1.9969 |
@@ -770,7 +770,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
+| NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
 | NOvA ND upstream face centre (Fermilab alignment survey): endpoint offset ±1 m, worst case along the chord | 3.34 | 0.213 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
@@ -785,7 +785,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)
 
 
-### Source: MCZERO (horn 1 upstream face, TDR 1998 design)
+### Source: MCZERO horn 1 upstream face, (TDR 1998)
 
 | quantity | value |
 |:---|:---|
@@ -907,11 +907,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| MCZERO (horn 1 upstream face, TDR 1998 design): height +1 m | +0.0634 | +0.211 | +0.0135 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): latitude +1" | -27.9770 | -93.321 | -5.9726 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): longitude +1" | +9.6187 | +32.084 | +2.0534 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): endpoint +1 m East | +0.4168 | +1.390 | +0.0890 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): endpoint +1 m North | -0.9068 | -3.025 | -0.1936 |
+| MCZERO horn 1 upstream face, (TDR 1998): height +1 m | +0.0634 | +0.211 | +0.0135 |
+| MCZERO horn 1 upstream face, (TDR 1998): latitude +1" | -27.9770 | -93.321 | -5.9726 |
+| MCZERO horn 1 upstream face, (TDR 1998): longitude +1" | +9.6187 | +32.084 | +2.0534 |
+| MCZERO horn 1 upstream face, (TDR 1998): endpoint +1 m East | +0.4168 | +1.390 | +0.0890 |
+| MCZERO horn 1 upstream face, (TDR 1998): endpoint +1 m North | -0.9068 | -3.025 | -0.1936 |
 | NOvA FD upstream face centre (Fermilab alignment survey): height +1 m | +0.0638 | +0.213 | +0.0136 |
 | NOvA FD upstream face centre (Fermilab alignment survey): latitude +1" | +27.2369 | +90.853 | +5.8146 |
 | NOvA FD upstream face centre (Fermilab alignment survey): longitude +1" | -9.6182 | -32.083 | -2.0533 |
@@ -939,7 +939,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: MCZERO -> ND upstream face (surveyed; stationing 993.350 m)
 
 
-### Source: MCZERO (horn 1 upstream face, TDR 1998 design)
+### Source: MCZERO horn 1 upstream face, (TDR 1998)
 
 | quantity | value |
 |:---|:---|
@@ -973,8 +973,8 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | endpoint geodetic | 41.840096298°, -88.270499477°, h = 96.572 m |
 | antenna cable delay | 119.61 ns (calibration, not part of ToF) |
 | uncertainties | offset_m = 1 |
-| source | Fermilab SAG survey note, NuMI beamline coordinates from MCZERO; definitive |
-| notes | Definitive ND endpoint.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
+| source | Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078 |
+| notes | Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance). |
 
 
 ### Result
@@ -1061,11 +1061,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| MCZERO (horn 1 upstream face, TDR 1998 design): height +1 m | +0.0624 | +0.208 | +0.0133 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): latitude +1" | -27.9183 | -93.125 | -5.9600 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): longitude +1" | +9.7975 | +32.681 | +2.0916 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): endpoint +1 m East | +0.4155 | +1.386 | +0.0887 |
-| MCZERO (horn 1 upstream face, TDR 1998 design): endpoint +1 m North | -0.9076 | -3.027 | -0.1938 |
+| MCZERO horn 1 upstream face, (TDR 1998): height +1 m | +0.0624 | +0.208 | +0.0133 |
+| MCZERO horn 1 upstream face, (TDR 1998): latitude +1" | -27.9183 | -93.125 | -5.9600 |
+| MCZERO horn 1 upstream face, (TDR 1998): longitude +1" | +9.7975 | +32.681 | +2.0916 |
+| MCZERO horn 1 upstream face, (TDR 1998): endpoint +1 m East | +0.4155 | +1.386 | +0.0887 |
+| MCZERO horn 1 upstream face, (TDR 1998): endpoint +1 m North | -0.9076 | -3.027 | -0.1938 |
 | NOvA ND upstream face centre (Fermilab alignment survey): height +1 m | -0.0613 | -0.204 | -0.0131 |
 | NOvA ND upstream face centre (Fermilab alignment survey): latitude +1" | +28.0865 | +93.686 | +5.9959 |
 | NOvA ND upstream face centre (Fermilab alignment survey): longitude +1" | -9.3539 | -31.201 | -1.9969 |
@@ -1404,7 +1404,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: NuMI target -> MINOS FD (validation of the target position)
 
 
-### Source: NuMI target (TDR 1998 design, upstream face)
+### Source: NuMI target (TDR 1998) upstream face
 
 | quantity | value |
 |:---|:---|
@@ -1522,11 +1522,11 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NuMI target (TDR 1998 design, upstream face): height +1 m | +0.0583 | +0.194 | +0.0124 |
-| NuMI target (TDR 1998 design, upstream face): latitude +1" | -28.1587 | -93.927 | -6.0113 |
-| NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.3352 | +31.139 | +1.9929 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4045 | +1.349 | +0.0864 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9127 | -3.044 | -0.1948 |
+| NuMI target (TDR 1998) upstream face: height +1 m | +0.0583 | +0.194 | +0.0124 |
+| NuMI target (TDR 1998) upstream face: latitude +1" | -28.1587 | -93.927 | -6.0113 |
+| NuMI target (TDR 1998) upstream face: longitude +1" | +9.3352 | +31.139 | +1.9929 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m East | +0.4045 | +1.349 | +0.0864 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m North | -0.9127 | -3.044 | -0.1948 |
 | MINOS Far Detector (supermodule midpoint, Soudan): height +1 m | +0.0571 | +0.191 | +0.0122 |
 | MINOS Far Detector (supermodule midpoint, Soudan): latitude +1" | +27.5428 | +91.873 | +5.8799 |
 | MINOS Far Detector (supermodule midpoint, Soudan): longitude +1" | -9.3347 | -31.137 | -1.9928 |
@@ -1540,7 +1540,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
+| NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
 | Sagnac term (not applied) | 1.15 | 0.074 | neglected | no |
@@ -1554,7 +1554,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 ## Baseline: NuMI target -> decay-pipe end (TDR design axis)
 
 
-### Source: NuMI target (TDR 1998 design, upstream face)
+### Source: NuMI target (TDR 1998) upstream face
 
 | quantity | value |
 |:---|:---|
@@ -1573,7 +1573,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 | notes | Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m. |
 
 
-### Target: NuMI decay pipe end (TDR 1998 design)
+### Target: NuMI decay pipe end (TDR 1998)
 
 | quantity | value |
 |:---|:---|
@@ -1674,16 +1674,16 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | variation | ΔL (m) | Δt (ns) | Δticks |
 |:---|---:|---:|---:|
-| NuMI target (TDR 1998 design, upstream face): height +1 m | +0.0589 | +0.197 | +0.0126 |
-| NuMI target (TDR 1998 design, upstream face): latitude +1" | -28.0446 | -93.547 | -5.9870 |
-| NuMI target (TDR 1998 design, upstream face): longitude +1" | +9.6384 | +32.150 | +2.0576 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m East | +0.4051 | +1.351 | +0.0865 |
-| NuMI target (TDR 1998 design, upstream face): endpoint +1 m North | -0.9125 | -3.044 | -0.1948 |
-| NuMI decay pipe end (TDR 1998 design): height +1 m | -0.0574 | -0.192 | -0.0123 |
-| NuMI decay pipe end (TDR 1998 design): latitude +1" | +28.2640 | +94.279 | +6.0338 |
-| NuMI decay pipe end (TDR 1998 design): longitude +1" | -9.0236 | -30.099 | -1.9264 |
-| NuMI decay pipe end (TDR 1998 design): endpoint +1 m East | -0.4040 | -1.348 | -0.0862 |
-| NuMI decay pipe end (TDR 1998 design): endpoint +1 m North | +0.9128 | +3.045 | +0.1949 |
+| NuMI target (TDR 1998) upstream face: height +1 m | +0.0589 | +0.197 | +0.0126 |
+| NuMI target (TDR 1998) upstream face: latitude +1" | -28.0446 | -93.547 | -5.9870 |
+| NuMI target (TDR 1998) upstream face: longitude +1" | +9.6384 | +32.150 | +2.0576 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m East | +0.4051 | +1.351 | +0.0865 |
+| NuMI target (TDR 1998) upstream face: endpoint +1 m North | -0.9125 | -3.044 | -0.1948 |
+| NuMI decay pipe end (TDR 1998): height +1 m | -0.0574 | -0.192 | -0.0123 |
+| NuMI decay pipe end (TDR 1998): latitude +1" | +28.2640 | +94.279 | +6.0338 |
+| NuMI decay pipe end (TDR 1998): longitude +1" | -9.0236 | -30.099 | -1.9264 |
+| NuMI decay pipe end (TDR 1998): endpoint +1 m East | -0.4040 | -1.348 | -0.0862 |
+| NuMI decay pipe end (TDR 1998): endpoint +1 m North | +0.9128 | +3.045 | +0.1949 |
 | spherical Earth (R = 6378137 m) at the final endpoints | +1.1785 | +3.931 | +0.2516 |
 | GRS80 ellipsoid instead of WGS84 | -0.0000 | -0.000 | -0.0000 |
 
@@ -1692,7 +1692,7 @@ Change of the chord for a unit change of each input, evaluated at the final endp
 
 | source | ns | ticks | type | in RSS |
 |:---|---:|---:|:---|:---|
-| NuMI target (TDR 1998 design, upstream face): endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
+| NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord | 16.68 | 1.067 | systematic | yes |
 | Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz | 29.40 | 1.882 | systematic | yes |
 | integer rounding of the final tick count | 7.81 | 0.500 | convention | no |
 | Sagnac term (not applied) | 0.00 | 0.000 | neglected | no |

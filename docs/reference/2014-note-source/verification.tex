@@ -1,0 +1,56 @@
+\section{Executive Summary - NO$\nu$A Timing Verification}
+
+The timing of the NO$\nu$A detectors with respect to the NuMI beam spill was validated through multiple stages of calculations and experimental validation.  The general stages of the verification procedure proceeded as:
+
+\begin{enumerate}
+\item A priori calculation of accelerator signal propagation 
+\item Measurement of the signal propagation to the Nova and Minos timing electronics
+\item Observation of the neutrino rate excesses in the NOvA Surface detector
+\item Comparison of the MINOS near detector timing to the NOvA near detector and accelerator timings
+\item A priori calculation of the time of flight delays between the near and far NO$\nu$A detector locations 
+\item Measurement by MINOS of the observed delays between the crossing of the beam at Minos near detector and the Minos far detector, as measured by the Minos master clock located at the Soudan Lab
+\item Measurement by MINOS of the phase difference between the Minos master cesium clock and the GPS 1 second boundary
+\item Measurement via a time transfer procedure using a rubidium clock between the MINOS cesium master clock and six independent GPS receiver systems located at Ash River
+\item Measurement of the timing delays between the GPS based NOvA master clock and the clocks signals that are propagated to the detector for synchronization and readout 
+\end{enumerate}
+
+In particular the time transfer between the Soudan lab and the Ash River lab utilized a high precision cesium based atomic clock which was located at Soudan Lab.  The cesium atomic clock was used to train and phase align a portable rubidium based atomic clock.  The training was performed over a period of approximately 24 hours.  After the training of the rubidium clock, its phase was measured relative to the global positioning systems (GPS) one second boundaries signals at Soudan using a time interval counter with a precision for $\Delta T$ better than 100 ps.  The phase measurement was determined to have a Gaussian error with $\sigma=295ps$ as shown in Fig.~\ref{fig:minos_phase}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{rb_minos_alignment-2.eps}
+\caption[Minos to Rubidium Phase]{Minos master cesium clock to trained rubidium clock phase offset after drift corrections.  Distribution is fit to a Gaussian profile for error determination.}
+\label{fig:minos_phase}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The rubidium clock was transported by automobile to the Ash River lab.  During this period the clock was powered by a large capacity uninterruptible power supply (battery backup) and monitored to ensure that clock was not interrupted during the trip.  The duration of the transport was roughly 2.5 hours.  Upon arrival at Ash River the rubidium clock was moved to the data acquisition computing facility where the NOvA timing systems are housed.  The phase difference between the GPS 1 second boundary provided by the NOvA timing system deployed at Ash River was then measured using the same time interval counter that was used at Soudan lab.  These phase intervals were measured for each of the three GPS receivers which had been in operations at the lab.  The time interval between the rubidium clock's reference pulses and the NOvA timing system's master clock was then measured utilizing the NOvA timing system's internal diagnostics.  
+
+Three additional NOvA timing units were then deployed to Ash River lab and phases between these upgraded systems and the rubidium clock were measured in the same manners as the original three units.  Tests were then performed of the the power on and initialization characteristics of the timing system to determine if the timing phases were stable across power cycling, synchronization and re-initialization of the systems.
+
+The rubidium clock was then transported back to Soudan Lab and the phase differences between the rubidium clock and the MINOS cesium master clock were remeasured to determine the total drift in the rubidium clock over the time during which the measurements were performed.  The clock was found to have a roughly linear drift of 0.45 ps/s accounting for a total accumulated drift of 16.5 ns 
+
+\subsection{Summary}
+
+The NOvA far detector timing system was determined to be correctly aligned to the GPS time standard.  The six independent timing distribution systems which were measured at Ash River were found to be aligned to the GPS clock to better than 16~ns per unit as shown in Fig.~\ref{fig:nova_time_align}.   Measurement errors and systematics related to the stability of the measurements across timing system restarts are included.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[scale=1]{nova_time_alignment.eps}
+\caption[Nova Time Alignment]{Alignment of the NOvA timing distribution systems (TDUs) to the MINOS clock systems at Soudan Lab.  The measurements were corrected for drift of the rubidium atomic clock used for the time transfer and for known delays in the Soudan and Ash River timing systems.  The time deltas are reported as a function of the number of seconds from the start of the first measurement at Soudan Lab.}
+\label{fig:nova_time_align}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The result of the measurements were that the time of the crossing of the neutrino beam at the front face of the Ash River far detector was predicted to occur 2918.06 $\mu$s after the reception of the MIBS \$74 accelerator signal by the NOvA master timing system located at in the Minos service building and extrapolated to the far detector by the NOvA timing and synchronization system.
+
+Neutrino candidates were observed in the far detector at a timing offset corresponding to 2918.5 $\mu$s after the reception of the NuMI trigger $t_0$ time.
+

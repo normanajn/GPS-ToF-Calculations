@@ -1,0 +1,162 @@
+% This is the general driver for the quick 
+% NOVA-DAQ memo that details each of the dataformats
+% that is used across the experiment
+%
+\documentclass[letterpaper]{article}
+% \documentclass{article}
+% \usepackage{hyperref}
+%
+% Use the ByteFields Package which makes nice 
+% bytefield tables for our data diagrams
+\usepackage{bytefield}
+% Use the Vpage package which creates the proper 
+% Page Layout (USletter, USlegal, etc...)
+% see pages 88-89 of The LaTeX companion
+%
+\usepackage{vmargin}
+%
+% Use the doublespace package for linespacing
+%\usepackage{doublespace}
+% Use the setpace package for linespacing
+\usepackage{setspace}
+%
+% Use both the AMS math and symbols packages 
+% for equations
+%
+\usepackage{amsmath}
+\usepackage{amssymb}
+% Use the PS Tricks package for drawing
+% postscript figures
+%
+% \usepackage{pstcol,pst-char}
+\usepackage{pst-text}
+\usepackage{pstricks}
+%
+% Use the color package
+% \usepackage{xxcolor}
+\usepackage{color}
+\usepackage{array}
+\usepackage{delarray}
+%
+% Use the standard Graphicx Package
+% for graphics inclusion with the dvips driver
+%
+\usepackage[dvips]{graphicx}
+\graphicspath{{.}{./figures/}}
+%
+% Use the EPS figure package for including 
+% encapsulated postscript figures
+%
+%\usepackage{epsfig}
+%\usepackage{psfig}
+%
+%
+% Use the Xspace package for proper spacing 
+% after macros
+%
+\usepackage{xspace}
+%
+% Use the PSFrag package for PS text replacement
+%
+\usepackage{psfrag}
+%
+% Use the Subfigure package to create arrays of 
+% figures
+%
+\usepackage{subfigure}
+%
+% Use the Calc package for integer opps
+%
+\usepackage{calc}
+%
+% Use the TabularX package to create special tables
+%
+\usepackage{tabularx}
+%
+% use the Dcolumn package to allow for aligned columns
+% in tables
+%
+\usepackage{dcolumn}
+%
+% Use the MakeIndex Package to generate an index
+%
+\usepackage{makeidx}
+%%
+% Use the enumerate package for custom lists
+%
+\usepackage{enumerate}
+%
+%
+\usepackage{rotating}
+% Set the Paper Size to Letter
+%
+\setpapersize{USletter}
+
+%
+%
+\newcolumntype{L}{>{$}l<{$}}
+\newenvironment{Cases}{\begin{array}\{{lL}.}{\end{array}}
+
+%
+% Set Up the margins to use 
+%
+\setmarginsrb{1in}{1in}{1in}{1in}{0pt}{10mm}{0pt}{5mm}
+%
+\input{general_macros}          % Include the general macros
+\input{physics_macros}
+%
+\makeindex                      % Generate an index
+%
+\begin{document}                % Begin the document
+%
+% Reset the Counters
+% \renewcommand{\thesection}{\arabic{section}}
+% \renewcommand{\thefigure}{\arabic{section}.\arabic{subsection}.\arabic{figure}}
+% \renewcommand{\theequation}{\arabic{section}.\arabic{subsection}.\arabic{equation}}
+\newcommand{\bitlabel}[2]{%
+  \bitbox[]{#1}{%
+    \raisebox{0pt}[4ex][0pt]{%
+      \turnbox{45}{\fontsize{7}{7}\selectfont#2}%
+    }%
+  }%
+}%
+%
+% Start the Actual text
+\title{\bf Determination of the Neutrino Time of Flight\\Fermilab to
+  Ash River\\Nova-DocDB-11860}
+% Put the Overall Section heading
+\author{~A.Norman, FNAL}
+\maketitle
+%
+%\tableofcontents               % Make a table of contents
+\newpage
+%
+\normalsize                     % Return to Normal font size
+\begin{spacing}{1.0}            % Double Space the Text
+\input{verification.tex}
+\clearpage
+\newpage
+\input{intro.tex}
+\input{fardetector_position.tex}
+%\clearpage
+%\input{study_4plane.tex}
+%\input{study_8plane.tex}
+%input{study_100plane.tex}
+%\clearpage
+%\input{run.tex}
+%
+\end{spacing}
+%
+\newpage
+% Put Bibliographic information last
+%
+\bibliography{nu_flight}    % Use the file ``thesis_biblio.bib'' for the biblio
+\bibliographystyle{prsty}
+%\bibliographystyle{apsrev}      % Indicate the sort by citation order style
+%\bibliographystyle{apalike}     % This uses (name, year) as the citation style
+%
+%\begin{spacing}{1.0}
+%\printindex                     % Print the Index
+%\end{spacing}
+%
+\end{document}                  % End the document

@@ -1,0 +1,27 @@
+.TH GPS-TOF-NOTE-TABLES 1 "2026-11-06" "gps-tof 0.7.0" "User Commands"
+.SH NAME
+make_note_tables.py \- generate the LaTeX tables of the technical note from the JSON report
+.SH SYNOPSIS
+.B python3 scripts/make_note_tables.py
+[\fB\-\-json\fR \fIreports/nova.json\fR] [\fB\-\-out\fR \fIdocs/note/generated\fR]
+.SH DESCRIPTION
+Reads the JSON report written by \fBgps-tof -c config/nova.yaml -f json\fR and writes one
+LaTeX fragment per table of \fIdocs/note/nova-tof-note.tex\fR (input positions, survey points,
+converted positions, chords by Earth model, correction ledgers, chord geometry, flight times,
+Main Injector shift, combined offset, trigger window, non-geometric effects, beam-axis
+quantities, opening angles, face edges, validation, sensitivities, error budget, the
+reproduction of the 2013 notebook and the history of the ND/FD geometries).  Every number in
+the note therefore comes from the code; edit the configuration, rerun gps-tof, rerun this
+script and rebuild the note.  Table bodies end with their own \\bottomrule because a rule
+placed after \\input in the including file breaks LaTeX's row scanning.
+.SH BUILDING THE NOTE
+.nf
+    gps-tof -c config/nova.yaml -f all -o reports/nova
+    python3 scripts/make_note_tables.py
+    cd docs/note && latexmk -pdf nova-tof-note        # or: make
+.fi
+Figures come from \fIdocs/figures/*.svg\fR converted to PDF in \fIdocs/note/figures/\fR
+(see \fBgps-tof-export-figures\fR(1)).
+.SH SEE ALSO
+.BR gps-tof (1),
+.BR gps-tof-export-figures (1)

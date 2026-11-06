@@ -19,6 +19,7 @@ gps-tof -c config/nova.yaml -f all -o reports/nova    # md + txt + json
 gps-tof-fscs to-geodetic 100327.838 97780.188 626.743
 gps-tof-nmea screenlog.0 --yaml
 python3 scripts/export_figures.py            # docs/figures/*.svg and *.png from docs/nova-schematic.html
+python3 scripts/make_note_tables.py && make -C docs/note    # technical note docs/note/nova-tof-note.pdf
 ```
 
 ## Architecture
@@ -55,6 +56,10 @@ baselines: [{from: target, to: nd}]
 opening_angles: [{vertex: target, a: nd, b: fd2, axis_to: decay-end}]
 timing_shifts: [{name: MI shift, turns: 141, buckets_per_turn: 588, rf_hz: 53.1034e+6}]
 ```
+
+## Documents
+- `docs/note/`: the technical note (LaTeX); tables generated from the JSON report, never hand-typed.
+- `docs/external/`, `docs/reference/`: local copies of every cited document with README index and SHA256SUMS.
 
 ## Testing
 `pytest -q` (61 tests): notebook/2014-note reproduction to 1e-9, EPSG 9809 worked example,

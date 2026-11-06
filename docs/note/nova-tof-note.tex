@@ -1,0 +1,537 @@
+% Technical note: NuMI target and NOvA detector geometry, distances and neutrino time of flight.
+% Numbers in the tables are generated from reports/nova.json by scripts/make_note_tables.py.
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\sisetup{group-separator={,},group-minimum-digits=4,group-digits=integer,detect-weight=true,mode=text}
+\graphicspath{{figures/}}
+\input{generated/meta}
+\newcommand{\ND}{ND}
+\newcommand{\FD}{FD}
+\newcommand{\tick}{tick}
+\newcommand{\code}[1]{\texttt{#1}}
+\setlength{\parskip}{3pt}
+
+\title{\bfseries Determination of the Neutrino Time of Flight from the NuMI Target to the NOvA Detectors:\\[3pt] Coordinate Systems, Distances and Timing Offsets\\[6pt] \normalsize NOvA internal note NOvA-doc-XXXX}
+\author{A.~Norman\\ \small Fermi National Accelerator Laboratory}
+\date{\today\\ \small gps-tof version \gpstofversion; report generated \reportgenerated}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note derives, in full, the straight-line distances between the NuMI target, the NOvA Near Detector (\ND), the NOvA Far Detector (\FD) at Ash River and the MINOS Far Detector at Soudan, and the corresponding neutrino times of flight in SI units and in \SI{64}{MHz} NOvA clock ticks.  Five coordinate systems are used and written out explicitly: a spherical Earth, WGS84 geodetic coordinates and the Earth-centred Earth-fixed (ECEF) frame, the Fermilab Site Coordinate System (a double stereographic projection), the NuMI beamline system with origin MCZERO in which the Fermilab alignment group surveyed both NOvA upstream-face centres, and a beam-axis frame used for off-axis and opening angles.  The target is taken from the 1998 NuMI Technical Design Report beam sheet; the detector endpoints are the surveyed face centres.  Every correction between the reference model and the final result is tabulated, together with chord geometry, the Main Injector timing shift, the trigger window, relativistic and instrumental terms, sensitivities and an error budget.  The headline result is a flight time from the \ND{} face to the \FD{} face of \SI{2700.250552}{\micro s}, i.e.\ \num{172816.035} ticks, and a total offset including the 141-turn Main Injector shift of \num{272736} ticks.  The 2013 Mathematica notebook and the 2014 note \cite{norman2014} are reproduced to $10^{-9}$ and their superseded geometries are compared with the surveyed result in an appendix.  All computations are performed by the \code{gps-tof} package \cite{gpstof}; the tables of this note are generated from its JSON report.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+The NOvA data acquisition issues a ``beam'' trigger from the NuMI spill time $t_0$ delayed by the neutrino flight time $t_{\rm delay}$ from the beam source to the far detector.  The spill is nominally \SI{10}{\micro s} long; the DAQ discretises data into \SI{50}{\micro s} microslices and the event builder extracts whole microslices, so the trigger window is the half-open interval \cite{norman2014}
+\begin{equation}
+\Delta T_{\rm trig} = \left[\, t_0 + t_{\rm delay} - \SI{20}{\micro s},\; t_0 + t_{\rm delay} + \SI{30}{\micro s}\,\right),
+\label{eq:window}
+\end{equation}
+which always overlaps exactly two closed microslices.  $t_{\rm delay}$ has to be set a priori from the geometry.
+
+The 2013 Mathematica notebook \cite{norman2013nb} computed the chord between the MINOS surface-building GPS antenna, lowered by \SI{300}{m}, and an Ash River antenna.  The 2014 note NOvA-doc-11860 \cite{norman2014} documented the antenna fixes and specified antenna-to-detector offsets.  Neither contained the NuMI target, and the horizontal antenna-to-detector vectors were left to be determined.  This note (i) derives the target position from the NuMI Technical Design Report \cite{numitdr1998} through the Fermilab site projection \cite{oshinowo1997}, (ii) records the surveyed upstream-face centres of both NOvA detectors \cite{bocean2026nd,bocean2026fd} in the NuMI beamline system and converts them to geodetic and ECEF coordinates, (iii) writes out every coordinate transformation used, and (iv) tabulates the distances, flight times, angles and uncertainties.  Figures~\ref{fig:plan}--\ref{fig:face} are schematic views of the geometry.
+
+\section{Reference frames and transformations}
+\subsection{Angles}
+Survey records give angles in sexagesimal form.  Degrees, minutes and seconds are converted to radians by
+\begin{equation}
+\mathrm{LC}(d,m,s)=\frac{\pi}{180}\left(d+\frac{m+s/60}{60}\right),
+\end{equation}
+with the hemisphere letter supplying the sign.  Longitudes are east-positive throughout; the 2013 notebook entered west longitudes as positive numbers, which leaves distances unchanged (a reflection is an isometry) but flips the sign of rotation-dependent terms such as the Sagnac correction (Sec.~\ref{sec:effects}).
+
+\subsection{Geodetic coordinates and the ECEF frame}
+The reference ellipsoid is WGS84 \cite{wgs84}, with semi-major axis $a$, semi-minor axis $b=a(1-f)$ and first eccentricity $e^2=(a^2-b^2)/a^2$:
+\begin{equation}
+\begin{aligned}
+a&=\SI{6378137}{m}, & 1/f&=298.257223563,\\
+b&=\SI{6356752.31424518}{m}, & e^2&=\num{6.69437999e-3}.
+\end{aligned}
+\end{equation}
+The Fermilab site survey is in NAD83 on the GRS80 ellipsoid ($1/f=298.257222101$), which differs from WGS84 by \SI{0.1}{mm} in $b$; the two are treated as coincident, as the Fermilab coordinate-system document itself does \cite{oshinowo1997}.  A point with geodetic latitude $\varphi$, longitude $\lambda$ and ellipsoidal height $h$ maps to Earth-centred Earth-fixed Cartesian coordinates by
+\begin{equation}
+N(\varphi)=\frac{a}{\sqrt{1-e^2\sin^2\varphi}},\qquad
+\begin{aligned}
+X&=(N+h)\cos\varphi\cos\lambda,\\
+Y&=(N+h)\cos\varphi\sin\lambda,\\
+Z&=\bigl(N(1-e^2)+h\bigr)\sin\varphi .
+\end{aligned}
+\label{eq:ecef}
+\end{equation}
+$N$ is the prime-vertical radius of curvature.  The $X$ axis passes through the intersection of the equator and the prime meridian, $Z$ through the pole.  The inverse transformation is evaluated iteratively to $10^{-14}$\,rad.  The height $h$ in Eq.~\eqref{eq:ecef} is the height above the ellipsoid.  A GPS receiver's \code{\$GPGGA} altitude is orthometric (above mean sea level), $H$; the same sentence gives the geoid separation $N_g$ and $h=H+N_g$.  Each input position in this note carries an explicit datum, and the conversion appears as a line in the correction ledger.
+
+\subsection{Spherical-Earth model}
+As a reference model, used only to show the size of the ellipsoidal correction, the Earth is taken as a sphere of radius $R=a$ and
+\begin{equation}
+\vec r=(R+h)\,(\cos\varphi\cos\lambda,\;\cos\varphi\sin\lambda,\;\sin\varphi).
+\label{eq:sphere}
+\end{equation}
+A sphere of equatorial radius places both sites about \SI{10}{km} too far from the Earth's centre, and since the chord scales with the radius the Fermilab--Ash River chord comes out \SI{823}{m} (\num{176} ticks) too long (Sec.~\ref{sec:models}).
+
+\subsection{Local frame and antenna-to-detector offsets}
+At a point $(\varphi,\lambda)$ the local East, North and Up unit vectors in ECEF are
+\begin{equation}
+\begin{aligned}
+\hat E&=(-\sin\lambda,\;\cos\lambda,\;0),\\
+\hat N&=(-\sin\varphi\cos\lambda,\;-\sin\varphi\sin\lambda,\;\cos\varphi),\\
+\hat U&=(\cos\varphi\cos\lambda,\;\cos\varphi\sin\lambda,\;\sin\varphi).
+\end{aligned}
+\label{eq:enu}
+\end{equation}
+A displacement $(d_E,d_N,d_U)$ from a surveyed point (an antenna) to the physics endpoint (a detector face) is added as $\delta\vec p=d_E\hat E+d_N\hat N+d_U\hat U$.  With the ellipsoid normal as $\hat U$ a purely vertical offset is identical to changing $h$ by $d_U$.  The 2014 note describes the plane tangent to a \emph{sphere}, $\hat U=\vec p/|\vec p|$, which differs from the geodetic normal by the geodetic--geocentric latitude difference (\SI{0.19}{\degree} at these sites); both are implemented and the difference is reported as a sensitivity.
+
+\subsection{Fermilab Site Coordinate System}
+\label{sec:fscs}
+Beam elements in the NuMI Technical Design Report are given in the Fermilab site system, historically ``DUSAF'' coordinates: $x$ east, $y$ north, $z$ elevation, in US survey feet ($\SI{1}{ft}=1200/3937$~m).  Beams-doc-1148 \cite{oshinowo1997} defines the modern realisation, the FSCS, as a double stereographic projection of NAD83/GRS80 geodetic coordinates: the ellipsoid is mapped conformally to a sphere and the sphere projected stereographically to the plane.  This is the Oblique Stereographic projection, EPSG method 9809 \cite{epsg7-2}.  The defining parameters are listed in Table~\ref{tab:fscs}.
+
+\begin{table}[htbp]\centering\small
+\caption{Parameters of the Fermilab Site Coordinate System \cite{oshinowo1997}.}
+\label{tab:fscs}
+\begin{tabular}{ll}
+\toprule
+origin (monument A0) latitude $\varphi_0$ & N \ang{41;50;14.312704} \\
+origin longitude $\lambda_0$ & W \ang{88;15;41.143123} \\
+origin ellipsoidal height $h_0$ & \SI{186.49880}{m} \\
+geodetic azimuth of the $+Y$ axis at A0, $\alpha$ & \ang{38;16;48.01429} \\
+false easting, false northing & \SI{100000}{ft}, \SI{100000}{ft} \\
+scale factor at A0, 720 ft above the DUSAF datum, $F_0$ & 1.000029251309483 \\
+DUSAF $\to$ NAVD88 height correction, $\delta H$ & \SI{-0.17308}{m} \\
+geoid height at A0 (GEOID93), $N_0$ & \SI{-32.78456}{m} \\
+ellipsoid & GRS80 ($a=\SI{6378137}{m}$, $1/f=298.257222101$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+With $e$ the first eccentricity and $\varphi_0,\lambda_0$ the origin, the projection constants are
+\begin{equation}
+\begin{aligned}
+\rho_0&=\frac{a(1-e^2)}{(1-e^2\sin^2\varphi_0)^{3/2}},\qquad \nu_0=\frac{a}{\sqrt{1-e^2\sin^2\varphi_0}},\qquad R=\sqrt{\rho_0\nu_0},\\
+n&=\sqrt{1+\frac{e^2\cos^4\varphi_0}{1-e^2}},\qquad
+w_1=\left[\frac{1+\sin\varphi_0}{1-\sin\varphi_0}\left(\frac{1-e\sin\varphi_0}{1+e\sin\varphi_0}\right)^{e}\right]^{n},\qquad
+\sin\chi_0'=\frac{w_1-1}{w_1+1},\\
+c&=\frac{(n+\sin\varphi_0)(1-\sin\chi_0')}{(n-\sin\varphi_0)(1+\sin\chi_0')},\qquad w_2=c\,w_1,\qquad \chi_0=\arcsin\frac{w_2-1}{w_2+1},
+\end{aligned}
+\end{equation}
+and a point $(\varphi,\lambda)$ projects to the conformal sphere and then to the plane by
+\begin{equation}
+\begin{aligned}
+\Lambda&=n(\lambda-\lambda_0)+\lambda_0,\qquad
+w=c\left[\frac{1+\sin\varphi}{1-\sin\varphi}\left(\frac{1-e\sin\varphi}{1+e\sin\varphi}\right)^{e}\right]^{n},\qquad
+\chi=\arcsin\frac{w-1}{w+1},\\
+B&=1+\sin\chi\sin\chi_0+\cos\chi\cos\chi_0\cos(\Lambda-\lambda_0),\\
+E&=\frac{2R\cos\chi\sin(\Lambda-\lambda_0)}{B},\qquad
+N=\frac{2R\,[\sin\chi\cos\chi_0-\cos\chi\sin\chi_0\cos(\Lambda-\lambda_0)]}{B}.
+\end{aligned}
+\label{eq:stereo}
+\end{equation}
+The FSCS axes are rotated so that $+Y$ points along the geodetic azimuth $\alpha$, rescaled to true scale at 720 ft above the DUSAF datum, and offset by the false coordinates:
+\begin{equation}
+X_{\rm FSCS}=\frac{F_0\,(E\cos\alpha-N\sin\alpha)}{\SI{1}{ft}}+\SI{100000}{ft},\qquad
+Y_{\rm FSCS}=\frac{F_0\,(N\cos\alpha+E\sin\alpha)}{\SI{1}{ft}}+\SI{100000}{ft}.
+\label{eq:fscsrot}
+\end{equation}
+Heights relate as $h=H_{\rm DUSAF}+\delta H+N_g$ with $N_g$ taken as the A0 value across the site (the GEOID93 slope between A0 and the Main Injector centroid is \SI{1.3}{cm}).  The inverse of Eq.~\eqref{eq:stereo} is the EPSG inverse (iteration on the isometric latitude); the implementation reproduces the EPSG worked example (Amersfoort) to \SI{2}{mm} and the CFMI control point of Beams-doc-1148 to \SI{0.1}{mm} horizontally.  A beam-sheet bearing $\beta$ (degrees counter-clockwise from site East) corresponds to the geodetic azimuth $(90^{\circ}-\beta)+\alpha$ at A0; the NuMI final bearing \ang{152.18332} gives \ang{336.097}, against \ang{336.098} from the 1999 Fermilab--Soudan geodetic survey \cite{bocean1999,soler2000}.
+
+\subsection{NuMI beamline system (origin MCZERO) and the beam-axis frame}
+\label{sec:beamline}
+The Fermilab alignment group reports NuMI positions in a Cartesian beamline system: origin MCZERO; $X$ positive to beam right (eastward) looking downstream; $Y$ the stationing, positive downstream; $Z$ positive upward and orthogonal to the beam \cite{bocean2026fd,bocean2026nd}.  The same construction serves as the beam-axis frame for off-axis angles.  Given an origin $O$ and a second point $T$ on the line, with ECEF positions $\vec p_O$, $\vec p_T$ and the ellipsoid normal $\hat n_O$ at the origin,
+\begin{equation}
+\hat u=\frac{\vec p_T-\vec p_O}{|\vec p_T-\vec p_O|},\qquad
+\hat h=\frac{\hat u\times\hat n_O}{|\hat u\times\hat n_O|},\qquad
+\hat v=\hat h\times\hat u .
+\label{eq:frame}
+\end{equation}
+$\hat u$ is along the line, $\hat h$ to the right looking downstream (horizontal at the origin), $\hat v$ up, orthogonal to the line and in the vertical plane through $\hat n_O$.  A point $P$ with $\vec r=\vec p_P-\vec p_O$ has beamline coordinates and off-axis quantities
+\begin{equation}
+Y=\vec r\cdot\hat u,\qquad X=\vec r\cdot\hat h,\qquad Z=\vec r\cdot\hat v,\qquad
+\theta_{\rm off}=\arctan\frac{\sqrt{X^2+Z^2}}{Y},\qquad
+\psi_{\rm clock}=\operatorname{atan2}(X,Z),
+\label{eq:offaxis}
+\end{equation}
+where $\psi_{\rm clock}$ is \ang{0} above the axis and \ang{90} to the right; the inverse is $\vec p_P=\vec p_O+Y\hat u+X\hat h+Z\hat v$.  The angle between a chord $\vec d$ and the axis is $\angle(\vec d,\hat u)$ with components $\operatorname{atan2}(\vec d\cdot\hat h,\vec d\cdot\hat u)$ (right) and $\operatorname{atan2}(\vec d\cdot\hat v,\vec d\cdot\hat u)$ (up).  The opening angle at a vertex $V$ between the chords to $A$ and $B$ is $\angle(\vec p_A-\vec p_V,\vec p_B-\vec p_V)$, decomposed into the azimuth and elevation differences of the two chords at $V$; the transverse distance of $A$ from the line $VB$ is $|\vec p_A-\vec p_V|\sin\angle$.  Angles between vectors are evaluated as $\operatorname{atan2}(|\vec a\times\vec b|,\vec a\cdot\vec b)$ for numerical stability at the microradian level.
+
+\textbf{Realisation for NuMI.}  Two elements of the beamline system are not stated in the survey notes and were established here.  (1) MCZERO lies at the upstream end of horn~1, between the target exit and the horn; it is taken as the horn-1 upstream face of the 1998 TDR beam sheet (row 0089, \SI{1.5}{m} downstream of the target entrance).  The as-built point is not public, so the origin is good to about \SI{1}{m} along the beam, which is \SI{0.2}{ticks} on an \SI{810}{km} chord and nothing transverse.  (2) The direction of the $Y$ axis.  Two candidate lines were tested: the 1998 design axis (target $\to$ decay-pipe end) and the as-built aiming line (MCZERO $\to$ MINOS \FD{} midpoint).  The \FD{} survey note gives an independent NAVD88 elevation of the face centre, $H=\SI{1209.1058}{ft}=\SI{368.535}{m}$, i.e.\ $h\simeq\SI{336.07}{m}$ with the Ash River geoid separation $N_g=\SI{-32.462}{m}$ of the receiver.  The aiming line reproduces it to \SI{+1.5}{m}; the design axis misses it by \SI{17}{m}.  The aiming line is therefore the surveyors' $Y$ axis and is used for both survey points (Sec.~\ref{sec:validation}).
+
+\textbf{Detector faces.}  A face of half-width $w$ and half-height $w'$ centred at $(X,Y,Z)$ has edge points $(X\mp w,Y,Z)$ (left, right) and $(X,Y,Z\pm w')$ (top, bottom) in the same frame; the face is taken perpendicular to the beamline rather than to the detector's own axis, a \SI{3}{cm} difference for the \ND.  The angle the face subtends at the axis origin is $\angle(\vec r_{\rm left},\vec r_{\rm right})$.
+
+\section{Input positions}
+\subsection{NuMI target, MCZERO and the design beam axis}
+The NuMI Technical Design Report \cite{numitdr1998}, Appendix~A beam sheet ``horn2 ces'', lists every beamline element in DUSAF coordinates (entrance of the device).  The rows used are the target entrance (0087, \code{HALTA TAR-2}), the horn-1 entrance (0089, \code{IHHRN1}, the MCZERO proxy) and the decay-pipe end (0092, \code{DENCU}); the sheet's final bearing is \ang{152.18332} (ccw from site East) and pitch \ang{-3.336}.  These are design positions; as-built target positions in the LE and ME configurations differ at the metre level.
+
+\subsection{Surveyed upstream-face centres of the NOvA detectors}
+The definitive endpoints are the upstream-face centres surveyed by the Fermilab Survey, Alignment and Geodesy group \cite{bocean2026nd,bocean2026fd}, Table~\ref{tab:survey}.  The \FD{} point is \SI{7.5}{in} from the intersection of the rail midline with the wall (the bookend) and vertically at the measured highest floor point (\SI{1181.8175}{ft} NAVD88) plus the \SI{23.25}{in} pallet and the \SI{304.21}{in} half-plane, $H=\SI{1209.1058}{ft}$.  The \ND{} point uses the $3\times3$-module width and height of \SI{158.125}{in} and the tunnel cross-section drawing 489389.
+
+\begin{table}[htbp]\centering\small
+\caption{Surveyed upstream-face centres in the NuMI beamline system (origin MCZERO; $X$ right, $Y$ stationing, $Z$ up) \cite{bocean2026nd,bocean2026fd}.  Frame as realised in this note.}
+\label{tab:survey}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrl}
+\toprule
+point & $X$ (m) & $Y$ (m) & $Z$ (m) & frame \\
+\midrule
+\input{generated/survey}
+\end{tabular}}
+\end{table}
+
+\subsection{GPS antenna fixes, MINOS far detector and other inputs}
+Table~\ref{tab:inputs} lists the remaining inputs: the MINOS surface-building mast antenna and the three Ash River antennas from the 2014 note \cite{norman2014} (decoded from the TDU receivers' \code{\$GPGGA} sentences; the Table~2 heights of the note are ellipsoidal, as the \code{\$POLYP} altitude confirms), the MINOS \FD{} supermodule midpoint \cite{minos2008} used to define the aiming line, and the 2014-note antenna-derived endpoints that are retained for comparison.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Other input positions.  FNAL antenna coordinates are quoted to \ang{;;1} (about \SI{31}{m} N--S, \SI{23}{m} E--W); Ash River coordinates to $10^{-6}$ arc-minute.}
+\label{tab:inputs}
+\begin{tabular}{p{1.5cm}p{3.4cm}p{5.4cm}p{4.3cm}}
+\toprule
+id & site & position as given & source \\
+\midrule
+\input{generated/inputs}
+\end{tabular}
+\end{table}
+
+\subsection{Converted positions}
+Table~\ref{tab:positions} gives every endpoint used below in geodetic (WGS84) and ECEF coordinates after all conversions (site projection, beamline frame, antenna offsets); Table~\ref{tab:positionsdec} repeats the principal points in decimal degrees.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Endpoints in WGS84 geodetic and ECEF coordinates.  \code{nd}/\code{fd} are the surveyed faces, \code{-left}/\code{-right} their edges; \code{nd-1015}, \code{nd-under-mast} and \code{fd2} are superseded geometries (Appendix~\ref{app:history}).}
+\label{tab:positions}
+\resizebox{\textwidth}{!}{\begin{tabular}{lllrrrr}
+\toprule
+id & latitude & longitude & $h$ (m) & $X$ (m) & $Y$ (m) & $Z$ (m) \\
+\midrule
+\input{generated/positions}
+\end{tabular}}
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Principal points in decimal degrees (WGS84).}
+\label{tab:positionsdec}
+\begin{tabular}{lrrr}
+\toprule
+id & latitude (\textdegree) & longitude (\textdegree, east +) & $h$ (m) \\
+\midrule
+\input{generated/positions_decimal}
+\end{tabular}
+\end{table}
+
+\section{Distances}
+\subsection{Chords in the spherical and ellipsoidal models}
+\label{sec:models}
+Neutrinos travel the Euclidean chord $L=|\vec p_B-\vec p_A|$ through the Earth, not the surface arc.  Table~\ref{tab:models} gives, for every baseline, the chord in the spherical reference model, in the WGS84 model with the surveyed or given points, and after the antenna-to-endpoint offsets where any apply.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Chord length by Earth model.  $L_{\rm sph}$: sphere of radius $a$; $L_{\rm WGS}$: ellipsoid, points as given; $L_{\rm final}$: after antenna offsets (none for surveyed faces).}
+\label{tab:models}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{7cm}rrrrr}
+\toprule
+baseline & $L_{\rm sph}$ (m) & $L_{\rm WGS}$ (m) & $\Delta$ (m) & $L_{\rm final}$ (m) & $\Delta$ (m) \\
+\midrule
+\input{generated/models}
+\end{tabular}}
+\end{table}
+
+\subsection{Correction ledger}
+The ledger lists each change of the endpoints in order with its effect on $L$, $t$ and the tick count.  For the surveyed faces only the Earth model enters (Table~\ref{tab:ledger}); the 2014-note geometry with its antenna offsets is given for comparison in Table~\ref{tab:ledger2014} of Appendix~\ref{app:history}.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Correction ledger, \ND{} face $\to$ \FD{} face.}
+\label{tab:ledger}
+\resizebox{\textwidth}{!}{\begin{tabular}{lp{6cm}rrrr}
+\toprule
+step & applied & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
+\midrule
+\input{generated/ledger_ndfd}
+\end{tabular}}
+\end{table}
+
+\subsection{Chord geometry}
+The geocentric central angle $\gamma=\angle(\vec p_A,\vec p_B)$, the surface arc at the mean geocentric radius $\bar R\gamma$, the sagitta $\bar R(1-\cos\gamma/2)$, and the azimuth and elevation of the chord in the local frames of Eq.~\eqref{eq:enu} at each end are given in Table~\ref{tab:geometry}.  A great-circle distance would be wrong by more than \num{100} ticks.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Chord geometry.  Elevation is negative when the chord dips below the local horizontal at the source; at the target end a positive value means the chord arrives rising.}
+\label{tab:geometry}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrrrr}
+\toprule
+chord & $\gamma$ (\textdegree) & arc (m) & arc$-$chord (m) & sagitta (m) & azimuth (\textdegree) & dip at source (\textdegree) & elev.\ at target (\textdegree) & deepest $h$ (m) \\
+\midrule
+\input{generated/geometry}
+\end{tabular}}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{01-plan-view}
+\caption{Plan view, not to scale: the beam axis from the NuMI target through the MINOS far detector, the surveyed \ND{} and \FD{} faces to its left, the MINOS mast antenna, and the chords used in the calculation.}
+\label{fig:plan}
+\end{figure}
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{02-elevation-view}
+\caption{Elevation view, not to scale: dips of the chords below the target's local horizontal, the curved ground surface, and the positions of the detectors relative to the extended beam axis.}
+\label{fig:elev}
+\end{figure}
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.85\textwidth]{03-transverse-view}
+\caption{Transverse view looking downstream along the beam axis: the surveyed \ND{} and \FD{} faces lie to the left of and below the axis at almost the same clock angle.}
+\label{fig:transverse}
+\end{figure}
+
+\section{Time of flight and timing offsets}
+\subsection{Flight time and clock ticks}
+With $c=\SI{299792458}{m/s}$ exactly and neutrinos taken to travel at $c$ (the mass-induced delay is evaluated in Sec.~\ref{sec:effects}),
+\begin{equation}
+t=\frac{L}{c},\qquad n=f_{\rm clk}\,t,\qquad f_{\rm clk}=\SI{64}{MHz},
+\end{equation}
+so one tick is \SI{15.625}{ns} or \SI{4.684}{m} of light path.  The legacy Global Trigger unit of \SI{500}{ns} is also given.  Table~\ref{tab:timing} lists the results for the surveyed geometry; the integer tick count uses round-to-nearest and the residual is the difference between the integer and the exact value.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Flight times for the surveyed geometry.  ``total'' includes the Main Injector shift of Sec.~\ref{sec:mi}.}
+\label{tab:timing}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{5.2cm}rrrrrrr}
+\toprule
+chord & $L$ (m) & $t$ (\textmu{}s) & ticks & integer & residual (ns) & 500 ns units & total ticks \\
+\midrule
+\input{generated/timing}
+\end{tabular}}
+\end{table}
+
+\subsection{Main Injector timing shift}
+\label{sec:mi}
+After the 2012 shutdown the beam moved relative to the Main Injector Beam Sync event MIBS\,\$74 by 141 MI revolutions \cite{norman2013nb}.  With $h_{\rm MI}=588$ RF buckets per turn at the flat-top RF frequency $f_{\rm RF}$,
+\begin{equation}
+T_{\rm rev}=\frac{h_{\rm MI}}{f_{\rm RF}},\qquad \Delta t_{\rm MI}=141\,T_{\rm rev},\qquad n_{\rm MI}=f_{\rm clk}\,\Delta t_{\rm MI},
+\end{equation}
+giving Table~\ref{tab:mi}.  One revolution is \num{708.655} ticks: the \SI{53.1034}{MHz} RF and the \SI{64}{MHz} clock are not commensurate, and a \SI{1}{kHz} error in $f_{\rm RF}$ shifts $n_{\rm MI}$ by \input{generated/mishift_khz}ticks.
+
+\begin{table}[htbp]\centering\small
+\caption{Main Injector 141-turn shift.}
+\label{tab:mi}
+\begin{tabular}{rrrrrrr}
+\toprule
+turns & buckets/turn & $f_{\rm RF}$ (MHz) & $T_{\rm rev}$ (\textmu{}s) & ticks/turn & $\Delta t_{\rm MI}$ (\textmu{}s) & $n_{\rm MI}$ (ticks) \\
+\midrule
+\input{generated/mishift} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Combined offset and trigger window}
+The total offset of the \FD{} trigger relative to MIBS\,\$74 is $n_{\rm tot}=n_{\rm ToF}+n_{\rm MI}$ (Table~\ref{tab:total}); the Sagnac term is reported but not added.  The window of Eq.~\eqref{eq:window} in ticks is given in Table~\ref{tab:window}; a \SI{50}{\micro s} window spans \num{3200} ticks and overlaps one or two \SI{50}{\micro s} microslices, so a recorded beam event is up to \SI{100}{\micro s} wide.
+
+\begin{table}[htbp]\centering\small
+\caption{Combined offset, \ND{} face $\to$ \FD{} face plus the MI shift.}
+\label{tab:total}
+\begin{tabular}{rrrrr}
+\toprule
+$n_{\rm ToF}$ & $n_{\rm MI}$ & $n_{\rm tot}$ & integer & residual (ns) \\
+\midrule
+\input{generated/total} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[htbp]\centering\small
+\caption{Trigger window $[t-\SI{20}{\micro s},\,t+\SI{30}{\micro s})$ in ticks after $t_0$, relative to the flight time alone and to the flight time plus the MI shift.}
+\label{tab:window}
+\resizebox{\textwidth}{!}{\begin{tabular}{rrrrrc}
+\toprule
+ToF low & ToF high & total low & total high & ticks/microslice & microslices overlapped \\
+\midrule
+\input{generated/window} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{Effects outside the geometric flight time}
+\label{sec:effects}
+In the rotating ECEF frame a signal from $A$ to $B$ acquires the Sagnac correction $\Delta t_{\rm S}=\omega_\oplus\,(x_Ay_B-y_Ax_B)/c^2$ with $\omega_\oplus=\SI{7.2921150e-5}{rad/s}$ \cite{iers2010}; it is negative here because the beam travels westward and the \FD{} rotates toward it.  A neutrino of mass $m$ and energy $E$ is delayed by $\delta t=t\,m^2/(2E^2)$.  Antenna cable delays ($\ell/(v_f c)$) are receiver calibrations and not part of the flight time.  Table~\ref{tab:effects} lists them; the MINOS neutrino-speed measurement \cite{minostof2015} treats the same terms.
+
+\begin{table}[htbp]\centering\small
+\caption{Non-geometric terms for the \ND{} $\to$ \FD{} chord.}
+\label{tab:effects}
+\begin{tabular}{p{7.4cm}rrp{3.6cm}}
+\toprule
+effect & ns & ticks & status \\
+\midrule
+\input{generated/effects}
+\end{tabular}
+\end{table}
+
+\section{Angles relative to the beamline}
+\subsection{Beam axis and off-axis positions}
+The beam axis of this note is the line from the target through the MINOS \FD{} midpoint (Table~\ref{tab:axis}); the TDR design axis agrees with it in direction to \SI{0.02}{mrad}.  Table~\ref{tab:vsaxis} gives every site's off-axis angle at the target, distance along the axis and transverse position from Eq.~\eqref{eq:offaxis}.
+
+\begin{table}[htbp]\centering\small
+\caption{The beam axis.}
+\label{tab:axis}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrl}
+\toprule
+axis & length (m) & azimuth at origin (\textdegree) & elevation at origin (\textdegree) & unit vector (ECEF) \\
+\midrule
+\input{generated/axis}
+\end{tabular}}
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Sites relative to the beam axis: off-axis angle at the target, distance along the axis, transverse distance with right/up components, and clock angle (\ang{0} above, \ang{90} right).}
+\label{tab:vsaxis}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrr}
+\toprule
+id & off-axis (mrad) & along (m) & transverse (m) & right (m) & up (m) & clock (\textdegree) \\
+\midrule
+\input{generated/vs_axis}
+\end{tabular}}
+\end{table}
+
+\subsection{Opening angles}
+Table~\ref{tab:opening} gives the opening angles at the target between pairs of chords, their horizontal and vertical components, the transverse distance of the first endpoint from the second chord, and each chord's angle to the beam axis.  With both surveyed faces the \ND{} lies only \SI{2.46}{m} off the target $\to$ \FD{} line: the Near Detector sits on the line of sight to the Far Detector.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Opening angles at the NuMI target.}
+\label{tab:opening}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{5.6cm}rrrrrr}
+\toprule
+angle & total (mrad) & horizontal (mrad) & vertical (mrad) & $a$ transverse to $Vb$ (m) & $a$ vs axis (mrad) & $b$ vs axis (mrad) \\
+\midrule
+\input{generated/opening}
+\end{tabular}}
+\end{table}
+
+\subsection{Near Detector face edges}
+The \ND{} face is \SI{158.125}{in} square (half-width \SI{2.0081875}{m}).  Table~\ref{tab:facend} gives the positions of its centre and edges and their angles to the beam axis; the face subtends \input{generated/face_nd_subtended} at the target.  Table~\ref{tab:facendfd} gives the opening angle between each face point and the target $\to$ \FD{} chord.  Figure~\ref{fig:face} shows the face with the iso-angle contours.  The \FD{} face (half-size \SI{304.21}{in}) is treated identically; its edges are \SI{0.019}{mrad} apart as seen from the target.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{\ND{} face points: geodetic position, angle to the beam axis and transverse offsets from the axis.}
+\label{tab:facend}
+\resizebox{\textwidth}{!}{\begin{tabular}{llllrrrr}
+\toprule
+point & latitude & longitude & $h$ (m) & angle to axis (mrad) & right (m) & up (m) & clock (\textdegree) \\
+\midrule
+\input{generated/face_nd}
+\end{tabular}}
+\end{table}
+\begin{table}[htbp]\centering\small
+\caption{Opening angle at the target between each \ND{} face point and the chord to the \FD{} face.}
+\label{tab:facendfd}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrr}
+\toprule
+point & opening angle (mrad) & horizontal (mrad) & vertical (mrad) & transverse to the \FD{} chord (m) & chord vs axis (mrad) \\
+\midrule
+\input{generated/face_nd_vs_fd}
+\end{tabular}}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{04-near-detector-front-face}
+\caption{The \ND{} front face looking downstream, to scale: the angle to the beam axis at the centre, edges and corners, contours of constant angle across the face plane, the point where the beam axis crosses the face plane (off the detector, to the right and above), and the point where the target $\to$ \FD{} line of sight crosses the face plane.}
+\label{fig:face}
+\end{figure}
+
+\section{Validation}
+\label{sec:validation}
+The target position and the realisation of the beamline frame rest on design documents; Table~\ref{tab:validation} checks them against independently published or surveyed quantities.  The target $\to$ MINOS \FD{} chord agrees with the published \SI{735338.0}{m} (from the horn-1 upstream end) to \SI{7}{m}, the beam azimuth with the 1999 geodetic survey to \ang{;;13}, the \FD{} ellipsoidal height with the NAVD88 survey elevation to \SI{1.5}{m}, and the MCZERO $\to$ \FD{} chord equals $\sqrt{X^2+Y^2+Z^2}$ of the survey coordinates identically.  The surveyed \ND{} confirms the 2014 antenna's \SI{11.57}{m} left offset to \SI{5}{mm}.  In addition the 2013 notebook is reproduced to $10^{-9}$ (Appendix~\ref{app:history}).
+
+\begin{table}[htbp]\centering\small
+\caption{Validation against published and surveyed quantities.}
+\label{tab:validation}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{5.2cm}p{3cm}p{5cm}r}
+\toprule
+quantity & this note & reference & difference \\
+\midrule
+\input{generated/validation}
+\end{tabular}}
+\end{table}
+
+\section{Sensitivities and error budget}
+Numerical partial derivatives of the \ND{} $\to$ \FD{} chord with respect to each input are given in Table~\ref{tab:sens}; the gradient of $L$ with respect to an endpoint position is the unit chord vector, so an endpoint error of $\sigma$ metres along the chord is worth $\sigma$ metres of $L$ (\SI{3.34}{ns/m}).  The error budget (Table~\ref{tab:budget}) combines the declared $1\sigma$ uncertainties in quadrature and lists conventions and neglected terms separately.  With both faces surveyed, the budget is dominated by the RF-frequency term of the Main Injector shift; combined items: \input{generated/budget_rss}.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Sensitivities of the \ND{} $\to$ \FD{} chord.}
+\label{tab:sens}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{7.5cm}rrr}
+\toprule
+variation & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
+\midrule
+\input{generated/sensitivities}
+\end{tabular}}
+\end{table}
+\begin{table}[htbp]\centering\small
+\caption{Error budget, \ND{} face $\to$ \FD{} face, in \SI{64}{MHz} ticks.}
+\label{tab:budget}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{7cm}rrll}
+\toprule
+source & ns & ticks & type & combined \\
+\midrule
+\input{generated/budget}
+\end{tabular}}
+\end{table}
+
+\section{Summary}
+Table~\ref{tab:baselines} collects all baselines.  For the surveyed \ND{} and \FD{} faces the flight path is \SI{809514.750}{m}, the flight time \SI{2700.250552}{\micro s} = \num{172816.035} ticks, and the total offset with the 141-turn Main Injector shift \num{272736.417} ticks, i.e.\ \num{272736} ticks when rounded (residual \SI{-6.5}{ns}).  From the target the \FD{} face is \SI{810509.171}{m} (\num{173028.325} ticks) and the \ND{} face \SI{994.424}{m} (\num{212.291} ticks).  The \ND{} and \FD{} are \num{12.19} and \num{14.55}~mrad off the Soudan axis, on the same side (clock \ang{-107} and \ang{-111}), and the \ND{} face spans \num{4.04}~mrad at the target.  Open items are the as-built MCZERO and target positions (about \SI{1}{m} along the beam) and the geoid model behind the \SI{1.5}{m} residual on the \FD{} height.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{All baselines of the configuration.  ``total'' adds the MI shift; the last column is the opening angle between the chord and the beam axis.}
+\label{tab:baselines}
+\resizebox{\textwidth}{!}{\begin{tabular}{p{6.2cm}rrrrrr}
+\toprule
+baseline & $L$ (m) & $t$ (\textmu{}s) & ticks & total ticks & integer & chord vs axis (mrad) \\
+\midrule
+\input{generated/baselines}
+\end{tabular}}
+\end{table}
+
+\appendix
+\section{History and reproduction of the earlier calculations}
+\label{app:history}
+The 2013 notebook \cite{norman2013nb} used the MINOS mast antenna (\ang{41;50;23}\,N, \ang{88;16;13}\,W, \SI{228}{m}) lowered by \SI{300}{m} and Ash River antenna~2 (\SI{348.638}{m}); the 2014 note \cite{norman2014} specified $105+15$~m and $12+7.8$~m vertical offsets instead and left the horizontal antenna-to-detector vectors to be determined.  Table~\ref{tab:repro} reproduces the notebook's printed outputs with the present code, and Table~\ref{tab:ledger2014} shows the 2014-note ledger.  Table~\ref{tab:history} traces the \ND{} $\to$ \FD{} tick count through the successive geometries: the 2014 antenna-derived endpoints, the Near Detector placed at a quoted \SI{1015}{m} from the target with the antenna's transverse position, and the surveyed faces.  The surveyed \FD{} face is \SI{58}{m} horizontally and \SI{8.8}{m} vertically from the antenna-derived point; the surveyed \ND{} face is \SI{993.35}{m} from MCZERO, \SI{3.6}{m} below the axis, not \SI{5.1}{m} above it.
+
+\begin{table}[htbp]\centering\small
+\caption{Reproduction of the 2013 notebook \cite{norman2013nb}; the last row is the 2014-note offset geometry.}
+\label{tab:repro}
+\begin{tabular}{lrrr}
+\toprule
+quantity & recomputed & notebook & relative difference \\
+\midrule
+\input{generated/reproduction}
+\end{tabular}
+\end{table}
+\begin{table}[htbp]\centering\scriptsize
+\caption{Correction ledger of the superseded 2014-note geometry (antenna fixes with vertical offsets).}
+\label{tab:ledger2014}
+\resizebox{\textwidth}{!}{\begin{tabular}{lp{6cm}rrrr}
+\toprule
+step & applied & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
+\midrule
+\input{generated/ledger_2014}
+\end{tabular}}
+\end{table}
+\begin{table}[htbp]\centering\small
+\caption{\ND{} $\to$ \FD{} tick count through the successive geometries.}
+\label{tab:history}
+\begin{tabular}{lrr}
+\toprule
+geometry & ticks & vs surveyed \\
+\midrule
+\input{generated/history}
+\end{tabular}
+\end{table}
+
+\section{Software and reproducibility}
+All numbers were produced by \code{gps-tof} \cite{gpstof} (Python, standard library plus PyYAML) from the configuration \code{config/nova.yaml}, which records every input with its source.  The package implements Eqs.~\eqref{eq:ecef}--\eqref{eq:offaxis}, the correction ledger, the sensitivities and the error budget, and is covered by a test suite that pins the reproduction of the 2013 notebook, the EPSG worked example, the Beams-doc-1148 control points, the survey coordinates and the headline results.  To regenerate the report and this note's tables:
+\begin{verbatim}
+gps-tof -c config/nova.yaml -f all -o reports/nova
+python3 scripts/make_note_tables.py
+cd docs/note && latexmk -pdf nova-tof-note
+\end{verbatim}
+Local copies of every cited document are kept in \code{docs/external/} and \code{docs/reference/} of the repository, with SHA-256 checksums and an index of provenance.
+
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+\end{document}

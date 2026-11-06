@@ -130,6 +130,20 @@ off-axis position of both endpoints; each opening angle gets the angle of both c
 The chord ND → FD makes 14.56 mrad with the axis.  The TDR design axis (target → decay-pipe end)
 agrees with target → MINOS FD to 0.02 mrad in direction.
 
+## Technical note
+
+`docs/note/nova-tof-note.tex` is a NOvA-style technical note ("Determination of the Neutrino
+Time of Flight from the NuMI Target to the NOvA Detectors: Coordinate Systems, Distances and
+Timing Offsets") with the full derivations of all five coordinate systems, the distances,
+flight times, timing shifts, angles, validation, error budget and an appendix reproducing the
+2013/2014 work.  Its tables are generated from `reports/nova.json` by
+`scripts/make_note_tables.py`, its figures are the PDF versions of `docs/figures/`, and the
+built PDF is `docs/note/nova-tof-note.pdf`.  Build with `make -C docs/note` (TeX Live with
+latexmk, natbib, siunitx, booktabs).  Local copies of every cited document are in
+`docs/external/` (published papers, the TDR, Beams-doc-1148, the survey notes) and
+`docs/reference/` (the 2013 notebook, NOvA-doc-11860 and its LaTeX source), each directory with
+a provenance index and SHA-256 checksums.
+
 ## Layout
 
 ```
@@ -139,7 +153,9 @@ tests/                  pytest suite (reproduction of the notebook, projection, 
 man/                    gps-tof(1), gps-tof(5), gps-tof-nmea(1), gps-tof-fscs(1), gps_tof(3)
 docs/DESIGN.md          design, methodology, decisions, references
 docs/figures/           schematic figures as standalone SVG and PNG (scripts/export_figures.py)
-docs/reference/         original Mathematica notebooks, 2014-note transcription, generator script
+docs/note/              technical note (LaTeX, generated tables, PDF figures, built PDF)
+docs/external/          local copies of all cited external documents, with index and checksums
+docs/reference/         2013 notebook, NOvA-doc-11860 (PDFs and LaTeX source), transcription, generator script
 reports/                generated reports for config/nova.yaml (md, txt, json)
 bootstrap.sh/.ps1       create venv, install, run tests;  start-gps-tof.sh  runs the tool from the venv
 CMakeLists.txt          ctest + man-page install targets
@@ -182,5 +198,5 @@ The four figures are also exported as standalone files in `docs/figures/` (SVG a
 Regenerate with `python3 scripts/export_figures.py` (man page `gps-tof-export-figures(1)`).
 
 
-Version 0.6.0.  Python ≥ 3.9, PyYAML only.  61 tests.  No C/C++ library yet (the
+Version 0.7.0.  Python ≥ 3.9, PyYAML only.  61 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

@@ -1,0 +1,255 @@
+\section{Detector Positioning}
+
+The determination of the position of the far detector was determined
+using the information provided by the GPS receivers installed in the
+timing system masters (TDU masters) at Ash River.  These three receivers
+were located in the far detector computing center in relay rack 3 and
+connected to a set of three antennas that are mounted on the roof of
+the Ash River building.
+
+The position of the near detector on the surface (NDOS) was determined
+through the use of the master TDU mounted in the first electronics
+rack at the NOvA surface building upper catwalk and connected to the
+antenna mounted on the roof of the building.  Additionally the
+position of the MINOS surface building was determined in a similar
+manner using the TDUs mounted in the electronics racks in the MINOS
+surface building and connected to two separate antennas mounted on a
+mast on the roof of the building.
+
+\subsection{GPS Antenna Position}
+
+The Antennas on the Ash River building are mounted on a single mast
+with four mount points for Antennas.  Each Antenna is mounted on a
+mount point at a distance XXX from the central axis of the mast.  The
+antennas are then connected to the recievers through an approximately
+100 foot cable run that is common to all the antennas and receivers.
+
+At the MINOS service building a similar antenna installations is used
+with a single mast with two mount points and common cable runs down to
+the GPS receivers.  For the NOvA surface building a single mast and
+antenna were mounted and only a single cable runs down from the
+antenna to the receiver.
+
+\subsection{TDU NMEA Data Stream}
+
+To extract the calculated GPS position, the receiver's NMEA data
+stream output was connected to a serial console using a USB to serial
+adapter (USB/serial chip on TDU).  The console was brought up using
+the GNU ``screen'' utility using a connection speed of 38400 baud.
+
+When this was started the MNEA data stream was continously sent to the serial
+console in a fashion where it repleats its NMEA block 1 once every 5
+seconds.  When extracted the blocks read similar to:
+
+\begin{verbatim}
+$GPGLL,4822.716417,N,09249.877638,W,210341.002,A,A*41
+$GPRMC,210341.002,A,4822.716417,N,09249.877638,W,0.000,0.00,070313,,,A*40
+$GPGGA,210341.002,4822.716417,N,09249.877638,W,1,12,0.71,382.823,M,-32.462,M,,*5D
+$GPGSA,A,3,31,11,14,25,01,20,23,30,22,16,12,32,1.20,0.71,0.96*0C
+$GPGSV,3,1,12,31,88,142,48,11,02,241,38,14,35,092,45,25,31,053,44*75
+$GPGSV,3,2,12,01,20,256,44,20,40,300,45,23,11,285,42,30,27,171,44*74
+$GPGSV,3,3,12,22,07,152,42,16,02,182,37,12,07,029,40,32,64,275,47*7C
+$POLYT,210341.002,070313,421421.0022814,1730,421437.0022814,-281415,333.984,25,1127648768,00017,00017,*4C
+$POLYP,210341.002,4822.716417,N,09249.877638,W,350.361,G3,001.9,005.1,0.000,0.00,0.000,,0.71,0.96,1.20,1.30,0.52,12,,0*23
+$POLYS,12,31,U,142,88,48,255,11,U,241,02,38,255,14,U,092,35,45,255,25,U,053,31,44,255,01,U,256,20,44,255,20,U,300,40,45,255,23,U,285,11,42,255,30,U,171,27,44,255,22,U,152,07,42,255,16,U,182,02,37,201,12,U,029,07,40,255,32,U,275,64,47,255*73
+$POLYI,JN,18,EXT,HPOS,VPOS,INT,TSYNC,*19 
+\end{verbatim}
+
+The \$GPGGA string is then used to determine the position of the fix.
+In the case of the data above the \$GPGGA string is decode to the
+position of the Ash River antenna array as shown in Table~\ref{table:gps_decode}.
+
+\begin{table}[thb]
+\begin{center}
+\begin{tabular}{| c |r | r|}
+\hline
+Name                     & Data                      & Description \\
+\hline
+Sentence Identifier & \$GPGGA              & Global Positioning System Fix Data \\
+Time                      &  210341.002         & 21:03:41.002 Z \\
+Latitude                 & 4822.716417,N     & 48d 22.716417' N \\
+Longitude              & 09249.877638,W  & 92d 49.877638' W \\
+Fix Quality             & 1                           & 0=Invalid,
+1=GPS fix, 2 = DGPS fix \\
+Number of Satellites & 12                      & 12 satellites in view
+and locked \\
+Horizontal Dilution of Precision (HDOP) & 0.71 & final std error is
+0.71 times input error \\
+Altitude                   & 382.823,M           & 382.823 meters
+above mean sea level \\
+Height of geoid above WGS84 ellipsoid & -32.462,M & -32.462 meters \\
+Checksum               & \*5D & Checksum for sentence \\
+\hline
+\end{tabular}
+\caption[GPGGA Sentence Decoding]{\label{table:gps_decode} Decoding of the \$GPGGA sentence for
+the Ash River GPS antenna array.}
+\end{center}
+\end{table}
+
+The \$POLYP string can be similarly decoded to provide an alternative
+position fix based on a user datum ellipsoid and the \$POLYT string
+provides the GPS time information along with the errors in the
+measurement and associated drifts.
+
+\section{Flight Path Determination}
+
+The flight path between the near detector and the far detector was
+computing in two different manners using different assumptions for the
+shape of the Eath.  These calculations are done both for self
+consistancy and to determine the potential systemmatic error that is
+introduced by the model of the Earth being used.
+
+\subsection{Spherical Earth}
+
+In the simplest approximation the Earth can be taken as a sphere with
+a mean equitoral radius $R_E = 6,378,137$ meters.  In this representation
+the longitude ($\theta$), latitude ($\phi$) and altitude (A) of a point can be converted to a
+cartisan coordoinates in an Earth centered reference frame
+representation.
+
+The transformation $\{\theta, \phi, A\}$ to $\{p_x,p_y,p_z\}$ is given by:
+
+\begin{align}
+p_x &= ( R_E + A ) \sin(\theta)\cos(\phi) \\ 
+p_y &= (R_E + A) \cos(\theta)\cos(\phi) \\
+ p_z &= (R_E + A) \sin(\phi)
+\end{align} 
+
+In this case the longitude and latitude are taken from the GPS NMEA
+data stream and the altitude that is used is the altitude above mean
+sea level.
+
+In the case of the near detector to far detector the parameters sets that were used
+were:
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| c | c | c | c| c| }
+\hline
+Location & Latitude & Longitude & Altitude (m) & Offset Depth to Detector (m)\\
+\hline
+Ash River Ant-1 & 48 d 22.715780'' & 92 d 49.876930 & 348         & 12+7.8 \\  
+Ash River Ant-2 & 48 d 22.715780'' & 92 d 49.876930 & 348.638  & 12+7.8 \\  
+Ash River Ant-3 & 48 d 22.716416'' & 92 d 49.877639 & 350.346  & 12+7.8 \\  
+\hline
+Fnal Minos         &  41 d 50 m 23 s   & 88 d 16 m 13 s  & 228
+& 105 + 15 \\
+\hline
+\end{tabular}
+\caption[GPS Detector Locations]{\label{table:gps_det_loc} GPS
+  coordinates of NOvA detectors used for flight path calculations.}
+\end{center}
+\end{table}
+
+Because the values returned by the GPS receivers are the positions of
+the antenna systems, offsets are applied to these reported positions
+to account for the difference between the location of the antenna and
+the location of the detector.  In each case the offset is computed to
+correspond to the front face of the detector (face closest to the
+beam) so that the flight time delays that are computed are for the
+earliest arrival of particles between sites (i.e. delays are computing
+from front face crossing to front face crossing and from that
+corrected for position).  The depth offsets are computed to the
+mid-point height of the detector (7.8~m for far det) and include the
+approximate height of the detector over the top edge (12~m for far
+det).  For the NuMI cavern the depth of the cavern is taken to be
+105~m and the mount point of the antenna on the Minos service building
+is taken as 15~m above the surface.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| c | c | c | c| c| }
+\hline
+Location & $\Delta x_{offset}$ (m) & $Delta y_{offset}$ (m) & $Delta
+z_{offset}$ (m)& Notes\\
+\hline
+Ash River Ant Base & TBD & TBD & TBD  & mount axis \\
+Ash River Ant-1     & TBD & TBD & TBD  & south ant.\\  
+Ash River Ant-2     & TBD & TBD & TBD  & north ant.\\  
+Ash River Ant-3     & TBD & TBD & TBD  & west ant.\\  
+\hline
+Fnal NDOS         &  2 & 3   & -3 &  105 + 15 \\
+\hline
+\end{tabular}
+\caption[Antenna to Detector
+Offsets]{\label{table:antenna_det_offsets} Postions offsets used to
+  correct for antenna verse detector front face positions.}
+\end{center}
+\end{table}
+
+To comput these offsets the plane tangent to an earth centered sphere,
+at the GPS measured antenna position is taken, and the vector between
+antenna position and the center of the front face of the detector is
+calculated.  The projects of the offset vector into the earth centered
+fixed reference frame are extracted and the earth centered fixed
+coordinates of the antenna are shifted accordingly.
+
+The standard Euclidian metric is computed between the ECF coordinates
+of the the near and far detectors to determine the straight line
+flight path between the detectors.
+
+\begin{align}
+\Delta L &= \sqrt{\sum_{i} ( (p_i - \delta p_i) - (p_i^\prime - \Delta
+  p_i^{prime})^2} \\
+             &= 810,319~\text{m}
+\end{align}
+
+The neutrinos are assumes to have a speed equal to the speed of light,
+c.  The resulting flight time is then:
+
+\begin{align}
+\Delta t &= \Delta L / c\\
+             &= 2703.3~\mu\text{t}
+\end{align}
+
+\subsection{WGS84 Earth Model}
+
+Due to the lattitudes and distances between the near and far detector
+sites, a more accurate determination of the flight path can found by
+using a deformed Earth model.  The standard description for the
+deformation can be taken from the WGS84 model which establishes
+elliptical major and minor axis for the earth and a set of
+transformations from the ellipsoid into an Earth Centered Fixed (ECF)
+representation.
+
+The parameters used for the WGS84 model, as used by the both the NOvA
+and Minos experiments are given by:
+
+\begin{align}
+R_a &= 6378137 ~\text{m}\\
+R_b &= 6356752.31424518 ~\text{m}\\
+\epsilon_a &= \sqrt{\frac{R^2_a - R^2_b}{R_a}}\\
+\epsilon_b &= \sqrt{\frac{R^2_a - R^2_b}{R_a}}
+\end{align}
+
+With a prescription for transforming from the GPS reported ($\theta$,
+$\phi$, A) coordinates into the ECF coordinates ($p_x$,$p_y$,$p_z$).
+
+\begin{align}
+R_{curv}(\theta) &= \frac{a}{\sqrt{1-\epsilon^2_a \sin \theta^2}} \\
+p_x &= (R_{curv}(\theta) + A) \cos \theta \cos \phi \\
+p_y &= (R_{curv}(\theta) + A) \cos \theta \sin \phi \\
+p_z &= R^2_b/R^2_a (R_{curv}(\theta) + A) \sin \theta
+\end{align}
+
+In the case of the path length between the FNAL and Ash River timing
+stations the path length is taken by comparing the distance between
+the ECF coordinates of far detector and the Minos service building
+position (offset to the beam depth and detector cavern).
+\begin{align}
+\Delta L &= \sqrt{\sum_{i} ( (p_i - \delta p_i) - (p_i^\prime - \Delta
+  p_i^{prime})^2} \\
+             &= 809,606~\text{m}
+\end{align}
+
+The time of flight is then computed assuming the propagation of the
+beam at the speed of light
+
+\begin{align}
+\Delta t &= \Delta L / c \\
+             &= 2700.56~\mu \text{s}
+\end{align}
+
+This time offsite is the delay between when the beam crosses the near
+detector cavern and when the beam should cross the front face of the
+far detector.

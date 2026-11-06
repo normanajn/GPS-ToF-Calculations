@@ -1,0 +1,36 @@
+\section{Method}
+
+The method employed in performing these studies, was a simple ``toy'' Monte Carlo system which modeled the \nova detector in a single view as a series of detector cells with rectangular geometries.  The base geometry did not include the rounded corners of the real \nova extrusion cells, but some effort was made to account for this insensitive region through a minimum pathlength cut that was made on track passing through the cell volumes.  The grid of detector cells was constructed to form full 384 cell wide planes, and the depth of the detector in total number of plans was varied from 4 to 100 planes in depth, corresponding to local tracking inefficiencies up to large scale systemmatic insensitivites.
+
+The cell grid was constructed to have the appropriate inner and outer dimensions of the PVC extrusions, and included the thicker walls at extrusion boundaries.  No effort was made to include random variation in individual cell or module spacings.
+
+After construction of the cell grid, a set of linear trajectories was choosen with an origination point corresponding to a location 1mm upstream (in z) of the first detection plane and a uniformly distributed position along first plane in either x or y.  The angle of incidence was choosen in the forward direction,  uniformly from $\theta$ to $-\theta$.  The resulting crossings of the particle trajector were computed with each of the detector cells.  The pathlengths of all crossings were computed.  Crossing trajectories with less than a 14mm total pathlength in the detector cell, were considered to have come from a corner-crossing, and were treated as misses.
+
+Statistics were collected on the total number of cells a given trajectory had, as well as the total pathlength through active material and other related quanities.  Statistics were also collected on the track trajectories for paths that had a low number of cell hits or had no hits along the path.  There were used to ``map'' the cracks in the detector volume.
+
+The model was then varied with respect to cell staggering and the same exact track trajectories compaired against the new geometry to determine the loss or gain in sensitivity of the two approaches.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{event_geom.eps}
+\caption[Detector Geometry]{Detector Cell Geometry (partial) showing the \nova cells as traced out by particle trajectories crossing the active volume boundary}
+\label{fig:det_geom}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin Figure Block
+\begin{figure}
+\begin{center}
+\includegraphics*[width=\textwidth*4/5]{event_geom_zoom.eps}
+\caption[Detector Geometry]{Detector Cell Geometry zoomed to show the additional dead region that is present between extrusions. View constructed via intersection points between particle trajectories and the active volume boundary}
+\label{fig:det_geom}
+\end{center}
+\end{figure}
+% End Figure Block
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
