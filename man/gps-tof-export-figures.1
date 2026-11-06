@@ -1,0 +1,39 @@
+.TH GPS-TOF-EXPORT-FIGURES 1 "2026-11-06" "gps-tof 0.6.0" "User Commands"
+.SH NAME
+export_figures.py \- export the schematic figures as standalone SVG and PNG files
+.SH SYNOPSIS
+.B python3 scripts/export_figures.py
+[\fB\-\-html\fR \fIFILE\fR] [\fB\-\-out\fR \fIDIR\fR] [\fB\-\-scale\fR \fIN\fR] [\fB\-\-no\-png\fR] [\fB\-\-chrome\fR \fIPATH\fR]
+.SH DESCRIPTION
+Reads every \fB<figure>\fR SVG in \fIdocs/nova-schematic.html\fR (the plan, elevation and
+transverse views and the Near Detector front face), resolves the page's CSS tokens
+(currentColor, var(--beam), ...) to the light-theme colours, embeds a style block and a white
+background, and writes one standalone SVG per figure.  Each SVG is then rasterised to a PNG
+with headless Chrome/Chromium at \fIscale\fR pixels per SVG unit.  Files are named
+\fINN-title.svg\fR / \fI.png\fR in the output directory.
+.SH OPTIONS
+.TP
+.BI \-\-html " FILE"
+Page to read (default \fIdocs/nova-schematic.html\fR).
+.TP
+.BI \-\-out " DIR"
+Output directory (default \fIdocs/figures\fR).
+.TP
+.BI \-\-scale " N"
+PNG resolution, pixels per SVG unit (default 2: a 900x400 figure becomes 1800x800).
+.TP
+.B \-\-no\-png
+Write the SVGs only.
+.TP
+.BI \-\-chrome " PATH"
+Chrome or Chromium executable (default: the macOS application path, then google-chrome,
+chromium, chromium-browser, chrome on the PATH).
+.SH EXAMPLE
+.nf
+    python3 scripts/export_figures.py                  # docs/figures/01-plan-view.svg/.png ...
+    python3 scripts/export_figures.py --scale 4 --out /tmp/fig
+.fi
+.SH FILES
+.I docs/figures/
+.SH SEE ALSO
+.BR gps-tof (1)

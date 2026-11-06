@@ -24,6 +24,6 @@ add_custom_target(bootstrap ALL DEPENDS ${VENV_PY})
 enable_testing()
 add_test(NAME pytest COMMAND ${VENV_PY} -m pytest -q WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-install(FILES man/gps-tof.1 man/gps-tof-nmea.1 man/gps-tof-fscs.1 DESTINATION share/man/man1)
+install(FILES man/gps-tof.1 man/gps-tof-nmea.1 man/gps-tof-fscs.1 man/gps-tof-export-figures.1 DESTINATION share/man/man1)
 install(FILES man/gps_tof.3 DESTINATION share/man/man3)
 install(FILES man/gps-tof.5 DESTINATION share/man/man5)

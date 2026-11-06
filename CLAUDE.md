@@ -18,6 +18,7 @@ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 gps-tof -c config/nova.yaml -f all -o reports/nova    # md + txt + json
 gps-tof-fscs to-geodetic 100327.838 97780.188 626.743
 gps-tof-nmea screenlog.0 --yaml
+python3 scripts/export_figures.py            # docs/figures/*.svg and *.png from docs/nova-schematic.html
 ```
 
 ## Architecture

@@ -138,6 +138,7 @@ src/gps_tof/            package: angles, geodesy, projection, fermilab_site, nme
 tests/                  pytest suite (reproduction of the notebook, projection, config precedence, CLI)
 man/                    gps-tof(1), gps-tof(5), gps-tof-nmea(1), gps-tof-fscs(1), gps_tof(3)
 docs/DESIGN.md          design, methodology, decisions, references
+docs/figures/           schematic figures as standalone SVG and PNG (scripts/export_figures.py)
 docs/reference/         original Mathematica notebooks, 2014-note transcription, generator script
 reports/                generated reports for config/nova.yaml (md, txt, json)
 bootstrap.sh/.ps1       create venv, install, run tests;  start-gps-tof.sh  runs the tool from the venv
@@ -175,6 +176,10 @@ https://claude.ai/artifact/S4eqJocVhnzvuuP8ziAMf4
 
 Not-to-scale schematic of the target, ND, FD and MINOS FD layout with the computed angles
 (`docs/nova-schematic.html`): https://claude.ai/artifact/MHZuX5iAPTuxbCbFRRoqBY
+
+The four figures are also exported as standalone files in `docs/figures/` (SVG and 2× PNG):
+`01-plan-view`, `02-elevation-view`, `03-transverse-view`, `04-near-detector-front-face`.
+Regenerate with `python3 scripts/export_figures.py` (man page `gps-tof-export-figures(1)`).
 
 
 Version 0.6.0.  Python ≥ 3.9, PyYAML only.  61 tests.  No C/C++ library yet (the

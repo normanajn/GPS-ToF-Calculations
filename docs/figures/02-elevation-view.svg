@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-label="Elevation view: the beam axis dips 3.341 degrees below the local horizontal at the target; the chord to the near detector dips 3.550 degrees and the chord to the Ash River far detector 3.635 degrees; the curved ground surface puts the target 41 m, the near detector 105 m and the MINOS far detector 705 m underground while the Ash River far detector sits on the surface.">
+<style>
+  svg { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  text { font-size: 12px; fill: #1d2126; }
+  .small { font-size: 11px; fill: #5d6670; }
+  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 11.5px; }
+  .beam { stroke: #0b6e8f; }
+  .beamtext { fill: #0b6e8f; font-weight: 600; }
+  .fartext { fill: #8a3b2f; }
+  .far { stroke: #8a3b2f; }
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+  <defs>
+    <marker id="arrbeam2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e8f"/>
+    </marker>
+  </defs>
+  <!-- ground: curved surface (curvature exaggerated); rock below.  T(90,170) N(300,204) M(700,320) F(830,382) -->
+  <path d="M 30 126 C 260 128, 540 180, 700 300 C 760 345, 800 368, 850 390 L 850 470 L 30 470 Z" fill="rgba(201,183,156,0.22)" stroke="none"/>
+  <path d="M 30 126 C 260 128, 540 180, 700 300 C 760 345, 800 368, 850 390" fill="none" stroke="#c9b79c" stroke-width="2"/>
+  <text class="small" x="200" y="112">ground surface (Earth curvature exaggerated; central angle target → FD 7.29°, arc − chord 543 m)</text>
+  <!-- local horizontal at the target -->
+  <line x1="90" y1="170" x2="420" y2="170" stroke="#1d2126" stroke-width="1" stroke-dasharray="2 4"/>
+  <text class="small" x="190" y="164">local horizontal at the target</text>
+  <!-- beam axis -->
+  <line class="beam" x1="90" y1="170" x2="845" y2="355" stroke-width="2.5" marker-end="url(#arrbeam2)"/>
+  <!-- chords -->
+  <line x1="90" y1="170" x2="300" y2="225" stroke="#1d2126" stroke-width="1.6"/>
+  <line x1="90" y1="170" x2="830" y2="382" stroke="#1d2126" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <line class="far" x1="300" y1="225" x2="830" y2="382" stroke-width="1.6" stroke-dasharray="3 4"/>
+  <!-- angle arcs at the target: ND 14.7°, axis 13.8°, FD 15.9° (exaggerated; ND chord is steeper than the axis) -->
+  <path d="M 170 170 A 80 80 0 0 1 167.4 190.3" fill="none" stroke="#1d2126" stroke-width="1.2"/>
+  <path d="M 220 170 A 130 130 0 0 1 216.2 201.0" fill="none" stroke="#0b6e8f" stroke-width="1.2"/>
+  <path d="M 270 170 A 180 180 0 0 1 263.0 219.6" fill="none" stroke="#1d2126" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <!-- angle callout, lower left (in the rock, below all chords) -->
+  <text class="small" x="40" y="272" font-weight="600">dip below the local horizontal at the target</text>
+  <text class="mono" x="40" y="290">3.550°</text><text class="small" x="96" y="290">to the ND (solid arc)</text>
+  <text class="mono beamtext" x="40" y="306">3.341°</text><text class="small" x="96" y="306">beam axis (blue arc)</text>
+  <text class="mono" x="40" y="322">3.635°</text><text class="small" x="96" y="322">to the FD (dashed arc)</text>
+  <text class="mono" x="40" y="338">0.084°</text><text class="small" x="96" y="338">ND vs FD vertical opening (1.47 mrad)</text>
+  <text class="small" x="40" y="362">NOvA ND (surveyed): 994 m along the beam, 3.6 m below the axis, ~96 m below the surface</text>
+  <text class="small" x="40" y="376">ND → FD chord 809,515 m: dips 3.626° at the ND, arrives rising 3.66° at the FD</text>
+  <text class="small" x="40" y="390">deepest point of the ND → FD chord: 12.7 km below the ellipsoid</text>
+  <!-- sites -->
+  <circle cx="90" cy="170" r="6" fill="#0b6e8f"/>
+  <text x="90" y="82" text-anchor="middle">NuMI target</text>
+  <text class="small" x="90" y="96" text-anchor="middle">41 m below the surface</text>
+  <rect x="293" y="218" width="14" height="14" fill="#ffffff" stroke="#1d2126" stroke-width="1.6"/>
+  <text x="300" y="254" text-anchor="middle">NOvA ND</text>
+  <rect x="687" y="307" width="26" height="26" fill="#ffffff" stroke="#0b6e8f" stroke-width="2"/>
+  <text x="640" y="372" text-anchor="middle">MINOS FD</text>
+  <text class="small" x="640" y="386" text-anchor="middle">705 m underground, on the axis</text>
+  <rect x="818" y="372" width="24" height="20" fill="#ffffff" stroke="#8a3b2f" stroke-width="2"/>
+  <text class="fartext" x="880" y="420" text-anchor="end">NOvA FD, Ash River</text>
+  <text class="small" x="880" y="434" text-anchor="end">on the surface, 4,163 m below the extended axis (surveyed)</text>
+  <text class="small" x="880" y="448" text-anchor="end">810 km along, arriving chord rises 3.67°</text>
+  <text class="small" x="700" y="268" text-anchor="middle">axis exits the ground past Soudan</text>
+</svg>

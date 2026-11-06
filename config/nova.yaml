@@ -18,19 +18,27 @@ precision_digits: 4
 physics:
   neutrino_mass_ev: 0.1
   neutrino_energy_gev: 2.0
+
+# NOvA beam trigger window is 10us wide and recentered to provide a pre and post sideband region.
 trigger_window:             # NOvA beam trigger: [t0 + t0delay - 20 us, t0 + t0delay + 30 us)
   before_us: 20.0
   after_us: 30.0
-  microslice_us: 50.0
+  microslice_us: 50.0  # The microslice is the smallest data window that our DAQ extracts.  It's set to 50 us.
 sensitivity:
   enabled: true
   arcsec_step: 1.0
   height_step_m: 1.0
   offset_step_m: 1.0
 
+
+######################
+# Site Information
+#
+# Notes: There are a bunch of coordinate systems here.  The Fermilab Survey, Alignment and Geodesy group (SAG) uses a local NuMI beamline system with origin at MCZERO (the upstream face of horn 1).  The beamline X axis is rightward looking downstream, Y is along the beam, and Z is up.  The Ash River site is surveyed in NAD83 (ellipsoid) coordinates, which are converted to the NuMI beamline system for the FD.  The target position is from the NuMI TDR design; the ND and FD positions are from definitive Alignment Group surveys.  The Ash River antenna positions are also surveyed in NAD83 and converted to the NuMI beamline system.
+
 sites:
   # ---- Fermilab ------------------------------------------------------------------------
-  - name: "NuMI target (TDR 1998 design, upstream face)"
+  - name: "NuMI target (TDR 1998) upstream face"
     id: target
     # NuMI Facility Technical Design Report rev 1.0 (Oct 1998), Appendix A beam sheet "horn2 ces",
     # row 0087 HALTA TAR-2: DUSAF/FSCS x, y, z in US survey feet (entrance of the device).
@@ -41,7 +49,7 @@ sites:
     notes: "Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m."
     uncertainty: {offset_m: 5.0}
 
-  - name: "MCZERO (horn 1 upstream face, TDR 1998 design)"
+  - name: "MCZERO horn 1 upstream face, (TDR 1998)"
     id: mczero
     # Origin of the NuMI beamline coordinate system used by the Fermilab alignment group.  MCZERO sits
     # at the upstream end of horn 1, between the target exit and the horn; the 1998 TDR design horn-1
@@ -50,7 +58,7 @@ sites:
     source: "NuMI TDR 1998 App. A beam sheet row 0089 IHHRN1"
     notes: "Proxy for MCZERO to about 1 m along the beam (as-built horn position not public)."
 
-  - name: "NuMI decay pipe end (TDR 1998 design)"
+  - name: "NuMI decay pipe end (TDR 1998)"
     id: decay-end
     fscs_xyz_ft: [98230.009, 98887.039, 488.477]
     source: "NuMI TDR 1998 App. A beam sheet row 0092 DENCU"
@@ -63,7 +71,7 @@ sites:
     height_m: 228.0
     datum: ellipsoid            # datum of the 228 m altitude is not recorded; see uncertainty.height_m
     offset_enu_m: [0, 0, 0]
-    source: "2014 note Table 2 (MINOS-based TDU receivers)"
+    source: "A.Norman 2014 note Table 2 (MINOS-based TDU receivers)"
     uncertainty: {quantization_arcsec: 1.0, height_m: 33.0}
 
   - name: "NOvA ND upstream face centre (Fermilab alignment survey)"
@@ -80,8 +88,8 @@ sites:
     offset_enu_m: [0, 0, 0]
     cable_length_m: 30.48
     cable_velocity_factor: 0.85
-    source: "Fermilab SAG survey note, NuMI beamline coordinates from MCZERO; definitive"
-    notes: "Definitive ND endpoint.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance)."
+    source: "Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078"
+    notes: "Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance)."
     uncertainty: {offset_m: 1.0}
 
   - name: "ND placed 1015 m along the beam (quoted placement, superseded by the survey)"
