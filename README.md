@@ -22,6 +22,8 @@ $ gps-tof -c config/nova.yaml -f md -o reports/nova.md
 | NuMI target → ND upstream face (surveyed) | 994.424    | 3.317043     | 212.291      |                     |
 | ND at the quoted 1015 m → FD (superseded placement) | 809 494.148 | 2700.181830 | 172 811.637 | 272 732.019 (272 732) |
 | ND under the mast → FD from the Ant-2 fix (superseded 2014-note geometry) | 809 616.263 | 2700.589164 | 172 837.706 | 272 758.088 (272 758) |
+| NuMI target → Lake Vermilion (100 ft below the surface) | 739 881.733 | 2467.979809 | 157 950.708 | 257 871.090 (257 871) |
+| NuMI target → Lake Superior, Two Harbors (100 ft below the surface) | 633 442.910 | 2112.938110 | 135 228.039 | 235 148.421 (235 148) |
 | 2013 notebook (FNAL −300 m, no FD offset) | 809 606.162 | 2700.555470  | 172 835.550  | 272 755.932 (272 756) |
 
 The 2013 Mathematica notebook and the 2014 note are reproduced to 10⁻⁹ by the test suite
@@ -55,8 +57,8 @@ How the frame was realised, and what checks it:
 * **Y axis.** Two candidate lines were tested: the 1998 design axis (target → decay-pipe end)
   and the as-built aiming line (MCZERO → MINOS FD midpoint).  The FD's independent NAVD88
   elevation, H = 1209.1058 ft = 368.535 m, i.e. h ≈ 336.07 m with the Ash River geoid
-  separation of −32.46 m, is reproduced by the aiming line to **+1.5 m** (geoid-model level)
-  and missed by the design axis by 17 m.  The aiming line is therefore the surveyors' Y axis,
+  separation of −32.46 m, is reproduced by the aiming line to **+1.5 m**, and to **+0.3 m** with the
+  GEOID18 separation at Ash River (−31.221 m, NGS geoid service); the design axis misses it by 17 m.  The aiming line is therefore the surveyors' Y axis,
   and it is what the configuration uses.
 * **Consistency.** The chord MCZERO → FD equals √(X² + Y² + Z²) = 810 508.171 m exactly; the
   surveyed FD face is 58 m horizontally and 8.8 m vertically from the point obtained from the
@@ -126,8 +128,11 @@ off-axis position of both endpoints; each opening angle gets the angle of both c
 | Ash River Ant-2 fix − 19.8 m (superseded) | 14.575 | 810 478.5 | 11 813.8 | −11 051.4 | −4 175.3 |
 | ND at the quoted 1015 m (superseded) | 12.466 | 1 015.0 | 12.653 | −11.570 | +5.123 |
 | TDR decay-pipe end | 0.020 | 724.2 | 0.014 | | |
+| Lake Vermilion, 100 ft down (datum MSL + GEOID18) | 3.174 | 739 878.0 | 2 348.3 | −2 323.4 | +340.8 |
+| Lake Superior at Two Harbors, 100 ft down | 8.507 | 633 420.0 | 5 388.5 | +19.4 | +5 388.5 |
 
-The chord ND → FD makes 14.56 mrad with the axis.  The TDR design axis (target → decay-pipe end)
+The chord ND → FD makes 14.56 mrad with the axis.  The Two Harbors point lies in the vertical plane
+of the beam axis (19 m right), 5.4 km above the extended line; Lake Vermilion is 2.3 km left of it.  The TDR design axis (target → decay-pipe end)
 agrees with target → MINOS FD to 0.02 mrad in direction.
 
 ## Technical note
@@ -198,5 +203,5 @@ The four figures are also exported as standalone files in `docs/figures/` (SVG a
 Regenerate with `python3 scripts/export_figures.py` (man page `gps-tof-export-figures(1)`).
 
 
-Version 0.7.0.  Python ≥ 3.9, PyYAML only.  61 tests.  No C/C++ library yet (the
+Version 0.8.0.  Python ≥ 3.9, PyYAML only.  64 tests.  No C/C++ library yet (the
 geodesy core is small enough to port; see docs/DESIGN.md "Future work").

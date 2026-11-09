@@ -62,6 +62,6 @@ timing_shifts: [{name: MI shift, turns: 141, buckets_per_turn: 588, rf_hz: 53.10
 - `docs/external/`, `docs/reference/`: local copies of every cited document with README index and SHA256SUMS.
 
 ## Testing
-`pytest -q` (61 tests): notebook/2014-note reproduction to 1e-9, EPSG 9809 worked example,
+`pytest -q` (64 tests): notebook/2014-note reproduction to 1e-9, EPSG 9809 worked example,
 Beams-doc-1148 control points, NuMI target cross-checks (MINOS FD distance, beam azimuth,
 off-axis angle), config precedence, CLI smoke tests.  `ctest --test-dir build` after `cmake -S . -B build`.

@@ -56,4 +56,9 @@
   <text class="small" x="880" y="434" text-anchor="end">on the surface, 4,163 m below the extended axis (surveyed)</text>
   <text class="small" x="880" y="448" text-anchor="end">810 km along, arriving chord rises 3.67°</text>
   <text class="small" x="700" y="268" text-anchor="middle">axis exits the ground past Soudan</text>
+  <circle cx="600" cy="233" r="4" fill="#ffffff" stroke="#1d2126" stroke-width="1.6"/>
+  <text class="small" x="596" y="222" text-anchor="end">Two Harbors, 100 ft down: 5.4 km above the axis line</text>
+  <circle cx="712" cy="306" r="4" fill="#ffffff" stroke="#1d2126" stroke-width="1.6"/>
+  <text class="small" x="740" y="300">Lake Vermilion, 100 ft down</text>
+  <text class="small" x="740" y="314">0.34 km above the axis line</text>
 </svg>

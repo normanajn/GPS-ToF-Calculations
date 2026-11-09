@@ -45,7 +45,7 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
 .foot { color: var(--muted); font-size: .85rem; margin-top: 2.2rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
 </style>
 <main>
-<div class="eyebrow">Schematic · not to scale · values from reports/nova.md (gps-tof 0.6.0)</div>
+<div class="eyebrow">Schematic · not to scale · values from reports/nova.md (gps-tof 0.8.0)</div>
 <h1>NuMI Baseline Schematic</h1>
 <p class="lede">The NuMI target, the NOvA Near Detector, the NOvA Far Detector at Ash River and the MINOS Far Detector at Soudan, with the chords and angles the timing calculation uses. The ND and FD are the upstream-face centres surveyed by the Fermilab alignment group (NuMI beamline coordinates from MCZERO); the beam axis is the line from the target through the MINOS Far Detector. Lengths and angles are exaggerated so the geometry can be read; every number printed is the computed value.</p>
 
@@ -74,7 +74,7 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <text class="small" x="112" y="214">the ND is 2.5 m off the target → FD line</text>
   <!-- beam axis -->
   <line class="beam" x1="90" y1="300" x2="840" y2="300" stroke-width="2.5" marker-end="url(#arrbeam)"/>
-  <text class="beamtext" x="890" y="332" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
+  <text class="beamtext" x="890" y="352" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
   <!-- chords: T(90,300) N(300,262) F(700,120) -->
   <line x1="90" y1="300" x2="300" y2="262" stroke="currentColor" stroke-width="1.6"/>
   <line x1="90" y1="300" x2="700" y2="120" stroke="currentColor" stroke-width="1.4" stroke-dasharray="7 5"/>
@@ -102,16 +102,24 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <text class="small" x="722" y="132">810,423 m along, 11,037 m left</text>
   <text class="small" x="722" y="146">("12 km west of the beam")</text>
   <rect x="607" y="287" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
-  <text x="642" y="270">MINOS FD, Soudan</text>
-  <text class="small" x="642" y="284">735,345 m along, on the axis by definition</text>
+  <text x="890" y="322" text-anchor="end">MINOS FD, Soudan</text>
+  <text class="small" x="890" y="336" text-anchor="end">735,345 m along, on the axis by definition</text>
+  <!-- lake sites -->
+  <circle cx="500" cy="300" r="4" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text class="small" x="500" y="322" text-anchor="middle">Lake Superior, Two Harbors</text>
+  <text class="small" x="500" y="336" text-anchor="middle">633,420 m along, 19 m right: in the axis plane</text>
+  <circle cx="660" cy="290" r="4" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <line x1="660" y1="286" x2="660" y2="278" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>
+  <text class="small" x="660" y="270" text-anchor="middle">Lake Vermilion</text>
+  <text class="small" x="660" y="256" text-anchor="middle">739,878 m along, 2.3 km left</text>
   <!-- chord labels in clear space -->
   <text class="fartext" x="300" y="136">ND → FD chord</text>
   <text class="small" x="300" y="150">809,515 m · 2700.251 µs · 172,816.0 ticks</text>
   <text class="small" x="300" y="164">14.56 mrad to the beam axis</text>
-  <text class="small" x="590" y="236" text-anchor="middle">target → FD chord 810,509 m · 2703.568 µs · 173,028.3 ticks</text>
-  <text class="small" x="590" y="250" text-anchor="middle">target → ND chord 994 m · 3.317 µs · 212.3 ticks</text>
+  <text class="small" x="600" y="226" text-anchor="middle">target → FD chord 810,509 m · 2703.568 µs · 173,028.3 ticks</text>
+  <text class="small" x="600" y="240" text-anchor="middle">target → ND chord 994 m · 3.317 µs · 212.3 ticks</text>
 </svg>
-<figcaption><b>Plan.</b> Both NOvA detectors lie to the left (west) of the Soudan line: the surveyed Near Detector face 12.19 mrad off axis at 994 m, the surveyed Far Detector face 14.55 mrad off axis at 810 km. The ND is not under the MINOS mast antenna, which is 941 m along the axis; the ND is 53 m further downstream. The two chords from the target open by only 2.47 mrad (−1.99 mrad in plan): the ND sits 2.5 m off the straight line from the target to the FD. The design axis of the TDR (target → decay-pipe end) agrees with target → MINOS FD to 0.02 mrad.</figcaption>
+<figcaption><b>Plan.</b> The Two Harbors point (633 km) lies in the vertical plane of the beam axis and Lake Vermilion (740 km) 2.3 km to its left. Both NOvA detectors lie to the left (west) of the Soudan line: the surveyed Near Detector face 12.19 mrad off axis at 994 m, the surveyed Far Detector face 14.55 mrad off axis at 810 km. The ND is not under the MINOS mast antenna, which is 941 m along the axis; the ND is 53 m further downstream. The two chords from the target open by only 2.47 mrad (−1.99 mrad in plan): the ND sits 2.5 m off the straight line from the target to the FD. The design axis of the TDR (target → decay-pipe end) agrees with target → MINOS FD to 0.02 mrad.</figcaption>
 </figure>
 
 <h2>Elevation view (side, downstream to the right)</h2>
@@ -162,8 +170,13 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
   <text class="small" x="880" y="434" text-anchor="end">on the surface, 4,163 m below the extended axis (surveyed)</text>
   <text class="small" x="880" y="448" text-anchor="end">810 km along, arriving chord rises 3.67°</text>
   <text class="small" x="700" y="268" text-anchor="middle">axis exits the ground past Soudan</text>
+  <circle cx="600" cy="233" r="4" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text class="small" x="596" y="222" text-anchor="end">Two Harbors, 100 ft down: 5.4 km above the axis line</text>
+  <circle cx="712" cy="306" r="4" fill="var(--panel)" stroke="currentColor" stroke-width="1.6"/>
+  <text class="small" x="740" y="300">Lake Vermilion, 100 ft down</text>
+  <text class="small" x="740" y="314">0.34 km above the axis line</text>
 </svg>
-<figcaption><b>Elevation.</b> All three chords dip below the target's local horizontal: 3.550° to the Near Detector, 3.341° along the beam axis to Soudan, 3.635° to Ash River. The surveyed Near Detector face, 994 m along the beam, is 3.6 m below the axis and almost on the target → FD line; the Ash River face, on the surface 810 km away, is 4,163 m below the extended axis because the ground curves away by 7.29° of central angle. The ND → FD chord passes 12.7 km below the ellipsoid at its deepest.</figcaption>
+<figcaption><b>Elevation.</b> The lake points sit just under the surface: Two Harbors 5.4 km and Lake Vermilion 0.34 km above the extended axis line. All three chords dip below the target's local horizontal: 3.550° to the Near Detector, 3.341° along the beam axis to Soudan, 3.635° to Ash River. The surveyed Near Detector face, 994 m along the beam, is 3.6 m below the axis and almost on the target → FD line; the Ash River face, on the surface 810 km away, is 4,163 m below the extended axis because the ground curves away by 7.29° of central angle. The ND → FD chord passes 12.7 km below the ellipsoid at its deepest.</figcaption>
 </figure>
 
 <h2>Transverse view (looking downstream along the beam axis)</h2>
@@ -297,6 +310,8 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
 <tr><td>NOvA ND → NOvA FD (both surveyed)</td><td class="n">809 514.750</td><td class="n">2700.250552</td><td class="n">172 816.035</td><td class="n">14.558</td><td class="n">3.626°</td></tr>
 <tr><td>ND at the quoted 1015 m → FD (superseded placement)</td><td class="n">809 494.148</td><td class="n">2700.181830</td><td class="n">172 811.637</td><td class="n">14.562</td><td class="n">3.626°</td></tr>
 <tr><td>ND under the mast → FD from the Ant-2 fix (superseded 2014-note geometry)</td><td class="n">809 616.263</td><td class="n">2700.589164</td><td class="n">172 837.706</td><td class="n">14.581</td><td class="n">3.628°</td></tr>
+<tr><td>NuMI target → Lake Vermilion (100 ft down)</td><td class="n">739 881.733</td><td class="n">2467.979809</td><td class="n">157 950.708</td><td class="n">3.174</td><td class="n">3.314°</td></tr>
+<tr><td>NuMI target → Lake Superior, Two Harbors (100 ft down)</td><td class="n">633 442.910</td><td class="n">2112.938110</td><td class="n">135 228.039</td><td class="n">8.507</td><td class="n">2.853°</td></tr>
 <tr><td>NuMI target → MINOS FD (beam axis)</td><td class="n">735 344.614</td><td class="n">2452.845607</td><td class="n">156 982.119</td><td class="n">0.000</td><td class="n">3.341°</td></tr>
 <tr><td>NuMI target → decay-pipe end (TDR design axis)</td><td class="n">724.184</td><td class="n">2.415619</td><td class="n">154.600</td><td class="n">0.020</td><td class="n">3.339°</td></tr>
 </table></div>
@@ -318,6 +333,8 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
 <tr><td>NOvA FD upstream face (surveyed)</td><td class="n">14.555</td><td class="n">810 423.324</td><td class="n">11 796.315</td><td class="n">−11 037.456</td><td class="n">−4 162.644</td><td class="n">−110.7°</td></tr>
 <tr><td>FD from the Ant-2 fix − 19.8 m (superseded)</td><td class="n">14.575</td><td class="n">810 478.514</td><td class="n">11 813.783</td><td class="n">−11 051.360</td><td class="n">−4 175.273</td><td class="n">−110.7°</td></tr>
 <tr><td>MINOS FD midpoint</td><td class="n">0.000</td><td class="n">735 344.614</td><td class="n">0.000</td><td class="n">0</td><td class="n">0</td><td class="n">—</td></tr>
+<tr><td>Lake Vermilion, 100 ft down</td><td class="n">3.174</td><td class="n">739 878.0</td><td class="n">2 348.3</td><td class="n">−2 323.4</td><td class="n">+340.8</td><td class="n">−81.7°</td></tr>
+<tr><td>Lake Superior, Two Harbors, 100 ft down</td><td class="n">8.507</td><td class="n">633 420.0</td><td class="n">5 388.5</td><td class="n">+19.4</td><td class="n">+5 388.5</td><td class="n">+0.2°</td></tr>
 </table></div>
 <div class="tbl"><table>
 <tr><th>ND front face (158.125 in square, surveyed centre)</th><th class="n">angle to beam axis (mrad)</th><th class="n">right (m)</th><th class="n">up (m)</th><th class="n">opening angle to the FD chord (mrad)</th></tr>
@@ -328,5 +345,5 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
 <tr><td>bottom edge</td><td class="n">12.944</td><td class="n">−11.565</td><td class="n">−5.652</td><td class="n">2.062</td></tr>
 <tr><td>face width subtended at the target</td><td class="n">4.039</td><td class="n"></td><td class="n"></td><td class="n"></td></tr>
 </table></div>
-<p class="foot">Source: <code>reports/nova.md</code> generated by <code>gps-tof -c config/nova.yaml</code> (version 0.6.0). The target is the 1998 TDR design position; the ND and FD are the upstream-face centres surveyed by the Fermilab alignment group, given in NuMI beamline coordinates from MCZERO (ND: X −11.565, Y 993.350, Z −3.644 m; FD: X −11 037.456, Y 810 422.324, Z −4 162.644 m) and converted with the MCZERO → MINOS FD line as the Y axis. Drawing kept in the repository as <code>docs/nova-schematic.html</code>.</p>
+<p class="foot">Source: <code>reports/nova.md</code> generated by <code>gps-tof -c config/nova.yaml</code> (version 0.8.0). The target is the 1998 TDR design position; the ND and FD are the upstream-face centres surveyed by the Fermilab alignment group, given in NuMI beamline coordinates from MCZERO (ND: X −11.565, Y 993.350, Z −3.644 m; FD: X −11 037.456, Y 810 422.324, Z −4 162.644 m) and converted with the MCZERO → MINOS FD line as the Y axis. Drawing kept in the repository as <code>docs/nova-schematic.html</code>.</p>
 </main>

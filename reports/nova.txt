@@ -1,7 +1,7 @@
 NOvA NuMI -> Ash River timing offsets: time-of-flight report
 ============================================================
 
-Generated 2026-11-06T14:11:45-06:00 by gps-tof 0.7.0.
+Generated 2026-11-09T12:23:35-06:00 by gps-tof 0.8.0.
 
 
 Settings
@@ -34,6 +34,8 @@ fd             NOvA FD upstream face centre (Fermilab alignment survey)         
 fd1            Ash River Ant-1 (FD front-face centre)                                        48° 22' 42.9468" N  92° 49' 52.6158" W      348.000  ellipsoid     348.000  +0, +0, -19.8   
 fd2            Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded)     48° 22' 42.9468" N  92° 49' 52.6158" W      348.638  ellipsoid     348.638  +0, +0, -19.8   
 fd3            Ash River Ant-3 (FD front-face centre)                                        48° 22' 42.9850" N  92° 49' 52.6583" W      350.346  ellipsoid     350.346  +0, +0, -19.8   
+vermilion      Lake Vermilion (100 ft below the surface)                                     47° 50' 49.4300" N  92° 17' 46.3400" W      383.440  msl           352.548  +0, +0, +0      
+two-harbors    Lake Superior, Two Harbors (100 ft below the surface)                         46° 59' 55.2000" N  91° 38' 16.6500" W      152.735  msl           123.632  +0, +0, +0      
 minos-fd       MINOS Far Detector (supermodule midpoint, Soudan)                             47° 49' 12.9612" N  92° 14' 29.0832" W     -248.400  ellipsoid    -248.400  +0, +0, +0      
 nd-left        NOvA ND upstream face centre (Fermilab alignment survey), left edge           41° 50' 24.3203" N  88° 16' 13.8777" W       96.572  ellipsoid      96.572  +0, +0, +0      
 nd-right       NOvA ND upstream face centre (Fermilab alignment survey), right edge          41° 50' 24.3731" N  88° 16' 13.7185" W       96.572  ellipsoid      96.572  +0, +0, +0      
@@ -72,6 +74,8 @@ fd             NOvA FD upstream face centre (Fermilab alignment survey)         
 fd1            Ash River Ant-1 (FD front-face centre)                                                14.5756         0.83512     810,478.470      11,814.007  -11,051.359  -4,175.910      -110.70
 fd2            Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded)             14.5753         0.83510     810,478.514      11,813.783  -11,051.360  -4,175.273      -110.70
 fd3            Ash River Ant-3 (FD front-face centre)                                                14.5748         0.83508     810,480.077      11,813.444  -11,051.603  -4,173.670      -110.69
+vermilion      Lake Vermilion (100 ft below the surface)                                              3.1739         0.18185     739,878.006       2,348.293   -2,323.438    +340.763       -81.66
+two-harbors    Lake Superior, Two Harbors (100 ft below the surface)                                  8.5068         0.48741     633,419.990       5,388.531      +19.357  +5,388.496         0.21
 minos-fd       MINOS Far Detector (supermodule midpoint, Soudan)                                      0.0000         0.00000     735,344.614           0.000       +0.000      +0.000            -
 nd-left        NOvA ND upstream face centre (Fermilab alignment survey), left edge                   14.1325         0.80973         994.350          14.054      -13.573      -3.643      -105.03
 nd-right       NOvA ND upstream face centre (Fermilab alignment survey), right edge                  10.2854         0.58931         994.350          10.228       -9.557      -3.643      -110.87
@@ -95,6 +99,10 @@ MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)             810,
 MCZERO -> ND upstream face (surveyed; stationing 993.350 m)                     993.424      3.313707      212.077  100,132.459    100,132               12.2059
 ND at the quoted 1015 m -> FD (superseded ND placement)                     809,494.148  2,700.181830  172,811.637  272,732.019    272,732               14.5618
 ND under the mast -> FD from the Ant-2 fix (superseded 2014-note geometry)  809,616.263  2,700.589164  172,837.706  272,758.088    272,758               14.5812
+NuMI target -> Lake Vermilion (-100 ft)                                     739,881.733  2,467.979809  157,950.708  257,871.089    257,871                3.1739
+ND upstream face -> Lake Vermilion (-100 ft)                                738,887.353  2,464.662914  157,738.426  257,658.808    257,659                3.1634
+NuMI target -> Lake Superior, Two Harbors (-100 ft)                         633,442.910  2,112.938110  135,228.039  235,148.421    235,148                8.5068
+ND upstream face -> Lake Superior, Two Harbors (-100 ft)                    632,448.627  2,109.621539  135,015.779  234,936.160    234,936                8.5261
 NuMI target -> MINOS FD (validation of the target position)                 735,344.614  2,452.845607  156,982.119  256,902.501    256,903                0.0000
 NuMI target -> decay-pipe end (TDR design axis)                                 724.184      2.415619      154.600  100,074.981    100,075                0.0197
 
@@ -111,6 +119,8 @@ Target: ND (surveyed) vs MINOS FD                     NuMI target (TDR 1998) ups
 Target: ND at the quoted 1015 m vs surveyed ND        NuMI target (TDR 1998) upstream face  ND placed 1015 m along the beam (quoted placement, superseded by the survey)  NOvA ND upstream face centre (Fermilab alignment survey)        8.7139     0.499271        -0.2374       -8.7107           12.4658           12.1935
 Target: ND under the mast (2014 note) vs surveyed ND  NuMI target (TDR 1998) upstream face  ND endpoint if it were under the MINOS mast (105 + 15 m down)                 NOvA ND upstream face centre (Fermilab alignment survey)        9.0840     0.520476         0.5638       -9.0665           13.3426           12.1935
 Target: FD from the Ant-2 fix vs surveyed FD          NuMI target (TDR 1998) upstream face  Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded)     NOvA FD upstream face centre (Fermilab alignment survey)        0.0223     0.001275         0.0162        0.0152           14.5753           14.5547
+Target: ND vs Lake Vermilion                          NuMI target (TDR 1998) upstream face  NOvA ND upstream face centre (Fermilab alignment survey)                      Lake Vermilion (100 ft below the surface)                       9.4386     0.540792         8.4915        4.1208           12.1935            3.1739
+Target: ND vs Lake Superior (Two Harbors)             NuMI target (TDR 1998) upstream face  NOvA ND upstream face centre (Fermilab alignment survey)                      Lake Superior, Two Harbors (100 ft below the surface)          16.8551     0.965725        11.6647       12.1668           12.1935            8.5068
 
 
 Target: ND vs FD (both surveyed)
@@ -208,6 +218,44 @@ Ash River Ant-2 fix, front face via -19.8 m (antenna-derived, superseded) off-ax
 NOvA FD upstream face centre (Fermilab alignment survey) off-axis at the axis origin                                                                                14.5547 mrad, 11,796.315 m transverse                             
 
 
+Target: ND vs Lake Vermilion
+............................
+
+quantity                                                                                                                            value                                                             
+----------------------------------------------------------------------------------------------------------------------------------  ------------------------------------------------------------------
+opening angle                                                                                                                       9.4386 mrad = 0.540792° = 0° 32' 26.851"                          
+chord a: vertex → NOvA ND upstream face centre (Fermilab alignment survey)                                                          L = 994.424 m, azimuth 335.42658°, elevation -3.55027°            
+chord b: vertex → Lake Vermilion (100 ft below the surface)                                                                         L = 739,881.733 m, azimuth 335.91399°, elevation -3.31416°        
+horizontal / vertical components at the vertex                                                                                      Δazimuth 0.48740° (8.4915 mrad), Δelevation 0.23611° (4.1208 mrad)
+NOvA ND upstream face centre (Fermilab alignment survey) transverse to the line vertex → Lake Vermilion (100 ft below the surface)  9.386 m (along it: 994.380 m)                                     
+Lake Vermilion (100 ft below the surface) transverse to the line vertex → NOvA ND upstream face centre (Fermilab alignment survey)  6,983.346 m                                                       
+chord b − chord a                                                                                                                   +738,887.309 m = +2,464.662766 µs = +157,738.417 ticks            
+path vertex → a → b minus direct vertex → b                                                                                         0.0444 m                                                          
+chord a vs beam axis (NuMI beam axis (target -> MINOS FD))                                                                          12.1935 mrad (right -11.6301, up -3.6642)                         
+chord b vs beam axis                                                                                                                3.1739 mrad (right -3.1403, up +0.4606)                           
+NOvA ND upstream face centre (Fermilab alignment survey) off-axis at the axis origin                                                12.1935 mrad, 12.125 m transverse                                 
+Lake Vermilion (100 ft below the surface) off-axis at the axis origin                                                               3.1739 mrad, 2,348.293 m transverse                               
+
+
+Target: ND vs Lake Superior (Two Harbors)
+.........................................
+
+quantity                                                                                                                                        value                                                               
+----------------------------------------------------------------------------------------------------------------------------------------------  --------------------------------------------------------------------
+opening angle                                                                                                                                   16.8551 mrad = 0.965725° = 0° 57' 56.608"                           
+chord a: vertex → NOvA ND upstream face centre (Fermilab alignment survey)                                                                      L = 994.424 m, azimuth 335.42658°, elevation -3.55027°              
+chord b: vertex → Lake Superior, Two Harbors (100 ft below the surface)                                                                         L = 633,442.910 m, azimuth 336.09597°, elevation -2.85316°          
+horizontal / vertical components at the vertex                                                                                                  Δazimuth 0.66938° (11.6647 mrad), Δelevation 0.69710° (12.1668 mrad)
+NOvA ND upstream face centre (Fermilab alignment survey) transverse to the line vertex → Lake Superior, Two Harbors (100 ft below the surface)  16.760 m (along it: 994.283 m)                                      
+Lake Superior, Two Harbors (100 ft below the surface) transverse to the line vertex → NOvA ND upstream face centre (Fermilab alignment survey)  10,676.221 m                                                        
+chord b − chord a                                                                                                                               +632,448.485 m = +2,109.621067 µs = +135,015.748 ticks              
+path vertex → a → b minus direct vertex → b                                                                                                     0.1415 m                                                            
+chord a vs beam axis (NuMI beam axis (target -> MINOS FD))                                                                                      12.1935 mrad (right -11.6301, up -3.6642)                           
+chord b vs beam axis                                                                                                                            8.5068 mrad (right +0.0306, up +8.5068)                             
+NOvA ND upstream face centre (Fermilab alignment survey) off-axis at the axis origin                                                            12.1935 mrad, 12.125 m transverse                                   
+Lake Superior, Two Harbors (100 ft below the surface) off-axis at the axis origin                                                               8.5068 mrad, 5,388.531 m transverse                                 
+
+
 Detector faces: edges, centre and angles to the beamline
 --------------------------------------------------------
 
@@ -277,6 +325,26 @@ center                9.0840  0.520476            +0.5638          -9.0665      
 right                 9.4287  0.540227            +2.5837          -9.0678                          9.376                    10.2854
 top                   7.0697  0.405064            +0.5652          -7.0471                          7.030                    11.7457
 bottom               11.1002  0.635994            +0.5624         -11.0859                         11.038                    12.9444
+
+Opening angle Target: ND vs Lake Vermilion: vertex NuMI target (TDR 1998) upstream face, other chord to Lake Vermilion (100 ft below the surface), for each point of this face.
+
+point   opening angle (mrad)     (deg)  horizontal (mrad)  vertical (mrad)  transverse to other chord (m)  chord vs beam axis (mrad)
+------  --------------------  --------  -----------------  ---------------  -----------------------------  -------------------------
+left                 11.2894  0.646834           +10.5110          +4.1192                         11.226                    14.1325
+center                9.4386  0.540792            +8.4915          +4.1208                          9.386                    12.1935
+right                 7.6732  0.439642            +6.4719          +4.1222                          7.630                    10.2854
+top                   8.7468  0.501157            +8.4907          +2.1014                          8.698                    11.7457
+bottom               10.4796  0.600439            +8.4924          +6.1402                         10.421                    12.9444
+
+Opening angle Target: ND vs Lake Superior (Two Harbors): vertex NuMI target (TDR 1998) upstream face, other chord to Lake Superior, Two Harbors (100 ft below the surface), for each point of this face.
+
+point   opening angle (mrad)     (deg)  horizontal (mrad)  vertical (mrad)  transverse to other chord (m)  chord vs beam axis (mrad)
+------  --------------------  --------  -----------------  ---------------  -----------------------------  -------------------------
+left                 18.3101  1.049091           +13.6847         +12.1652                         18.207                    14.1325
+center               16.8551  0.965725           +11.6647         +12.1668                         16.760                    12.1935
+right                15.5267  0.889617            +9.6446         +12.1681                         15.439                    10.2854
+top                  15.4601  0.885799           +11.6640         +10.1473                         15.373                    11.7457
+bottom               18.3665  1.052321           +11.6654         +14.1862                         18.263                    12.9444
 
 
 NOvA FD upstream face centre (Fermilab alignment survey)
@@ -1490,6 +1558,674 @@ quantity                           value
 ---------------------------------  ----------------------
 root-sum-square of combined items  3.436 ticks = 53.7 ns 
 linear sum of combined items       6.712 ticks = 104.9 ns
+
+
+Baseline: NuMI target -> Lake Vermilion (-100 ft)
+-------------------------------------------------
+
+
+Source: NuMI target (TDR 1998) upstream face
+............................................
+
+quantity                              value                                                                                                                                                              
+------------------------------------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+latitude                              41° 49' 55.0917" N  (41.831969923°)                                                                                                                                
+longitude                             88° 15' 55.9086" W  (-88.265530166°, east positive)                                                                                                                
+height as given                       158.074 m (ellipsoid)                                                                                                                                              
+geoid separation N                    -32.785 m                                                                                                                                                          
+ellipsoidal height h                  158.074 m                                                                                                                                                          
+Fermilab site coordinates (ft)        x 100327.838, y 97780.188, z 626.743                                                                                                                               
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                                                                                           
+ECEF of surveyed point                (144061.137, -4757403.941, 4231821.378) m                                                                                                                          
+ECEF of endpoint                      (144061.137, -4757403.941, 4231821.378) m                                                                                                                          
+endpoint geodetic                     41.831969923°, -88.265530166°, h = 158.074 m                                                                                                                       
+uncertainties                         offset_m = 5                                                                                                                                                       
+source                                NuMI TDR 1998 App. A beam sheet (design); Beams-doc-1148 projection                                                                                                
+notes                                 Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m.
+
+
+Target: Lake Vermilion (100 ft below the surface)
+.................................................
+
+quantity                              value                                                                                                             
+------------------------------------  ------------------------------------------------------------------------------------------------------------------
+latitude                              47° 50' 49.4300" N  (47.847063889°)                                                                               
+longitude                             92° 17' 46.3400" W  (-92.296205556°, east positive)                                                               
+height as given                       383.440 m (msl)                                                                                                   
+geoid separation N                    -30.892 m                                                                                                         
+ellipsoidal height h                  352.548 m                                                                                                         
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                                          
+ECEF of surveyed point                (-171824.466, -4285132.713, 4705742.418) m                                                                        
+ECEF of endpoint                      (-171824.466, -4285132.713, 4705742.418) m                                                                        
+endpoint geodetic                     47.847063889°, -92.296205556°, h = 352.548 m                                                                      
+uncertainties                         height_m = 1, offset_m = 5                                                                                        
+source                                Coordinates supplied by A. Norman (2026-11-09); surface 1,358 ft (Lake Vermilion, MN DNR / Vermilion Dam); GEOID18
+notes                                 Depth -100 ft taken as 100 ft below the lake surface; lake level varies 1,356-1,360 ft (+-0.6 m).                 
+
+
+Result
+......
+
+quantity                value                                       
+----------------------  --------------------------------------------
+Earth model             wgs84                                       
+offset normal           geodetic                                    
+chord length L          739,881.7331 m                              
+time of flight t = L/c  2,467.979809 µs                             
+clock                   64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick)
+ticks (exact)           157,950.7077                                
+ticks (round)           157,951  (residual +4.57 ns)                
+legacy units (500 ns)   4,935.9596                                  
+
+
+Correction ledger
+.................
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+step             applied                                                                                                                        L (m)    ΔL (m)    Δt (ns)    Δticks  cum. Δticks
+---------------  -----------------------------------------------------------------------------------------------------------------------  -----------  --------  ---------  --------  -----------
+reference model  spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets                                        740,693.015    +0.000      +0.00    +0.000       +0.000
+Earth model      WGS84 ellipsoid; heights as given; surveyed points, no offsets                                                           739,883.535  -809.480  -2,700.13  -172.809       +0.000
+height datum     Lake Vermilion (100 ft below the surface): MSL altitude 383.440 m -> ellipsoidal 352.548 m (geoid separation -30.892 m)  739,881.733    -1.802      -6.01    -0.385       -0.385
+
+
+Timing shifts and combined offset
+.................................
+
+shift                                           value (µs)       ticks  detail                                                                                                                                                                               
+--------------------------------------------  ------------  ----------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Main Injector 141-turn shift (2012 shutdown)  1,561.255965  99,920.382  141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF
+
+quantity                value                              
+----------------------  -----------------------------------
+time of flight          2,467.979809 µs = 157,950.708 ticks
+sum of timing shifts    1,561.255965 µs = 99,920.382 ticks 
+Sagnac included         no                                 
+total offset            4,029.235773 µs = 257,871.089 ticks
+total, integer (round)  257,871 ticks (residual -1.40 ns)  
+
+
+Trigger window
+..............
+
+quantity                          value                              
+--------------------------------  -----------------------------------
+window                            [t − 20 µs, t + 30 µs), width 50 µs
+relative to flight time only      [156,670.71, 159,870.71) ticks     
+relative to flight time + shifts  [256,591.09, 259,791.09) ticks     
+microslice                        50 µs = 3,200.0 ticks              
+microslices overlapped            1 to 2 (record up to 100 µs)       
+
+
+Chord geometry
+..............
+
+quantity                                                                value                                                                                   
+----------------------------------------------------------------------  ----------------------------------------------------------------------------------------
+geocentric central angle                                                6.66098°                                                                                
+surface arc at mean radius                                              740,295.7 m                                                                             
+arc − chord                                                             414.00 m (88.38 ticks)                                                                  
+sagitta                                                                 10,755.0 m                                                                              
+deepest point of chord                                                  h = -10,493.6 m at 50 % of the path                                                     
+azimuth at source (from North)                                          335.91399°                                                                              
+elevation at source                                                     -3.31416° (negative = dips below horizontal)                                            
+back azimuth at target                                                  153.06735°                                                                              
+elevation at target                                                     3.34306° (positive = arrives rising)                                                    
+target in source ENU frame                                              E -301,446.4, N 674,333.4, U -42,773.1 m                                                
+opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD))  3.1739 mrad = 0.181850° (right -3.1403, up +0.4606 mrad)                                
+source off-axis at the axis origin                                      0.0000 mrad; 0.000 m along, 0.000 m transverse (right +0.000, up +0.000)                
+target off-axis at the axis origin                                      3.1739 mrad; 739,878.006 m along, 2,348.293 m transverse (right -2,323.438, up +340.763)
+
+
+Effects outside the geometric flight time
+.........................................
+
+effect                                              ns      ticks  status     
+-------------------------------------------  ---------  ---------  -----------
+Sagnac (Earth rotation, ECEF frame)             -1.164    -0.0745  not applied
+neutrino mass delay (m = 0.1 eV, E = 2 GeV)  3.085e-15  1.974e-16  negligible 
+
+
+Sensitivities
+.............
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+variation                                                          ΔL (m)     Δt (ns)     Δticks
+--------------------------------------------------------------  ---------  ----------  ---------
+NuMI target (TDR 1998) upstream face: height +1 m                 +0.0578      +0.193    +0.0123
+NuMI target (TDR 1998) upstream face: latitude +1"               -28.1200     -93.798    -6.0031
+NuMI target (TDR 1998) upstream face: longitude +1"               +9.4016     +31.361    +2.0071
+NuMI target (TDR 1998) upstream face: endpoint +1 m East          +0.4074      +1.359    +0.0870
+NuMI target (TDR 1998) upstream face: endpoint +1 m North         -0.9114      -3.040    -0.1946
+Lake Vermilion (100 ft below the surface): height +1 m            +0.0583      +0.195    +0.0124
+Lake Vermilion (100 ft below the surface): latitude +1"          +27.4903     +91.698    +5.8687
+Lake Vermilion (100 ft below the surface): longitude +1"          -9.4011     -31.359    -2.0070
+Lake Vermilion (100 ft below the surface): endpoint +1 m East     -0.4522      -1.508    -0.0965
+Lake Vermilion (100 ft below the surface): endpoint +1 m North    +0.8900      +2.969    +0.1900
+spherical Earth (R = 6378137 m) at the final endpoints          +809.4798  +2,700.134  +172.8086
+GRS80 ellipsoid instead of WGS84                                  -0.0000      -0.000    -0.0000
+
+
+Error budget
+............
+
+source                                                                                          ns  ticks  type        in RSS
+-------------------------------------------------------------------------------------------  -----  -----  ----------  ------
+NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord       16.68  1.067  systematic  yes   
+Lake Vermilion (100 ft below the surface): height ±1 m (1σ)                                   0.19  0.012  systematic  yes   
+Lake Vermilion (100 ft below the surface): endpoint offset ±5 m, worst case along the chord  16.68  1.067  systematic  yes   
+Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz                          29.40  1.882  systematic  yes   
+integer rounding of the final tick count                                                      7.81  0.500  convention  no    
+Sagnac term (not applied)                                                                     1.16  0.075  neglected   no    
+
+quantity                           value                
+---------------------------------  ---------------------
+root-sum-square of combined items  2.412 ticks = 37.7 ns
+linear sum of combined items       4.029 ticks = 63.0 ns
+
+
+Baseline: ND upstream face -> Lake Vermilion (-100 ft)
+------------------------------------------------------
+
+
+Source: NOvA ND upstream face centre (Fermilab alignment survey)
+................................................................
+
+quantity                                                           value                                                                                                                                                          
+-----------------------------------------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+latitude                                                           41° 50' 24.3467" N  (41.840096298°)                                                                                                                            
+longitude                                                          88° 16' 13.7981" W  (-88.270499477°, east positive)                                                                                                            
+height as given                                                    96.572 m (ellipsoid)                                                                                                                                           
+ellipsoidal height h                                               96.572 m                                                                                                                                                       
+detector face                                                      half-width 2.0082 m, half-height 2.0082 m; edge sites nd-left / nd-right derived                                                                               
+given in the beamline frame mczero -> minos-fd (along, right, up)  along 993.350 m, right -11.565 m, up -3.644 m; lat/lon/h above are derived                                                                                     
+surveyed point -> endpoint (E, N, U)                               +0.000, +0.000, +0.000 m                                                                                                                                       
+ECEF of surveyed point                                             (143628.970, -4756768.845, 4232452.856) m                                                                                                                      
+ECEF of endpoint                                                   (143628.970, -4756768.845, 4232452.856) m                                                                                                                      
+endpoint geodetic                                                  41.840096298°, -88.270499477°, h = 96.572 m                                                                                                                    
+antenna cable delay                                                119.61 ns (calibration, not part of ToF)                                                                                                                       
+uncertainties                                                      offset_m = 1                                                                                                                                                   
+source                                                             Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078                                                       
+notes                                                              Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance).
+
+
+Target: Lake Vermilion (100 ft below the surface)
+.................................................
+
+quantity                              value                                                                                                             
+------------------------------------  ------------------------------------------------------------------------------------------------------------------
+latitude                              47° 50' 49.4300" N  (47.847063889°)                                                                               
+longitude                             92° 17' 46.3400" W  (-92.296205556°, east positive)                                                               
+height as given                       383.440 m (msl)                                                                                                   
+geoid separation N                    -30.892 m                                                                                                         
+ellipsoidal height h                  352.548 m                                                                                                         
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                                          
+ECEF of surveyed point                (-171824.466, -4285132.713, 4705742.418) m                                                                        
+ECEF of endpoint                      (-171824.466, -4285132.713, 4705742.418) m                                                                        
+endpoint geodetic                     47.847063889°, -92.296205556°, h = 352.548 m                                                                      
+uncertainties                         height_m = 1, offset_m = 5                                                                                        
+source                                Coordinates supplied by A. Norman (2026-11-09); surface 1,358 ft (Lake Vermilion, MN DNR / Vermilion Dam); GEOID18
+notes                                 Depth -100 ft taken as 100 ft below the lake surface; lake level varies 1,356-1,360 ft (+-0.6 m).                 
+
+
+Result
+......
+
+quantity                value                                       
+----------------------  --------------------------------------------
+Earth model             wgs84                                       
+offset normal           geodetic                                    
+chord length L          738,887.3531 m                              
+time of flight t = L/c  2,464.662914 µs                             
+clock                   64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick)
+ticks (exact)           157,738.4265                                
+ticks (round)           157,738  (residual -6.66 ns)                
+legacy units (500 ns)   4,929.3258                                  
+
+
+Correction ledger
+.................
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+step             applied                                                                                                                        L (m)    ΔL (m)    Δt (ns)    Δticks  cum. Δticks
+---------------  -----------------------------------------------------------------------------------------------------------------------  -----------  --------  ---------  --------  -----------
+reference model  spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets                                        739,697.049    +0.000      +0.00    +0.000       +0.000
+Earth model      WGS84 ellipsoid; heights as given; surveyed points, no offsets                                                           738,889.155  -807.894  -2,694.84  -172.470       +0.000
+height datum     Lake Vermilion (100 ft below the surface): MSL altitude 383.440 m -> ellipsoidal 352.548 m (geoid separation -30.892 m)  738,887.353    -1.802      -6.01    -0.385       -0.385
+
+
+Timing shifts and combined offset
+.................................
+
+shift                                           value (µs)       ticks  detail                                                                                                                                                                               
+--------------------------------------------  ------------  ----------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Main Injector 141-turn shift (2012 shutdown)  1,561.255965  99,920.382  141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF
+
+quantity                value                              
+----------------------  -----------------------------------
+time of flight          2,464.662914 µs = 157,738.426 ticks
+sum of timing shifts    1,561.255965 µs = 99,920.382 ticks 
+Sagnac included         no                                 
+total offset            4,025.918879 µs = 257,658.808 ticks
+total, integer (round)  257,659 ticks (residual +3.00 ns)  
+
+
+Trigger window
+..............
+
+quantity                          value                              
+--------------------------------  -----------------------------------
+window                            [t − 20 µs, t + 30 µs), width 50 µs
+relative to flight time only      [156,458.43, 159,658.43) ticks     
+relative to flight time + shifts  [256,378.81, 259,578.81) ticks     
+microslice                        50 µs = 3,200.0 ticks              
+microslices overlapped            1 to 2 (record up to 100 µs)       
+
+
+Chord geometry
+..............
+
+quantity                                                                value                                                                                   
+----------------------------------------------------------------------  ----------------------------------------------------------------------------------------
+geocentric central angle                                                6.65205°                                                                                
+surface arc at mean radius                                              739,299.9 m                                                                             
+arc − chord                                                             412.50 m (88.06 ticks)                                                                  
+sagitta                                                                 10,726.1 m                                                                              
+deepest point of chord                                                  h = -10,495.7 m at 50 % of the path                                                     
+azimuth at source (from North)                                          335.91132°                                                                              
+elevation at source                                                     -3.30491° (negative = dips below horizontal)                                            
+back azimuth at target                                                  153.06801°                                                                              
+elevation at target                                                     3.34337° (positive = arrives rising)                                                    
+target in source ENU frame                                              E -301,075.3, N 673,419.4, U -42,596.6 m                                                
+opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD))  3.1634 mrad = 0.181249° (right -3.1289, up +0.4661 mrad)                                
+source off-axis at the axis origin                                      12.1935 mrad; 994.350 m along, 12.125 m transverse (right -11.565, up -3.643)           
+target off-axis at the axis origin                                      3.1739 mrad; 739,878.006 m along, 2,348.293 m transverse (right -2,323.438, up +340.763)
+
+
+Effects outside the geometric flight time
+.........................................
+
+effect                                                                                ns      ticks  status                       
+-----------------------------------------------------------------------------  ---------  ---------  -----------------------------
+Sagnac (Earth rotation, ECEF frame)                                               -1.163    -0.0744  not applied                  
+neutrino mass delay (m = 0.1 eV, E = 2 GeV)                                    3.081e-15  1.972e-16  negligible                   
+antenna cable delay, NOvA ND upstream face centre (Fermilab alignment survey)     119.61      7.655  receiver calibration, not ToF
+
+
+Sensitivities
+.............
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+variation                                                                         ΔL (m)     Δt (ns)     Δticks
+-----------------------------------------------------------------------------  ---------  ----------  ---------
+NOvA ND upstream face centre (Fermilab alignment survey): height +1 m            +0.0577      +0.192    +0.0123
+NOvA ND upstream face centre (Fermilab alignment survey): latitude +1"          -28.1195     -93.797    -6.0030
+NOvA ND upstream face centre (Fermilab alignment survey): longitude +1"          +9.4014     +31.360    +2.0070
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint +1 m East     +0.4075      +1.359    +0.0870
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint +1 m North    -0.9114      -3.040    -0.1946
+Lake Vermilion (100 ft below the surface): height +1 m                           +0.0583      +0.195    +0.0125
+Lake Vermilion (100 ft below the surface): latitude +1"                         +27.4905     +91.698    +5.8687
+Lake Vermilion (100 ft below the surface): longitude +1"                         -9.4009     -31.358    -2.0069
+Lake Vermilion (100 ft below the surface): endpoint +1 m East                    -0.4522      -1.508    -0.0965
+Lake Vermilion (100 ft below the surface): endpoint +1 m North                   +0.8900      +2.969    +0.1900
+spherical Earth (R = 6378137 m) at the final endpoints                         +807.8935  +2,694.842  +172.4699
+GRS80 ellipsoid instead of WGS84                                                 -0.0000      -0.000    -0.0000
+
+
+Error budget
+............
+
+source                                                                                                         ns  ticks  type        in RSS
+----------------------------------------------------------------------------------------------------------  -----  -----  ----------  ------
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint offset ±1 m, worst case along the chord   3.34  0.213  systematic  yes   
+Lake Vermilion (100 ft below the surface): height ±1 m (1σ)                                                  0.19  0.012  systematic  yes   
+Lake Vermilion (100 ft below the surface): endpoint offset ±5 m, worst case along the chord                 16.68  1.067  systematic  yes   
+Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz                                         29.40  1.882  systematic  yes   
+integer rounding of the final tick count                                                                     7.81  0.500  convention  no    
+Sagnac term (not applied)                                                                                    1.16  0.074  neglected   no    
+
+quantity                           value                
+---------------------------------  ---------------------
+root-sum-square of combined items  2.174 ticks = 34.0 ns
+linear sum of combined items       3.175 ticks = 49.6 ns
+
+
+Baseline: NuMI target -> Lake Superior, Two Harbors (-100 ft)
+-------------------------------------------------------------
+
+
+Source: NuMI target (TDR 1998) upstream face
+............................................
+
+quantity                              value                                                                                                                                                              
+------------------------------------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+latitude                              41° 49' 55.0917" N  (41.831969923°)                                                                                                                                
+longitude                             88° 15' 55.9086" W  (-88.265530166°, east positive)                                                                                                                
+height as given                       158.074 m (ellipsoid)                                                                                                                                              
+geoid separation N                    -32.785 m                                                                                                                                                          
+ellipsoidal height h                  158.074 m                                                                                                                                                          
+Fermilab site coordinates (ft)        x 100327.838, y 97780.188, z 626.743                                                                                                                               
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                                                                                           
+ECEF of surveyed point                (144061.137, -4757403.941, 4231821.378) m                                                                                                                          
+ECEF of endpoint                      (144061.137, -4757403.941, 4231821.378) m                                                                                                                          
+endpoint geodetic                     41.831969923°, -88.265530166°, h = 158.074 m                                                                                                                       
+uncertainties                         offset_m = 5                                                                                                                                                       
+source                                NuMI TDR 1998 App. A beam sheet (design); Beams-doc-1148 projection                                                                                                
+notes                                 Design position. As-built target (LE/ME configurations) differs at the metre level; the chord to the MINOS far detector agrees with the published 735,338 m to 6 m.
+
+
+Target: Lake Superior, Two Harbors (100 ft below the surface)
+.............................................................
+
+quantity                              value                                                                                                  
+------------------------------------  -------------------------------------------------------------------------------------------------------
+latitude                              46° 59' 55.2000" N  (46.998666667°)                                                                    
+longitude                             91° 38' 16.6500" W  (-91.637958333°, east positive)                                                    
+height as given                       152.735 m (msl)                                                                                        
+geoid separation N                    -29.103 m                                                                                              
+ellipsoidal height h                  123.632 m                                                                                              
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                               
+ECEF of surveyed point                (-124565.097, -4356099.794, 4641754.113) m                                                             
+ECEF of endpoint                      (-124565.097, -4356099.794, 4641754.113) m                                                             
+endpoint geodetic                     46.998666667°, -91.637958333°, h = 123.632 m                                                           
+uncertainties                         height_m = 1, offset_m = 5                                                                             
+source                                Coordinates supplied by A. Norman (2026-11-09); surface 601.1 ft IGLD85 (NOAA chart datum); GEOID18    
+notes                                 Depth -100 ft taken as 100 ft below the lake surface; the lake runs 0-2 ft above chart datum (+-0.5 m).
+
+
+Result
+......
+
+quantity                value                                       
+----------------------  --------------------------------------------
+Earth model             wgs84                                       
+offset normal           geodetic                                    
+chord length L          633,442.9095 m                              
+time of flight t = L/c  2,112.938110 µs                             
+clock                   64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick)
+ticks (exact)           135,228.0390                                
+ticks (round)           135,228  (residual -0.61 ns)                
+legacy units (500 ns)   4,225.8762                                  
+
+
+Correction ledger
+.................
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+step             applied                                                                                                                                    L (m)    ΔL (m)    Δt (ns)    Δticks  cum. Δticks
+---------------  -----------------------------------------------------------------------------------------------------------------------------------  -----------  --------  ---------  --------  -----------
+reference model  spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets                                                    634,190.629    +0.000      +0.00    +0.000       +0.000
+Earth model      WGS84 ellipsoid; heights as given; surveyed points, no offsets                                                                       633,444.355  -746.274  -2,489.30  -159.315       +0.000
+height datum     Lake Superior, Two Harbors (100 ft below the surface): MSL altitude 152.735 m -> ellipsoidal 123.632 m (geoid separation -29.103 m)  633,442.910    -1.446      -4.82    -0.309       -0.309
+
+
+Timing shifts and combined offset
+.................................
+
+shift                                           value (µs)       ticks  detail                                                                                                                                                                               
+--------------------------------------------  ------------  ----------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Main Injector 141-turn shift (2012 shutdown)  1,561.255965  99,920.382  141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF
+
+quantity                value                              
+----------------------  -----------------------------------
+time of flight          2,112.938110 µs = 135,228.039 ticks
+sum of timing shifts    1,561.255965 µs = 99,920.382 ticks 
+Sagnac included         no                                 
+total offset            3,674.194075 µs = 235,148.421 ticks
+total, integer (round)  235,148 ticks (residual -6.57 ns)  
+
+
+Trigger window
+..............
+
+quantity                          value                              
+--------------------------------  -----------------------------------
+window                            [t − 20 µs, t + 30 µs), width 50 µs
+relative to flight time only      [133,948.04, 137,148.04) ticks     
+relative to flight time + shifts  [233,868.42, 237,068.42) ticks     
+microslice                        50 µs = 3,200.0 ticks              
+microslices overlapped            1 to 2 (record up to 100 µs)       
+
+
+Chord geometry
+..............
+
+quantity                                                                value                                                                                  
+----------------------------------------------------------------------  ---------------------------------------------------------------------------------------
+geocentric central angle                                                5.70183°                                                                               
+surface arc at mean radius                                              633,701.3 m                                                                            
+arc − chord                                                             258.44 m (55.17 ticks)                                                                 
+sagitta                                                                 7,881.3 m                                                                              
+deepest point of chord                                                  h = -7,736.9 m at 50 % of the path                                                     
+azimuth at source (from North)                                          336.09597°                                                                             
+elevation at source                                                     -2.85316° (negative = dips below horizontal)                                           
+back azimuth at target                                                  153.73301°                                                                             
+elevation at target                                                     2.84608° (positive = arrives rising)                                                   
+target in source ENU frame                                              E -256,356.7, N 578,391.7, U -31,530.6 m                                               
+opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD))  8.5068 mrad = 0.487406° (right +0.0306, up +8.5068 mrad)                               
+source off-axis at the axis origin                                      0.0000 mrad; 0.000 m along, 0.000 m transverse (right +0.000, up +0.000)               
+target off-axis at the axis origin                                      8.5068 mrad; 633,419.990 m along, 5,388.531 m transverse (right +19.357, up +5,388.496)
+
+
+Effects outside the geometric flight time
+.........................................
+
+effect                                              ns      ticks  status     
+-------------------------------------------  ---------  ---------  -----------
+Sagnac (Earth rotation, ECEF frame)             -0.990    -0.0634  not applied
+neutrino mass delay (m = 0.1 eV, E = 2 GeV)  2.641e-15  1.690e-16  negligible 
+
+
+Sensitivities
+.............
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+variation                                                                      ΔL (m)     Δt (ns)     Δticks
+--------------------------------------------------------------------------  ---------  ----------  ---------
+NuMI target (TDR 1998) upstream face: height +1 m                             +0.0498      +0.166    +0.0106
+NuMI target (TDR 1998) upstream face: latitude +1"                           -28.1720     -93.972    -6.0142
+NuMI target (TDR 1998) upstream face: longitude +1"                           +9.3389     +31.151    +1.9937
+NuMI target (TDR 1998) upstream face: endpoint +1 m East                      +0.4047      +1.350    +0.0864
+NuMI target (TDR 1998) upstream face: endpoint +1 m North                     -0.9131      -3.046    -0.1949
+Lake Superior, Two Harbors (100 ft below the surface): height +1 m            +0.0497      +0.166    +0.0106
+Lake Superior, Two Harbors (100 ft below the surface): latitude +1"          +27.6586     +92.259    +5.9046
+Lake Superior, Two Harbors (100 ft below the surface): longitude +1"          -9.3383     -31.149    -1.9935
+Lake Superior, Two Harbors (100 ft below the surface): endpoint +1 m East     -0.4420      -1.474    -0.0944
+Lake Superior, Two Harbors (100 ft below the surface): endpoint +1 m North    +0.8956      +2.988    +0.1912
+spherical Earth (R = 6378137 m) at the final endpoints                      +746.2739  +2,489.302  +159.3153
+GRS80 ellipsoid instead of WGS84                                              -0.0000      -0.000    -0.0000
+
+
+Error budget
+............
+
+source                                                                                                      ns  ticks  type        in RSS
+-------------------------------------------------------------------------------------------------------  -----  -----  ----------  ------
+NuMI target (TDR 1998) upstream face: endpoint offset ±5 m, worst case along the chord                   16.68  1.067  systematic  yes   
+Lake Superior, Two Harbors (100 ft below the surface): height ±1 m (1σ)                                   0.17  0.011  systematic  yes   
+Lake Superior, Two Harbors (100 ft below the surface): endpoint offset ±5 m, worst case along the chord  16.68  1.067  systematic  yes   
+Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz                                      29.40  1.882  systematic  yes   
+integer rounding of the final tick count                                                                  7.81  0.500  convention  no    
+Sagnac term (not applied)                                                                                 0.99  0.063  neglected   no    
+
+quantity                           value                
+---------------------------------  ---------------------
+root-sum-square of combined items  2.412 ticks = 37.7 ns
+linear sum of combined items       4.027 ticks = 62.9 ns
+
+
+Baseline: ND upstream face -> Lake Superior, Two Harbors (-100 ft)
+------------------------------------------------------------------
+
+
+Source: NOvA ND upstream face centre (Fermilab alignment survey)
+................................................................
+
+quantity                                                           value                                                                                                                                                          
+-----------------------------------------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+latitude                                                           41° 50' 24.3467" N  (41.840096298°)                                                                                                                            
+longitude                                                          88° 16' 13.7981" W  (-88.270499477°, east positive)                                                                                                            
+height as given                                                    96.572 m (ellipsoid)                                                                                                                                           
+ellipsoidal height h                                               96.572 m                                                                                                                                                       
+detector face                                                      half-width 2.0082 m, half-height 2.0082 m; edge sites nd-left / nd-right derived                                                                               
+given in the beamline frame mczero -> minos-fd (along, right, up)  along 993.350 m, right -11.565 m, up -3.644 m; lat/lon/h above are derived                                                                                     
+surveyed point -> endpoint (E, N, U)                               +0.000, +0.000, +0.000 m                                                                                                                                       
+ECEF of surveyed point                                             (143628.970, -4756768.845, 4232452.856) m                                                                                                                      
+ECEF of endpoint                                                   (143628.970, -4756768.845, 4232452.856) m                                                                                                                      
+endpoint geodetic                                                  41.840096298°, -88.270499477°, h = 96.572 m                                                                                                                    
+antenna cable delay                                                119.61 ns (calibration, not part of ToF)                                                                                                                       
+uncertainties                                                      offset_m = 1                                                                                                                                                   
+source                                                             Private communication, Fermilab SAG survey note 2013, NuMI beamline coordinates from MCZERO.  DocDB-8078                                                       
+notes                                                              Definitive ND Location.  11.57 m left of the axis (the mast antenna fix gave 11.57 m), 3.6 m below it, 993.35 m from MCZERO (994.9 m from the target entrance).
+
+
+Target: Lake Superior, Two Harbors (100 ft below the surface)
+.............................................................
+
+quantity                              value                                                                                                  
+------------------------------------  -------------------------------------------------------------------------------------------------------
+latitude                              46° 59' 55.2000" N  (46.998666667°)                                                                    
+longitude                             91° 38' 16.6500" W  (-91.637958333°, east positive)                                                    
+height as given                       152.735 m (msl)                                                                                        
+geoid separation N                    -29.103 m                                                                                              
+ellipsoidal height h                  123.632 m                                                                                              
+surveyed point -> endpoint (E, N, U)  +0.000, +0.000, +0.000 m                                                                               
+ECEF of surveyed point                (-124565.097, -4356099.794, 4641754.113) m                                                             
+ECEF of endpoint                      (-124565.097, -4356099.794, 4641754.113) m                                                             
+endpoint geodetic                     46.998666667°, -91.637958333°, h = 123.632 m                                                           
+uncertainties                         height_m = 1, offset_m = 5                                                                             
+source                                Coordinates supplied by A. Norman (2026-11-09); surface 601.1 ft IGLD85 (NOAA chart datum); GEOID18    
+notes                                 Depth -100 ft taken as 100 ft below the lake surface; the lake runs 0-2 ft above chart datum (+-0.5 m).
+
+
+Result
+......
+
+quantity                value                                       
+----------------------  --------------------------------------------
+Earth model             wgs84                                       
+offset normal           geodetic                                    
+chord length L          632,448.6266 m                              
+time of flight t = L/c  2,109.621539 µs                             
+clock                   64.0000 MHz (15.6250 ns/tick, 4.6843 m/tick)
+ticks (exact)           135,015.7785                                
+ticks (round)           135,016  (residual +3.46 ns)                
+legacy units (500 ns)   4,219.2431                                  
+
+
+Correction ledger
+.................
+
+Each row is one change to the endpoints, applied in order. ΔL is the change from the previous row; the cumulative column is measured from the chosen Earth model with no corrections.
+
+step             applied                                                                                                                                    L (m)    ΔL (m)    Δt (ns)    Δticks  cum. Δticks
+---------------  -----------------------------------------------------------------------------------------------------------------------------------  -----------  --------  ---------  --------  -----------
+reference model  spherical Earth, R = 6378137.000 m; heights as given; surveyed points, no offsets                                                    633,194.760    +0.000      +0.00    +0.000       +0.000
+Earth model      WGS84 ellipsoid; heights as given; surveyed points, no offsets                                                                       632,450.073  -744.687  -2,484.01  -158.977       +0.000
+height datum     Lake Superior, Two Harbors (100 ft below the surface): MSL altitude 152.735 m -> ellipsoidal 123.632 m (geoid separation -29.103 m)  632,448.627    -1.446      -4.82    -0.309       -0.309
+
+
+Timing shifts and combined offset
+.................................
+
+shift                                           value (µs)       ticks  detail                                                                                                                                                                               
+--------------------------------------------  ------------  ----------  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Main Injector 141-turn shift (2012 shutdown)  1,561.255965  99,920.382  141 turns × 588 buckets / 53.1034 MHz: T_rev = 11.072737 µs = 708.655 ticks/turn; 1.882 ticks per kHz of RF error; beam relative to MIBS $74 moved by 141 MI revolutions; flat-top RF
+
+quantity                value                              
+----------------------  -----------------------------------
+time of flight          2,109.621539 µs = 135,015.779 ticks
+sum of timing shifts    1,561.255965 µs = 99,920.382 ticks 
+Sagnac included         no                                 
+total offset            3,670.877504 µs = 234,936.160 ticks
+total, integer (round)  234,936 ticks (residual -2.50 ns)  
+
+
+Trigger window
+..............
+
+quantity                          value                              
+--------------------------------  -----------------------------------
+window                            [t − 20 µs, t + 30 µs), width 50 µs
+relative to flight time only      [133,735.78, 136,935.78) ticks     
+relative to flight time + shifts  [233,656.16, 236,856.16) ticks     
+microslice                        50 µs = 3,200.0 ticks              
+microslices overlapped            1 to 2 (record up to 100 µs)       
+
+
+Chord geometry
+..............
+
+quantity                                                                value                                                                                  
+----------------------------------------------------------------------  ---------------------------------------------------------------------------------------
+geocentric central angle                                                5.69291°                                                                               
+surface arc at mean radius                                              632,706.0 m                                                                            
+arc − chord                                                             257.40 m (54.95 ticks)                                                                 
+sagitta                                                                 7,856.6 m                                                                              
+deepest point of chord                                                  h = -7,742.9 m at 50 % of the path                                                     
+azimuth at source (from North)                                          336.09370°                                                                             
+elevation at source                                                     -2.84314° (negative = dips below horizontal)                                           
+back azimuth at target                                                  153.73406°                                                                             
+elevation at target                                                     2.84717° (positive = arrives rising)                                                   
+target in source ENU frame                                              E -255,979.3, N 577,478.8, U -31,370.5 m                                               
+opening angle chord vs beam axis (NuMI beam axis (target -> MINOS FD))  8.5261 mrad = 0.488507° (right +0.0489, up +8.5259 mrad)                               
+source off-axis at the axis origin                                      12.1935 mrad; 994.350 m along, 12.125 m transverse (right -11.565, up -3.643)          
+target off-axis at the axis origin                                      8.5068 mrad; 633,419.990 m along, 5,388.531 m transverse (right +19.357, up +5,388.496)
+
+
+Effects outside the geometric flight time
+.........................................
+
+effect                                                                                ns      ticks  status                       
+-----------------------------------------------------------------------------  ---------  ---------  -----------------------------
+Sagnac (Earth rotation, ECEF frame)                                               -0.988    -0.0633  not applied                  
+neutrino mass delay (m = 0.1 eV, E = 2 GeV)                                    2.637e-15  1.688e-16  negligible                   
+antenna cable delay, NOvA ND upstream face centre (Fermilab alignment survey)     119.61      7.655  receiver calibration, not ToF
+
+
+Sensitivities
+.............
+
+Change of the chord for a unit change of each input, evaluated at the final endpoints.
+
+variation                                                                         ΔL (m)     Δt (ns)     Δticks
+-----------------------------------------------------------------------------  ---------  ----------  ---------
+NOvA ND upstream face centre (Fermilab alignment survey): height +1 m            +0.0496      +0.165    +0.0106
+NOvA ND upstream face centre (Fermilab alignment survey): latitude +1"          -28.1715     -93.970    -6.0141
+NOvA ND upstream face centre (Fermilab alignment survey): longitude +1"          +9.3385     +31.150    +1.9936
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint +1 m East     +0.4047      +1.350    +0.0864
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint +1 m North    -0.9131      -3.046    -0.1949
+Lake Superior, Two Harbors (100 ft below the surface): height +1 m               +0.0497      +0.166    +0.0106
+Lake Superior, Two Harbors (100 ft below the surface): latitude +1"             +27.6588     +92.260    +5.9046
+Lake Superior, Two Harbors (100 ft below the surface): longitude +1"             -9.3379     -31.148    -1.9935
+Lake Superior, Two Harbors (100 ft below the surface): endpoint +1 m East        -0.4420      -1.474    -0.0944
+Lake Superior, Two Harbors (100 ft below the surface): endpoint +1 m North       +0.8956      +2.988    +0.1912
+spherical Earth (R = 6378137 m) at the final endpoints                         +744.6867  +2,484.007  +158.9765
+GRS80 ellipsoid instead of WGS84                                                 -0.0000      -0.000    -0.0000
+
+
+Error budget
+............
+
+source                                                                                                         ns  ticks  type        in RSS
+----------------------------------------------------------------------------------------------------------  -----  -----  ----------  ------
+NOvA ND upstream face centre (Fermilab alignment survey): endpoint offset ±1 m, worst case along the chord   3.34  0.213  systematic  yes   
+Lake Superior, Two Harbors (100 ft below the surface): height ±1 m (1σ)                                      0.17  0.011  systematic  yes   
+Lake Superior, Two Harbors (100 ft below the surface): endpoint offset ±5 m, worst case along the chord     16.68  1.067  systematic  yes   
+Main Injector 141-turn shift (2012 shutdown): RF frequency ±1000 Hz                                         29.40  1.882  systematic  yes   
+integer rounding of the final tick count                                                                     7.81  0.500  convention  no    
+Sagnac term (not applied)                                                                                    0.99  0.063  neglected   no    
+
+quantity                           value                
+---------------------------------  ---------------------
+root-sum-square of combined items  2.174 ticks = 34.0 ns
+linear sum of combined items       3.173 ticks = 49.6 ns
 
 
 Baseline: NuMI target -> MINOS FD (validation of the target position)

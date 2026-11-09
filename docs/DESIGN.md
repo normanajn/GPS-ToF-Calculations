@@ -139,6 +139,20 @@ ND front face (158.125 in square): left / centre / right edges 14.133 / 12.194 /
 from the beam axis; the face subtends 4.039 mrad at the target; opening angles to the FD
 chord 1.472 / 2.474 / 4.270 mrad (the left edge is nearest the target → FD line).
 
+## 4c. Lake sites (v0.8.0)
+
+Two points 100 ft below the surfaces of Lake Vermilion (47° 50′ 49.43″ N, 92° 17′ 46.34″ W) and
+Lake Superior at Two Harbors (46° 59′ 55.2″ N, 91° 38′ 16.65″ W) were added as ordinary sites.
+Their heights are orthometric: the lake surface (1,358 ft NGVD29 for Vermilion, 601.1 ft IGLD85
+chart datum for Superior) minus 100 ft, declared `datum: msl` with the GEOID18 separation at each
+point from the NGS geoid service (−30.892 m, −29.103 m), so the datum conversion appears as a
+ledger line (−1.8 m and −1.4 m of chord).  Results: target → Vermilion 739,881.733 m
+(157,950.708 ticks), target → Two Harbors 633,442.910 m (135,228.039 ticks).  Vermilion is 2.3 km
+left of the beam axis and 0.34 km above its extension (3.17 mrad off axis); Two Harbors lies in
+the vertical plane of the axis (19 m right), 5.4 km above the extended line (8.51 mrad).  The same
+GEOID18 lookup at Ash River (−31.221 m against the receiver's −32.462 m) reduces the residual on
+the surveyed FD height from 1.5 m to 0.3 m.
+
 ## 5. Decisions
 
 | decision | choice | why |

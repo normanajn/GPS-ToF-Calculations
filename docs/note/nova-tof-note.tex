@@ -30,7 +30,7 @@
 \maketitle
 
 \begin{abstract}
-This note derives, in full, the straight-line distances between the NuMI target, the NOvA Near Detector (\ND), the NOvA Far Detector (\FD) at Ash River and the MINOS Far Detector at Soudan, and the corresponding neutrino times of flight in SI units and in \SI{64}{MHz} NOvA clock ticks.  Five coordinate systems are used and written out explicitly: a spherical Earth, WGS84 geodetic coordinates and the Earth-centred Earth-fixed (ECEF) frame, the Fermilab Site Coordinate System (a double stereographic projection), the NuMI beamline system with origin MCZERO in which the Fermilab alignment group surveyed both NOvA upstream-face centres, and a beam-axis frame used for off-axis and opening angles.  The target is taken from the 1998 NuMI Technical Design Report beam sheet; the detector endpoints are the surveyed face centres.  Every correction between the reference model and the final result is tabulated, together with chord geometry, the Main Injector timing shift, the trigger window, relativistic and instrumental terms, sensitivities and an error budget.  The headline result is a flight time from the \ND{} face to the \FD{} face of \SI{2700.250552}{\micro s}, i.e.\ \num{172816.035} ticks, and a total offset including the 141-turn Main Injector shift of \num{272736} ticks.  The 2013 Mathematica notebook and the 2014 note \cite{norman2014} are reproduced to $10^{-9}$ and their superseded geometries are compared with the surveyed result in an appendix.  All computations are performed by the \code{gps-tof} package \cite{gpstof}; the tables of this note are generated from its JSON report.
+This note derives, in full, the straight-line distances between the NuMI target, the NOvA Near Detector (\ND), the NOvA Far Detector (\FD) at Ash River and the MINOS Far Detector at Soudan, and the corresponding neutrino times of flight in SI units and in \SI{64}{MHz} NOvA clock ticks.  Five coordinate systems are used and written out explicitly: a spherical Earth, WGS84 geodetic coordinates and the Earth-centred Earth-fixed (ECEF) frame, the Fermilab Site Coordinate System (a double stereographic projection), the NuMI beamline system with origin MCZERO in which the Fermilab alignment group surveyed both NOvA upstream-face centres, and a beam-axis frame used for off-axis and opening angles.  The target is taken from the 1998 NuMI Technical Design Report beam sheet; the detector endpoints are the surveyed face centres.  Two further sites, points \SI{100}{ft} below the surfaces of Lake Vermilion and of Lake Superior at Two Harbors, are carried through the same chain.  Every correction between the reference model and the final result is tabulated, together with chord geometry, the Main Injector timing shift, the trigger window, relativistic and instrumental terms, sensitivities and an error budget.  The headline result is a flight time from the \ND{} face to the \FD{} face of \SI{2700.250552}{\micro s}, i.e.\ \num{172816.035} ticks, and a total offset including the 141-turn Main Injector shift of \num{272736} ticks.  The 2013 Mathematica notebook and the 2014 note \cite{norman2014} are reproduced to $10^{-9}$ and their superseded geometries are compared with the surveyed result in an appendix.  All computations are performed by the \code{gps-tof} package \cite{gpstof}; the tables of this note are generated from its JSON report.
 \end{abstract}
 
 \tableofcontents
@@ -163,7 +163,7 @@ Y=\vec r\cdot\hat u,\qquad X=\vec r\cdot\hat h,\qquad Z=\vec r\cdot\hat v,\qquad
 \end{equation}
 where $\psi_{\rm clock}$ is \ang{0} above the axis and \ang{90} to the right; the inverse is $\vec p_P=\vec p_O+Y\hat u+X\hat h+Z\hat v$.  The angle between a chord $\vec d$ and the axis is $\angle(\vec d,\hat u)$ with components $\operatorname{atan2}(\vec d\cdot\hat h,\vec d\cdot\hat u)$ (right) and $\operatorname{atan2}(\vec d\cdot\hat v,\vec d\cdot\hat u)$ (up).  The opening angle at a vertex $V$ between the chords to $A$ and $B$ is $\angle(\vec p_A-\vec p_V,\vec p_B-\vec p_V)$, decomposed into the azimuth and elevation differences of the two chords at $V$; the transverse distance of $A$ from the line $VB$ is $|\vec p_A-\vec p_V|\sin\angle$.  Angles between vectors are evaluated as $\operatorname{atan2}(|\vec a\times\vec b|,\vec a\cdot\vec b)$ for numerical stability at the microradian level.
 
-\textbf{Realisation for NuMI.}  Two elements of the beamline system are not stated in the survey notes and were established here.  (1) MCZERO lies at the upstream end of horn~1, between the target exit and the horn; it is taken as the horn-1 upstream face of the 1998 TDR beam sheet (row 0089, \SI{1.5}{m} downstream of the target entrance).  The as-built point is not public, so the origin is good to about \SI{1}{m} along the beam, which is \SI{0.2}{ticks} on an \SI{810}{km} chord and nothing transverse.  (2) The direction of the $Y$ axis.  Two candidate lines were tested: the 1998 design axis (target $\to$ decay-pipe end) and the as-built aiming line (MCZERO $\to$ MINOS \FD{} midpoint).  The \FD{} survey note gives an independent NAVD88 elevation of the face centre, $H=\SI{1209.1058}{ft}=\SI{368.535}{m}$, i.e.\ $h\simeq\SI{336.07}{m}$ with the Ash River geoid separation $N_g=\SI{-32.462}{m}$ of the receiver.  The aiming line reproduces it to \SI{+1.5}{m}; the design axis misses it by \SI{17}{m}.  The aiming line is therefore the surveyors' $Y$ axis and is used for both survey points (Sec.~\ref{sec:validation}).
+\textbf{Realisation for NuMI.}  Two elements of the beamline system are not stated in the survey notes and were established here.  (1) MCZERO lies at the upstream end of horn~1, between the target exit and the horn; it is taken as the horn-1 upstream face of the 1998 TDR beam sheet (row 0089, \SI{1.5}{m} downstream of the target entrance).  The as-built point is not public, so the origin is good to about \SI{1}{m} along the beam, which is \SI{0.2}{ticks} on an \SI{810}{km} chord and nothing transverse.  (2) The direction of the $Y$ axis.  Two candidate lines were tested: the 1998 design axis (target $\to$ decay-pipe end) and the as-built aiming line (MCZERO $\to$ MINOS \FD{} midpoint).  The \FD{} survey note gives an independent NAVD88 elevation of the face centre, $H=\SI{1209.1058}{ft}=\SI{368.535}{m}$, i.e.\ $h\simeq\SI{336.07}{m}$ with the Ash River geoid separation $N_g=\SI{-32.462}{m}$ of the receiver.  The aiming line reproduces it to \SI{+1.5}{m} (\SI{+0.3}{m} with the GEOID18 separation of \SI{-31.221}{m} instead of the receiver's value); the design axis misses it by \SI{17}{m}.  The aiming line is therefore the surveyors' $Y$ axis and is used for both survey points (Sec.~\ref{sec:validation}).
 
 \textbf{Detector faces.}  A face of half-width $w$ and half-height $w'$ centred at $(X,Y,Z)$ has edge points $(X\mp w,Y,Z)$ (left, right) and $(X,Y,Z\pm w')$ (top, bottom) in the same frame; the face is taken perpendicular to the beamline rather than to the detector's own axis, a \SI{3}{cm} difference for the \ND.  The angle the face subtends at the axis origin is $\angle(\vec r_{\rm left},\vec r_{\rm right})$.
 
@@ -198,6 +198,10 @@ id & site & position as given & source \\
 \input{generated/inputs}
 \end{tabular}
 \end{table}
+
+\subsection{Lake sites}
+\label{sec:lakes}
+Two additional points were added at \SI{100}{ft} below the lake surface: Lake Vermilion at \ang{47;50;49.43}\,N, \ang{92;17;46.34}\,W and Lake Superior at Two Harbors, \ang{46;59;55.2}\,N, \ang{91;38;16.65}\,W.  The lake surfaces are \SI{1358}{ft} (Vermilion Dam normal pool, NGVD29) and \SI{601.1}{ft} (Lake Superior chart datum, IGLD~1985), so the points are at orthometric heights $H=\SI{1258}{ft}=\SI{383.440}{m}$ and $H=\SI{501.1}{ft}=\SI{152.735}{m}$.  These are mean-sea-level heights and are converted to ellipsoidal heights with the GEOID18 separations at the two points, $N_g=\SI{-30.892}{m}$ and \SI{-29.103}{m} (NGS geoid service); the conversion is a ledger line (Table~\ref{tab:lakes}).  Lake levels vary by about \SI{\pm 0.6}{m}, worth \SI{0.04}{m} of chord (\SI{0.01}{ticks}), and the NGVD29/IGLD85 to NAVD88 datum differences are at the decimetre level.
 
 \subsection{Converted positions}
 Table~\ref{tab:positions} gives every endpoint used below in geodetic (WGS84) and ECEF coordinates after all conversions (site projection, beamline frame, antenna offsets); Table~\ref{tab:positionsdec} repeats the principal points in decimal degrees.
@@ -251,6 +255,19 @@ The ledger lists each change of the endpoints in order with its effect on $L$, $
 step & applied & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
 \midrule
 \input{generated/ledger_ndfd}
+\end{tabular}}
+\end{table}
+
+For the lake sites the height-datum conversion enters as well (Table~\ref{tab:lakes}): lowering the far end by $|N_g|$ shortens the chord by $|N_g|\sin(\text{dip})$, about \SI{1.8}{m} and \SI{1.4}{m}.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Correction ledgers of the chords from the NuMI target to the two lake sites.}
+\label{tab:lakes}
+\resizebox{\textwidth}{!}{\begin{tabular}{llrrrr}
+\toprule
+site & step & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
+\midrule
+\input{generated/ledger_lakes}
 \end{tabular}}
 \end{table}
 
@@ -390,6 +407,8 @@ id & off-axis (mrad) & along (m) & transverse (m) & right (m) & up (m) & clock (
 \end{tabular}}
 \end{table}
 
+The two lake sites fall close to the beam: Lake Vermilion lies \SI{740}{km} along the axis, \SI{2.3}{km} to its left and \SI{0.34}{km} above the extended axis line (\SI{3.17}{mrad} off axis), and the Two Harbors point lies almost exactly in the vertical plane of the axis (\SI{19}{m} to the right) \SI{633}{km} along it and \SI{5.4}{km} above the extended line (\SI{8.51}{mrad} off axis, clock angle \ang{0.2}, i.e.\ directly above the beam).
+
 \subsection{Opening angles}
 Table~\ref{tab:opening} gives the opening angles at the target between pairs of chords, their horizontal and vertical components, the transverse distance of the first endpoint from the second chord, and each chord's angle to the beam axis.  With both surveyed faces the \ND{} lies only \SI{2.46}{m} off the target $\to$ \FD{} line: the Near Detector sits on the line of sight to the Far Detector.
 
@@ -436,7 +455,7 @@ point & opening angle (mrad) & horizontal (mrad) & vertical (mrad) & transverse 
 
 \section{Validation}
 \label{sec:validation}
-The target position and the realisation of the beamline frame rest on design documents; Table~\ref{tab:validation} checks them against independently published or surveyed quantities.  The target $\to$ MINOS \FD{} chord agrees with the published \SI{735338.0}{m} (from the horn-1 upstream end) to \SI{7}{m}, the beam azimuth with the 1999 geodetic survey to \ang{;;13}, the \FD{} ellipsoidal height with the NAVD88 survey elevation to \SI{1.5}{m}, and the MCZERO $\to$ \FD{} chord equals $\sqrt{X^2+Y^2+Z^2}$ of the survey coordinates identically.  The surveyed \ND{} confirms the 2014 antenna's \SI{11.57}{m} left offset to \SI{5}{mm}.  In addition the 2013 notebook is reproduced to $10^{-9}$ (Appendix~\ref{app:history}).
+The target position and the realisation of the beamline frame rest on design documents; Table~\ref{tab:validation} checks them against independently published or surveyed quantities.  The target $\to$ MINOS \FD{} chord agrees with the published \SI{735338.0}{m} (from the horn-1 upstream end) to \SI{7}{m}, the beam azimuth with the 1999 geodetic survey to \ang{;;13}, the \FD{} ellipsoidal height with the NAVD88 survey elevation to \SI{0.3}{m} when the GEOID18 separation at Ash River (\SI{-31.221}{m}) is used (\SI{1.5}{m} with the receiver's own \SI{-32.462}{m}), and the MCZERO $\to$ \FD{} chord equals $\sqrt{X^2+Y^2+Z^2}$ of the survey coordinates identically.  The surveyed \ND{} confirms the 2014 antenna's \SI{11.57}{m} left offset to \SI{5}{mm}.  In addition the 2013 notebook is reproduced to $10^{-9}$ (Appendix~\ref{app:history}).
 
 \begin{table}[htbp]\centering\small
 \caption{Validation against published and surveyed quantities.}
@@ -474,7 +493,7 @@ source & ns & ticks & type & combined \\
 \end{table}
 
 \section{Summary}
-Table~\ref{tab:baselines} collects all baselines.  For the surveyed \ND{} and \FD{} faces the flight path is \SI{809514.750}{m}, the flight time \SI{2700.250552}{\micro s} = \num{172816.035} ticks, and the total offset with the 141-turn Main Injector shift \num{272736.417} ticks, i.e.\ \num{272736} ticks when rounded (residual \SI{-6.5}{ns}).  From the target the \FD{} face is \SI{810509.171}{m} (\num{173028.325} ticks) and the \ND{} face \SI{994.424}{m} (\num{212.291} ticks).  The \ND{} and \FD{} are \num{12.19} and \num{14.55}~mrad off the Soudan axis, on the same side (clock \ang{-107} and \ang{-111}), and the \ND{} face spans \num{4.04}~mrad at the target.  Open items are the as-built MCZERO and target positions (about \SI{1}{m} along the beam) and the geoid model behind the \SI{1.5}{m} residual on the \FD{} height.
+Table~\ref{tab:baselines} collects all baselines.  For the surveyed \ND{} and \FD{} faces the flight path is \SI{809514.750}{m}, the flight time \SI{2700.250552}{\micro s} = \num{172816.035} ticks, and the total offset with the 141-turn Main Injector shift \num{272736.417} ticks, i.e.\ \num{272736} ticks when rounded (residual \SI{-6.5}{ns}).  From the target the \FD{} face is \SI{810509.171}{m} (\num{173028.325} ticks) and the \ND{} face \SI{994.424}{m} (\num{212.291} ticks).  The \ND{} and \FD{} are \num{12.19} and \num{14.55}~mrad off the Soudan axis, on the same side (clock \ang{-107} and \ang{-111}), and the \ND{} face spans \num{4.04}~mrad at the target.  Chords from the target to the lake points are \SI{739881.733}{m} (Lake Vermilion, \num{157950.708} ticks) and \SI{633442.910}{m} (Two Harbors, \num{135228.039} ticks).  Open items are the as-built MCZERO and target positions (about \SI{1}{m} along the beam) and the lake-level datums.
 
 \begin{table}[htbp]\centering\scriptsize
 \caption{All baselines of the configuration.  ``total'' adds the MI shift; the last column is the opening angle between the chord and the beam axis.}

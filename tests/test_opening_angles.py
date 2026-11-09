@@ -65,7 +65,7 @@ def test_collinear_points_have_zero_opening_angle():
 
 
 def test_config_and_cli_angles(nova, capsys):
-    assert len(nova.opening_angles) == 5
+    assert len(nova.opening_angles) == 7
     r = compute_all(nova)
     assert [x["label"] for x in r["opening_angles"]] == [x.label for x in nova.opening_angles]
     assert parse_angle_spec("target:nd:fd2:lbl:decay-end") == {"vertex": "target", "a": "nd", "b": "fd2", "label": "lbl", "axis_to": "decay-end"}

@@ -62,11 +62,15 @@ def main() -> int:
 
     # ---- input positions -------------------------------------------------
     rows = []
-    for sid in ("target", "mczero", "decay-end", "fnal-mast", "nd-under-mast", "fd1", "fd2", "fd3", "minos-fd"):
+    for sid in ("target", "mczero", "decay-end", "fnal-mast", "nd-under-mast", "fd1", "fd2", "fd3", "minos-fd", "vermilion", "two-harbors"):
         s = sites[sid]
         src = s["fscs_xyz_ft"]
-        given = ("FSCS $x,y,z$ = %.3f, %.3f, %.3f ft" % tuple(src)) if src else ("%s, %s, $h$ = %s m (%s)" % (
-            dms(s["lat_deg"], "lat"), dms(s["lon_deg"], "lon"), n(s["height_given_m"], 3), s["datum"]))
+        if src:
+            given = "FSCS $x,y,z$ = %.3f, %.3f, %.3f ft" % tuple(src)
+        elif s["datum"] == "msl":
+            given = "%s, %s, $H$ = %s m (MSL), $N_g$ = %s m" % (dms(s["lat_deg"], "lat"), dms(s["lon_deg"], "lon"), n(s["height_given_m"], 3), n(s["geoid_separation_m"], 3))
+        else:
+            given = "%s, %s, $h$ = %s m (%s)" % (dms(s["lat_deg"], "lat"), dms(s["lon_deg"], "lon"), n(s["height_given_m"], 3), s["datum"])
         rows.append(r"%s & %s & %s & %s \\" % (esc(sid), esc(s["name"]), given, esc(s["source"])))
     W["inputs"] = "\n".join(rows)
 
@@ -79,14 +83,14 @@ def main() -> int:
 
     # ---- converted positions ---------------------------------------------
     rows = []
-    for sid in ("target", "mczero", "decay-end", "nd", "nd-left", "nd-right", "fd", "fd-left", "fd-right", "minos-fd", "nd-1015", "nd-under-mast", "fd2"):
+    for sid in ("target", "mczero", "decay-end", "nd", "nd-left", "nd-right", "fd", "fd-left", "fd-right", "minos-fd", "vermilion", "two-harbors", "nd-1015", "nd-under-mast", "fd2"):
         s = sites[sid]
         e = s["ecef_endpoint_m"]
         rows.append(r"%s & %s & %s & %s & %s & %s & %s \\" % (esc(sid), dms(s["endpoint_lat_deg"], "lat"), dms(s["endpoint_lon_deg"], "lon"),
                     n(s["endpoint_h_m"], 3), n(e[0], 3), n(e[1], 3), n(e[2], 3)))
     W["positions"] = "\n".join(rows)
     rows = []
-    for sid in ("target", "mczero", "nd", "fd", "minos-fd"):
+    for sid in ("target", "mczero", "nd", "fd", "minos-fd", "vermilion", "two-harbors"):
         s = sites[sid]
         rows.append(r"%s & %s & %s & %s \\" % (esc(sid), r"\num{%.9f}" % s["endpoint_lat_deg"], r"\num{%.9f}" % s["endpoint_lon_deg"], n(s["endpoint_h_m"], 3)))
     W["positions_decimal"] = "\n".join(rows)
@@ -122,7 +126,9 @@ def main() -> int:
     for label, short in (("ND upstream face -> FD upstream face (both surveyed)", "ND $\\rightarrow$ FD"),
                          ("NuMI target -> FD upstream face (surveyed)", "target $\\rightarrow$ FD"),
                          ("NuMI target -> ND upstream face (surveyed)", "target $\\rightarrow$ ND"),
-                         ("NuMI target -> MINOS FD (validation of the target position)", "target $\\rightarrow$ MINOS FD")):
+                         ("NuMI target -> MINOS FD (validation of the target position)", "target $\\rightarrow$ MINOS FD"),
+                         ("NuMI target -> Lake Vermilion (-100 ft)", "target $\\rightarrow$ Lake Vermilion"),
+                         ("NuMI target -> Lake Superior, Two Harbors (-100 ft)", "target $\\rightarrow$ Two Harbors")):
         rows.append(short + " & " + " & ".join(geom(label)) + r" \\")
     W["geometry"] = "\n".join(rows)
 
@@ -131,7 +137,7 @@ def main() -> int:
     W["axis"] = r"%s & %s & %s & %s & %s \\" % (esc(ax["label"]), n(ax["length_m"], 3), n(ax["azimuth_at_origin_deg"], 5), n(ax["elevation_at_origin_deg"], 5),
                                                 "(%.9f, %.9f, %.9f)" % tuple(ax["unit_ecef"]))
     rows = []
-    for sid in ("target", "mczero", "decay-end", "nd", "fd", "minos-fd", "nd-1015", "nd-under-mast", "fd2", "fnal-mast"):
+    for sid in ("target", "mczero", "decay-end", "nd", "fd", "minos-fd", "vermilion", "two-harbors", "nd-1015", "nd-under-mast", "fd2", "fnal-mast"):
         s = sites[sid]; va = s["vs_axis"]
         rows.append(r"%s & %s & %s & %s & %s & %s & %s \\" % (esc(sid), n(va["off_axis_mrad"], 4), n(va["along_axis_m"], 3), n(va["transverse_m"], 3),
                     sn(va["transverse_right_m"], 3), sn(va["transverse_up_m"], 3), n(va["clock_angle_deg"], 2) if va["clock_angle_deg"] is not None else "--"))
@@ -166,7 +172,9 @@ def main() -> int:
     W["clock"] = r"%s & %s & %s" % (n(rr["clock_hz"] / 1e6, 4), n(rr["tick_ns"], 4), n(rr["metres_per_tick"], 4))
     rows = []
     for lab in ("ND upstream face -> FD upstream face (both surveyed)", "NuMI target -> FD upstream face (surveyed)", "NuMI target -> ND upstream face (surveyed)",
-                "MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)", "MCZERO -> ND upstream face (surveyed; stationing 993.350 m)"):
+                "MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)", "MCZERO -> ND upstream face (surveyed; stationing 993.350 m)",
+                "NuMI target -> Lake Vermilion (-100 ft)", "ND upstream face -> Lake Vermilion (-100 ft)",
+                "NuMI target -> Lake Superior, Two Harbors (-100 ft)", "ND upstream face -> Lake Superior, Two Harbors (-100 ft)"):
         x = bl[lab]; rr2, tt2 = x["result"], x["total"]
         rows.append(r"%s & %s & %s & %s & %s & %s & %s & %s \\" % (esc(lab), n(rr2["L_m"], 3), n(rr2["t_us"], 6), n(rr2["ticks"], 3), n(rr2["ticks_int"]),
                     sn(rr2["rounding_residual_ns"], 2), n(rr2["legacy_units"], 4), n(tt2["ticks"], 3)))
@@ -201,7 +209,8 @@ def main() -> int:
         r"beam azimuth at the target & %s\textdegree{} & 336.09788\textdegree{} \citep{bocean1999} & %s\textdegree{} \\" % (n(tm["geometry"]["azimuth_at_source_deg"], 5), sn(tm["geometry"]["azimuth_at_source_deg"] - 336.09788, 5)),
         r"beam dip at the target & %s\textdegree{} & 3.34349\textdegree{} \citep{numibeam2016} & %s\textdegree{} \\" % (n(-tm["geometry"]["elevation_at_source_deg"], 5), sn(-tm["geometry"]["elevation_at_source_deg"] - 3.34349, 5)),
         r"decay-pipe length (TDR stations) & %s m & 675 m \citep{numibeam2016} & -- \\" % n(bl["NuMI target -> decay-pipe end (TDR design axis)"]["result"]["L_m"] - (1307.48377 - 1146.09958) * 0.3048006096, 1),
-        r"FD ellipsoidal height from the survey frame & %s m & $H + N = %.3f - 32.462 = %.3f$ m & %s m \\" % (n(sites["fd"]["h_ellipsoidal_m"], 3), H, H - 32.462, sn(sites["fd"]["h_ellipsoidal_m"] - (H - 32.462), 2)),
+        r"FD ellipsoidal height from the survey frame & %s m & $H + N_g = %.3f - 31.221 = %.3f$ m (GEOID18) & %s m \\" % (n(sites["fd"]["h_ellipsoidal_m"], 3), H, H - 31.221, sn(sites["fd"]["h_ellipsoidal_m"] - (H - 31.221), 2)),
+        r"\quad same, with the receiver's geoid separation & %s m & $%.3f - 32.462 = %.3f$ m & %s m \\" % (n(sites["fd"]["h_ellipsoidal_m"], 3), H, H - 32.462, sn(sites["fd"]["h_ellipsoidal_m"] - (H - 32.462), 2)),
         r"MCZERO $\rightarrow$ FD chord vs $|(X,Y,Z)|$ & %s m & %s m & %s m \\" % (n(bl["MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)"]["result"]["L_m"], 4),
             n(math.sqrt(810422.323775**2 + 11037.455993**2 + 4162.644422**2), 4), sn(bl["MCZERO -> FD upstream face (surveyed; stationing 810,422.324 m)"]["result"]["L_m"] - math.sqrt(810422.323775**2 + 11037.455993**2 + 4162.644422**2), 6)),
         r"off-axis angle of the FD face & %s mrad & 14.6 mrad \citep{novasurvey} & -- \\" % n(fdv["off_axis_mrad"], 3),
@@ -235,6 +244,11 @@ def main() -> int:
     rows = [r"%s & %s & %s \\" % (lab, n(v, 3), sn(v - rr["ticks"], 3)) for lab, v in hist]
     W["history"] = "\n".join(rows)
 
+    rows = []
+    for lab in ("NuMI target -> Lake Vermilion (-100 ft)", "NuMI target -> Lake Superior, Two Harbors (-100 ft)"):
+        for l in bl[lab]["ledger"]:
+            rows.append(r"%s & %s & %s & %s & %s & %s \\" % (esc(lab.split(" -> ")[1]), esc(l["step"]), n(l["L_m"], 3), sn(l["dL_m"], 3), sn(l["dt_ns"], 2), sn(l["dticks"], 3)))
+    W["ledger_lakes"] = "\n".join(rows)
     W["meta"] = r"\newcommand{\gpstofversion}{%s}\newcommand{\reportgenerated}{%s}" % (r["gps_tof_version"], r["generated"][:10])
     # A table body read with \input must carry its own \bottomrule: LaTeX's end-of-file handling
     # after the final \\ breaks the \noalign scan if the rule follows in the including file.

@@ -168,6 +168,31 @@ sites:
     source: "2014 note Table 2 / $GPGGA 2013-03-07 21:03:41 UTC"
     uncertainty: {offset_m: 2.0}
 
+  # ---- Lake sites (points 100 ft below the lake surface) -------------------------------
+  - name: "Lake Vermilion (100 ft below the surface)"
+    id: vermilion
+    lat: "47 50 49.43 N"
+    lon: "92 17 46.34 W"
+    # Lake surface 1,358 ft (413.92 m, NGVD29/MSL, Vermilion Dam normal pool) minus 100 ft = 1,258 ft.
+    height_m: 383.440
+    datum: msl
+    geoid_separation_m: -30.892        # GEOID18 at this point (NGS geoid service, 2026-11-09)
+    source: "Coordinates supplied by A. Norman (2026-11-09); surface 1,358 ft (Lake Vermilion, MN DNR / Vermilion Dam); GEOID18"
+    notes: "Depth -100 ft taken as 100 ft below the lake surface; lake level varies 1,356-1,360 ft (+-0.6 m)."
+    uncertainty: {height_m: 1.0, offset_m: 5.0}
+
+  - name: "Lake Superior, Two Harbors (100 ft below the surface)"
+    id: two-harbors
+    lat: "46 59 55.2 N"
+    lon: "91 38 16.65 W"
+    # Lake Superior chart datum 601.1 ft IGLD 1985 (183.2 m) minus 100 ft = 501.1 ft.
+    height_m: 152.735
+    datum: msl
+    geoid_separation_m: -29.103        # GEOID18 at this point (NGS geoid service, 2026-11-09)
+    source: "Coordinates supplied by A. Norman (2026-11-09); surface 601.1 ft IGLD85 (NOAA chart datum); GEOID18"
+    notes: "Depth -100 ft taken as 100 ft below the lake surface; the lake runs 0-2 ft above chart datum (+-0.5 m)."
+    uncertainty: {height_m: 1.0, offset_m: 5.0}
+
   - name: "MINOS Far Detector (supermodule midpoint, Soudan)"
     id: minos-fd
     lat: 47.820267
@@ -189,6 +214,10 @@ baselines:
   - {from: mczero, to: nd, label: "MCZERO -> ND upstream face (surveyed; stationing 993.350 m)"}
   - {from: nd-1015, to: fd, label: "ND at the quoted 1015 m -> FD (superseded ND placement)"}
   - {from: nd-under-mast, to: fd2, label: "ND under the mast -> FD from the Ant-2 fix (superseded 2014-note geometry)"}
+  - {from: target, to: vermilion, label: "NuMI target -> Lake Vermilion (-100 ft)"}
+  - {from: nd, to: vermilion, label: "ND upstream face -> Lake Vermilion (-100 ft)"}
+  - {from: target, to: two-harbors, label: "NuMI target -> Lake Superior, Two Harbors (-100 ft)"}
+  - {from: nd, to: two-harbors, label: "ND upstream face -> Lake Superior, Two Harbors (-100 ft)"}
   - {from: target, to: minos-fd, label: "NuMI target -> MINOS FD (validation of the target position)"}
   - {from: target, to: decay-end, label: "NuMI target -> decay-pipe end (TDR design axis)"}
 
@@ -199,6 +228,8 @@ opening_angles:
   - {vertex: target, a: nd-1015, b: nd, label: "Target: ND at the quoted 1015 m vs surveyed ND"}
   - {vertex: target, a: nd-under-mast, b: nd, label: "Target: ND under the mast (2014 note) vs surveyed ND"}
   - {vertex: target, a: fd2, b: fd, label: "Target: FD from the Ant-2 fix vs surveyed FD"}
+  - {vertex: target, a: nd, b: vermilion, label: "Target: ND vs Lake Vermilion"}
+  - {vertex: target, a: nd, b: two-harbors, label: "Target: ND vs Lake Superior (Two Harbors)"}
 
 timing_shifts:
   - name: "Main Injector 141-turn shift (2012 shutdown)"
