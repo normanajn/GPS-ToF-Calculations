@@ -65,7 +65,7 @@ def main() -> int:
     text = Path(a.html).read_text(encoding="utf-8")
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    blocks = re.findall(r"<h2>(.*?)</h2>\s*<figure>\s*(<svg.*?</svg>)", text, flags=re.S)
+    blocks = re.findall(r"<h[23]>([^<]*)</h[23]>\s*<figure>\s*(<svg.*?</svg>)", text, flags=re.S)
     if not blocks:
         print("no figures found in", a.html, file=sys.stderr)
         return 1

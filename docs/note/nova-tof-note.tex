@@ -43,7 +43,7 @@ The NOvA data acquisition issues a ``beam'' trigger from the NuMI spill time $t_
 \end{equation}
 which always overlaps exactly two closed microslices.  $t_{\rm delay}$ has to be set a priori from the geometry.
 
-The 2013 Mathematica notebook \cite{norman2013nb} computed the chord between the MINOS surface-building GPS antenna, lowered by \SI{300}{m}, and an Ash River antenna.  The 2014 note NOvA-doc-11860 \cite{norman2014} documented the antenna fixes and specified antenna-to-detector offsets.  Neither contained the NuMI target, and the horizontal antenna-to-detector vectors were left to be determined.  This note (i) derives the target position from the NuMI Technical Design Report \cite{numitdr1998} through the Fermilab site projection \cite{oshinowo1997}, (ii) records the surveyed upstream-face centres of both NOvA detectors \cite{bocean2026nd,bocean2026fd} in the NuMI beamline system and converts them to geodetic and ECEF coordinates, (iii) writes out every coordinate transformation used, and (iv) tabulates the distances, flight times, angles and uncertainties.  Figures~\ref{fig:plan}--\ref{fig:face} are schematic views of the geometry.
+The 2013 Mathematica notebook \cite{norman2013nb} computed the chord between the MINOS surface-building GPS antenna, lowered by \SI{300}{m}, and an Ash River antenna.  The 2014 note NOvA-doc-11860 \cite{norman2014} documented the antenna fixes and specified antenna-to-detector offsets.  Neither contained the NuMI target, and the horizontal antenna-to-detector vectors were left to be determined.  This note (i) derives the target position from the NuMI Technical Design Report \cite{numitdr1998} through the Fermilab site projection \cite{oshinowo1997}, (ii) records the surveyed upstream-face centres of both NOvA detectors \cite{bocean2026nd,bocean2026fd} in the NuMI beamline system and converts them to geodetic and ECEF coordinates, (iii) writes out every coordinate transformation used, and (iv) tabulates the distances, flight times, angles and uncertainties.  Figures~\ref{fig:plan}--\ref{fig:face} are schematic views of the geometry; Sec.~\ref{sec:lakesites} and Figs.~\ref{fig:lakeplan}--\ref{fig:laketrans} treat two additional lake sites.
 
 \section{Reference frames and transformations}
 \subsection{Angles}
@@ -201,7 +201,7 @@ id & site & position as given & source \\
 
 \subsection{Lake sites}
 \label{sec:lakes}
-Two additional points were added at \SI{100}{ft} below the lake surface: Lake Vermilion at \ang{47;50;49.43}\,N, \ang{92;17;46.34}\,W and Lake Superior at Two Harbors, \ang{46;59;55.2}\,N, \ang{91;38;16.65}\,W.  The lake surfaces are \SI{1358}{ft} (Vermilion Dam normal pool, NGVD29) and \SI{601.1}{ft} (Lake Superior chart datum, IGLD~1985), so the points are at orthometric heights $H=\SI{1258}{ft}=\SI{383.440}{m}$ and $H=\SI{501.1}{ft}=\SI{152.735}{m}$.  These are mean-sea-level heights and are converted to ellipsoidal heights with the GEOID18 separations at the two points, $N_g=\SI{-30.892}{m}$ and \SI{-29.103}{m} (NGS geoid service); the conversion is a ledger line (Table~\ref{tab:lakes}).  Lake levels vary by about \SI{\pm 0.6}{m}, worth \SI{0.04}{m} of chord (\SI{0.01}{ticks}), and the NGVD29/IGLD85 to NAVD88 datum differences are at the decimetre level.
+Two additional points were added at \SI{100}{ft} below the lake surface: Lake Vermilion at \ang{47;50;49.43}\,N, \ang{92;17;46.34}\,W and Lake Superior at Two Harbors, \ang{46;59;55.2}\,N, \ang{91;38;16.65}\,W.  The lake surfaces are \SI{1358}{ft} (Vermilion Dam normal pool, NGVD29) and \SI{601.1}{ft} (Lake Superior chart datum, IGLD~1985), so the points are at orthometric heights $H=\SI{1258}{ft}=\SI{383.440}{m}$ and $H=\SI{501.1}{ft}=\SI{152.735}{m}$.  These are mean-sea-level heights and are converted to ellipsoidal heights with the GEOID18 separations at the two points, $N_g=\SI{-30.892}{m}$ and \SI{-29.103}{m} (NGS geoid service); the conversion is a ledger line (Table~\ref{tab:lakes}, Sec.~\ref{sec:lakesites}).  Lake levels vary by about \SI{\pm 0.6}{m}, worth \SI{0.04}{m} of chord (\SI{0.01}{ticks}), and the NGVD29/IGLD85 to NAVD88 datum differences are at the decimetre level.
 
 \subsection{Converted positions}
 Table~\ref{tab:positions} gives every endpoint used below in geodetic (WGS84) and ECEF coordinates after all conversions (site projection, beamline frame, antenna offsets); Table~\ref{tab:positionsdec} repeats the principal points in decimal degrees.
@@ -255,19 +255,6 @@ The ledger lists each change of the endpoints in order with its effect on $L$, $
 step & applied & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
 \midrule
 \input{generated/ledger_ndfd}
-\end{tabular}}
-\end{table}
-
-For the lake sites the height-datum conversion enters as well (Table~\ref{tab:lakes}): lowering the far end by $|N_g|$ shortens the chord by $|N_g|\sin(\text{dip})$, about \SI{1.8}{m} and \SI{1.4}{m}.
-
-\begin{table}[htbp]\centering\scriptsize
-\caption{Correction ledgers of the chords from the NuMI target to the two lake sites.}
-\label{tab:lakes}
-\resizebox{\textwidth}{!}{\begin{tabular}{llrrrr}
-\toprule
-site & step & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
-\midrule
-\input{generated/ledger_lakes}
 \end{tabular}}
 \end{table}
 
@@ -407,7 +394,7 @@ id & off-axis (mrad) & along (m) & transverse (m) & right (m) & up (m) & clock (
 \end{tabular}}
 \end{table}
 
-The two lake sites fall close to the beam: Lake Vermilion lies \SI{740}{km} along the axis, \SI{2.3}{km} to its left and \SI{0.34}{km} above the extended axis line (\SI{3.17}{mrad} off axis), and the Two Harbors point lies almost exactly in the vertical plane of the axis (\SI{19}{m} to the right) \SI{633}{km} along it and \SI{5.4}{km} above the extended line (\SI{8.51}{mrad} off axis, clock angle \ang{0.2}, i.e.\ directly above the beam).
+The lake sites are discussed in Sec.~\ref{sec:lakesites}.
 
 \subsection{Opening angles}
 Table~\ref{tab:opening} gives the opening angles at the target between pairs of chords, their horizontal and vertical components, the transverse distance of the first endpoint from the second chord, and each chord's angle to the beam axis.  With both surveyed faces the \ND{} lies only \SI{2.46}{m} off the target $\to$ \FD{} line: the Near Detector sits on the line of sight to the Far Detector.
@@ -451,6 +438,50 @@ point & opening angle (mrad) & horizontal (mrad) & vertical (mrad) & transverse 
 \includegraphics[width=\textwidth]{04-near-detector-front-face}
 \caption{The \ND{} front face looking downstream, to scale: the angle to the beam axis at the centre, edges and corners, contours of constant angle across the face plane, the point where the beam axis crosses the face plane (off the detector, to the right and above), and the point where the target $\to$ \FD{} line of sight crosses the face plane.}
 \label{fig:face}
+\end{figure}
+
+\section{Lake sites: Lake Vermilion and Lake Superior at Two Harbors}
+\label{sec:lakesites}
+The two lake points of Sec.~\ref{sec:lakes} are carried through the same chain as the detectors.  Table~\ref{tab:lakesummary} summarises the chords from the target and from the \ND, the flight times and the positions relative to the beam axis; Table~\ref{tab:lakes} gives the correction ledgers, in which the mean-sea-level to ellipsoid conversion appears as its own step (lowering the far end by $|N_g|$ shortens the chord by $|N_g|\sin(\text{dip})$, \SI{1.80}{m} and \SI{1.45}{m}).  Figures~\ref{fig:lakeplan}--\ref{fig:laketrans} show the geometry.
+
+Lake Vermilion lies \SI{740}{km} along the axis, \SI{5}{km} past Soudan, \SI{2.3}{km} to the left of the axis and \SI{0.34}{km} above its extension, so the chord from the target makes \SI{3.17}{mrad} with the axis, almost all of it in plan.  The Two Harbors point lies almost exactly in the vertical plane of the axis (\SI{19}{m} to the right) \SI{633}{km} along it; because the ground curves away from the straight beam and the axis climbs back toward the surface only past Soudan, the point is \SI{5.4}{km} above the extended axis line and the chord from the target makes \SI{8.51}{mrad} with the axis, almost all of it vertical (clock angle \ang{0.2}: directly above the beam).  The opening angles at the target between the \ND{} chord and the lake chords are \SI{9.44}{mrad} (Vermilion) and \SI{16.86}{mrad} (Two Harbors).
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Lake sites: chords and flight times from the target and from the \ND{} face, and position relative to the beam axis.}
+\label{tab:lakesummary}
+\resizebox{\textwidth}{!}{\begin{tabular}{lrrrrrrrrr}
+\toprule
+site & $L$ from target (m) & $t$ (\textmu{}s) & ticks & $L$ from \ND{} (m) & ticks & angle to axis (mrad) & along (m) & right (m) & up (m) \\
+\midrule
+\input{generated/lakes}
+\end{tabular}}
+\end{table}
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Correction ledgers of the chords from the NuMI target to the two lake sites.}
+\label{tab:lakes}
+\resizebox{\textwidth}{!}{\begin{tabular}{llrrrr}
+\toprule
+site & step & $L$ (m) & $\Delta L$ (m) & $\Delta t$ (ns) & $\Delta$ticks \\
+\midrule
+\input{generated/ledger_lakes}
+\end{tabular}}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{05-lake-sites-plan-view}
+\caption{Lake sites, plan view, not to scale: the Two Harbors point in the vertical plane of the beam axis at \SI{633}{km}, Lake Vermilion \SI{740}{km} along and \SI{2.3}{km} to the left; the MINOS and Ash River far detectors for reference.}
+\label{fig:lakeplan}
+\end{figure}
+\begin{figure}[htbp]\centering
+\includegraphics[width=\textwidth]{06-lake-sites-elevation-view}
+\caption{Lake sites, elevation view, not to scale: both points lie just below the ground surface above the extended beam axis, Two Harbors \SI{5.4}{km} and Lake Vermilion \SI{0.34}{km} above it; the chords from the target dip \ang{2.853} and \ang{3.314} against \ang{3.341} for the axis.}
+\label{fig:lakeelev}
+\end{figure}
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.9\textwidth]{07-lake-sites-transverse-view}
+\caption{Lake sites, transverse view looking downstream along the beam axis, offsets to a common scale: Two Harbors directly above the axis at \SI{5.4}{km}, Lake Vermilion \SI{2.3}{km} to the left and slightly above, the Ash River face to the lower left for reference.}
+\label{fig:laketrans}
 \end{figure}
 
 \section{Validation}

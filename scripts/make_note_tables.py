@@ -249,6 +249,14 @@ def main() -> int:
         for l in bl[lab]["ledger"]:
             rows.append(r"%s & %s & %s & %s & %s & %s \\" % (esc(lab.split(" -> ")[1]), esc(l["step"]), n(l["L_m"], 3), sn(l["dL_m"], 3), sn(l["dt_ns"], 2), sn(l["dticks"], 3)))
     W["ledger_lakes"] = "\n".join(rows)
+    rows = []
+    for sid, lab, labnd in (("vermilion", "NuMI target -> Lake Vermilion (-100 ft)", "ND upstream face -> Lake Vermilion (-100 ft)"),
+                            ("two-harbors", "NuMI target -> Lake Superior, Two Harbors (-100 ft)", "ND upstream face -> Lake Superior, Two Harbors (-100 ft)")):
+        s = sites[sid]; va = s["vs_axis"]; b1 = bl[lab]; b2 = bl[labnd]
+        rows.append(r"%s & %s & %s & %s & %s & %s & %s & %s & %s & %s \\" % (
+            esc(s["name"].split(" (")[0]), n(b1["result"]["L_m"], 3), n(b1["result"]["t_us"], 6), n(b1["result"]["ticks"], 3),
+            n(b2["result"]["L_m"], 3), n(b2["result"]["ticks"], 3), n(va["off_axis_mrad"], 4), n(va["along_axis_m"], 1), sn(va["transverse_right_m"], 1), sn(va["transverse_up_m"], 1)))
+    W["lakes"] = "\n".join(rows)
     W["meta"] = r"\newcommand{\gpstofversion}{%s}\newcommand{\reportgenerated}{%s}" % (r["gps_tof_version"], r["generated"][:10])
     # A table body read with \input must carry its own \bottomrule: LaTeX's end-of-file handling
     # after the final \\ breaks the \noalign scan if the rule follows in the including file.

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-label="Plan view of the lake sites: the Two Harbors point lies in the vertical plane of the beam axis 633 km along it, Lake Vermilion 740 km along and 2.3 km to the left; the MINOS far detector and the Ash River far detector are shown for reference.">
+<style>
+  svg { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  text { font-size: 12px; fill: #1d2126; }
+  .small { font-size: 11px; fill: #5d6670; }
+  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 11.5px; }
+  .beam { stroke: #0b6e8f; }
+  .beamtext { fill: #0b6e8f; font-weight: 600; }
+  .fartext { fill: #8a3b2f; }
+  .far { stroke: #8a3b2f; }
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+  <defs>
+    <marker id="arrL1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1d2126"/></marker>
+    <marker id="arrbeamL1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0b6e8f"/></marker>
+  </defs>
+  <line x1="44" y1="62" x2="52" y2="28" stroke="#1d2126" stroke-width="1.2" marker-end="url(#arrL1)"/>
+  <text class="small" x="60" y="36">N (the axis runs N 23.9° W)</text>
+  <text class="small" x="34" y="82">left of the axis = up the page</text>
+  <!-- angle callout -->
+  <text class="small" x="34" y="130" font-weight="600">angles at the target</text>
+  <text class="mono" x="34" y="148">3.17 mrad</text><text class="small" x="112" y="148">to Lake Vermilion (solid arc)</text>
+  <text class="small" x="112" y="162">of which −3.14 mrad in plan (left), +0.46 mrad vertical</text>
+  <text class="mono" x="34" y="180">8.51 mrad</text><text class="small" x="112" y="180">to Two Harbors (dashed arc, elevation view)</text>
+  <text class="small" x="112" y="194">of which +0.03 mrad in plan: on the axis line, +8.51 mrad vertical</text>
+  <text class="mono" x="34" y="212">9.44 mrad</text><text class="small" x="112" y="212">ND vs Lake Vermilion opening angle</text>
+  <text class="mono" x="34" y="228">16.86 mrad</text><text class="small" x="112" y="228">ND vs Two Harbors opening angle</text>
+  <!-- beam axis -->
+  <line class="beam" x1="90" y1="300" x2="840" y2="300" stroke-width="2.5" marker-end="url(#arrbeamL1)"/>
+  <text class="beamtext" x="890" y="372" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
+  <!-- chords -->
+  <line x1="90" y1="300" x2="640" y2="268" stroke="#1d2126" stroke-width="1.6"/>
+  <line x1="90" y1="300" x2="700" y2="120" stroke="#1d2126" stroke-width="1" stroke-dasharray="7 5" opacity="0.5"/>
+  <path d="M 150 300 A 60 60 0 0 0 149.9 296.5" fill="none" stroke="#1d2126" stroke-width="1.2"/>
+  <!-- sites -->
+  <circle cx="90" cy="300" r="6" fill="#0b6e8f"/>
+  <text x="90" y="340" text-anchor="middle">NuMI target</text>
+  <rect x="183" y="290" width="10" height="10" fill="#ffffff" stroke="#1d2126" stroke-width="1.4"/>
+  <text class="small" x="188" y="325" text-anchor="middle">NOvA ND (994 m)</text>
+  <circle cx="500" cy="300" r="5" fill="#ffffff" stroke="#1d2126" stroke-width="1.8"/>
+  <text x="500" y="324" text-anchor="middle">Lake Superior, Two Harbors</text>
+  <text class="small" x="500" y="338" text-anchor="middle">633,420 m along, 19 m right of the axis</text>
+  <text class="small" x="500" y="352" text-anchor="middle">target → chord 633,443 m · 2112.938 µs · 135,228.0 ticks</text>
+  <rect x="607" y="287" width="26" height="26" fill="#ffffff" stroke="#0b6e8f" stroke-width="2"/>
+  <text x="890" y="324" text-anchor="end">MINOS FD, Soudan</text>
+  <text class="small" x="890" y="338" text-anchor="end">735,345 m along, on the axis</text>
+  <circle cx="640" cy="268" r="5" fill="#ffffff" stroke="#1d2126" stroke-width="1.8"/>
+  <text x="640" y="250" text-anchor="middle">Lake Vermilion</text>
+  <text class="small" x="640" y="236" text-anchor="middle">739,878 m along, 2,323 m left of the axis</text>
+  <text class="small" x="640" y="222" text-anchor="middle">target → chord 739,882 m · 2467.980 µs · 157,950.7 ticks</text>
+  <rect x="690" y="112" width="20" height="16" fill="#ffffff" stroke="#8a3b2f" stroke-width="1.6" opacity="0.7"/>
+  <text class="small fartext" x="718" y="120" opacity="0.8">NOvA FD, Ash River (reference)</text>
+  <text class="small" x="718" y="134" opacity="0.8">810,423 m along, 11,037 m left</text>
+</svg>

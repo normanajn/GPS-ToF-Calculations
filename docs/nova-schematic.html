@@ -302,6 +302,146 @@ code { font-family: var(--mono); font-size: .86em; background: color-mix(in srgb
 <figcaption><b>Near Detector face.</b> The surveyed front face is 4.016 m square; the beam axis crosses the face plane 11.565 m to the right of and 3.644 m above the centre, so the angle to the beam grows from 9.75 mrad at the top-right corner to 14.79 mrad at the bottom-left corner (centre 12.194, left edge 14.132, right edge 10.285 mrad). The contours are circles about the axis point in the face plane, 994.35 m × tan(angle) in radius. The line of sight from the target to the Far Detector crosses the face plane 1.98 m left of and 1.46 m below the centre, 3 cm inside the left edge.</figcaption>
 </figure>
 
+<h2>Lake sites: Lake Vermilion and Lake Superior at Two Harbors</h2>
+<p>Two points 100 ft below the lake surfaces, carried through the same chain as the detectors. Lake Vermilion (47° 50′ 49.43″ N, 92° 17′ 46.34″ W) lies a few kilometres past Soudan; the Two Harbors point (46° 59′ 55.2″ N, 91° 38′ 16.65″ W) lies on the Lake Superior shore. Heights are the lake surfaces (1,358 ft and 601.1 ft) minus 100 ft, converted from mean sea level with the GEOID18 separations (−30.892 m, −29.103 m).</p>
+
+<h3>Lake sites, plan view (looking down, downstream to the right)</h3>
+<figure>
+<svg viewBox="0 0 900 400" role="img" aria-label="Plan view of the lake sites: the Two Harbors point lies in the vertical plane of the beam axis 633 km along it, Lake Vermilion 740 km along and 2.3 km to the left; the MINOS far detector and the Ash River far detector are shown for reference.">
+  <defs>
+    <marker id="arrL1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/></marker>
+    <marker id="arrbeamL1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--beam)"/></marker>
+  </defs>
+  <line x1="44" y1="62" x2="52" y2="28" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrL1)"/>
+  <text class="small" x="60" y="36">N (the axis runs N 23.9° W)</text>
+  <text class="small" x="34" y="82">left of the axis = up the page</text>
+  <!-- angle callout -->
+  <text class="small" x="34" y="130" font-weight="600">angles at the target</text>
+  <text class="mono" x="34" y="148">3.17 mrad</text><text class="small" x="112" y="148">to Lake Vermilion (solid arc)</text>
+  <text class="small" x="112" y="162">of which −3.14 mrad in plan (left), +0.46 mrad vertical</text>
+  <text class="mono" x="34" y="180">8.51 mrad</text><text class="small" x="112" y="180">to Two Harbors (dashed arc, elevation view)</text>
+  <text class="small" x="112" y="194">of which +0.03 mrad in plan: on the axis line, +8.51 mrad vertical</text>
+  <text class="mono" x="34" y="212">9.44 mrad</text><text class="small" x="112" y="212">ND vs Lake Vermilion opening angle</text>
+  <text class="mono" x="34" y="228">16.86 mrad</text><text class="small" x="112" y="228">ND vs Two Harbors opening angle</text>
+  <!-- beam axis -->
+  <line class="beam" x1="90" y1="300" x2="840" y2="300" stroke-width="2.5" marker-end="url(#arrbeamL1)"/>
+  <text class="beamtext" x="890" y="372" text-anchor="end">beam axis: target → MINOS FD, azimuth 336.094°</text>
+  <!-- chords -->
+  <line x1="90" y1="300" x2="640" y2="268" stroke="currentColor" stroke-width="1.6"/>
+  <line x1="90" y1="300" x2="700" y2="120" stroke="currentColor" stroke-width="1" stroke-dasharray="7 5" opacity="0.5"/>
+  <path d="M 150 300 A 60 60 0 0 0 149.9 296.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <!-- sites -->
+  <circle cx="90" cy="300" r="6" fill="var(--beam)"/>
+  <text x="90" y="340" text-anchor="middle">NuMI target</text>
+  <rect x="183" y="290" width="10" height="10" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/>
+  <text class="small" x="188" y="325" text-anchor="middle">NOvA ND (994 m)</text>
+  <circle cx="500" cy="300" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <text x="500" y="324" text-anchor="middle">Lake Superior, Two Harbors</text>
+  <text class="small" x="500" y="338" text-anchor="middle">633,420 m along, 19 m right of the axis</text>
+  <text class="small" x="500" y="352" text-anchor="middle">target → chord 633,443 m · 2112.938 µs · 135,228.0 ticks</text>
+  <rect x="607" y="287" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
+  <text x="890" y="324" text-anchor="end">MINOS FD, Soudan</text>
+  <text class="small" x="890" y="338" text-anchor="end">735,345 m along, on the axis</text>
+  <circle cx="640" cy="268" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <text x="640" y="250" text-anchor="middle">Lake Vermilion</text>
+  <text class="small" x="640" y="236" text-anchor="middle">739,878 m along, 2,323 m left of the axis</text>
+  <text class="small" x="640" y="222" text-anchor="middle">target → chord 739,882 m · 2467.980 µs · 157,950.7 ticks</text>
+  <rect x="690" y="112" width="20" height="16" fill="var(--panel)" stroke="var(--far)" stroke-width="1.6" opacity="0.7"/>
+  <text class="small fartext" x="718" y="120" opacity="0.8">NOvA FD, Ash River (reference)</text>
+  <text class="small" x="718" y="134" opacity="0.8">810,423 m along, 11,037 m left</text>
+</svg>
+<figcaption><b>Lake sites, plan.</b> Not to scale. The Two Harbors point lies in the vertical plane of the beam axis (19 m to the right) 633 km from the target, 100 km short of Soudan; Lake Vermilion lies 5 km past Soudan and 2.3 km to the left of the axis. The chord from the target to Lake Vermilion makes 3.17 mrad with the axis, nearly all of it in plan; the chord to Two Harbors makes 8.51 mrad, nearly all of it vertical.</figcaption>
+</figure>
+
+<h3>Lake sites, elevation view (side, downstream to the right)</h3>
+<figure>
+<svg viewBox="0 0 900 470" role="img" aria-label="Elevation view of the lake sites: both lie just under the ground surface above the extended beam axis, Two Harbors 5.4 km above the axis line at 633 km and Lake Vermilion 0.34 km above it at 740 km; the chords from the target dip 2.853 and 3.314 degrees against 3.341 degrees for the axis.">
+  <defs>
+    <marker id="arrbeamL2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--beam)"/></marker>
+  </defs>
+  <path d="M 30 126 C 260 128, 540 180, 700 300 C 760 345, 800 368, 850 390 L 850 470 L 30 470 Z" fill="var(--soil-fill)" stroke="none"/>
+  <path d="M 30 126 C 260 128, 540 180, 700 300 C 760 345, 800 368, 850 390" fill="none" stroke="var(--soil)" stroke-width="2"/>
+  <text class="small" x="200" y="112">ground surface (Earth curvature exaggerated); the lake points are 100 ft below the water surface</text>
+  <line x1="90" y1="170" x2="420" y2="170" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/>
+  <text class="small" x="190" y="164">local horizontal at the target</text>
+  <line class="beam" x1="90" y1="170" x2="845" y2="355" stroke-width="2.5" marker-end="url(#arrbeamL2)"/>
+  <!-- chords: Two Harbors (560,207), Vermilion (715,310) -->
+  <line x1="90" y1="170" x2="560" y2="207" stroke="currentColor" stroke-width="1.6" stroke-dasharray="7 5"/>
+  <line x1="90" y1="170" x2="715" y2="310" stroke="currentColor" stroke-width="1.6"/>
+  <path d="M 270 170 A 180 180 0 0 1 268.6 184.2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <path d="M 220 170 A 130 130 0 0 1 216.2 201.0" fill="none" stroke="var(--beam)" stroke-width="1.2"/>
+  <path d="M 170 170 A 80 80 0 0 1 167.8 187.9" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <!-- callout -->
+  <text class="small" x="40" y="272" font-weight="600">dip below the local horizontal at the target</text>
+  <text class="mono" x="40" y="290">2.853°</text><text class="small" x="96" y="290">to Two Harbors (dashed arc)</text>
+  <text class="mono" x="40" y="306">3.314°</text><text class="small" x="96" y="306">to Lake Vermilion (solid arc)</text>
+  <text class="mono beamtext" x="40" y="322">3.341°</text><text class="small" x="96" y="322">beam axis (blue arc)</text>
+  <text class="small" x="40" y="346">Two Harbors chord arrives rising 2.846°; Lake Vermilion chord arrives rising 3.343°</text>
+  <text class="small" x="40" y="360">height-datum step (MSL → ellipsoid): −1.45 m (Two Harbors), −1.80 m (Vermilion) of chord</text>
+  <!-- sites -->
+  <circle cx="90" cy="170" r="6" fill="var(--beam)"/>
+  <text x="90" y="82" text-anchor="middle">NuMI target</text>
+  <text class="small" x="90" y="96" text-anchor="middle">41 m below the surface</text>
+  <circle cx="560" cy="207" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <line x1="560" y1="212" x2="560" y2="286" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>
+  <text x="556" y="196" text-anchor="end">Lake Superior, Two Harbors</text>
+  <text class="small" x="556" y="182" text-anchor="end">633 km along, 5,389 m above the extended axis</text>
+  <circle cx="715" cy="310" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <text x="730" y="292">Lake Vermilion</text>
+  <text class="small" x="730" y="306">740 km along, 341 m above the axis</text>
+  <rect x="687" y="313" width="26" height="26" fill="var(--panel)" stroke="var(--beam)" stroke-width="2"/>
+  <text x="640" y="372" text-anchor="middle">MINOS FD</text>
+  <text class="small" x="640" y="386" text-anchor="middle">705 m underground, on the axis</text>
+  <rect x="820" y="378" width="20" height="16" fill="var(--panel)" stroke="var(--far)" stroke-width="1.6" opacity="0.7"/>
+  <text class="small fartext" x="880" y="420" text-anchor="end" opacity="0.8">NOvA FD, Ash River (reference)</text>
+  <text class="small" x="880" y="434" text-anchor="end" opacity="0.8">4,163 m below the extended axis</text>
+</svg>
+<figcaption><b>Lake sites, elevation.</b> Not to scale. Because the ground curves away from the straight beam, the axis runs deepest near 400 km and climbs back toward the surface past Soudan; the Two Harbors point, 100 km short of Soudan, is therefore 5.4 km above the extended axis line, and Lake Vermilion, just past Soudan, 0.34 km above it. The chord to Two Harbors dips 2.853° at the target, the chord to Lake Vermilion 3.314°, against 3.341° for the axis.</figcaption>
+</figure>
+
+<h3>Lake sites, transverse view (looking downstream along the beam axis)</h3>
+<figure>
+<svg viewBox="0 0 900 340" role="img" aria-label="Transverse view looking downstream: the Two Harbors point is directly above the beam axis, 5.4 km up and 19 m right; Lake Vermilion is 2.3 km left and 0.34 km up; the Ash River far detector, 11 km left and 4.2 km down, is shown for reference.">
+  <defs>
+    <marker id="arrL3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/></marker>
+  </defs>
+  <line x1="120" y1="170" x2="600" y2="170" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arrL3)"/>
+  <line x1="450" y1="300" x2="450" y2="36" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arrL3)"/>
+  <text class="small" x="606" y="174">right (east of the line)</text>
+  <text class="small" x="458" y="34">up</text>
+  <circle cx="450" cy="170" r="7" fill="none" stroke="var(--beam)" stroke-width="2.5"/>
+  <circle cx="450" cy="170" r="2" fill="var(--beam)"/>
+  <text class="beamtext" x="462" y="190">beam axis (target → MINOS FD)</text>
+  <text class="small" x="462" y="204">ND and FD-face centre: 12 m left, 3.6 m below (not resolved here)</text>
+  <!-- Two Harbors: right +19, up +5389 -> (451,60) -->
+  <line x1="450" y1="170" x2="451" y2="66" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <circle cx="451" cy="60" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <text x="464" y="56">Lake Superior, Two Harbors</text>
+  <text class="small mono" x="464" y="70">right +19.4 m, up +5,388.5 m</text>
+  <text class="small" x="464" y="84">5,389 m off the axis at 633 km: 8.51 mrad, clock +0.2° (directly above the beam)</text>
+  <!-- Vermilion: left 2323, up 341 -> (387,163) -->
+  <line x1="450" y1="170" x2="392" y2="164" stroke="currentColor" stroke-width="1.4"/>
+  <circle cx="387" cy="163" r="5" fill="var(--panel)" stroke="currentColor" stroke-width="1.8"/>
+  <text x="376" y="140" text-anchor="end">Lake Vermilion</text>
+  <text class="small mono" x="376" y="154" text-anchor="end">right −2,323.4 m, up +340.8 m</text>
+  <text class="small" x="376" y="168" text-anchor="end">2,348 m off the axis at 740 km: 3.17 mrad, clock −81.7°</text>
+  <!-- FD reference: left 11037, down 4163 -> (150,255) -->
+  <line class="far" x1="450" y1="170" x2="150" y2="255" stroke-width="1.2" stroke-dasharray="3 4" opacity="0.6"/>
+  <rect x="138" y="245" width="24" height="20" fill="var(--panel)" stroke="var(--far)" stroke-width="1.6" opacity="0.7"/>
+  <text class="fartext small" x="138" y="286" opacity="0.8">NOvA FD, Ash River (reference)</text>
+  <text class="small" x="138" y="300" opacity="0.8">left 11,037 m, down 4,163 m: 14.55 mrad</text>
+  <!-- scale note -->
+  <text class="small" x="880" y="320" text-anchor="end">transverse offsets drawn to a common scale (1 km ≈ 20 px)</text>
+</svg>
+<figcaption><b>Lake sites, transverse.</b> Seen along the beam, the Two Harbors point sits directly above the axis (clock angle +0.2°) at 5.4 km, Lake Vermilion to the left and slightly above (clock −81.7°) at 2.3 km, and the Ash River face to the lower left at 11.8 km. The offsets in this panel share one scale.</figcaption>
+</figure>
+
+<div class="tbl"><table>
+<tr><th>lake site (100 ft below the surface)</th><th class="n">L from target (m)</th><th class="n">ToF (µs)</th><th class="n">64 MHz ticks</th><th class="n">angle to beam axis (mrad)</th><th class="n">along (m)</th><th class="n">right (m)</th><th class="n">up (m)</th><th class="n">dip at target</th></tr>
+<tr><td>Lake Vermilion</td><td class="n">739 881.733</td><td class="n">2467.979809</td><td class="n">157 950.708</td><td class="n">3.174</td><td class="n">739 878.0</td><td class="n">−2 323.4</td><td class="n">+340.8</td><td class="n">3.314°</td></tr>
+<tr><td>Lake Superior, Two Harbors</td><td class="n">633 442.910</td><td class="n">2112.938110</td><td class="n">135 228.039</td><td class="n">8.507</td><td class="n">633 420.0</td><td class="n">+19.4</td><td class="n">+5 388.5</td><td class="n">2.853°</td></tr>
+</table></div>
+
 <h2>The numbers behind the drawings</h2>
 <div class="tbl"><table>
 <tr><th>chord</th><th class="n">L (m)</th><th class="n">ToF (µs)</th><th class="n">64 MHz ticks</th><th class="n">angle to beam axis (mrad)</th><th class="n">dip at source</th></tr>

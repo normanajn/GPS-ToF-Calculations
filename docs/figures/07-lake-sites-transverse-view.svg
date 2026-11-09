@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340" role="img" aria-label="Transverse view looking downstream: the Two Harbors point is directly above the beam axis, 5.4 km up and 19 m right; Lake Vermilion is 2.3 km left and 0.34 km up; the Ash River far detector, 11 km left and 4.2 km down, is shown for reference.">
+<style>
+  svg { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  text { font-size: 12px; fill: #1d2126; }
+  .small { font-size: 11px; fill: #5d6670; }
+  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 11.5px; }
+  .beam { stroke: #0b6e8f; }
+  .beamtext { fill: #0b6e8f; font-weight: 600; }
+  .fartext { fill: #8a3b2f; }
+  .far { stroke: #8a3b2f; }
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+  <defs>
+    <marker id="arrL3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1d2126"/></marker>
+  </defs>
+  <line x1="120" y1="170" x2="600" y2="170" stroke="#1d2126" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arrL3)"/>
+  <line x1="450" y1="300" x2="450" y2="36" stroke="#1d2126" stroke-width="1" stroke-dasharray="2 4" marker-end="url(#arrL3)"/>
+  <text class="small" x="606" y="174">right (east of the line)</text>
+  <text class="small" x="458" y="34">up</text>
+  <circle cx="450" cy="170" r="7" fill="none" stroke="#0b6e8f" stroke-width="2.5"/>
+  <circle cx="450" cy="170" r="2" fill="#0b6e8f"/>
+  <text class="beamtext" x="462" y="190">beam axis (target → MINOS FD)</text>
+  <text class="small" x="462" y="204">ND and FD-face centre: 12 m left, 3.6 m below (not resolved here)</text>
+  <!-- Two Harbors: right +19, up +5389 -> (451,60) -->
+  <line x1="450" y1="170" x2="451" y2="66" stroke="#1d2126" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <circle cx="451" cy="60" r="5" fill="#ffffff" stroke="#1d2126" stroke-width="1.8"/>
+  <text x="464" y="56">Lake Superior, Two Harbors</text>
+  <text class="small mono" x="464" y="70">right +19.4 m, up +5,388.5 m</text>
+  <text class="small" x="464" y="84">5,389 m off the axis at 633 km: 8.51 mrad, clock +0.2° (directly above the beam)</text>
+  <!-- Vermilion: left 2323, up 341 -> (387,163) -->
+  <line x1="450" y1="170" x2="392" y2="164" stroke="#1d2126" stroke-width="1.4"/>
+  <circle cx="387" cy="163" r="5" fill="#ffffff" stroke="#1d2126" stroke-width="1.8"/>
+  <text x="376" y="140" text-anchor="end">Lake Vermilion</text>
+  <text class="small mono" x="376" y="154" text-anchor="end">right −2,323.4 m, up +340.8 m</text>
+  <text class="small" x="376" y="168" text-anchor="end">2,348 m off the axis at 740 km: 3.17 mrad, clock −81.7°</text>
+  <!-- FD reference: left 11037, down 4163 -> (150,255) -->
+  <line class="far" x1="450" y1="170" x2="150" y2="255" stroke-width="1.2" stroke-dasharray="3 4" opacity="0.6"/>
+  <rect x="138" y="245" width="24" height="20" fill="#ffffff" stroke="#8a3b2f" stroke-width="1.6" opacity="0.7"/>
+  <text class="fartext small" x="138" y="286" opacity="0.8">NOvA FD, Ash River (reference)</text>
+  <text class="small" x="138" y="300" opacity="0.8">left 11,037 m, down 4,163 m: 14.55 mrad</text>
+  <!-- scale note -->
+  <text class="small" x="880" y="320" text-anchor="end">transverse offsets drawn to a common scale (1 km ≈ 20 px)</text>
+</svg>
