@@ -31,9 +31,9 @@
   <!-- Vermilion: left 2323, up 341 -> (387,163) -->
   <line x1="450" y1="170" x2="392" y2="164" stroke="#1d2126" stroke-width="1.4"/>
   <circle cx="387" cy="163" r="5" fill="#ffffff" stroke="#1d2126" stroke-width="1.8"/>
-  <text x="376" y="140" text-anchor="end">Lake Vermilion</text>
-  <text class="small mono" x="376" y="154" text-anchor="end">right −2,323.4 m, up +340.8 m</text>
-  <text class="small" x="376" y="168" text-anchor="end">2,348 m off the axis at 740 km: 3.17 mrad, clock −81.7°</text>
+  <text x="376" y="126" text-anchor="end">Lake Vermilion</text>
+  <text class="small mono" x="376" y="140" text-anchor="end">right −2,323.4 m, up +340.8 m</text>
+  <text class="small" x="376" y="154" text-anchor="end">2,348 m off the axis at 740 km: 3.17 mrad, clock −81.7°</text>
   <!-- FD reference: left 11037, down 4163 -> (150,255) -->
   <line class="far" x1="450" y1="170" x2="150" y2="255" stroke-width="1.2" stroke-dasharray="3 4" opacity="0.6"/>
   <rect x="138" y="245" width="24" height="20" fill="#ffffff" stroke="#8a3b2f" stroke-width="1.6" opacity="0.7"/>
